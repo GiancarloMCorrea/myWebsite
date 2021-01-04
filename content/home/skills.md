@@ -24,10 +24,14 @@ feature:
   icon: chart-line
   icon_pack: fas
   name: Statistics
-- description: 25%
-  icon: java
-  icon_pack: fab
-  name: Java
+- description: 80%
+  icon: fish
+  icon_pack: fas
+  name: Stock Synthesis
+- description: 30%
+  icon: water
+  icon_pack: fas
+  name: Individual-Based Modelling
 
 # Uncomment to use emoji icons.
 #- icon = ":smile:"
