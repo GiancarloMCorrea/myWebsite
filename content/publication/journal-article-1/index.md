@@ -21,7 +21,7 @@ abstract: The Peruvian anchovy (Engraulis ringens) is the most important small p
   step to understand the effects on this species of the last El Niño events (2014–2016) that occurred in 
   the northern Humboldt Current System.
 author_notes:
-- Equal contribution
+- Main contribution
 - Equal contribution
 - Equal contribution
 - Equal contribution
