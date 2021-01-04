@@ -9,7 +9,7 @@ headless: true
 # Order that this section appears on the page.
 weight: 70
 
-title: 'Recent & Upcoming Talks'
+title: 'Presentations'
 subtitle:
 
 content:
@@ -23,7 +23,7 @@ content:
     category: ""
     tag: ""
     exclude_featured: false
-    exclude_future: false
+    exclude_future: true
     exclude_past: false
     publication_type: ""
   # Choose how many pages you would like to offset by
