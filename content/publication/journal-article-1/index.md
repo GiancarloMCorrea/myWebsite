@@ -50,7 +50,7 @@ tags:
 title: Temporal changes in mesoscale aggregations and spatial distribution scenarios of the Peruvian anchovy (Engraulis ringens)
 url_code: ""
 url_dataset: ""
-url_pdf: https://www.sciencedirect.com/science/article/pii/S0967064517303296?via%3Dihub
+url_pdf: https://www.researchgate.net/publication/328974712_Temporal_changes_in_mesoscale_aggregations_and_spatial_distribution_scenarios_of_the_Peruvian_anchovy_Engraulis_ringens
 url_poster: ""
 url_project: ""
 url_slides: ""

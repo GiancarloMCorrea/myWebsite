@@ -43,7 +43,7 @@ tags:
 title: Improved estimation of age composition by accounting for spatiotemporal variability in somatic growth
 url_code: ""
 url_dataset: ""
-url_pdf: https://www.sciencedirect.com/science/article/pii/S0967064517303296?via%3Dihub
+url_pdf: https://www.researchgate.net/publication/343680203_Improved_estimation_of_age_composition_by_accounting_for_spatiotemporal_variability_in_somatic_growth
 url_poster: ""
 url_project: ""
 url_slides: ""
