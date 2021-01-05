@@ -26,6 +26,12 @@ The following topics are discussed:
 - **Day 4:** Introduction to time series analysis. Introduction to analysis of spatial data.
 - **Day 5:** Introduction to community ecology. Types of diversity. Basics of cluster analysis.
 
+## Objectives
+
+- Introduce statistical concepts used in ecology
+- Interpret statistical outcomes of statistical models
+- Familiarize with the R programming language applied to ecology
+
 ## Prerequisite
 
 * Basic statistic concepts
