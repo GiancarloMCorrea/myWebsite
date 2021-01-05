@@ -25,3 +25,8 @@ The following topics are discussed:
 - **Day 3:** Linear models.
 - **Day 4:** Introduction to time series analysis. Introduction to analysis of spatial data.
 - **Day 5:** Introduction to community ecology. Types of diversity. Basics of cluster analysis.
+
+## Prerequisite
+
+* Basic statistic concepts
+* Basic programming in R language
