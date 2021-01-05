@@ -1,56 +1,27 @@
 ---
-date: "2018-09-09T00:00:00Z"
+date: "2020-11-23T00:00:00Z"
 draft: false
-lastmod: "2018-09-09T00:00:00Z"
-linktitle: An Example Course
+lastmod: "2020-11-27T00:00:00Z"
+linktitle: Analysis of Ecological Data in R
 menu:
   example:
-    name: Overview
+    name: overview
     weight: 1
-summary: Learn how to use Academic's docs layout for publishing online courses, software
-  documentation, and tutorials.
+summary: This course explores commonly used statistical techniques applied in ecology. It is organized by Cousteau Consultant Group and offered (in Spanish) periodically. 
 title: Overview
 toc: true
 type: docs
 weight: 1
 ---
 
-## Flexibility
+This course explores the statistical methods commonly used in ecology using the R programming language. It is an introductory course to fields in ecology such as: spatial ecology, community ecology, species distribution models, and time series analysis. It is taught in five days, three hours per day.
 
-This feature can be used for publishing content such as:
+## Course programme
 
-* **Online courses**
-* **Project or software documentation**
-* **Tutorials**
+The following topics are discussed:
 
-The `courses` folder may be renamed. For example, we can rename it to `docs` for software/project documentation or `tutorials` for creating an online course.
-
-## Delete tutorials
-
-**To remove these pages, delete the `courses` folder and see below to delete the associated menu link.**
-
-## Update site menu
-
-After renaming or deleting the `courses` folder, you may wish to update any `[[main]]` menu links to it by editing your menu configuration at `config/_default/menus.toml`.
-
-For example, if you delete this folder, you can remove the following from your menu configuration:
-
-```toml
-[[main]]
-  name = "Courses"
-  url = "courses/"
-  weight = 50
-```
-
-Or, if you are creating a software documentation site, you can rename the `courses` folder to `docs` and update the associated *Courses* menu configuration to:
-
-```toml
-[[main]]
-  name = "Docs"
-  url = "docs/"
-  weight = 50
-```
-
-## Update the docs menu
-
-If you use the *docs* layout, note that the name of the menu in the front matter should be in the form `[menu.X]` where `X` is the folder name. Hence, if you rename the `courses/example/` folder, you should also rename the menu definitions in the front matter of files within `courses/example/` from `[menu.example]` to `[menu.<NewFolderName>]`.
+- **Day 1:** Basics of R programming. Descriptive statistics. Introduction to probability.
+- **Day 2:** Hypothesis testing: one and two samples.
+- **Day 3:** Linear models.
+- **Day 4:** Introduction to time series analysis. Introduction to analysis of spatial data.
+- **Day 5:** Introduction to community ecology. Types of diversity. Basics of cluster analysis.
