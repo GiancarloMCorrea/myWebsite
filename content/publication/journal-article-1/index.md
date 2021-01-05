@@ -34,7 +34,7 @@ date: "2019-01-01T00:00:00Z"
 doi: "10.1016/j.dsr2.2018.11.009"
 featured: false
 image:
-  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/jdD8gXaTZsc)'
+  caption: 'Image credit: [**FAO**](http://www.fao.org/in-action/globefish/market-reports/resource-detail/ar/c/1053802/)'
   focal_point: ""
   preview_only: false
 projects: []
@@ -58,12 +58,4 @@ url_source: ""
 url_video: ""
 ---
 
-{{% callout note %}}
-Click the *Cite* button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
-
-{{% callout note %}}
-Create your slides in Markdown - click the *Slides* button to check out the example.
-{{% /callout %}}
-
-Supplementary notes can be added here, including [code, math, and images](https://wowchemy.com/docs/writing-markdown-latex/).
+# Supplementary notes can be added here, including [code, math, and images](https://wowchemy.com/docs/writing-markdown-latex/).
