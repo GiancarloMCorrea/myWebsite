@@ -5,7 +5,7 @@ lastmod: "2020-11-27T00:00:00Z"
 linktitle: Analysis of Ecological Data in R
 menu:
   example:
-    name: overview
+    name: Overview
     weight: 1
 summary: This course explores commonly used statistical techniques applied in ecology. It is organized by Cousteau Consultant Group and offered (in Spanish) periodically. 
 title: Overview
