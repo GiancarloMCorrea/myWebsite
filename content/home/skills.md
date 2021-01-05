@@ -20,7 +20,7 @@ feature:
   icon: r-project
   icon_pack: fab
   name: R
-- description: 70%
+- description: 80%
   icon: chart-line
   icon_pack: fas
   name: Statistics
@@ -28,6 +28,14 @@ feature:
   icon: fish
   icon_pack: fas
   name: Stock Synthesis
+- description: 75%
+  icon: file-code
+  icon_pack: fas
+  name: LaTeX
+- description: 60%
+  icon: markdown
+  icon_pack: fab
+  name: Rmarkdown
 - description: 30%
   icon: water
   icon_pack: fas
