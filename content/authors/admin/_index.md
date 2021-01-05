@@ -1,5 +1,5 @@
 ---
-bio: My research interests include fish stock assessment models, fish spatial ecology, and community ecology.
+bio: Biologist. Fisheries scientist. 
 education:
   courses:
   - course: PhD (c) in Ocean Ecology and Biogeochemistry
@@ -19,7 +19,7 @@ interests:
 - Community ecology
 organizations:
 - name: Oregon State University
-  url: https://www.oregonstate.edu
+  url: https://oregonstate.edu/
 role: Graduate Research Assistant
 social:
 - icon: envelope
