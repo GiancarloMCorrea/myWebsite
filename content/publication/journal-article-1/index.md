@@ -43,7 +43,6 @@ publication_short: ""
 publication_types:
 - "2"
 publishDate: "2019-01-01T00:00:00Z"
-slides: example
 summary: Spatial dynamics of fish populations.
 tags:
 - Source Themes
@@ -58,4 +57,4 @@ url_source: ""
 url_video: ""
 ---
 
-# Supplementary notes can be added here, including [code, math, and images](https://wowchemy.com/docs/writing-markdown-latex/).
+<!-- Supplementary notes can be added here, including [code, math, and images](https://wowchemy.com/docs/writing-markdown-latex/). -->

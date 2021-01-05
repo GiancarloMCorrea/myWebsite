@@ -36,7 +36,6 @@ publication_short: ""
 publication_types:
 - "2"
 publishDate: "2020-11-01T00:00:00Z"
-slides: example
 summary: Age composition estimation.
 tags:
 - Source Themes
@@ -50,5 +49,3 @@ url_slides: ""
 url_source: ""
 url_video: ""
 ---
-
-# Supplementary notes can be added here, including [code, math, and images](https://wowchemy.com/docs/writing-markdown-latex/).
