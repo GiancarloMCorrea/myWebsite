@@ -35,6 +35,6 @@ tags: []
 title: Impacts of spatial and temporal variability in somatic growth on fish stock assessment models
 url_code: ""
 url_pdf: ""
-url_slides: "https://vigorous-swirles-888009.netlify.app/media/UWQuant_Seminar.pdf"
+url_slides: "https://giancarlomcorrea.netlify.app/media/UWQuant_Seminar.pdf"
 url_video: ""
 ---

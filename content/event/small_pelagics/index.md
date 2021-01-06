@@ -38,6 +38,6 @@ tags: []
 title: Effects of ENSO phases on Peruvian anchovy spatial aggregation patterns
 url_code: ""
 url_pdf: ""
-url_slides: "https://vigorous-swirles-888009.netlify.app/media/PICES_SmallPelagics.pdf"
+url_slides: "https://giancarlomcorrea.netlify.app/media/PICES_SmallPelagics.pdf"
 url_video: ""
 ---

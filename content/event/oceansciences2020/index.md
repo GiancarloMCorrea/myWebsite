@@ -39,6 +39,6 @@ tags: []
 title: Accounting for spatiotemporal variability in somatic growth in age composition data estimation for stock assessment models
 url_code: ""
 url_pdf: ""
-url_slides: "https://vigorous-swirles-888009.netlify.app/media/AGU_OceanSciences2020.pdf"
+url_slides: "https://giancarlomcorrea.netlify.app/media/AGU_OceanSciences2020.pdf"
 url_video: ""
 ---

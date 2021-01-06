@@ -39,6 +39,6 @@ tags: []
 title: Identifying biogeographical transition zones and nekton assemblages in the northern Humboldt Current System
 url_code: ""
 url_pdf: ""
-url_slides: "https://vigorous-swirles-888009.netlify.app/media/PICES_TransAreas.pdf"
+url_slides: "https://giancarlomcorrea.netlify.app/media/PICES_TransAreas.pdf"
 url_video: ""
 ---
