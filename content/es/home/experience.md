@@ -22,35 +22,35 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
-  - title: Graduate Research Assistant
+  - title: Asistente de investigación de posgrado
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'
     location: Oregon, USA
     date_start: '2018-09-15'
     date_end: ''
-    description: Researching and modelling applied to the Pacific cod in the eastern Bering Sea.
+    description: Investigación aplicada al bacalao del Pacífico en la zona este del mar de Bering.
         
-  - title: Scientific Member
+  - title: Miembro científico
     company: Cousteau Consultant Group
     company_url: 'https://cousteau-group.com/'
     location: Lima, Perú
     date_start: '2020-09-01'
     date_end: ''
-    description: Researching in fisheries and marine ecology. Instructor in courses about ecology and statistics.
+    description: Investigación en ecología y pesquerías. Instructor de cursos en ecología, estadística y pesquerías.
         
-  - title: Graduate Teaching Assistant
+  - title: Asistente de enseñanza de posgrado
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'
     location: Oregon, USA
     date_start: '2020-03-25'
     date_end: '2020-06-15'
-    description: Taught statistical modelling applied to fisheries and marine ecology
+    description: Curso de análisis de datos provenientes de pesquerías y muestreos en el ámbito marino.
 
-  - title: Researcher
-    company: Marine Institute of Peru
+  - title: Investigador
+    company: Instituto del Mar del Perú
     company_url: 'https://www.gob.pe/imarpe'
     location: Callao, Perú
     date_start: '2014-01-01'
     date_end: '2018-08-20'
-    description: Stock assessment of small pelagic fish, spatial ecology of small pelagic fish, community ecology of pelagic communities	
+    description: Evaluación de stocks de pequeños pelágicos, ecología espacial de peces pelágicos, ecología de comunidades del ambiente pelágico.	
 ---

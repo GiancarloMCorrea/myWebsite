@@ -2,25 +2,25 @@
 bio: Biólogo. Científico en ciencias pesqueras.
 education:
   courses:
-  - course: PhD (c) in Ecología y Biogeoquímica del Océano
+  - course: PhD (c) en Ecología y Biogeoquímica del Océano
     institution: Oregon State University
     year: 2018-
-  - course: MS (c) in Applied Mathematics
+  - course: MS (c) en Matemática Aplicada
     institution: Universidad Nacional Mayor de San Marcos
     year: 2015-2017
-  - course: BSc in Biological Sciences
+  - course: BSc en Ciencias Biológicas
     institution: Universidad Nacional Mayor de San Marcos
     year: 2009-2013
 email: ""
 highlight_name: false
 interests:
-- Fish stock assessment models
-- Fish spatial ecology
-- Community ecology
+- Modelos de evaluación de stocks
+- Ecología espacial de peces
+- Ecología de comunidades marinas
 organizations:
 - name: Oregon State University
   url: https://oregonstate.edu/
-role: Graduate Research Assistant
+role: Asistente de investigación de posgrado
 social:
 - icon: envelope
   icon_pack: fas
@@ -44,6 +44,6 @@ superuser: true
 title: Giancarlo Helar Morón Correa
 ---
 
-I was born in Lima, Peru, where I spent almost my whole life. I received a BSc in Biological Sciences with an emphasis in Fisheries Sciences at the National University of San Marcos (Universidad Nacional Mayor de San Marcos, UNMSM, the oldest university in America). Prior to beginning my graduate education at Oregon State University, I worked for 4 years as a fisheries scientist at the Marine Institut of Peru (Instituto del Mar del Peru, IMARPE). During that time, I also pursued MS studies in applied mathematics at UNMSM. My research interests include spatiotemporal dynamics of commercially important fisheries, especially in the northern Humboldt Current System and the Bering Sea, fish stock assessment models, and individual-based models. My current research focuses on incorporating spatiotemporal variability in life-history traits in fish stock assessment models. I speak Spanish, English, and Italian. I love playing soccer and dancing salsa.
+Nací en Lima, Perú, donde pasé casi toda mi vida. Obtuve el título profesional en Ciencias Biológicas con énfasis en Ciencias Pesqueras en la Universidad Nacional Mayor de San Marcos (la universidad más antigua de América). Antes de comenzar mi educación de posgrado en Oregon State University, trabajé durante más de 4 años como científico pesquero en el Instituto del Mar del Perú (IMARPE). Durante ese tiempo, también realicé estudios de maestría en Matemática Aplicada en la UNMSM. Mis intereses de investigación incluyen la dinámica espacio-temporal de las pesquerías de importancia comercial, especialmente en el norte del sistema de la corriente de Humboldt y el mar de Bering, modelos de evaluación de poblaciones de peces y modelos basados en individuos. Mi investigación actual se centra en incorporar la variabilidad espacio-temporal en los rasgos del ciclo de vida a los modelos de evaluación de poblaciones de peces. Hablo español, inglés e italiano. Me encanta jugar al fútbol y bailar salsa.
 
-{{< icon name="download" pack="fas" >}} Download my {{< staticref "media/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.
+{{< icon name="download" pack="fas" >}} Descarga mi {{< staticref "media/demo_resume.pdf" "newtab" >}}hoja de vida{{< /staticref >}}.

@@ -23,7 +23,7 @@ feature:
 - description: 80%
   icon: chart-line
   icon_pack: fas
-  name: Statistics
+  name: Estadística
 - description: 80%
   icon: fish
   icon_pack: fas
@@ -39,7 +39,7 @@ feature:
 - description: 30%
   icon: water
   icon_pack: fas
-  name: Individual-Based Modelling
+  name: Modelos basados en individuos
 
 # Uncomment to use emoji icons.
 #- icon = ":smile:"
