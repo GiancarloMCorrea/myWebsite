@@ -6,13 +6,13 @@
 [en]
   languageCode = "en-us"
   contentDir = "content/en"  # Uncomment for multi-lingual sites, and move English content into `en` sub-folder.
-  title = "English site"
+  title = "Giancarlo M. Correa"
   
 # Uncomment the lines below to configure your website in a second language.
 [es]
  languageCode = "es"
  contentDir = "content/es"
-  title = "Sitio en español"
+  title = "Giancarlo M. Correa"
 
   [es.params]
    description = "Sitio en español"
