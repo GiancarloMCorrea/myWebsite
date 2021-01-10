@@ -14,92 +14,78 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Métodos de muestreo
+This is a *brief* summary of the concepts discussed in this course. 
 
-Muestrear es el proceso de colectar datos para obtener una perspectiva sobre la población. Es importante que un muestreo sea representativo de la población, para así evitar sesgos en estimados. Existen algunos términos importantes que se deben definir:
-
-* *Unidad de muestreo*: Es el individuo o item que va a ser muestreado.
-* *Población objetivo*: Es la población que deseamos estudiar y generalizar a partir de nuestra muestra.
-* *Marco de muestreo*: Es una parte de la población que será muestreada. Muchas veces el diseño de muestreo no opera sobre toda la población, si no solo sobre un subgrupo de esta.
-* *Diseño de muestreo*: Método para obtener la muestra a partir del marco de muestreo.
-* *Muestra*: Individuos obtenidos a partir del diseño de muestreo.
-* *Espacio de muestreo*: Ambiente donde habita la población que se estudia.
-
-## Muestreo aleatorio
-
-Cada individuo en la población tiene la misma probabilidad de ser muestreado. La selección de un individuo no afecta la selección de otros, por lo tanto cada uno es independiente. No require un conocimiento previo de la población y normalmente representa correctamente a la población. Sin embargo, cuando una población tiene un grado de estratificación, este método no puede ser el más adecuado.
-
-## Muestreo sistemático
-
-Se trata de muestrear una población con un patrón establecido. Normalmente es utilizado cuando existe algún gradiente en alguna variable ambiental (e.g. profundidad, temperatura, etc). Este tipo de diseño asegura un muestreo aleatorio de la población, sin embargo, algunos tiempos o lugares pueden nunca ser muestreados.
-
-## Muestreo estratificado
-
-La población es dividida en estratos, y luego se toma muestras aleatorias de cada estrato. Es bastante utilizado cuando se busca una buena representación de cada estrato. Suele ser representativo de la población, principalmente porque todos los estratos son bien representados. Sin embargo, requiere tener un conocimiento previo de la población, por lo que solo puede ser aplicable para poblaciones con estudios previos.
-
-
-Además de estos tres diseños, existen otros utilizados en ecología: híbrido, cluster, por conveniencia, etc. En general, elegir el diseño de muestreo va a depender de la pregunta de investigación y del esfuerzo de muestreo que se pueda tener. 
-
-Haremos un ejercicio en R al respecto. Vamos a simular las longitudes por edad (edad 4, 5, 6) de una población de peces (1900 individuos). Luego, vamos a muestrear esta población mediante un diseño aleatorio, sistemático y estratificado. Finalmente, vamos a comparar la longitud media a partir de cada muestreo y compararlas con el valor real en la población. De esta forma podemos saber que diseño de muestreo arroja un valor más cercano a la realidad.
+First, we need these packages:
 ```{r warning=FALSE, message=FALSE}
-# Antes de todo, activamos dos librerias que necesitamos:
 require(dplyr)
 require(splitstackshape)
-# Comienza la simulacion:
-group1 = expand.grid(longitud = rnorm(n = 1000, mean = 30, sd = 4),
-                     edad = 4) # 1000 ind de edad 4
-group2 = expand.grid(longitud = rnorm(n = 600, mean = 40, sd = 5),
-                     edad = 5) # 600 ind de edad 5
-group3 = expand.grid(longitud = rnorm(n = 300, mean = 55, sd = 6),
-                     edad = 6) # 300 ind de edad 6
+```
+
+# Sampling methods
+
+We simulate sizes of a population (1900 individuals) at different ages.  
+```{r warning=FALSE, message=FALSE}
+group1 = expand.grid(size = rnorm(n = 1000, mean = 30, sd = 4),
+                     age = 4) # 1000 ind age 4
+group2 = expand.grid(size = rnorm(n = 600, mean = 40, sd = 5),
+                     age = 5) # 600 ind age 5
+group3 = expand.grid(size = rnorm(n = 300, mean = 55, sd = 6),
+                     age = 6) # 300 ind age 6
 popdata = rbind(group1, group2, group3) 
 popdata = popdata[sample(x = 1:1900, size = 1900, replace = F), ]
 row.names(popdata) = 1:1900
-# `popdata` representa las longitudes por edad en la poblacion
-
-# Las graficamos:
-hist(x = popdata$longitud, xlab = 'Altura (cm)', main = 'Poblacion',
-     col = 'gray60')
-
-# Ahora simulamos los muestreos (solo 180 individuos muestreados):
-# 1) Diseno Aleatorio:
-n_samp = 180 # numero de ind muestreados
-random_samp = sample_n(tbl = popdata, size = n_samp) # contiene el muestreo aleatorio
-
-# 2) Diseno Sistematico:
-start_num = sample(x = 1:10, size = 1) # estimar el numero inicial
-ind_sampled = seq(from = start_num, to = nrow(popdata), length.out = n_samp) # elegir 
-#los individuos sistematicamente (con un patron)
-ind_sampled = round(ind_sampled)
-system_samp = popdata[ind_sampled, ] # contiene el muestreo sistematico
-
-# 3) Diseno Estratificado:
-# Aqui muestreamos 60 individuos por edad (180 en total)
-strat_samp = stratified(indt = popdata, group = 'edad', size = 60) # contiene el muestreo 
-#estratificado
-
-# Ahora comparamos la longitud media de cada diseno con la media de la poblacion
-# El valor más cercano a cero significa un mejor desempeno:
-abs(mean(random_samp$longitud) - mean(popdata$longitud)) # aleatorio
-abs(mean(system_samp$longitud) - mean(popdata$longitud)) # sistematico
-abs(mean(strat_samp$longitud) - mean(popdata$longitud)) # estratificado
-
-# Se puede graficar rapidamente:
-# La linea roja representa la longitud media en la poblacion
-# Y el histograma la distribucion de longitudes para cada diseno
-par(mfrow = c(1,3))
-hist(random_samp$longitud, xlab = 'Altura (cm)', main = 'Diseno aleatorio',
-     col = 'gray60')
-abline(v = mean(popdata$longitud), col = 'red', lty = 2, lwd = 2)
-hist(system_samp$longitud, xlab = 'Altura (cm)', main = 'Diseno sistematico',
-     col = 'gray60')
-abline(v = mean(popdata$longitud), col = 'red', lty = 2, lwd = 2)
-hist(strat_samp$longitud, xlab = 'Altura (cm)', main = 'Diseno estratificado',
-     col = 'gray60')
-abline(v = mean(popdata$longitud), col = 'red', lty = 2, lwd = 2)
 ```
 
-Este es un ejercicio simple, pero el mismo procedimiento se usa para diversos estudios en ecología que quieren evaluar el desempeño de diferentes diseños de muestreo.
+`popdata` is the object that contains the population information. We plot all the sizes:
+```{r warning=FALSE, message=FALSE}
+hist(x = popdata$size, xlab = 'Size (cm)', main = 'Population',
+     col = 'gray60')
+```
+
+## Random sampling
+
+Each individual in the population has the same probability to be sampled (independent). We take a random sampling (180 individuals) from the simulated population:
+```{r warning=FALSE, message=FALSE}
+n_samp = 180 # number of individuals sampled
+random_samp = sample_n(tbl = popdata, size = n_samp) 
+```
+
+## Systematic sampling
+
+A defined pattern is followed to sample the population. We take a systematic sampling from the simulated population.
+```{r warning=FALSE, message=FALSE}
+start_num = sample(x = 1:10, size = 1) # initial number to start the sampling process
+ind_sampled = seq(from = start_num, to = nrow(popdata), length.out = n_samp) # 180 ind sampled
+ind_sampled = round(ind_sampled)
+system_samp = popdata[ind_sampled, ] # this is the sampling
+```
+
+## Stratified sampling
+
+The population to be sampled is divided in strata, and then random samples are taken from each stratum. We take a stratified sampling from the simulated population.
+```{r warning=FALSE, message=FALSE}
+strat_samp = stratified(indt = popdata, group = 'age', size = 60) # 60 ind sampled by age
+```
+
+Now, we can calculate some statistics from the samples and compare them with the true value in the population. For example, we calculate the mean size:
+```{r warning=FALSE, message=FALSE}
+abs(mean(random_samp$size) - mean(popdata$size)) # random
+abs(mean(system_samp$size) - mean(popdata$size)) # systematic
+abs(mean(strat_samp$size) - mean(popdata$size)) # stratified
+
+# Plot:
+par(mfrow = c(1,3))
+hist(random_samp$size, xlab = 'Size (cm)', main = 'Random sampling',
+     col = 'gray60')
+abline(v = mean(popdata$size), col = 'red', lty = 2, lwd = 2)
+hist(system_samp$size, xlab = 'Size (cm)', main = 'Systematic sampling',
+     col = 'gray60')
+abline(v = mean(popdata$size), col = 'red', lty = 2, lwd = 2)
+hist(strat_samp$size, xlab = 'Size (cm)', main = 'Stratified sampling',
+     col = 'gray60')
+abline(v = mean(popdata$size), col = 'red', lty = 2, lwd = 2)
+```
 
 # Bases estadísticas
 
