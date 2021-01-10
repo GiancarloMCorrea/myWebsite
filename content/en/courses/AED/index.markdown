@@ -8,13 +8,13 @@ image:
   placement: 2
   preview_only: true
 links:
-- icon: flask
+- icon: laptop-code
   icon_pack: fas
-  name: lab
+  name: Session 1
   url: /labs/00-install_name_plot.html
-- icon: flask
+- icon: laptop-code
   icon_pack: fas
-  name: laptop-code
+  name: Session 2
   url: /labs/00-install_name_plot.html
 projects: []
 subtitle: Statistical basis of common techniques used in ecology.
