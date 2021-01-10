@@ -12,10 +12,14 @@ links:
   icon_pack: fas
   name: lab
   url: /labs/00-install_name_plot.html
+- icon: flask
+  icon_pack: fas
+  name: laptop-code
+  url: /labs/00-install_name_plot.html
 projects: []
-subtitle: Introduce Yourself to R, RStudio, and Us!
-summary: Introduce Yourself to R, RStudio, and Us!
-title: Welcome
+subtitle: Statistical basis of common techniques used in ecology.
+summary: Statistical basis of common techniques used in ecology.
+title: Analysis of ecological data with R
 ---
 
 Welcome! We'll see you in our first class on Monday, and please do the lab linked above before Wednesday.
