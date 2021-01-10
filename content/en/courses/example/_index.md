@@ -36,3 +36,4 @@ The following topics are discussed:
 
 * Basic statistic concepts
 * Basic programming in R language
+* Statistical basis of linear models
