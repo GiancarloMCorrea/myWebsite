@@ -1,0 +1,300 @@
+---
+title: 'Lab 01'
+author: "Giancarlo M. Correa"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Métodos de muestreo
+
+Muestrear es el proceso de colectar datos para obtener una perspectiva sobre la población. Es importante que un muestreo sea representativo de la población, para así evitar sesgos en estimados. Existen algunos términos importantes que se deben definir:
+
+* *Unidad de muestreo*: Es el individuo o item que va a ser muestreado.
+* *Población objetivo*: Es la población que deseamos estudiar y generalizar a partir de nuestra muestra.
+* *Marco de muestreo*: Es una parte de la población que será muestreada. Muchas veces el diseño de muestreo no opera sobre toda la población, si no solo sobre un subgrupo de esta.
+* *Diseño de muestreo*: Método para obtener la muestra a partir del marco de muestreo.
+* *Muestra*: Individuos obtenidos a partir del diseño de muestreo.
+* *Espacio de muestreo*: Ambiente donde habita la población que se estudia.
+
+## Muestreo aleatorio
+
+Cada individuo en la población tiene la misma probabilidad de ser muestreado. La selección de un individuo no afecta la selección de otros, por lo tanto cada uno es independiente. No require un conocimiento previo de la población y normalmente representa correctamente a la población. Sin embargo, cuando una población tiene un grado de estratificación, este método no puede ser el más adecuado.
+
+## Muestreo sistemático
+
+Se trata de muestrear una población con un patrón establecido. Normalmente es utilizado cuando existe algún gradiente en alguna variable ambiental (e.g. profundidad, temperatura, etc). Este tipo de diseño asegura un muestreo aleatorio de la población, sin embargo, algunos tiempos o lugares pueden nunca ser muestreados.
+
+## Muestreo estratificado
+
+La población es dividida en estratos, y luego se toma muestras aleatorias de cada estrato. Es bastante utilizado cuando se busca una buena representación de cada estrato. Suele ser representativo de la población, principalmente porque todos los estratos son bien representados. Sin embargo, requiere tener un conocimiento previo de la población, por lo que solo puede ser aplicable para poblaciones con estudios previos.
+
+
+Además de estos tres diseños, existen otros utilizados en ecología: híbrido, cluster, por conveniencia, etc. En general, elegir el diseño de muestreo va a depender de la pregunta de investigación y del esfuerzo de muestreo que se pueda tener. 
+
+Haremos un ejercicio en R al respecto. Vamos a simular las longitudes por edad (edad 4, 5, 6) de una población de peces (1900 individuos). Luego, vamos a muestrear esta población mediante un diseño aleatorio, sistemático y estratificado. Finalmente, vamos a comparar la longitud media a partir de cada muestreo y compararlas con el valor real en la población. De esta forma podemos saber que diseño de muestreo arroja un valor más cercano a la realidad.
+```{r warning=FALSE, message=FALSE}
+# Antes de todo, activamos dos librerias que necesitamos:
+require(dplyr)
+require(splitstackshape)
+# Comienza la simulacion:
+group1 = expand.grid(longitud = rnorm(n = 1000, mean = 30, sd = 4),
+                     edad = 4) # 1000 ind de edad 4
+group2 = expand.grid(longitud = rnorm(n = 600, mean = 40, sd = 5),
+                     edad = 5) # 600 ind de edad 5
+group3 = expand.grid(longitud = rnorm(n = 300, mean = 55, sd = 6),
+                     edad = 6) # 300 ind de edad 6
+popdata = rbind(group1, group2, group3) 
+popdata = popdata[sample(x = 1:1900, size = 1900, replace = F), ]
+row.names(popdata) = 1:1900
+# `popdata` representa las longitudes por edad en la poblacion
+
+# Las graficamos:
+hist(x = popdata$longitud, xlab = 'Altura (cm)', main = 'Poblacion',
+     col = 'gray60')
+
+# Ahora simulamos los muestreos (solo 180 individuos muestreados):
+# 1) Diseno Aleatorio:
+n_samp = 180 # numero de ind muestreados
+random_samp = sample_n(tbl = popdata, size = n_samp) # contiene el muestreo aleatorio
+
+# 2) Diseno Sistematico:
+start_num = sample(x = 1:10, size = 1) # estimar el numero inicial
+ind_sampled = seq(from = start_num, to = nrow(popdata), length.out = n_samp) # elegir 
+#los individuos sistematicamente (con un patron)
+ind_sampled = round(ind_sampled)
+system_samp = popdata[ind_sampled, ] # contiene el muestreo sistematico
+
+# 3) Diseno Estratificado:
+# Aqui muestreamos 60 individuos por edad (180 en total)
+strat_samp = stratified(indt = popdata, group = 'edad', size = 60) # contiene el muestreo 
+#estratificado
+
+# Ahora comparamos la longitud media de cada diseno con la media de la poblacion
+# El valor más cercano a cero significa un mejor desempeno:
+abs(mean(random_samp$longitud) - mean(popdata$longitud)) # aleatorio
+abs(mean(system_samp$longitud) - mean(popdata$longitud)) # sistematico
+abs(mean(strat_samp$longitud) - mean(popdata$longitud)) # estratificado
+
+# Se puede graficar rapidamente:
+# La linea roja representa la longitud media en la poblacion
+# Y el histograma la distribucion de longitudes para cada diseno
+par(mfrow = c(1,3))
+hist(random_samp$longitud, xlab = 'Altura (cm)', main = 'Diseno aleatorio',
+     col = 'gray60')
+abline(v = mean(popdata$longitud), col = 'red', lty = 2, lwd = 2)
+hist(system_samp$longitud, xlab = 'Altura (cm)', main = 'Diseno sistematico',
+     col = 'gray60')
+abline(v = mean(popdata$longitud), col = 'red', lty = 2, lwd = 2)
+hist(strat_samp$longitud, xlab = 'Altura (cm)', main = 'Diseno estratificado',
+     col = 'gray60')
+abline(v = mean(popdata$longitud), col = 'red', lty = 2, lwd = 2)
+```
+
+Este es un ejercicio simple, pero el mismo procedimiento se usa para diversos estudios en ecología que quieren evaluar el desempeño de diferentes diseños de muestreo.
+
+# Bases estadísticas
+
+Revisamos los conceptos básicos de estadística empleados en este curso.
+
+## Tipos de variables
+
+Una variable es un atributo que describe un individuo, lugar o cosa. Este atributo claramente puede variar entre individuos. Por nombrar algunos ejemplos: altura total, longitud, temperatura, edad, sexo, etc. Las variables pueden ser clasificadas como sigue:
+
+### Variable cuantitativa
+
+Refleja algún tipo de magnitud, representa una medida y es numérica. Esta puede ser divida en:
+
+* *Discreta*: Valores que toma la variable son contables y tienen un número finito de posibilidades. Ejemplo: Número de individuos, número de especies.
+* *Continua*: Valores no son contables y tienen un infinito número de posibilidades. Ejemplo: temperatura, altura, peso.
+
+### Variable cualitativa
+
+No son numéricas, los valores que toman son categorías.
+
+* *Nominal*: No existe un orden para los diferentes niveles de la variable. Ejemplo: sexo, color de pelaje, presencia/ausencia.
+* *Ordinal*: Existe un orden para los niveles. Ejemplo: Nivel de daño, estadio de vida, edades.
+
+
+Una variable se puede transformar, lo cual normalmente se hace para adaptarla a ciertos análisis estadísticos. Por ejemplo, es normal transformar una variable continua a discreta para ciertos propósitos (e.g. longitud continua a longitud en intervalos definidos). También de cuantitativa a cualitativa (e.g. transformar datos de abundancia a presencia/ausencia). 
+
+
+## Estadísticos descriptivos
+
+### Tendencia central
+
+Ofrecen una idea del centro de los datos.
+
+1. *Media*: Representado por $\bar{x}$, idea del valor central de los datos. Puede ser sensible a outliers. Estimado como:
+
+$\bar{x} = \frac{1}{n}\sum_i x_i$
+
+Donde $n$ es el número de individuos muestreados y $x_i$ es el valor de la variable para el individuos $i$.
+
+2. *Mediana*: Observación que divide a la muestra en dos partes iguales.
+
+3. *Primer cuartil*: Observación que divide a la muestra en dos partes: 25% inferior y 75% superior.
+
+4. *Tercer cuartil*: Observación que divide a la muestra en dos partes: 75% inferior y 25% superior.
+
+5. *Moda*: Valor que aparece con mayor frecuencia en las observaciones. Puede haber más de una moda (multimodal). 
+
+### Dispersión
+
+1. *Rango*: Diferencia entre el valor máximo y mínimo en las observaciones.
+
+2. *Desviación estándar*: Desviación de los datos con respecto a la media. Se estima:
+
+$s=\sqrt{\frac{1}{n}\sum_i (x_i-\bar{x})^2}$
+
+3. *Varianza*: Es $s$ elevado al cuadrado. 
+
+4. *Rango intercuartil*: Diferencia entre el tercer y primer cuartil.
+
+5. *Coeficiente de variación*: División entre $s$ y $\bar{x}$. Se emplea cuando se quiere comparar la dispersión entre dos variables con diferentes unidades.
+
+Vamos a explorar estos conceptos usando una base de datos real con R. 
+# ```{r warning=FALSE, message=FALSE}
+# # Leer los datos:
+# ebsdata = read.csv('data/ebs2016_2018.csv')
+# 
+# # Seleccionamos una sola especie: bacalao del Pacifico
+# ebsdata = ebsdata[ebsdata$COMMON == 'Pacific cod', ]
+# 
+# # Seleccionemos solo un año
+# ebsdata = ebsdata[ebsdata$YEAR == 2017, ]
+# 
+# # Calculemos la media de NUMCPUE, un proxy de abundancia
+# mean(ebsdata$NUMCPUE)
+# 
+# # Mediana:
+# median(ebsdata$NUMCPUE)
+# 
+# # Minimo - Maximo:
+# min(ebsdata$NUMCPUE)
+# max(ebsdata$NUMCPUE)
+# range(ebsdata$NUMCPUE)
+# 
+# # Desviación estándar:
+# sd(ebsdata$NUMCPUE)
+# 
+# # Varianza 
+# var(ebsdata$NUMCPUE)
+# 
+# # Primer y tercer cuartil:
+# quantile(x = ebsdata$NUMCPUE, probs = 0.25)
+# quantile(x = ebsdata$NUMCPUE, probs = 0.75)
+# 
+# # Exploremos con un boxplot:
+# boxplot(ebsdata$NUMCPUE)
+# 
+# # Coeficiente de variacion
+# sd(ebsdata$NUMCPUE)/mean(ebsdata$NUMCPUE)
+# ```
+
+
+## Probabilidades
+
+Definimos algunos conceptos importantes:
+
+1. *Espacio muestral*: conjunto de todos los posibles resultados de un experimento.
+
+2. *Evento*: conjunto de resultados que son de interés para un estudio.
+
+3. *Probabilidad de un evento*: frecuencia relativa del conjunto de resultados de interés.
+
+4. *Variable aleatoria*: función que asigna valores numéricos a diferentes eventos en un espacio muestral.
+
+5. *Distribución de probabilidad*: asigna cierta probabilidad a un evento determinado $Pr(X=r)$, donde $X$ representa a una variable aleatoria.
+
+Existen una serie de distribuciones de probabilidad. Vamos a detallar tres: normal, binomial, y Poisson.
+
+### Distribución normal
+
+Función de probabilidad es:
+
+$f(x)=\frac{1}{\sqrt{2\pi\sigma}}\exp[-\frac{1}{2\sigma^2}(x-\mu)^2]$
+
+donde $-\infty <x<\infty$, y $\sigma$ y $\mu$ representan la desviación estándar y la media de la población. Esta distribución es normalmente referida como $N(\mu, \sigma^2)$. Utilizada para datos continuos.
+
+*Ejemplo:* Asumamos que la altura de una especie sigue una distribucion normal. Observamos en una muestra que la media es 72 mm y la desviacion estandar es 15.2 mm. Cual es el porcentaje de individuos que tiene mas de 84 mm.
+
+```{r warning=FALSE, message=FALSE}
+# Simulemos datos con distribucion normal
+sampled_data = rnorm(n = 1000, mean = 72, sd = 15.2) 
+hist(sampled_data)
+
+# Graficar en forma de densidad:
+dens = density(sampled_data)
+plot(dens, main="Densidad")
+polygon(dens, col="gray80") 
+
+# Calculemos la proporcion (probabilidad) 
+1 - pnorm(q = 84, mean = 72, sd = 15.2)
+pnorm(q = 84, mean=72, sd=15.2, lower.tail = FALSE)
+
+# Podemos tambien encontrar la probabilidad exacta para 
+# un valor de altura dado:
+dnorm(x = 84, mean = 72, sd = 15.2)
+```
+
+
+### Distribución binomial
+
+Función de probabilidad es:
+
+$Pr(X=k)= {n \choose k}p^k(1-p)^{n-k}$
+
+donde $k=0,1,2,...,n$. Aquí, $n$ representa el número de intentos independientes de algún evento, y $p$ es la probabilidad de éxito.
+
+*Ejemplo:* Asumamos que muestreamos sistematicamente un campo (area) para observar la presencia/ausencia de una especie. Asumimos que esta especie esta distribuida uniformemente ($p=0.5$). Hacemos 50 estaciones. Cual es la probabilidad de encontrar esa especie en menos de 20 estaciones? 
+
+```{r warning=FALSE, message=FALSE}
+# Simulamos los datos:
+n_sim = 50
+sim_data = rbinom(n = 1, size = n_sim, prob = 0.5)
+sim_data # obs probabilidad
+
+# Calculemos la probabilidad (asumimos p = 0.5):
+pbinom(q = 20, size = n_sim, prob = 0.5)
+
+# Podemos tambien encontrar la probabilidad exacta:
+dbinom(x = 20, size = n_sim, prob = 0.5)
+
+# Grafiquemos todas las opciones:
+positive = 0:50
+plot(positive, dbinom(x = positive, size = n_sim, prob = 0.5), type = 'h')
+```
+
+
+### Distribución Poisson
+
+Para estudiar la probabilidad de $k$ eventos que ocurren en un periodo de tiempo $t$ (representado por $\lambda$). También puede asumirse por unidad de espacio (e.g. estación de muestreo). La función de probabilidad es:
+
+$Pr(X=k)=e^{-\mu}\frac{\mu^k}{k!}$
+
+Donde $k=0,1,2,...$. $\mu=\lambda t$. 
+
+*Ejemplo:* Tenemos un muestreo aleatorio (estaciones) y observamos el numero de individuos por estacion de una especie dada. La distribucion es tipo Poisson con $\lambda=15$ (ind/estacion). Calcular la probabilidad de encontrar mas de 20 individuos en una estacion de muestreo.
+
+```{r warning=FALSE, message=FALSE}
+# Simulamos nuestros datos:
+n_sim = 50
+sim_data = rpois(n = n_sim, lambda = 15)
+length(which(sim_data>20))/n_sim # obs probabilidad
+
+# Calculemos la probabilidad:
+1 - ppois(q = 20, lambda = 15)
+ppois(q = 20, lambda = 15, lower.tail = FALSE)
+
+# Podemos tambien encontrar la probabilidad exacta (de encontrar 20 ind en una estacion):
+dpois(x = 20, lambda = 15)
+```
