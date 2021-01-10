@@ -1,7 +1,7 @@
 ---
-title: 'Welcome'
-subtitle: 'Introduce Yourself to R, RStudio, and Us!'
-summary: Introduce Yourself to R, RStudio, and Us!
+title: 'Analysis of ecological data with R'
+subtitle: 'Statistical basis of common techniques used in ecology.'
+summary: Statistical basis of common techniques used in ecology.
 date: "2018-04-02T00:00:00Z"
 featured: false
 draft: false
@@ -26,7 +26,11 @@ projects: []
 links:
 - icon: flask
   icon_pack: fas
-  name: lab
+  name: laptop-code
+  url: /labs/00-install_name_plot.html
+- icon: flask
+  icon_pack: fas
+  name: laptop-code
   url: /labs/00-install_name_plot.html
 ---
 
