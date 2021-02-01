@@ -1,0 +1,179 @@
+---
+title: "Análisis de comunidades con R: Sesión 1"
+author: "Cousteau Consultant Group"
+header-includes:
+- \usepackage{wallpaper}
+- \usepackage{fancyhdr}
+- \usepackage{hyperref}
+- \LRCornerWallPaper{0.15}{LOGO3.jpg}
+- \pagestyle{fancy}
+- \fancyhead[CO,CE]{\textit{Cousteau Consultant Group}}
+- \fancypagestyle{plain}{\pagestyle{fancy}}
+- \fancyfoot[LO,LE]{https://cousteau-group.com}
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introducción a la ecología de comunidades
+
+En esta sección vamos a definiar los conceptos más importantes relacionadas a la ecología de comunidades:
+
+1. **Comunidad ecológica**: Conjunto de especies que habitan un lugar determinado.
+2. **Ecología de comunidades**: Estudios de patrones y procesos que involucran al menos a dos especies en un lugar determinado. Se toma en cuenta la influencia de procesos evolutivos (largos periodos de tiempo) y ambientales (cortos periodos de tiempo).
+3. **Especie**: El concepto comunmente aceptado es el concepto biológico de especie: una especie es un grupo de individuos que pueden potencialmente reproducirse entre sí  y producir descendencia fértil. Sin embargo, cuando se colectan datos de comunidades, normalmente el concepto que se utiliza en los análisis es el concepto morfológico: una especie se diferencia de otras por sus estructuras físicas de los organismos que lo conforman. Usar uno u otro concepto de especie puede impactar los análisis que se realicen [@agapow_impact_2004]. 
+4. **Resolución taxonómica**: Refiere a la capacidad de científicos de clasificar a un individuo hasta cierto nivel taxonómico (e.g. Familia, Género, Especie). Una alta resolución taxonómica indica que se ha logrado identificar hasta el nivel de especie. Estudios previos han encontrado que analizar una comunidad con una resolución taxómica de especie, género, o familia, no llevará a cambios importantes en resultados de ciertos análisis, sin embargo, esto puede variar dependiendo del tipo de comunidad que se evalúa [@terlizzi_beta_2009].
+5. **Biodiversidad**: El concepto más conocido y utilizado es el dado por el Convenio Internacional sobre la Diversidad Biológica:
+
+*... hace referencia a la amplia variedad de seres vivos sobre la Tierra y lo que sucede con los patrones naturales que la conforman, resultado de miles de millones de años de evolución según procesos naturales y también de la influencia creciente de las actividades del ser humano. La biodiversidad comprende igualmente la variedad de ecosistemas y las diferencias genéticas dentro de cada especie (diversidad genética) que permiten la combinación de múltiples formas de vida, y cuyas mutuas interacciones con el resto del entorno fundamentan el sustento de la vida sobre el mundo.* 
+
+Sin embargo, otras definiciones se han ido dando a lo largo de la historia, lo que ha generado confusión en muchos investigadores [@de_long_defining_1996]. En resumen, biodiversidad engloba la variabilidad en la vida, desde niveles moleculares hasta niveles ecológicos.
+
+En base a esta definición de biodiversidad, se han definido cuatro tipos de biodiversidad, siendo las tres primeras las más aceptadas:
+
+* *Diversidad de especies*: Hace referencia al número de especies que habitan un ecosistema, y a la abundancia de estas.
+* *Diversidad genética*: Describe que tan cercanos los miembros de una especie se encuentran.
+* *Diversidad ecosistémica*: Número de ecosistemas que tiene una región.
+* *Diversidad funcional*: Se refiere a la forma que las especies se comportan, obtienen su alimento y usan los recursos de un ecosistema. Este grupo de especies con similares característica se le consideran un grupo funcional.
+
+6. **Riqueza de especies**: número de especies en un área dada.
+7. **Especies raras**: Existen definiciones dadas a este término, pero en general no existe un gran concenso acerca de qué es una especie rara. Una de las definiciones que se tienen es: *componente pequeño de la biomasa de un ecosistema (1-5%) dentro de su nivel trófico y no demustra efectos importantes sobre los atributos del ecosistema* [@lyons_rare_2005].
+
+
+# Métodos de muestreo
+
+Muestrear es el proceso de colectar datos para obtener una perspectiva sobre la población. Es importante que un muestreo sea representativo de la población, para así evitar sesgos en estimados. Existen algunos términos importantes que se deben definir:
+
+* *Unidad de muestreo*: Es el individuo o item que va a ser muestreado.
+* *Población objetivo*: Es la población que deseamos estudiar y generalizar a partir de nuestra muestra.
+* *Marco de muestreo*: Es una parte de la población que será muestreada. Muchas veces el diseño de muestreo no opera sobre toda la población, si no solo sobre una porción de esta.
+* *Diseño de muestreo*: Método para obtener la muestra a partir del marco de muestreo.
+* *Muestra*: Individuos obtenidos a partir del diseño de muestreo.
+* *Espacio de muestreo*: Ambiente donde habita la población que se estudia.
+
+### Muestreo aleatorio
+
+Cada individuo en la población tiene la misma probabilidad de ser muestreado. La selección de un individuo no afecta la selección de otros, por lo tanto cada uno es independiente. No require un conocimiento previo de la población y normalmente representa correctamente a la población. Sin embargo, cuando una población tiene un grado de estratificación, este método no puede ser el más adecuado.
+
+### Muestreo sistemático
+
+Se trata de muestrear una población con un patrón establecido. Normalmente es utilizado cuando existe algún gradiente en alguna variable ambiental (e.g. profundidad, temperatura, etc). Este tipo de diseño asegura un muestreo aleatorio de la población, sin embargo, algunos tiempos o lugares pueden nunca ser muestreados.
+
+### Muestreo estratificado
+
+La población es dividida en estratos, y luego se toma muestras aleatorias de cada estrato. Es bastante utilizado cuando se busca una buena representación de cada estrato. Suele ser representativo de la población, principalmente porque todos los estratos son bien representados. Sin embargo, requiere tener un conocimiento previo de la población, por lo que solo puede ser aplicable para poblaciones con estudios previos.
+
+Además de estos tres diseños, existen otros utilizados en ecología: híbrido, cluster, por conveniencia, etc. En general, elegir el diseño de muestreo va a depender de la pregunta de investigación y del esfuerzo de muestreo que se pueda desplegar. Para el caso de muestreo de comunidades, también se debe tomar en cuenta la probabilidad de encontrar especies raras, ya que estas normalmente estan ubicadas en ambientes especies de la zona de estudio. Autores han definido algunas prácticas que puede ayudar a mejorar la implementación de un diseño de muestreo [@albert_sampling_2010]:
+
+* Definir objetivo de estudio (¿Parámetros poblacionales? ¿Patrones? ¿Enfoque comunitario?)
+* Usa conocimiento experto y estudios anteriores.
+* Llevar a cabo un análisis preliminar (e.g. muestrear rápidamente mediante un diseño aleatorio a la comunidad y observar patrones generales).
+* Desarrollar experimentos de simulación.
+
+# Análisis de bases de datos
+
+En esta sección vamos a analizar una base de datos comunitaria. Esta base de datos puede ser encontrada libremente en [NOAA Website](https://www.fisheries.noaa.gov/alaska/commercial-fishing/alaska-groundfish-bottom-trawl-survey-data#eastern-bering-sea-shelf). Utilizaremos los datos tomados en el *Eastern Bering Sea Shelf*. Para comprender un poco más sobre el diseño de muestreo en esta región, revisar [NOAA Website](https://www.fisheries.noaa.gov/resource/map/alaska-groundfish-survey-data-map). 
+
+![Diseño de muestreo de la campaña de investigación que se realiza en la zona este del mar de Bering una vez al año (verano boreal). Cada símbolo representa un punto de muestreo. También se observan los estratos definidos en base a profundidad.](Survey_plot.png)
+
+Cargamos algunas librerías que utilizaremos:
+```{r warning=FALSE, message=FALSE}
+require(reshape2)
+require(vegan)
+require(maps)
+require(mapdata)
+```
+
+Leemos los datos (no olvidar fijar el directiorio de trabajo primero) y luego exploramos como está estructurada
+```{r warning=FALSE, message=FALSE}
+ebsdata = read.csv('data/ebsdata.csv')
+head(ebsdata)
+```
+
+Aquí una breve explicación de la base de datos:
+
+* *LATITUDE*: latitud
+* *LONGITUDE*: longitud
+* *STATION*: código de la estación de muestreo
+* *STRATUM*: stratum definido por los científicos de la NOAA, en base a la profundidad. En total hay alrededor de 12 estratos en esta zona de estudio
+* *YEAR*: año
+* *DATETIME*: fecha y hora del muestreo
+* *WTCPUE*: indicador de biomasa estandarizada por el área muestreada
+* *NUMCPUE*: indicador de abundancia estandarizada por el área muestreada
+* *COMMON*: nombre común del taxón muestreado
+* *SCIENTIFIC*: nombre científico del taxón muestreado
+* *SID*: código del taxón, definido por los científicos de NOAA
+* *BOT_DEPTH*: profundidad (metros)
+* *BOT_TEMP*: temperatura del fondo (celsius)
+* *SURF_TEMP*: temperatura en la superficie (celsius)
+* *VESSEL*: código de la embarcación que realizó el muestreo
+* *CRUISE*: código de la campaña de muestreo
+* *HAUL*: código alternativo de la estación de muestreo
+
+Exploremos cuantos años tenemos y el número de especies total en la base de datos
+```{r warning=FALSE, message=FALSE}
+table(ebsdata$YEAR)
+head(ebsdata$SCIENTIFIC)
+tail(ebsdata$SCIENTIFIC)
+```
+
+Prestemos atención a algunos detalles:
+
+* Algunos *taxones*^[En un esquema organizativo, cada grupo de organismos en particular es un taxón, y el nivel jerárquico en el que se lo sitúa es su categoría] tienen *.sp*, lo cual significa que tienen una resolución taxonómica de género.
+* Algunas *taxones* son familias u órdenes.
+* Algunos *taxones* están muy distante filogenéticamente (e.g. tenemos esponjas y peces).
+* Tenemos un *taxón* con símbolo *''*, que puede significar grupos de taxones que no han sido identificados taxonómicamente.
+* Algunos *taxones* tienen características añadidas tales como 'eggs' (huevos).
+
+Por motivos de simplicidad, vamos a eliminar solo algunas especies, pero esto debería ser hecho con un criterio biológico para casos reales
+```{r warning=FALSE, message=FALSE}
+ebsdata_new = ebsdata[!(ebsdata$SCIENTIFIC %in% c('', 'Buccinum sp. egg', 'Nematoda')), ]
+```
+
+Es posible que después de remover los taxones que no son de nuestro interés (nos quedamos solo con el taxocene^[Grupo de especies con similar historia de vida (e.g. peces, mamíferos superiores).] bajo estudio) aún nos queden una gran cantidad de especies, muchas de las cuales son llamadas *raras* por diversos autores. Remover o no estas especies *raras* de nuestra base de datos no siempre es aconsejable y dependerá del objetivo de estudio y del análisis que se quiera realizar. En caso deseemos remover estos taxones *raros*, lo podemos hacer de la siguiente manera:
+```{r warning=FALSE, message=FALSE}
+# Calculamos el WTCPUE promedio por especie:
+spe_abun = aggregate(x = ebsdata_new$WTCPUE, list(species = ebsdata_new$SCIENTIFIC), FUN = mean)
+# Ordenamos por abundancia (de mayor a menor abundancia):
+spe_abun = spe_abun[order(spe_abun$x, decreasing = TRUE), ]
+# Plotearlo:
+plot(spe_abun$x, type = 'h')
+# Veamos la contribución de cada taxon a la abundancia total:
+spe_abun$cum_porc = cumsum(spe_abun$x/sum(spe_abun$x))
+# Especies seleccionadas: (excluimos el 1% mas raro)
+spe_abun = spe_abun[spe_abun$cum_porc < 0.99, ]
+# Plotearlo:
+plot(spe_abun$x, type = 'h')
+```
+
+Si comparamos las dos gráficas obtenidas, vemos que la mayoría de especies son *raras*. Ahora creamos una nueva base de datos (`ebsdata_new`) que ya tendrá removidas las especies *raras*:
+```{r warning=FALSE, message=FALSE}
+ebsdata_new = ebsdata_new[ebsdata_new$SCIENTIFIC %in% spe_abun$species, ]
+```
+
+Aquí vamos a concluir la limpieza de nuestros datos, sin embargo, cada base de datos podría necesitar diferentes niveles de depuración de datos. Cada investigador debe conocer claramente que tipo de pre-tratamiento debe recibir su base de datos.
+
+Finalmente, vamos a graficar los puntos de muestreo para un año en específico (2017)
+```{r warning=FALSE, message=FALSE}
+ebs_year = ebsdata_new[ebsdata_new$YEAR == 2017, ]
+# Graficamos las estaciones:
+par(mar = c(4,4,0.5,0.5))
+plot(x = ebs_year$LONGITUDE, y = ebs_year$LATITUDE, xlab = 'Longitud', ylab = 'Latitud', pch = 19)
+map('worldHires', add = TRUE, col='gray90', fill=TRUE)
+```
+
+Antes de concluir, vamos a crear una base de datos que contenga la información de longitud, latitud, y estación de muestreo, la cual será utilizada más adelante
+```{r warning=FALSE, message=FALSE}
+station_data = aggregate(ebs_year$STATION, list(lon = ebs_year$LONGITUDE, 
+                                           lat = ebs_year$LATITUDE), unique)
+colnames(station_data)[3] = 'station'
+head(station_data)
+```
+
+# Referencias
