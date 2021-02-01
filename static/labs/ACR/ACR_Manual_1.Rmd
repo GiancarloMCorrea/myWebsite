@@ -1,19 +1,13 @@
 ---
-title: "Análisis de comunidades con R: Sesión 1"
-author: "Cousteau Consultant Group"
-header-includes:
-- \usepackage{wallpaper}
-- \usepackage{fancyhdr}
-- \usepackage{hyperref}
-- \LRCornerWallPaper{0.15}{LOGO3.jpg}
-- \pagestyle{fancy}
-- \fancyhead[CO,CE]{\textit{Cousteau Consultant Group}}
-- \fancypagestyle{plain}{\pagestyle{fancy}}
-- \fancyfoot[LO,LE]{https://cousteau-group.com}
+title: 'Lab 01'
+author: "Giancarlo M. Correa"
 output:
-  pdf_document: default
   html_document:
-    df_print: paged
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
 bibliography: references.bib
 ---
 
