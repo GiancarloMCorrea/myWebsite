@@ -1,0 +1,594 @@
+---
+title: 'Lab 02'
+author: "Giancarlo M. Correa"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Índices de diversidad de especies
+
+Los índices de diversidad se utilizan para dar una idea de la diversidad de un sitio dado. Conjunto con un valor de índice, se debe reportar: el área o sitio de muestreo donde fue calculado ese índice, límites temporales, y el taxoceno^[Grupo de taxones que tienen similar historia de vida, y son objetivo de análisis.] bajo estudio. Además, se debe identificar la medida de abundancia que se utilizará, la cual puede ser conteo (número de individuos), biomasa, densidad, u alguna otra medida.
+
+## Entropía
+
+Hace referencia a la cantidad de información de un sistema, pudiendose calcular con la siguiente ecuación [@shannon_mathematical_1948]:
+
+\begin{equation} 
+  \label{eq:1}
+  H=-\sum^{q}_{i=1}p_i log_2(p_i)
+\end{equation} 
+
+Donde $H$ representa una medida de incertidumbre del sistema, $p_i$ es la proporción que cada estado del sistema, y $q$ es el número de estados del sistema. A partir de la ecuación \ref{eq:1}, se ha propuesto la modificación [@renyi_measures_1961]:
+
+\begin{equation} 
+  \label{eq:2}
+  H_a=\frac{1}{1-a}\sum^{q}_{i=1}p_i^a
+\end{equation} 
+
+Donde $a$ representa el orden de entropía. Sin embargo, estas ecuaciones estan orientadas a sistemas de información y no tienen significado biológico. Por tal motivo, se han propuesto ciertas modificaciones a partir de la ecuación \ref{eq:2}, conocidos como números de diversidad de Hill [@hill_diversity_1973]:
+
+\begin{equation} 
+  \label{eq:3}
+  N_a=exp(H_a)=(\sum^{q}_{i=1}p_i^a)^{1/(1-a)}
+\end{equation} 
+
+Por lo tanto, para los tres primeros órdenes tenemos:
+
+\begin{equation} 
+  \label{eq:4}
+  H_0=log(q)\hspace{2cm}N_0=q
+\end{equation}
+\begin{equation} 
+  \label{eq:5}
+  H_1=-\sum^{q}_{i=1}p_i log(p_i)=H\hspace{2cm}N_1=exp(H)
+\end{equation}
+\begin{equation} 
+  \label{eq:6}
+  H_2=-log(\sum^{q}_{i=1}p_i^2)=-log(\lambda)\hspace{2cm}N_2=\lambda ^{-1}
+\end{equation}
+
+Conforme vamos incrementando el orden, la contribución de estados con proporciones muy bajas (i.e. especies *raras*) se convierte menos importante en el cálculo del índice de diversidad. 
+
+## Riqueza de especies
+
+Es el índice de diversidad más utilizado en ecología de comunidades debido a su fácil interpretación. Proviene de la entropía de orden 0 y tiene como unidades número (de especies o taxones):
+
+\begin{equation} 
+  \label{eq:7}
+  Diversidad=N_0=q
+\end{equation}
+
+Este índice es altamente afectado por especies raras y afectado por el esfuerzo de muestreo. Es decir, sitios de muestreo con un esfuerzo de muestreo mayor van a tender a tener una mayor riqueza. 
+
+### Método de rarefacción
+
+Es un método que trata de lidiar con distintos esfuerzos de muestreo en el área de estudio, con el objetivo de comparar riqueza de especies entre sitios. Puede se aplicado cuando tengamos datos de conteos. Nos da información acerca del número de especies que habrían ($q'$) para cierto esfuerzo estandarizado ($n'$, expresado como número de individuos muestreados):
+
+\begin{equation} 
+  \label{eq:8}
+  E(q')=\sum_{i=1}^{q}[1-\frac{\binom{n-n_i}{n'}}{\binom{n}{n'}}]
+\end{equation}
+
+Donde $n$ representa el número de individuos muestreados (observado) e $i$ es un índice de individuo. Además, se cumple que $n' \leq (n-n_1)$, siendo $n_1$ el número de individuos de la especie más abundante. 
+
+## Índice de Shannon
+
+Hace referencia a la incertidumbre acerca de la identidad (i.e. taxon) de un organismo escogido aleatoriamente de una unidad de muestreo. Por lo tanto, mientras mayor sea el valor del índice, mayor incertidumbre, lo que nos dice que existe una mayor diversidad en el sitio. Proviene de la entropía de orden 1:
+
+\begin{equation} 
+  \label{eq:9}
+  Diversidad=H=H_1=-\sum^{q}_{i=1}p_i log(p_i)
+\end{equation} 
+
+Las unidades son bits si se usa $log_2$ o nats si se usa $log_{e}$. Observamos que cuando $p_i$ es cercano a 1 (i.e. una especie abarca casi toda la abundancia de un sitio de muestreo), el valor del índice se acerca a cero, lo que significa una baja diversidad. Además, cuando los valores de $p_i$ se encuentran equitativamente distribuidos a lo largo de las especies, el valor de $H$ incrementa. 
+
+## Índice de Simpson
+
+Proviene de entropía de orden 2. Se origina analizando la probabilidad que el primer individuo sea de la especie $i$, lo que es $n_i/n$. Para el segundo individuo, la probabilidad es $(n_i-1)/(n-1)$, y así sucesivamente. Entonces, se ha definido el índice de concentración de Simpson como la probabilidad que dos individuos elegidos aleatoriamente sean de la misma especie o taxon:
+
+\begin{equation} 
+  \label{eq:10}
+  \lambda=\sum^{q}_{i=1}\frac{n_i}{n}\frac{n_i-1}{n-1}
+\end{equation} 
+
+Cuando $n$ es grande:
+
+\begin{equation} 
+  \label{eq:11}
+  \lambda=\sum^{q}_{i=1}(\frac{n_i}{n-1})^2 = \sum^{q}_{i=1}p_i^2
+\end{equation}
+
+Como observamos, cuando la probabilidad que dos individuos elegidos aleatoriamente sean de la misma especie o taxon es baja es porque existe muchas especies y, por lo tanto, la diversidad es alta. Esto quiere decir que cuando $\lambda$ es bajo (cercano a 1), la diversidad es baja y viceversa.
+
+En base a esto, se han propuesto algunas modificaciones. Por ejemplo, el índice de Gini-Simpson es:
+
+\begin{equation} 
+  \label{eq:12}
+  Diversidad = 1-\lambda
+\end{equation}
+
+Y el índice de dominancia de Simpson es:
+\begin{equation} 
+  \label{eq:13}
+  Diversidad = \lambda ^{-1}
+\end{equation}
+
+Como ya mencionamos, $\lambda$ es sensible al cambio de las especies más abundantes y poco afectado por cambios en la abundancia de especies raras. Además, al igual que los índices previos, el esfuerzo de muestreo va a afectar el cálculo de este índice.
+
+![Ejemplo de tres comunidades con diferente distribución de abundancia para cada especie. Se muestran los índices de diversidad calculados. Imagen original de David Zeleny.](Diversity_example.png)
+
+## Índice de Pielou
+
+Este índice se enfoca en analizar como las abundancias están distribuidas por especie. Primero calculemos el máximo índice de Shannon, el cual se alcanza cuando las abundancias se distribuyen equitativamente entre todas las especies presentes. Por lo tanto, cada especie tiene una proporción igual a $1/q$, si reemplazamos en la ecuación \ref{eq:9}, tenemos:
+
+\begin{equation} 
+  \label{eq:14}
+  H_{max} = -\sum^{q}_{i=1}\frac{1}{q} log(\frac{1}{q}) = log(q)
+\end{equation}
+
+Entonces, el índice de Pielou se considera como:
+
+\begin{equation} 
+  \label{eq:15}
+  J = \frac{H_1}{H_{max}}
+\end{equation}
+
+Lo que también puede ser escrito como:
+
+\begin{equation} 
+  \label{eq:16}
+  J = \frac{H_1}{H_0}
+\end{equation}
+
+## Índice de equitabilidad de Hill
+
+Se han propuesto algunos índices de equitabilidad a partir de los números de diversidad de Hill [@hill_diversity_1973]:
+
+\begin{equation} 
+  \label{eq:17}
+  E_1 = \frac{N_1}{N_0}
+\end{equation}
+
+$E_1$ es conocido como equitabilidad de Shannon. Además:
+
+\begin{equation} 
+  \label{eq:18}
+  E_2 = \frac{N_2}{N_0}
+\end{equation}
+
+$E_2$ es conocido como equitabilidad de Simpson.
+
+Existen algunos aspectos que debemos tomar en cuenta respecto a los índices presentados. Debemos observar que existe una no linealidad entre la riqueza de especie y los valores que el índice de Shannon o Simpson pueden tomar. Por ejemplo, simulemos varias comunidades (1000), cada una con diferente riqueza de especies, y con la abundancia de especies siempre distribuida equitativamente:
+
+```{r warning=FALSE, message=FALSE,echo=FALSE}
+require(vegan)
+shannon=matrix(ncol=2,nrow=1000)
+for(i in 1:1000) {
+  community=data.frame(t(rep(1,i))); colnames(community)=paste("sp",1:i)
+  shannon[i,1]=i
+  shannon[i,2]=diversity(community,index="shannon") }
+par(mfrow = c(1,1), mar = c(4,4,0.5,0.5))
+plot(shannon[,1],shannon[,2],xlab="Riqueza de especies",ylab="Indice de Shannon",
+main="Riqueza vs Shannon")
+```
+
+Hacemos lo mismo para el índice de Simpson:
+
+```{r warning=FALSE, message=FALSE,echo=FALSE}
+simpson=matrix(ncol=2,nrow=1000)
+for(i in 1:1000) {
+  community=data.frame(t(rep(100,i))); colnames(community)=paste("sp",1:i)
+  simpson[i,1]=i
+  simpson[i,2]=diversity(community,index="simpson") }
+par(mfrow = c(1,1), mar = c(4,4,0.5,0.5))
+plot(simpson[,1],simpson[,2],xlab="Riqueza de especies",ylab="Indice de Simpson",
+main="Riqueza vs Simpson")
+```
+
+Como observamos para ambos índices, no existe una relación lineal entre riqueza de especies y el índice seleccionado. Por este motivo, algunos autores [@jost_entropy_2006] han propuesto que se emplee el *número efectivo de especies* $D$ en vez de entropías (tal y como el índice de Shannon lo hace). El número efectivo de especies se interpreta como el número de especies, con una distribución equitativa de abundancias, que nos daría un valor de índice (Shannon o Simpson) igual al obtenido a partir de los datos observados. Este número efectivo de especies es simplemente los números de Hill ($N_0$, $N_1$, y $N_2$).
+
+Por ejemplo, supongamos que en nuestra muestra tenemos 6 especies que tienen la siguiente proporción: $p=(0.41,0.21,0.08,0.25,0.04,0.01)$. Si calculamos el índice de Simpson, tenemos $\lambda = 0.2828$. Ahora debemos encontrar $D$. Si asumimos una distribución equitativa de la abundancia entre especies, es lógico pensar que cada especie tiene una proporción de $p_i=1/D$. Entonces, ahora reemplazamos y calculamos $D$:
+
+\begin{equation} 
+  \label{eq:19}
+  0.2828 = \lambda = \sum_{i=1}^6 p_i^2 = \sum_{i=1}^6 \frac{1}{D^2}
+\end{equation}
+
+Con lo cual obtenemos $D=4.61$, lo que viene a ser el número efectivo de especies.
+
+Vamos a hacer el mismo ejercicio que hicimos anteriormente y graficamos la riqueza de especies versus $D$:
+
+```{r warning=FALSE, message=FALSE,echo=FALSE}
+shannon_effective=matrix(ncol=2,nrow=1000)
+for(i in 1:1000) {
+  community=data.frame(t(rep(1,i))); colnames(community)=paste("sp",1:i)
+  shannon_effective[i,1]=i
+  shannon_effective[i,2]=exp(diversity(community,index="shannon")) }
+par(mfrow = c(1,2))
+plot(shannon_effective[,1],shannon_effective[,2],xlab="Riqueza de especies",
+ylab="Número efectivo de especies",main="N1 vs Riqueza")
+
+simpson_effective=matrix(ncol=2,nrow=1000)
+for(i in 1:1000) {
+  community=data.frame(t(rep(100,i))); colnames(community)=paste("sp",1:i)
+  simpson_effective[i,1]=i
+  simpson_effective[i,2]=1/(1-diversity(community,index="simpson")) }
+plot(simpson_effective[,1],simpson_effective[,2],xlab="Riqueza de especies",
+ylab="Número efectivo de especies",main="N2 vs Riqueza")
+```
+
+Esta forma de índice ($D$) es mucho más sencilla de interpretar y tienen un significado biológico. 
+
+## Perfiles de diversidad
+
+Finalmente, algunos autores prefieren usar perfiles de diversidad, que resultan de graficar diferentes órdenes de los número de Hill versus el valor del índice obtenido $D$. Recordemos que $D$ puede ser $N_0$, $N_1$, o $N_2$, pero también puede tomar cualquier valor dependiendo del orden. Por ejemplo, el la siguiente gráfica vemos que, cuando las abundancias entre especies es equitativa, el valor de $D$ no cambia para diferentes órdenes.
+
+```{r warning=FALSE, message=FALSE,echo=FALSE}
+community1=data.frame(t(rep(1,500))); colnames(community1)=paste("sp",1:500)
+community2=data.frame(t(c(rep(1,250)))); colnames(community2)=paste("sp",1:250)
+divprof=function(community) {
+  cbind(
+    seq(0,5,by=0.11),
+    unlist(lapply(seq(0,5,by=0.11),function(q) sum(apply(community,1,function(x) 
+       (x/sum(x))^q))^(1/(1-q))))) }
+
+community1.divprof=divprof(community1)
+par(mar = c(4,4,0.5,0.5), mfrow = c(1,1))
+plot(community1.divprof[,1],community1.divprof[,2],ylim=c(0,500),pch=16,cex=2,
+xlab="Orden (a)",ylab="Número efectivo de especies (D)")
+```
+
+Sin embargo, cuando la distribución de abundancias entre especies es desigual, cada orden de $D$ va a tomar diferentes valores:
+
+```{r warning=FALSE, message=FALSE,echo=FALSE}
+set.seed(9)
+community3=data.frame(t(sample(1:1000,500))); colnames(community3)=paste("sp",1:500)
+# Apply function `divprof` to this community
+community3.divprof=divprof(community3)
+
+par(mar = c(4,4,0.5,0.5), mfrow = c(1,1))
+plot(community3.divprof[,1],community3.divprof[,2],pch=16,cex=2,xlab="Orden (a)",
+ylab="Número efectivo de especies (D)")
+# Where q=0, diversity is species richness
+text(0.6,501,labels=c("N0"))
+points(community3.divprof[1,1],community3.divprof[1,2],col="red",pch=16,cex=2)
+# Where q=1, diversity is Shannon diversity
+text(2,exp(diversity(community3,index="shannon"))+5,labels=c("N1"))
+points(community3.divprof[10,1],community3.divprof[10,2],col="red",pch=16,cex=2)
+# Where q=2, diversity is Simpson diversity
+text(3.9,1/(1-diversity(community3,index="simpson"))-12,
+labels=c("N2"))
+points(community3.divprof[19,1],community3.divprof[19,2],col="red",pch=16,cex=2)
+```
+
+Con este tipo de perfiles, un investigador puede comparar dos comunidades y, en base a qué curva esta sobre otra, determinar cual es la comunidad más diversa (la comunidad con mayores valores de $D$ para diferentes órdenes de $a$ va a ser la más diversa).
+
+# Tipos de diversidad en el espacio
+
+Cualquier comunidad bajo estudio se le puede considerar una agregación de sub-comunidades, por lo tanto podemos estudiar la diversidad a diferentes escalas espaciales.
+
+## Diversidad alpha
+
+Se refiere a la diversidad de especies en sitios individuales (puntos de muestreo). Para calcularlos, se pueden emplear los índices de diversidad explicados en la sección anterior. 
+
+## Diversidad gamma
+
+Se refiere a la diversidad de especies en la región que estamos evaluando. Para calcularlos, se pueden emplear los índices de diversidad explicados en la sección anterior. 
+
+## Diversidad beta
+
+Define la variación en composición de especies entre sitios de muestreo. Su valor puede variar con la extensión del área, el tipo de sitios de muestreo, y el intervalo de estos sitios de muestreo. Normalmente esta divido en dos componentes:
+
+* *Turnover*: Substitución de especies en un sitio por otras especies en otro sitio.
+* *Pérdida o ganancia de especies*: eliminación o adición de especies en solo uno de los sitios.
+
+Se ha propuesto que estos tipos de diversidad tienen una relación multiplicativa:
+
+\begin{equation} 
+  \label{eq:20}
+  N_{\alpha}N_{\beta} = N_{\gamma}
+\end{equation}
+
+Por lo tanto, a partir de la ecuación \ref{eq:20} vemos que cuando $N_{\beta}$ se acerca a 1 (su mínimo valor), $N_{\alpha}$ y $N_{\gamma}$ son iguales, por lo que todos los sitios de muestreo tienen las mismas especies. En cambio, si $N_{\beta}$ toma un valor muy alto quiere decir que la diferencia en la composición de especies entre sitios de muestreos es muy alta y eso es el principal contribuyente a que $N_{\gamma}$ sea alto. En la siguiente gráfica se muestra un resumen de estos tipos de diversidad y como pueden ser calculados a partir de la base de datos [@legendre_numerical_2012].
+
+![Tipos de diversidad y como son calculados.](Diversity_types.png)
+
+# Curvas de abundancia de especies (RAD)
+
+Este tipo de gráficas se utilizan para observar la dominancia de especies y el número de especies que existe en un sitio de muestreo o en la comunidad en general. Existen diversos motivos por los cuales una curva RAD puede ser diferente para diferentes comunidades o diferentes tiempos, los cuales se resumen en la siguiente gráfica [@avolio_comprehensive_2019]. 
+
+![Tipos de diversidad y como son calculados.](RAD_plot.png)
+
+Como observamos, podemos obtener información sobre cambios en la equitabilidad, el número de especies, ganancia o pérdida de algunas especies, y cambios en las especies dominantes. Curvas RAD se han aplicado en diversos campos como la ecología del disturbio, localización de hotspots, análisis de gradientes ambientales, y en el análisis de la estructura de la comunidad [@matthews_fitting_nodate]. 
+
+Algunos autores han intentado modelar la tendencia observada en una curva RAD, por lo que se han propuesto diferentes modelos [@wilson_methods_1991].
+
+## Modelo lognormal general
+
+Basado puramente en estadística.
+
+\begin{equation} 
+  \label{eq:21}
+  y=h exp(-\frac{(\bar{logA}-logA)^2}{2\sigma ^2})
+\end{equation}
+
+Donde:
+
+* $logA$ es el logaritmo natural de la abundancia total ($A$).
+* $y$ es la frecuencia de la abundancia $logA$
+* $h$ es la frecuencia en la moda
+* $\bar{logA}$ es la media ajustada de $logA$
+* $\sigma$ es la desviación estándar de $logA$
+
+Además:
+
+\begin{equation} 
+  \label{eq:22}
+  logA_i=\bar{logA}+\sigma \phi ^{-1}\frac{q-i+0.5}{S}
+\end{equation}
+
+Donde $i$ hace referencia a diferentes especies y $\phi ^{-1}$ es la función de distribución normal acumulada inversa.
+
+## Modelo geométrico
+
+Tiene un significado ecológico, basado en que las especies más exitosas toman la fracción $k$ de los recursos y por lo tanto la fracción $k$ de la abundancia total observada.
+
+\begin{equation} 
+  \label{eq:23}
+  A_i=A_1k^{i-1}
+\end{equation}
+
+Donde $k$ es una constante y $A_1$ es la abundancia ajustada de la especie más abundante.
+
+## Modelo Broken Stick (nulo)
+
+Basado en que las abundancias reflejan la partición de recursos entre especies que compiten. 
+
+\begin{equation} 
+  \label{eq:24}
+  A_i=\bar{A}\sum_{i=1}^{q}\frac{1}{i}
+\end{equation}
+
+Donde $bar{A}$ representa la abundancia media de todas las especies.
+
+## Modelo Zipf-Mandelbrot
+
+Tiene su origen en sistemas de información y su base biológica esta relacionada a la facilidad de especies a colonizar cierta área. El modelo Zipf viene dado por:
+
+\begin{equation} 
+  \label{eq:25}
+  A_i=A_1 i^{-\gamma}
+\end{equation}
+
+Donde $\gamma$ representa una constante (probabilidad media de la aparición de una especie). $\gamma$ generalmente describe la pendiente de la curva, por lo que valores que se alejan de 0 significa que la dominancia de pocas especies es alta.
+
+Esta ecuación \ref{eq:25} tiene una extensión (Zipf-Mandelbrot):
+
+\begin{equation} 
+  \label{eq:26}
+  A_i=A_1 (i+\beta)^{-\gamma}
+\end{equation}
+
+Donde $\beta$ representa la diversidad potencial del ambiente. Un valor positivo de $\beta$ representa una mayor equitabilidad entre las especies más abundantes. 
+
+# Transformación de datos
+
+La tranformación de datos tiene por finalidad cambiar la diferencia relativa entre valores individuales y, por lo tanto, su distribución. Por ejemplo, podríamos querer transformar los datos cuando queremos realizar un análisis que nos pide una distribución cercana a la normal, o cuando queremos reducir el efecto de outliers. En algunos casos, la gran diferencia en abundancia entre especies o la gran cantidad de ceros presentes en una base de datos es consecuencia de la alta variabilidad ambiental (i.e. gradientes ambientales) que puede existir en la zona de estudio.
+
+Existen técnicas bastante comunes para transformar datos, tales como obtener el logaritmo de la variable $log(y+c)$, donde $c$ representa una constante normalmente asumida ser 1. Este tipo de transformación es útil cuando tenemos una distribución altamente sesgada hacia la derecha (alta abundancia de valores ceros o muy pequeños). Por otro lado, otra transformación bastante usada es $\sqrt{y}$, la cual es útil cuando tenemos una distribución ligeramente sesgada hacia la derecha.
+
+![Ejemplo de dos transformaciones altamente utilizadas. Imagen original de David Zeleny.](transformations.jpg)
+
+Otro tipo de transformaciones es llamada *estandarización*, la cual normalmente se aplica a variables ambientales para eliminar el efecto de distintas unidades. Existen dos principales métodos de estandarización:
+
+1. Centrar los datos:
+
+\begin{equation} 
+  \label{eq:26_1}
+  y'=y-\bar{y}
+\end{equation}
+
+2. Z-scores:
+
+\begin{equation} 
+  \label{eq:26_2}
+  y'=\frac{y-\bar{y}}{s_y}
+\end{equation}
+
+Donde $s_y$ representa la desviación estándar de la variable de interés $y$. 
+
+Para el caso en específico de datos de comunidad, podemos aplicar métodos de estandarización por *species* o por *sitios de muestreo*, y si elegir uno u otro debe depender del objetivo de estudio. Por ejemplo estandarizar por especies, lo cual dará igual importancia a especies raras y a especies muy abundantes. 
+
+En esta sección queremos prestar especial atención a transformaciones con un significado ecológico, lo cual mejora la efectividad de muchos análisis en ecología de comunidades que representen relaciones ecológicas (e.g. PCA, RDA). Este tipo de transformaciones nos dan la ventaja que los resultados obtenidos después de cierto análisis pueden ser interpretados directamente y no re-transformados [@legendre_ecologically_2001]. Se tocará más de este tema en la siguiente sesión.
+
+Para las siguientes transformaciones, $y_{ij}$ representa los valores (índice de abundancia) que conforman en la matriz $Y$, donde las filas son los sitios de muestreos y las columnas las especies o taxones [@legendre_ecologically_2001].
+
+## Chord
+
+Los datos son transformados en un vector de tamaño 1. Esta transformación preserva la distancia euclidiana y la matriz de datos transformada puede ser utilizada en un Análisis de componentes principales (PCA) o Análisis de redundancia (RDA). La transformación esta dada por:
+
+\begin{equation} 
+  \label{eq:27}
+  y^{'}_{ij} = \frac{y_{ij}}{\sqrt{\sum_{j}y_{ij}^2}}
+\end{equation}
+
+## Perfil de especies
+
+Valores de la matriz $Y$ son transformados en perfiles de abundancia relativa de especies. En general, no es la que brinda mejores resultados [@legendre_ecologically_2001]. 
+
+\begin{equation} 
+  \label{eq:28}
+  y^{'}_{ij} = \frac{y_{ij}}{y_{i+}}
+\end{equation}
+
+Donde $y_{i+}$ representa la suma por filas (es un vector).
+
+## Hellinger
+
+Esta transformación preserva la distancia euclidiana y puede ser utilizada para datos binarios también. Hay evidencias que es la mejor en el sentido estadístico.
+
+\begin{equation} 
+  \label{eq:29}
+  y^{'}_{ij} = \sqrt{\frac{y_{ij}}{y_{i+}}}
+\end{equation}
+
+## Chi-cuadrado
+
+Transformación más compleja que la de perfil de especies. Reduce el valor de especies abundantes más que de especies raras, por lo que da mayor peso a especies raras. 
+
+\begin{equation} 
+  \label{eq:30}
+  y^{'}_{ij} = \sqrt{y_{++}}\frac{y_{ij}}{y_{i+}\sqrt{y_{+j}}}
+\end{equation}
+
+Donde $y_{++}$ representa la suma por filas y columnas (es un valor).
+
+# Aplicaciones con R
+
+En esta sección vamos a usar el lenguaje de programación R para aplicar algunos de los conceptos discutidos. Antes de todo, es necesario que los códigos de la primera sesión sean corridos, ya que usaremos objetos creados en ese código. 
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+# Cargar librerias:
+require(reshape2)
+require(vegan)
+require(maps)
+require(mapdata)
+
+# Leer los datos:
+ebsdata = read.csv('data/ebsdata.csv')
+
+# Vamos 'depurar' la base de datos: eliminemos algunas especies:
+ebsdata_new = ebsdata[!(ebsdata$SCIENTIFIC %in% c('', 'Buccinum sp. egg', 'Nematoda')), ]
+
+# Que hay acerca de las especies raras?
+spe_abun = aggregate(x = ebsdata_new$WTCPUE, list(species = ebsdata_new$SCIENTIFIC), FUN = mean)
+
+# Ordenar por abundancia:
+spe_abun = spe_abun[order(spe_abun$x, decreasing = TRUE), ]
+
+# Eliminamos las especies 'raras'?:
+# Veamos el porcentaje de cada especie:
+spe_abun$cum_porc = cumsum(spe_abun$x/sum(spe_abun$x))
+
+# Especies seleccionadas: (excluimos el 1% mas raro)
+spe_abun = spe_abun[spe_abun$cum_porc < 0.99, ]
+
+# Excluyamos a estas especies por el momento
+ebsdata_new = ebsdata_new[ebsdata_new$SCIENTIFIC %in% spe_abun$species, ]
+
+# Seleccionemos solo un anio = 2017
+ebs_year = ebsdata_new[ebsdata_new$YEAR == 2017, ]
+
+# Encontremos el lan lot de cada estacion (usaremos luego):
+station_data = aggregate(ebs_year$STATION, list(lon = ebs_year$LONGITUDE, 
+                                           lat = ebs_year$LATITUDE), unique)
+colnames(station_data)[3] = 'station'
+```
+
+Cargamos las librerías que vamos a utilizar
+```{r warning=FALSE, message=FALSE}
+require(BiodiversityR)
+require(ggplot2)
+require(gridExtra)
+```
+
+Ahora vamos a obtejer la matriz de diversidad $Y$ para el año 2005
+```{r warning=FALSE, message=FALSE}
+bio_2005 = acast(data = ebsdata_new[ebsdata_new$YEAR == 2005, ], formula = STATION ~ SCIENTIFIC, fun.aggregate = mean, value.var = 'WTCPUE')
+```
+
+Observamos las dimensiones
+```{r warning=FALSE, message=FALSE}
+dim(bio_2005)
+```
+
+Estos números son las estaciones (filas) y las especies (columnas). En algunas celdas vamos a observar `NaN`, lo cual significa que no existen datos, por lo que reemplazamos con ceros (esto significa ausencias, lo cual es correcto para esta base de datos)
+```{r warning=FALSE, message=FALSE}
+bio_2005[is.nan(bio_2005)] = 0
+```
+
+Ahora vamos a realizar una gráfica para observar las especies dominantes en términos de abundancia (índice de biomasa en este caso `WTCPUE`)
+```{r warning=FALSE, message=FALSE}
+RankAbun_2005 = rankabundance(bio_2005)
+rankabunplot(RankAbun_2005, scale='abundance', addit=FALSE, specnames=c(1,2,3))
+```
+
+Ahora vamos a calcular diferentes índices de diversidad por estación (diversidad alpha)
+```{r warning=FALSE, message=FALSE}
+# Estimar riqueza por estacion
+S_station = specnumber(x = bio_2005)
+# Estimar Shannon Index por estacion
+H_station = diversity(x = bio_2005, index = 'shannon')
+# Estimar Simpson Index por estacion
+GiniSimp_station = diversity(x = bio_2005, index = 'simpson')
+DomiSimp_station = diversity(x = bio_2005, index = 'invsimpson')
+# Equitabilidad: Pielou
+J_station = H_station/log(S_station)
+```
+
+¿Cómo podemos pasar de estos índices estimados al número efectivo de especies $D$? Prestar atención a las ecuaciones definidas anteriormente y el `help` de cada función R utilizada.
+
+Ahora vamos a hacer una gráfica para observar como los índices estimados por estación se distribuyen en el espacio
+```{r warning=FALSE, message=FALSE}
+# Ordenando la base de datos para hacer el grafico
+station_data$S = S_station[match(station_data$station, names(S_station))]
+station_data$H = H_station[match(station_data$station, names(H_station))]
+station_data$GiniSimp = GiniSimp_station[match(station_data$station, names(GiniSimp_station))]
+# Usint the melt function in reshape2:
+station_data_ind = melt(station_data, id = c('lon', 'lat', 'station'))
+# Estamos listo para plotear los mapas usando ggplot2:
+p1 = ggplot(station_data_ind[station_data_ind$variable == 'S', ], aes(x=lon, y=lat)) +
+  geom_point(aes(color=value), size =2) +
+  scale_color_gradient(low = "blue", high = "red", name = 'S') +
+  theme_bw() 
+p2 = ggplot(station_data_ind[station_data_ind$variable == 'H', ], aes(x=lon, y=lat)) +
+  geom_point(aes(color=value), size =2) +
+  scale_color_gradient(low = "blue", high = "red", name = 'H') +
+  theme_bw() 
+p3 = ggplot(station_data_ind[station_data_ind$variable == 'GiniSimp', ], aes(x=lon, y=lat)) +
+  geom_point(aes(color=value), size =2) +
+  scale_color_gradient(low = "blue", high = "red", name = 'Gin-Sim') +
+  theme_bw() 
+# Final plot:
+grid.arrange(p1, p2, p3, ncol = 2)
+```
+
+¿Qué patrones observas? ¿Por qué estos patrones son distintos? Recordemos que el índice de Simpson da menor importancia a las especies raras, por lo que es más difícil encontrar hotspots de especies como en el mapa de riqueza de especies.
+
+Ahora vamos a realizar gráficos de curvas RAD. Para este caso vamos a hacerlo para una sola estación, sin embargo también puede realizarse para la comunidad completa calculando el vector `colMeans(bio_2005)`. También se recomienda ver el `help` de la funciones presentadas a continuación, ya que algunos modelos pueden estar parametrizados ligeramente diferente a las ecuaciones presentadas anteriormente
+```{r warning=FALSE, message=FALSE}
+rad.lognormal(bio_2005[1,], family = gaussian) # Lognormal
+rad.preempt(bio_2005[1,], family = gaussian)# Geometrico
+rad.null(bio_2005[1,], family = gaussian) #Broken-Stick
+rad.zipf(bio_2005[1,], family = gaussian) # Zipf
+rad.zipfbrot(bio_2005[1,], family = gaussian) # Zipf-Mandelbrot
+```
+
+La `family` escogida tiene que ser en base al tipo de variable que se tiene. Usar `Poisson` cuando se tengan datos de conteos, y otra distribución para variables continuas cuando se tengan biomasas o densidades. Se recomienda usar una distribución `Gamma` cuando se tienen datos de frecuencias.
+
+Vamos a fijar todos los modelos usando una sola función y graficar los resultados
+```{r warning=FALSE, message=FALSE}
+mod = radfit(bio_2005[1,], family = Gamma) # Intentemos otra distribucion
+radlattice(mod)
+```
+
+Finalmente, vamos a explorar la función `decostand` que nos sirve para hacer las tranformaciones presentadas
+```{r warning=FALSE, message=FALSE}
+bio_pa = decostand(x = bio_2005, method = 'pa') # Datos binarios (presencia/ausencia)
+bio_tot = decostand(x = bio_2005, method = 'total') # Perfil de especies
+bio_chi = decostand(x = bio_2005, method = 'chi.square') # Chi-cuadrado
+bio_hell = decostand(x = bio_2005, method = 'hellinger') # Hellinger
+bio_norm = decostand(x = bio_2005, method = 'norm') # Chord
+```
+
+# Referencias

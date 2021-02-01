@@ -15,7 +15,7 @@ links:
 - icon: laptop-code
   icon_pack: fas
   name: Lab 2
-  url: /labs/ACR/00-install_name_plot.html
+  url: /labs/ACR/ACR_Manual_2.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 3
@@ -27,6 +27,10 @@ links:
 - icon: laptop-code
   icon_pack: fas
   name: Lab 5
+  url: /labs/ACR/00-install_name_plot.html
+- icon: laptop-code
+  icon_pack: fas
+  name: Lab 6
   url: /labs/ACR/00-install_name_plot.html
 projects: []
 subtitle: Common statistical techniques used in community ecology.
