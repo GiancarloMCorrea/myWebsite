@@ -11,23 +11,23 @@ links:
 - icon: laptop-code
   icon_pack: fas
   name: Lab 1
-  url: /labs/ADE/ACR_Manual_1.html
+  url: /labs/ACR/ACR_Manual_1.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 2
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ACR/00-install_name_plot.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 3
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ACR/00-install_name_plot.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 4
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ACR/00-install_name_plot.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 5
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ACR/00-install_name_plot.html
 projects: []
 subtitle: Técnicas estadísticas más utilizadas en el campo de la ecología de comunidades.
 summary: Técnicas estadísticas más utilizadas en el campo de la ecología de comunidades.

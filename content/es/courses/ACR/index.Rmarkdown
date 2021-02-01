@@ -27,23 +27,23 @@ links:
 - icon: laptop-code
   icon_pack: fas
   name: Lab 1
-  url: /labs/ADE/ACR_Manual_1.html
+  url: /labs/ACR/ACR_Manual_1.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 2
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ACR/00-install_name_plot.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 3
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ACR/00-install_name_plot.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 4
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ACR/00-install_name_plot.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 5
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ACR/00-install_name_plot.html
 ---
 
 Este curso explora los métodos estadísticos más utilizados en el campo de la ecología de comunidades, y utiliza el lenguaje de programación R para aplicaciones. Este curso tiene un componente teórico importante ya que describimos la base de cada método presentado. El curso es normalmente organizado por **Cousteau Consultant Group** y programado a ser impartido en seis días, tres horas por días. En esta página podrás encontrar un resumen de los principales tópicos discutidos en el curso, así como los códigos en R desarrollados. *Paola Galloso* ha contribuido con la mayor parte del material presentado en este curso.
