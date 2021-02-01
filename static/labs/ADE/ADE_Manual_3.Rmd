@@ -1,0 +1,642 @@
+---
+title: 'Lab 03'
+author: "Giancarlo M. Correa"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+En este manual veremos los aspectos básicos de una regresión lineal, quizá el análisis estadístico más utilizado en ecología. 
+
+Una regresión lineal simple establece una relación lineal entre dos variables, donde la ecuación que la define es:
+
+$y=\alpha +\beta x+\epsilon$
+
+Donde:
+
+* $y$ es la variable respuesta o dependiente.
+* $x$ es la variable independiente o predictora.
+* $\alpha$ es el intercepto y describe el valor que toma $y$ cuando $x$ es igual a cero. Normalmente carece de significado ecológico, por lo que nos centraremos en $\beta$.
+* $\beta$ es la pendiente. Describe en cuantas unidades aumenta $y$ cuando $x$ aumenta en una unidad.
+* $\epsilon$ es el error y sigue una distribución normal $N(0,\sigma ^2)$. Representa la varianza de la variable $y$ para un valor de $x$.
+
+Para entender mejor el error (también conocido como residuales), podemos decir que para cierto valor de $x$, el correspondiente valor de $y$ va a estar distribuido con media $\alpha + \beta x$ y con varianza $\sigma ^2$. Mientras $\sigma ^2$ sea mas grande, el ajuste de la línea de regresión será peor. 
+
+Si $\beta >0$, entonces las variables $x$ e $y$ tienen una relación positiva, si $\beta <0$, entonces las variables $x$ e $y$ tienen una relación negativa, y si $\beta =0$, entonces las variables $x$ e $y$ no están relacionadas.
+
+```{r reglin, fig.align = 'center', out.width = "75%", fig.cap = "Regresión lineal simple. Línea roja es la línea de regresión y las líneas azules es el intervalo de confianza. Puntos son observaciones.", echo = FALSE}
+knitr::include_graphics(here::here("RegresionLineal.jpg"))
+```
+
+## Ajuste de una línea de regresión simple
+
+Normalmente se realiza por el método de mínimos cuadrados. Si asumimos:
+
+$S=\sum_{i=1}^n d_i^2$
+
+Donde $d_i$ es la distancia entre observaciones $(x_i, y_i)$ y puntos sobre la línea de regresión $(x_i,\hat{y_i})$. Entonces, el objetivo es minimizar $S$.
+
+Asumamos que $a$ y $b$ son los mejores estimados que podemos obtener para $\alpha$ y $\beta$, entonces:
+
+$\hat{y_i} = a+bx_i$
+
+Vamos a realizar paso a paso el ajuste de una línea de regresión simple. Definamos los siguientes términos:
+
+$L_{xx}=\sum_{i=1}^n(x_i-\bar{x})^2$
+
+$L_{yy}=\sum_{i=1}^n(y_i-\bar{y})^2$
+
+Estos son la suma de cuadrados corregidos. Ahora:
+
+$L_{xy}=\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})$
+
+Esta es la suma de productos cruzados corregidos. Nos damos cuenta que cuando $L_{xy}$ es positivo, entonces $\beta >0$, y cuando $L_{xy}$ es negativo, entonces $\beta <0$.
+
+Se puede probar (dejaremos la prueba de esto para una clase de estadística) que las siguientes estimaciones minimizan la suma de cuadrados de los residuales:
+
+$b=\frac{L_{xy}}{L_{xx}}$
+
+$a=\bar{y}-b\bar{x}$
+
+Donde $\bar{y}$ y $\bar{x}$ representa la media de los valores de $y$ y $x$, respectivamente. Con estos valores, podemos obtener los predichos:
+
+$\hat{y}=a+bx$
+
+Vemos que el punto $(x,a+bx)$ debe estar siempre sobre la línea de regresión. Ahora, vemos que:
+
+$y=a+bx = \bar{y}-b\bar{x}+bx=\bar{y}+b(x-\bar{x})$
+
+Entonces:
+
+$y-\bar{y}=b(x-\bar{x})$
+
+Podemos identificar dos componentes en la línea de regresión:
+
+1. Componente residual: $y_i - \hat{y_i}$
+2. Componente de regresión: $\hat{y_i}-\bar{y}$
+
+Para tener un buen ajuste, siempre esperamos que el componente residual sea menor que el componente de regresión. Ahora definamos tres suma de cuadrados:
+
+1. Suma de cuadrados total ($TSS$): $\sum_{i=1}^n(y_i - \bar{y})^2$
+2. Suma de cuadrados de la regresión ($RSS$): $\sum_{i=1}^n(\hat{y_i} - \bar{y})^2$
+3. Suma de cuadrados de los residuos ($ESS$): $\sum_{i=1}^n(y_i - \hat{y})^2$
+
+Y vemos que se cumple que $TSS = RSS + ESS$.
+
+### Prueba F
+
+Podemos implementar una prueba F con $RSS$ y $ESS$. Aquí $H_0: \beta = 0$ y $H_A:\beta \neq 0$, y el estadístico es:
+
+$F = \frac{RMS}{EMS}$,
+
+Donde $RMS=RSS/k$, y $k$ es el número de variables independientes. Además, $EMS =ESS/(n-k-1)$, y $n$ es el número de observaciones.
+
+En este caso, para un nivel de significancia $\alpha$:
+
+* $F>F_{1,n-2,1-\alpha}$ rechazamos $H_0$
+* $F \leq F_{1,n-2,1-\alpha}$, entonces fallamos en rechazar $H_0$
+
+### One-way ANOVA
+
+Esta es una prueba de hipótesis que se utiliza cuando se quiere comparar la media de alguna variable entre diferentes grupos o tratamientos. Se asume que la distribución por tratamiento de esta variable tiene una distribución normal y las mismas varianzas. 
+
+*Ejemplo*: Se tiene la variable longitud total de una muestra de peces que han sido sometidas a tres tratamientos de temperatura: baja, media, alta (3 tratamientos o grupos). La pregunta que se quiere responder con un ANOVA es si las medias de longitud total entre estos grupos es estadísticamente diferente o no. $H_0: \mu_1=\mu_2=...=\mu_k$ y $H_A: \mu_1\neq\mu_2\neq...\neq\mu_k$.
+
+El procedimiento para realizar esta prueba de hipótesis es similar a la que acaba de ser descrita con la prueba F. 
+
+### Prueba t
+
+Esta es una prueba alternativa a la prueba F. Aquí también: $H_0:\beta =0$ y $H_0:\beta \neq0$. El estadístico es:
+
+$t = \frac{b}{(EMS/L_{xx})^2}$
+
+Para un nivel de significancia de $\alpha$:
+
+* $t>t_{n-2,1-\alpha/2}$, rechazamos $H_0$
+* $-t_{n-2,1-\alpha /2} \leq t\leq t_{n-2,1-\alpha /2}$, entonces fallamos en rechazar $H_0$.
+
+Los resultados de esta prueba t es la que observamos para cada parámetro cuando hacemos `summary(modelo)`, donde `modelo` representa la regresión lineal en R.
+
+También podemos definir $R^2$, un indicador muy utilizado en una regresión lineal que da información acerca de la bondad de ajuste del modelo. Es la proporción de la varianza de $y$ que es explicada por $x$.
+
+$R^2=\frac{RSS}{TSS}$
+
+Donde $R^2$ toma valores entre 0 y 1.
+
+El error estándar (una medida que nos dice que tan lejos están los parámetros estimados del valor real en la población) de los parámetros:
+
+$se(b)=\sqrt{\frac{EMS}{L_{xx}}}$
+
+$se(a)=\sqrt{EMS(\frac{1}{n}+\frac{\bar{x}^2}{L_{xx}})}$
+
+Donde los intervalos de confianza para los parámetros estimados son:
+
+$b \pm t_{n-2,1-\alpha /2}se(b)$
+
+$a \pm t_{n-2,1-\alpha /2}se(a)$
+
+Los intervalos de confianza (al $100(1-\alpha)\%$) para los valores sobre la línea de regresión estimada:
+
+$se_1(\hat{y}) = \sqrt{EMS[\frac{1}{n}+\frac{(x-\bar{x})^2}{L_{xx}}]}$
+
+$\hat{y} \pm t_{n-2,1-\alpha /2}se_1(\hat{y})$
+
+
+Los intervalos de predicción (para valores que no fueron tomados al momento de hacer la regresión, es decir, valores de $x$ donde se quiere predecir $y$) es (al $100(1-\alpha)\%$):
+
+$se_2(\hat{y})=\sqrt{EMS[1+\frac{1}{n}+\frac{(x-\bar{x})^2}{L_{xx}}]}$
+
+$\hat{y} \pm t_{n-2,1-\alpha /2}se_2(\hat{y})$
+
+Es importante mencionar que los intervalos de predicción no son los mismos que los intervalos de confianza. Los intervalos de predicción define el rango en que un nuevo individuo (o valor de $x$) donde caerá. Por otro lado, el intervalo de confianza define el rango probable de valores asociados con los parámetros del modelo.
+
+
+### Supuestos de una regresión lineal
+
+Existen tres supuestos importante que debemos tomar en cuenta al momento de hacer una regresión lineal:
+
+1. Para cualquier valor de $x$, el valor correspondiente de $y$ tiene un valor promedio $\alpha + \beta x$, la cual es una función lineal de $x$.
+2. Para cualquier valor de $x$, el valor correspondiente de $y$ esta normalmente distribuido alrededor de $\alpha + \beta x$ con la misma varianza $\sigma ^2$ para cualquier $x$.
+3. Para dos puntos cualquiera $(x_1,y_1)$, $(x_2,y_2)$, los términos de error $\epsilon_1, \epsilon_2$ son independientes uno del otro.
+
+```{r warning=FALSE, message=FALSE}
+#Vamos a observar paso a paso como obtenemos todos los valores que
+# acabamos de describir
+
+# Activamos las librerias que vamos a utilizar
+require(e1071)
+require(MASS)
+require(pracma)
+require(maps)
+require(mapdata)
+require(corrplot)
+require(PerformanceAnalytics)
+require(ggplot2)
+require(dplyr)
+
+# Simular datos:
+set.seed(100)
+x = runif(100)
+n = length(x)
+y = 3*x+2+0.5*rnorm(n)
+
+# Observemos lo que hemos simulado:
+plot(x, y)
+
+# Veamos la distribucion de la variable respuesta:
+hist(y)
+
+
+# Comenzemos a calcular los parametros paso por paso:
+var_x = var(x)
+var_y = var(y)
+
+cov_xy = cov(x,y)
+
+sd_x = sd(x)
+sd_y = sd(y)
+
+Lxx = sum((x-mean(x))^2)
+Lyy = sum((y-mean(y))^2)
+Lxy = sum((x-mean(x))*(y-mean(y)))
+
+# Calculemos la pendiente y intercepto:
+slope = Lxy/Lxx # pendiente
+intercept = mean(y)-slope*mean(x) # intercepto
+
+# Predicciones:
+y_pred = intercept + slope*x
+
+# Calcular residuales:
+res = y - y_pred
+
+# calculamos TSS:
+tss = sum((y-mean(y))^2)
+
+# Calcular RSS: (componente de regresion)
+rss = sum((y_pred-mean(y))^2)
+
+# Calcular ESS: (componente residual)
+ess = sum(res^2)
+
+k = 1 # Numero de variables independientes
+# Calcular RMS:
+rms = rss/k
+
+# Calcular EMS:
+ems = ess/(n-k-1)
+
+# Corremos prueba F para evaluar la pendiente
+# Pendiente de referencia:
+beta_0 = 0 # H0: Beta = 0
+
+# Estadistico:
+F_stat = rms/ems
+
+# Encontramos valor critico
+critical_value = qf(p = 1-0.05, df1 = k, df2 = n-k-1)
+
+F_stat > critical_value # Rechazamos la hipotesis nula?
+
+# Calculamos el p-value:
+p_value = 1 - pf(q = F_stat, df1 = k, df2 = n-k-1) # acumulada (p-value)
+
+# --------------
+# Error estandar de pendiente
+se_slope = sqrt(ems/Lxx)
+
+# Error estandar de intercepto
+se_intercept = sqrt(ems*(1/n + (mean(x)^2)/Lxx))
+
+
+# Corremos prueba t para evaluar la pendiente (metodo alternativo)
+# Pendiente de referencia:
+beta_0 = 0 # H0: Beta = 0
+
+# Estadistico:
+t_stat_slope = (slope-beta_0)/se_slope
+
+# Encontramos valor critico
+critical_value = qt(p = 1-0.05/2, df = n-k-1)
+
+abs(t_stat_slope) > critical_value # Rechazamos la hipotesis nula?
+
+# Calculamos el p-value:
+p_value = 2*(1-pt(q = t_stat_slope, df = n-k-1)) # acumulada (p-value)
+
+# De igual forma lo podemos hacer para el intercepto
+# Pendiente de referencia:
+intercept_0 = 0 # H0: Alpha = 0
+
+# Estadistico:
+t_stat_int = (intercept-intercept_0)/se_intercept
+
+# Encontramos valor critico
+critical_value = qt(p = 1-0.05/2, df = n-k-1)
+
+abs(t_stat_int) > critical_value # Rechazamos la hipotesis nula?
+
+# Calculamos el p-value:
+p_value = 2*(1-pt(q = t_stat_int, df = n-k-1)) # acumulada (p-value)
+
+# Tambien podemos calcular los CI de los parametros estimados:
+# CI de la pendiente:
+slope - qt(p = 1 - 0.05/2, df = n-k-1)*se_slope # limite inferior
+slope + qt(p = 1 - 0.05/2, df = n-k-1)*se_slope # limite superior
+
+# CI de la intercepto:
+intercept - qt(p = 1 - 0.05/2, df = n-k-1)*se_intercept # limite inferior
+intercept + qt(p = 1 - 0.05/2, df = n-k-1)*se_intercept # limite superior
+
+# Terminamos con la prueba de hipotesis
+
+# Calculamos R2
+R_sq = rss/tss
+
+# Correlacion:
+r = cov_xy/(sd_x*sd_y)
+r^2 # Debe darnos R_sq
+
+# Tambien podemos calcular R_sq ajustado:
+r_adj = sqrt(1-((1-r^2)*(n-1)/(n-2)))
+Rsq_adj = r_adj^2
+
+# Ahora calculamos el CI de los valores y usados en la regresion
+se1_y_pred = sqrt(ems*((1/n)+((x-mean(x))^2)/Lxx))
+y_up = y_pred + qt(p = 1-0.05/2, df = n-k-1)*se1_y_pred
+y_low = y_pred - qt(p = 1-0.05/2, df = n-k-1)*se1_y_pred
+
+# Hacemos una figura para observar CI
+plot(x,y,main='Regresión lineal simple')
+lines(sort(x),y_pred[order(x)], col = 'red')
+lines(sort(x),y_up[order(x)],lty=2, col = 'blue')
+lines(sort(x),y_low[order(x)],lty=2, col = 'blue')
+
+# Ahora calculamos el error estandar de los valores y
+# predichos basados en NUEVOS valores x (intervalos de prediccion)
+preddata = data.frame(x = seq(from = 0, to = 1, by = 0.1))
+se2_y_pred = sqrt(ems*(1+(1/n)+((preddata$x-mean(x))^2)/Lxx))
+y_new_pred = intercept + slope*preddata$x
+y_up_pred = y_new_pred + qt(p = 1-0.05/2, df = n-k-1)*se2_y_pred
+y_low_pred = y_new_pred - qt(p = 1-0.05/2, df = n-k-1)*se2_y_pred
+
+# Observemos intervalos de confianza y prediccion juntos:
+plot(x,y,main='Intervalo de prediccion anadido')
+lines(sort(x),y_pred[order(x)], col = 'red')
+lines(sort(x),y_up[order(x)],lty=2, col = 'blue')
+lines(sort(x),y_low[order(x)],lty=2, col = 'blue')
+lines(preddata$x,y_up_pred,lty=2, col = 'green')
+lines(preddata$x,y_low_pred,lty=2, col = 'green')
+```
+
+
+Lo mismo que hemos hecho hasta el momento, lo podemos obtener usando la función `lm`:
+```{r warning=FALSE, message=FALSE}
+# Ahora usamos la funcion implementada en R para hacer exactamente 
+# lo mismo que hemos hecho paso a paso:
+lm1 = lm(y~x)
+summary(lm1)
+anova(lm1) # Prueba F
+predict(lm1, se.fit = TRUE) # arroja error estandar 
+
+# Calculamos los valores predichos con nuevos valores de x:
+predict(lm1, newdata = preddata, interval = 'predict')
+
+# Observemos algunas figuras para analizar las asunciones de este metodo
+opar = par(mfrow=c(2,2)) # panel 2 por 2
+plot(lm1)
+par(opar) # vuelve a la configuracion de plot inicial
+
+# Como interpretamos estos resultados?:
+# Intercepto: cuando y toma un valor de 0, que valor toma x?
+# Pendiente: cada unidad en incremento en x, cuanto crece (o decrece) y
+```
+
+### Caso de estudio 
+
+#### Datos de salmones en el Pacífico norte
+
+Vamos a implementar algunas regresiones lineales, donde la variable respuesta es la productividad de un stock de salmón y las variables independientes son la biomasa de desovantes y temperatura. 
+
+```{r warning=FALSE, message=FALSE}
+# Iniciamos con datos aplicados:
+chum = read.csv('data/coastwide_chum_data.csv')
+
+# Elegir solo los datos que necesitamos:
+stock1 = chum[chum$stock=='SE-SC AKPen',c('stock','entry.yr','spawners','recruits','ln.rs',
+                                         'loc.sst','w.sst.1','w.sst.2','npgo2','npgo','pdo2','pdo','long','lat')]
+head(stock1)
+
+# Exploremos que datos tenemos en el mapa:
+plot(-stock1$long,stock1$lat,
+     ylab='lat',
+     xlab='lon',
+     ylim=range(chum$lat),
+     xlim=range(-chum$long),
+     pch=16,main='Chum salmon',col='red',cex=2)
+map("world", fill=T, col="lightblue4", add=T)
+
+# Vamos a implementar muchos modelos lineales:
+# La variable Y sera ln.rs (indicador de productividad)
+lm_0 = lm(ln.rs ~ spawners, data=stock1)
+lm_pdo = lm(ln.rs ~ spawners + pdo, data=stock1)
+lm_loc_sst = lm(ln.rs ~ spawners + loc.sst, data=stock1)
+
+# Hagamos resumen de algunos modelos
+summary(lm_0)
+summary(lm_pdo)
+summary(lm_loc_sst)
+
+# Observemos algunas figuras para analizar las asunciones de este metodo
+opar = par(mfrow=c(2,2)) # panel 2 por 2
+plot(lm_0)
+plot(lm_pdo)
+plot(lm_loc_sst)
+par(opar) # vuelve a la configuracion de plot inicial
+
+# Podemos utilizar un indicador para comparar modelos:
+AIC(lm_0, lm_pdo, lm_loc_sst) # elegimos el valor mas bajo
+```
+
+#### Datos de dieta de aves
+
+Vamos a implementar una regresión lineal donde tendremos que tranformar la variable para que los supuestos se cumplan.
+
+```{r warning=FALSE, message=FALSE}
+# Leemos los datos:
+bird = read.csv("data/birdsdiet.csv") 
+head(bird)
+
+# Resumen rapido de mi base de datos
+summary(bird) 
+
+# Exploremos las variables que queremos modelar:
+plot(bird$Mass, bird$MaxAbund)
+
+# Implementamos el modelo (regresion) linear:
+lm1 = lm(bird$MaxAbund ~ bird$Mass)
+
+# Exploremos los resultados
+opar = par(mfrow=c(2,2)) 
+plot(lm1)
+par(opar)
+
+# Plot Y ~ X y la linea de regresion:
+ggplot(bird, aes(x = Mass,y = MaxAbund))+
+  geom_point()+
+  geom_smooth(method="lm", colour = 'red') +
+  ylab('MaxAbundance') +
+  xlab('Mass') +
+  ggtitle('Regresion') +
+  theme_bw()
+
+
+
+# Veamos si los datos estan normalmente distribuidos
+hist(bird$MaxAbund,col="coral", main="Untransformed data", 
+     xlab="Maximum Abundance")
+hist(bird$Mass, col="coral", main="Untransformed data", xlab="Mass")
+
+# Podemos correr una prueba de hipotesis para saber si 
+# los datos vienen de una distribucion normal
+# H0: la distribucion es normal
+shapiro.test(bird$MaxAbund) 
+shapiro.test(bird$Mass) 
+# Si p < 0.05, la distribucion NO es normal
+# Si p > 0.05, la distribucion es normal
+
+# Podemos analizar tambien la simetria de mis datos
+skewness(bird$MaxAbund) 
+skewness(bird$Mass) 
+# datos positivos: distribucion hacia la izquiera
+# datos negativos: distribucion hacia la derecha
+
+# Vamos a transformar mis datos con log (logaritmo natural)
+bird$logMaxAbund = log(bird$MaxAbund)
+bird$logMass = log(bird$Mass)
+names(bird) 
+
+# Veamos los nuevos datos:
+hist(bird$logMaxAbund,col="yellowgreen", main="Log transformed", 
+     xlab=expression("log"[10]*"(Maximum Abundance)"))
+hist(bird$logMass,col="yellowgreen", main="Log transformed",
+     xlab=expression("log"[10]*"(Mass)"))
+
+# Correr nuevamente la prueba de hipotesis de normalidad y simetria:
+shapiro.test(bird$logMaxAbund)
+skewness(bird$logMaxAbund)
+
+shapiro.test(bird$logMass)
+skewness(bird$logMass)
+
+# Corremos nuevamente el modelo:
+lm2 = lm(bird$logMaxAbund ~ bird$logMass)
+
+# Veamos las figuras para verificar las asunciones:
+opar = par(mfrow=c(2,2))
+plot(lm2, pch=19, col="gray")
+par(opar)
+
+# Parece todo bien, ahora veamos los resultados del modelo:
+summary(lm2)
+
+# Podemos obtener informacion a partir de este objeto
+summary(lm2)$coefficients 
+summary(lm2)$r.squared 
+summary(lm2)$adj.r.squared 
+
+# Ahora podemos graficar la regresion:
+plot(logMaxAbund ~ logMass, data=bird, pch=19, col="yellowgreen", 
+     ylab = expression("log"[10]*"(Maximum Abundance)"), xlab = expression("log"[10]*"(Mass)"))
+abline(lm2, lwd=2)
+# Anadimos intervalos de confianza:
+confit = predict(lm2, interval="confidence")
+points(bird$logMass,confit[,2]) 
+points(bird$logMass,confit[,3])
+
+# Podemos correr otro modelo excluyendo una parte de los datos:
+lm3 = lm(logMaxAbund ~ logMass, data=bird, subset =! bird$Aquatic) # remover aves acuaticas
+
+# Examine the model
+opar = par(mfrow=c(2,2))
+plot(lm3, pch=19, col=rgb(33,33,33,100,maxColorValue=225))
+summary(lm3)
+par(opar)
+
+# Comparamos ambas regresiones
+opar = par(mfrow=c(1,2))
+plot(logMaxAbund ~ logMass, data=bird, main="All birds", ylab = expression("log"[10]*"(Maximum Abundance)"), 
+     xlab = expression("log"[10]*"(Mass)"))
+abline(lm2,lwd=2)
+
+plot(logMaxAbund ~ logMass, data=bird, subset=!bird$Aquatic, main="Terrestrial birds",
+     ylab = expression("log"[10]*"(Maximum Abundance)"), xlab = expression("log"[10]*"(Mass)"))
+abline(lm3,lwd=2)
+par(opar)
+
+```
+
+
+## Correlación
+
+La covarianza entre dos variables ($X$ e $Y$) es una medida para cuantificar la relación entre ellas:
+
+$Cov(X,Y) = E[(X-\mu_x)(Y-\mu_y)] = E[XY] - \mu_x\mu_y$
+
+Si $X$ e $Y$ son independientes, entonces $Cov(X,Y) = 0$.
+
+Coeficiente de correlación se calcula de la siguiente manera:
+
+$\rho = Corr(X,Y) = \frac{Cov(X,Y)}{\sigma_X \sigma_Y}$
+
+Este coeficiente de correlación no tiene dimensión (no tiene unidades) y toma valores entre -1 y 1. El coeficiente de correlación de Pearson es simplemente un estimado de $\rho$:
+
+$r=\frac{L_{xy}}{\sqrt{L_{xx}L_{yy}}}$
+
+Si $r$ toma valores cercanos a -1, decimos que hay una correlación negativa muy fuerte. Si toma valores cercanos a 1, decimos que hay una correlación positiva muy fuerte. Si $r$ toma valores cercanos a cero, decimos que las variables no están correlacionadas.
+
+### Prueba t
+
+También se puede realizar una prueba t para observar la significancia de $r$ y sus intervalos de confianza. Aquí $H_0: \rho = 0$ y $H_A:\rho \neq 0$. El estadístico es:
+
+$t=\frac{r(n-2)^{1/2}}{(1-r^2)^{1/2}}$
+
+Para un nivel de significancia $\alpha$:
+
+* Si $t>t_{n-2,1-\alpha /2}$ o $t<-t_{n-2,1-\alpha /2}$, entonces se rechaza $H_0$.
+* Si $-t_{n-2,1-\alpha /2}<t<t_{n-2,1-\alpha /2}$, entonces fallamos en rechazar $H_0$
+
+### Correlación de rango (Rank correlation)
+
+Este tipo de correlación se emplea para variables donde no se tiene seguro que siguen una distribución normal. El coeficiente de correlación de Spearman ($r_s$):
+
+$r_s=\frac{L_{xy}}{\sqrt{L_{xx}L_{yy}}}$
+
+Donde los $L$ son calculados a partir de los rangos en vez de los valores como lo hicimos anteriormente.
+
+Vamos a ver algunas funciones para observar la correlación entre dos variables:
+```{r warning=FALSE, message=FALSE}
+# Prueba de hipotesis para correlacion:
+cor.test(x, y)
+
+# Podriamos tambien correr la prueba para uun tipo Spearman
+# Esto no asume normalidad
+cor.test(x, y, method=c("spearman"))
+
+# Ahora veamos un plot de correlacion entre variables ambientables 
+# tomados de la base de datos de salmon
+# Hacemos un daata frame de solo variables ambientales:
+envdata = chum[,c('loc.sst','w.sst.1','w.sst.2','npgo2','npgo','pdo2','pdo')]
+corMat = cor(envdata)
+corrplot(corMat, method="circle")
+corrplot(corMat, method="number")
+chart.Correlation(envdata, histogram=TRUE, pch=19)
+```
+
+
+
+## Transformación de una variable
+
+Se utilizan transformaciones cuando la variable que queremos incluir en una regresión lineal no tiene una distribución cercana a la normal. Tenemos que tener cuidado para estos casos, ya que la interpretación de los parámetros estimados va a ser diferente. Tenemos los siguientes casos:
+
+1. La variable dependiente es log-transformada: Para este caso, $(e^\beta - 1)100\%$ es el porcentaje de incremento (o reducción) en la variable respuesta por cada unidad de incremento en la variable independiente. 
+2. La variable independiente es log-transformada: El 1% de incremento en la variable independiente incrementa o reduce la variable dependiente en $\beta /100$ unidades.
+3. Ambas variables son log-transformadas: $\beta$ es el incremento (o reducción) en porcentaje en la variable dependiente para cada 1% de incremento en la variable independiente.
+
+## Regresión múltiple
+
+Para casos donde tenemos más de una variable independiente:
+
+$y=\alpha + \sum_{j=1}^k \beta _jx_j+\epsilon$
+
+Donde $\beta_j$ son conocidos como coeficientes de regresión parcial. Las variables independientes pueden ser continuas o categóricas. Para este caso, la interpretación de los coeficientes no cambia. Internamente, R asigna valores de 0, 1, 2, ... a cada nivel de la variable categórica, y debemos tener presente qué categoría tiene cada número para poder hacer una interpretación adecuada.
+
+Existen casos donde se especifica un efecto de interacción, por ejemplo:
+
+$y=\alpha + \beta _1 x_{1,continua} + \beta _2 x_{2,categorica}+\beta _3 x_{1,continua}*x_{2,categorica}$
+
+El símbolo $*$ significa un efecto de interacción. Para este caso, el efecto de $x_{1,continua}$ sobre $y$ va a ser diferente para distintos niveles de $x_{2,categorica}$. Por lo tanto, no solo tenemos que ver el valor de $\beta_1$, si no también el de $\beta_3$. Por ejemplo, el efecto de $x_{1,continua}$ sobre $y$ va a ser $\beta_1+\beta_3x_{2,categorica}$, luego reemplazamos $x_{2,categorica}$ por sus respectivos valores 0,1,2,.. y procedemos a obtener conclusiones.
+
+Para estos casos, $\beta_2$ no tiene una interpretación lógica y se suelen ignorar.
+
+En los ejercicios anteriores ya vemos visto algunos casos de regresión múltiple.
+
+
+## Validación de un modelo
+
+En esta sección vamos a realizar un ejercicio simple de como validar un modelo mediante validación cruzada. Este método se basa en implementar un modelo estadístico (e.g. regresión lineal, modelo lineal generalizado, modelo aditivo generalizado, etc.) con un porcentaje de datos observados, y luego hacer predicciones usando las observaciones restastes, comparando los valores predichos con las observaciones de la variable respuesta.
+```{r warning=FALSE, message=FALSE}
+#Vamos a usar las variables simuladas anteriormente:
+obs_data = data.frame(x=x, y=y)
+
+#Seleccionamos 80 observaciones y reservamos 20 observaciones al azar:
+n = 100 # numero de observaciones
+ind = sample(c(TRUE, FALSE), n, replace=TRUE, prob=c(0.8, 0.2))
+data1 = obs_data[ind, ]
+data2 = obs_data[!ind, ]
+
+# Construimos la regresion con el 80%
+lm1 = lm(y~x, data = data1)
+
+# Predecimos valores usando las observaciones del 20% reservado
+pred_data = predict(lm1, newdata = data.frame(x = data2$x), interval = 'predict') 
+
+# Encontramos la correlacion entre lo predicho y observado en el 20% reservado:
+# Debe estar muy cercano a 1:
+cor(pred_data[,1], data2$y)
+
+# Estos pasos se deben hacer muchas veces (iteraciones). La correlacion debe estar
+# cercana a 1 para que el modelo sea robusto.
+```
+
+
+
+

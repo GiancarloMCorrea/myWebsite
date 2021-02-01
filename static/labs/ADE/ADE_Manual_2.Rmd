@@ -1,0 +1,915 @@
+---
+title: 'Lab 02'
+author: "Giancarlo M. Correa"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Este tipo de pruebas son bastante utilizadas en ecología experimental, ya sea en laboratorio o campo. También es un componente de muchos modelos estadísticos (e.g. regresión linea, modelos lineales generalizados, etc), donde se evalúa la significancia de los parámetros estimados. 
+
+Existen dos principales tipos de estudios en ecología: experimental y observacional. Para el caso de experimentos, el investigador puede elegir los individuos y asignarlos a diferentes tratamientos, y así evaluar diferencias entre ellos. Este tipo de estudios son importantes cuando se quiere estimar causalidad. Por otro lado, estudios observacionales son más comunes en ecología, donde se toma una muestra de una población bajo determinado diseño de muestreo. Este tipo de estudios son mayormente empleados para hacer inferencias acerca de la población, pero resulta complicado muchas veces establecer relaciones de causalidad.
+
+### Componentes de una prueba de hipótesis
+
+#### Hipótesis nula
+
+Un valor, o rango de valores, especificado para el parámetro que se quiere evaluar. Normalmente representa el o los valores no interesantes que se quiere rechazar.
+
+Ejemplo: $H_0:\mu = 0$. La hipótesis nula es que la media de la población es cero.
+
+#### Hipótesis alternativa
+
+Un valor, o rango de valores, especificado para el parámetro que se quiere evaluar. Normalmente representa el o los valores interesantes que se espera ***no*** rechazar.
+
+Ejemplo: $H_A:\mu \neq 0$. La hipótesis alternativa es que la media de la población es diferente a cero.
+
+A partir de una prueba de hipótesis podemos concluir: 
+
+* Rechazar la hipótesis nula 
+* Fallar en rechazar la hipótesis nula
+
+Sin embargo, podemos también cometer tipos de errores, los cuales se resumen a continuación:
+
+|         | **$H_0$ es verdadera** | **$H_A$ es verdadera** | 
+|:-------:|:---------:|:---------:|
+| **Rechazar $H_0$** |     Error Tipo I      |      Decisión correcta     | 
+| **Fallar en rechazar $H_0$** |     Decisión correcta      |     Error Tipo II      | 
+  
+#### Nivel de significancia
+
+Denominado como $\alpha$, es la probabilidad de cometer un error Tipo I (rechazar la $H_0$ cuando es verdadera) en una prueba de hipótesis.
+
+#### Estadístico de prueba
+
+Denominado como $T$, valor calculado a partir de una función de valores muestreados que es usado para decidir si se rechaza la hipótesis nula o no.
+
+#### Valor crítico
+
+Denominado como $c$, valor con el cual $T$ es comparado para decidir si se rechaza la hipótesis nula o no.
+
+#### P-value
+
+Probabilidad de obtener la diferencia observada (o una mayor) en el estadístico calculado, asumiendo que $H_0$ sea verdadera.
+
+#### Distribución de referencia
+
+Una distribución de probabilidad que se utiliza para decidir si se rechaza o no la hipótesis nula, basado en la ubicación de $T$ y del valor crítico. Además se emplea para calcular el $p-value$.
+
+#### Región de rechazo
+
+Valores para los cuales $H_0$ será rechazada.
+
+#### Intervalo de confianza (IC)
+
+Estimado para el parámetro en estudio. Expresa un grado de incertidumbre y es influenciado directamente por el tamaño de muestra (a mayor número de observaciones, el intervalo se reduce). Su interpretación es: Si repetimos el experimento muchas veces, el $(1-\alpha)100\%$ de las veces el intervalo construido contendrá el valor verdadero del parámetro de la población. Debemos notar que si fueramos capaces de repetir el experimento, los intervalos de confianza de cada uno de ellos será distinto, sin embargo, como ya hemos mencionado, podremos decir que el $(1-\alpha)100\%$ de ellos contendrá el valor verdadero del parámetro.
+
+
+## Prueba de hipótesis de una muestra
+
+Como el nombre lo dice, las pruebas presentadas a continuación se usan cuando se tienen una sola muestra y se especifica un valor para $H_0$.
+
+### Prueba Z
+
+Para esta prueba se asume que la distribución de la variable bajo estudio en la población sigue una distribución normal y que la varianza de la población ($\sigma^2$) es conocida.
+
+1. Estadístico $T$:
+
+$Z=\frac{\bar{X}-\mu_0}{\sqrt{\sigma^2/n}}$
+
+Donde $\bar{X}$ representa la media de la muestra, $n$ es el número de observaciones, y $\mu_0$ es el valor especificado para la media en $H_0$. 
+
+2. Distribución de referencia:
+
+$N(0,1)$
+
+3. Decisión:
+
+Para todos los casos, $H_0: \mu=\mu_0$
+
+* $H_A: \mu>\mu_0$, entonces rechazamos $H_0$ cuando $Z>z_{1-\alpha}$
+* $H_A: \mu<\mu_0$, entonces rechazamos $H_0$ cuando $Z<z_{\alpha}$
+* $H_A: \mu \neq\mu_0$, entonces rechazamos $H_0$ cuando $\mid Z\mid>z_{1-\alpha /2}$
+
+Donde los valores con los cuales se compara $Z$ son los valores críticos para cada caso.
+
+4. Intervalos de confianza:
+
+Cuando $H_A: \mu \neq \mu_0$:
+
+$(\bar{X}-z_{1-\alpha /2}\sqrt{\sigma^2/n}, \bar{X}+z_{1-\alpha /2}\sqrt{\sigma^2/n})$
+
+Cuando $H_A: \mu > \mu_0$:
+
+$(\bar{X}-z_{1-\alpha }\sqrt{\sigma^2/n}, \infty)$
+
+Cuando $H_A: \mu < \mu_0$:
+
+$(-\infty,\bar{X}+z_{1-\alpha }\sqrt{\sigma^2/n})$
+
+5. Ejemplo
+
+Este ejemplo servirá también para otras pruebas de hipótesis y como interpretar sus resultados.
+
+Dado que: $H_0:\mu = 5cm$ y $H_A:\mu \neq 5cm$, y que $\alpha = 0.05$, supongamos que obtenemos un $p-value = 0.02$ y el estadístico es $Z=-3.5$.
+
+Estos números lo interpretamos como: Hay cierta evidencia de rechazar $H_0$ ($\mu = 5cm$) y por lo tanto el valor de la media en la población puede ser diferente a 5 cm a un nivel de significancia de $\alpha = 0.05$. Además, hay un 2% de probabilidad de observar el estadístico obtenido (o uno mayor) si asumimos que $H_0$ es verdadera.
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Primero activar algunas librerias importantes
+require(EnvStats)
+require(purrr)
+require(PASWR2)
+
+# Con los siguientes parametros vamos a simular una muestra a 
+# partir de una poblacion (i.e. variable) con distribucion normal:
+var_pop = 4
+mean_pop = 99.6
+n = 20 # numero de muestras a obtener
+obs = rnorm(n = n, mean = mean_pop, sd = sqrt(var_pop)) # Esta es la muestra
+
+# Tenemos la siguiente prueba de hipotesis
+# H0: mu_0 = 101, HA: mu_0 < 101
+mu_0 = 101
+mean_sample = mean(obs) # calculamos la media de la muestra
+
+# Calculamos el estadistico
+z_stat = (mean_sample-mu_0)/sqrt(var_pop/n)
+
+# Observemos la grafica de una distribucion normal estandar:
+# Este paso no es necesario, solo para observar que es lo que estamos haciendo.
+x = seq(-5, 5, length=100)
+hx = dnorm(x) 
+plot(x, hx, type="l", xlab="x value",
+     ylab="Density", main="Standard normal distribution")
+points(z_stat, 0, col = 'red', pch = 19) # Ver donde esta el z-stat estimado
+
+# Supongamos que deseamos un nivel de significancia alpha = 0.05
+# Vamos a calcular el valor critico para comparar el estadistico
+alpha = 0.05
+critical_value = qnorm(p = alpha)
+
+# Comparamos el estadistico con el valor critico:
+z_stat < critical_value # Rechazamos la hipotesis nula?
+
+# Calculamos el p-value:
+p_value = pnorm(q = z_stat) # area acumulada a la izquiera de la curva (depende de HA)
+
+# Observemos el area usada para calcular el p-value:
+# Este paso no es necesario, solo para observar que es lo que estamos haciendo.
+lb = -5 
+ub = z_stat
+i = x >= lb & x <= ub
+lines(x, hx)
+polygon(c(lb,x[i],ub), c(0,hx[i],0), col="red") 
+
+# Vamos a obtener los intervalos de confianza:
+# Inf: limite inferior
+mean_sample + qnorm(p = 1-alpha)*sqrt(var_pop/n) # limite supeior
+
+# Hasta el momento hemos corrido un z-test paso a paso.
+# Estamos listos para obtener conclusiones.
+
+# SIN EMBARGO:
+# Podemos usar una funcion implementada en la libreria PASWR2 para correr un z.test:
+z.test(obs, mu = 101, sigma.x = sqrt(var_pop), alternative = 'less', conf.level = 0.95)
+```
+
+
+### Prueba t
+
+Para esta prueba se asume que la distribución de la variable bajo estudio en la población sigue una distribución cercana a la normal y que la varianza de la población ($\sigma^2$) es desconocida.
+
+1. Estadístico $T$:
+
+$Z=\frac{\bar{X}-\mu_0}{\sqrt{s^2/n}}$
+
+Donde $s^2$ es la varianza de la muestra.
+
+2. Distribución de referencia:
+
+$t_{n-1}$. Esta distribución se acerca a $N(0,1)$ cuando $n$ incrementa.
+
+3. Decisión:
+
+Para todos los casos, $H_0: \mu=\mu_0$
+
+* $H_A: \mu>\mu_0$, entonces rechazamos $H_0$ cuando $t>t_{n-1,1-\alpha}$
+* $H_A: \mu<\mu_0$, entonces rechazamos $H_0$ cuando $t<t_{n-1,\alpha}$
+* $H_A: \mu \neq\mu_0$, entonces rechazamos $H_0$ cuando $\mid t\mid>t_{n-1,1-\alpha /2}$
+
+Donde los valores con los cuales se compara $Z$ son los valores críticos para cada caso.
+
+4. Intervalos de confianza:
+
+Cuando $H_A: \mu \neq \mu_0$:
+
+$(\bar{X}-t_{n-1,1-\alpha /2}\sqrt{s^2/n}, \bar{X}+t_{n-1,1-\alpha /2}\sqrt{s^2/n})$
+
+Cuando $H_A: \mu > \mu_0$:
+
+$(\bar{X}-t_{n-1,1-\alpha }\sqrt{s^2/n}, \infty)$
+
+Cuando $H_A: \mu < \mu_0$:
+
+$(-\infty,\bar{X}+t_{n-1,1-\alpha }\sqrt{s^2/n})$
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Con los siguientes parametros vamos a simular una muestra a 
+# partir de una poblacion (i.e. variable) con distribucion normal:
+var_pop = 5
+mean_pop = 101.2
+n = 20
+obs = rnorm(n = n, mean = mean_pop, sd = sqrt(var_pop)) # Esta es mi muestra
+
+# H0: mu_0 = 101, HA: mu_0 > 101
+mu_0 = 101
+mean_sample = mean(obs)
+var_sample = var(obs) # varianza de la muestra
+
+# Calculamos el estadistico
+t_stat = (mean_sample-mu_0)/sqrt(var_sample/n)
+
+# Observemos la grafica de una distribucion t con n-1 df:
+# Este paso no es necesario, solo para observar que es lo que estamos haciendo.
+x = seq(-5, 5, length=100)
+hx = dt(x, df = n-1)
+plot(x, hx, type="l", xlab="x value",
+     ylab="Density", main="Standard normal distribution")
+points(t_stat, 0, col = 'red', pch = 19) # Veamos el t estadistico
+
+# Supongamos que deseamos un nivel de significancia alpha = 0.05
+alpha = 0.05
+critical_value = qt(p = 1-alpha, df = n-1)
+
+t_stat > critical_value # Rechazamos la hipotesis nula?
+
+# Calculamos el p-value
+p_value = 1 - pt(q = t_stat, df = n-1) # acumulada (p-value)
+
+# Observemos el area usada para calcular el p-value:
+lb = t_stat 
+ub = 5
+i = x >= lb & x <= ub
+lines(x, hx)
+polygon(c(lb,x[i],ub), c(0,hx[i],0), col="red") 
+
+# Vamos a obtener los intervalos de confianza:
+mean_sample - qt(p = 1 - alpha, df = n-1)*sqrt(var_sample/n) # limite inferior
+# Inf es el limite superior
+
+# Ahora usemos una funcion para correr un t-test en manera simple:
+t.test(x = obs, mu = 101, alternative = 'greater', conf.level = 0.95)
+```
+
+
+### Prueba binomial
+
+Esta prueba se emplea cuando tenemos una variable binaria (e.g. presencia/ausencia, hembra/macho, etc). 
+
+Sea $Y_1, Y_2, ..., Y_n$ iid $Bernoulli(p)$:
+
+$P(Y_i=1)=p$ y $P(Y_i=0) = 1-p$
+
+Donde $p$ es la probabilidad de éxito.
+
+#### Método exacto
+
+La distribución de referencia es $X\sim Binom(n,p_0)$, donde $X=\sum_i Y_i$ y $p_0$ es el valor que se especifica en $H_0$ para $p$. Aquí, $H_0: p = p_0$ y $H_A: p> p_0$, $H_A: p< p_0$, o $H_A: p\neq p_0$. Debido que para este método se debe hallar el valor crítico, $p-value$, región de rechazo de forma 'manual', normalmente se usa la función en R `binom.test` para hacer una prueba binomial exacta.
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Con los siguientes parametros vamos a simular una muestra:
+n = 20
+p_pop = 0.4
+obs = rbinom(n = 1, size = n, prob = p_pop) # obs es X = sum(Y_i), donde Y_i es 0/1 en n muestras
+# En otras palabras, obs es el numero de individuos encontrados en mi muestra con la caracteristica deseada
+
+# Vamos a testear la siguiente hipotesis
+# H0: p_0 = 0.5, HA: p_0 < 0.5
+p_0 = 0.5
+p_hat = obs/n
+
+# Metodo exacto: ---
+# Vamos a explorar como se ve el plot de probabilidad si
+# asumimos p_0 = 0.5
+x = 0:n # Todos los valores que puede tomar X
+bin_prop = dbinom(x = x, size = n, prob = p_0)
+plot(x, bin_prop, type = 'h')
+
+# Ahora usemos una funcion sencilla en R para hacer un binomial test EXACTO:
+binom.test(x = obs, n = n, p = p_0, alternative = 'less', conf.level = 0.95)
+```
+
+#### Aproximación normal
+
+1. Estadístico $T$:
+
+$Z=\frac{\hat{p}-p_0}{\sqrt{p_0(1-p_0)/n}}$
+
+Donde $\hat{p}=X/n$.  
+
+2. Distribución de referencia:
+
+$N(0,1)$
+
+3. Decisión:
+
+Para todos los casos, $H_0: p=p_0$
+
+* $H_A: p>p_0$, entonces rechazamos $H_0$ cuando $Z>z_{1-\alpha}$
+* $H_A: p<p_0$, entonces rechazamos $H_0$ cuando $Z<z_{\alpha}$
+* $H_A: p \neq p_0$, entonces rechazamos $H_0$ cuando $\mid Z\mid>z_{1-\alpha /2}$
+
+Donde los valores con los cuales se compara $Z$ son los valores críticos para cada caso.
+
+4. Intervalos de confianza (de Wald):
+
+Cuando $H_A: \mu \neq \mu_0$:
+
+$(\bar{X}-z_{1-\alpha /2}\sqrt{\hat{p}(1-\hat{p})/n}, \bar{X}+z_{1-\alpha /2}\sqrt{\hat{p}(1-\hat{p})/n})$
+
+Cuando $H_A: \mu > \mu_0$:
+
+$(\bar{X}-z_{1-\alpha }\sqrt{\hat{p}(1-\hat{p})/n}, \infty)$
+
+Cuando $H_A: \mu < \mu_0$:
+
+$(-\infty,\bar{X}+z_{1-\alpha }\sqrt{\hat{p}(1-\hat{p})/n})$
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Calculemos el estadistico
+z_test_p0 = (p_hat - p_0)/sqrt(p_0*(1-p_0)/n)
+
+# Supongamos que deseamos un nivel de significancia alpha = 0.05
+# Calculamos el valor critico
+alpha = 0.05
+critical_value = qnorm(p = alpha)
+
+# Comparamos el estadistico y el valor critico
+z_test_p0 < critical_value # Rechazamos la hipotesis nula?
+
+# Calculamos el p-value
+p_value = pnorm(q = z_test_p0) # acumulada (p-value)
+
+# Podemos usar esta funcion en R para correr este test con aproximacion normal
+prop.test(x = obs, n = n, p = p_0, alternative = 'less', correct = FALSE)
+
+# Podemos usar esta funcion en R para correr este test con aproximacion normal y correccion de continuidad
+# Particularmente util cuando tenemos un bajo n.
+prop.test(x = obs, n = n, p = p_0, alternative = 'less', correct = TRUE)
+```
+
+
+### Prueba Chi-cuadrado
+
+Utilizado cuando se quiere hacer una prueba acerca de la varianza de la población ($\sigma^2$).
+
+1. Estadístico $T$:
+
+$X^2=\frac{(n-1)s^2}{\sigma ^2}$
+
+Donde $s^2$ es la varianza de la muestra.
+
+2. Distribución de referencia:
+
+$\chi^2_{n-1}$. Esta distribución se acerca a $N(0,1)$ cuando $n$ incrementa.
+
+3. Decisión:
+
+Para todos los casos, $H_0: \mu=\mu_0$
+
+* $H_A: \sigma ^2>\sigma ^2_0$, entonces rechazamos $H_0$ cuando $X^2>\chi^2_{n-1}(1-\alpha)$
+* $H_A: \sigma ^2<\sigma ^2_0$, entonces rechazamos $H_0$ cuando $X^2<\chi^2_{n-1}(\alpha)$
+* $H_A: \sigma ^2 \neq\sigma ^2_0$, entonces rechazamos $H_0$ cuando $X^2>\chi^2_{n-1}(1-\alpha /2)$ o $X^2<\chi^2_{n-1}(\alpha /2)$
+
+Donde los valores con los cuales se compara $X^2$ son los valores críticos para cada caso.
+
+4. Intervalos de confianza:
+
+Cuando $H_A: \sigma^2 \neq \sigma^2_0$:
+
+$\frac{(n-1)s^2}{\chi_{n-1}^2(1-\alpha/2)}, \frac{(n-1)s^2}{\chi_{n-1}^2(\alpha/2)}$
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Con los siguientes parametros vamos a simular una muestra:
+var_pop = 10
+mean_pop = 100
+n = 20
+obs = rnorm(n = n, mean = mean_pop, sd = sqrt(var_pop)) # Esta es mi muestra
+
+# H0: var_0 = 6, HA: var_0 > 6
+var_0 = 6
+mean_sample = mean(obs)
+var_sample = var(obs)
+
+# Calculamos el estadistico:
+X_sigma_0 = (n-1)*var_sample/var_0
+
+# Observemos la grafica de una Chi-cuadrado:
+x = seq(0, 50, length=100)
+hx = dchisq(x = x, df = n-1)
+plot(x, hx, type="l", xlab="x value",
+     ylab="Density", main="Chi-square distribution")
+points(X_sigma_0, 0, col = 'red', pch = 19) # Veamos donde esta el estadistico estimado
+
+# Supongamos que deseamos un nivel de significancia alpha = 0.05
+# Calculamos el valor critico:
+alpha = 0.05
+critical_value = qchisq(p = 1-alpha, df = n-1)
+
+X_sigma_0 > critical_value # Rechazamos la hipotesis nula?
+
+# Calculemos el p-value
+p_value = 1-pchisq(q = X_sigma_0, df = n-1) # acumulada (p-value)
+
+# Observemos el area usada para calcular el p-value:
+lb = X_sigma_0
+ub = 50
+i = x >= lb & x <= ub
+lines(x, hx)
+polygon(c(lb,x[i],ub), c(0,hx[i],0), col="red") 
+
+# Calculemos intervalos de confianza:
+((n-1)*var_sample)/(qchisq(p = 1-alpha, df = n-1)) # Limite inferior
+# Inf: Limite superior
+
+# Ahora usemos la funcion implementada en la libreria EnvStats
+varTest(x = obs, alternative = 'greater', conf.level = 0.95, sigma.squared = var_0)
+```
+
+
+### Prueba Kolmogorov-Smirnov
+
+Esta prueba se emplea cuando probar si las observaciones siguen una distribución dada. Normalmente se utiliza la función `ks.test` en R para hacer esta prueba, dado que la estimación de su estadístico no es sencillo. Para este caso, $H_0:F(x)=F_0(x)$ y la hipótesis alternativa puede ser $H_A:F(x)>F_0(x)$, $H_A:F(x)<F_0(x)$, o $H_A:F(x)\neq F_0(x)$, donde $F_0(x)$ representa una distribución dada.
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Ejemplo 1
+# Vamos a simular una muestra a partir de una distribucion normal y 
+# luego comparar con una distribucion estandar dada:
+n = 20
+obs = rnorm(n = n, mean = 25, sd = 3) # Esta es mi muestra
+
+# H0: F = F0. HA: F != F0
+# Usemos una funcion implementada en R :
+ks.test(x = obs, y = pnorm, mean = 25, sd = 3, alternative = 'two.sided')
+ks.test(x = obs, y = pnorm, mean = 20, sd = 3, alternative = 'two.sided')
+
+# Ejemplo 2
+# Vamos a simular una muestra a partir de una distribucion normal y 
+# luego comparar con una distribucion estandar dada:
+n = 90
+obs = runif(n = n, min = 0, max = 5) # Esta es mi muestra
+
+# H0: F = F0. HA: F != F0
+# Usemos una funcion implementada en R :
+ks.test(x = obs, y = punif, min = 0, max = 5, alternative = 'two.sided')
+ks.test(x = obs, y = punif, min = 5, max = 10, alternative = 'two.sided')
+```
+
+
+### Prueba Chi-cuadrado para variable discreta
+
+También conocida como prueba Chi de Pearson. Utilizada para probar la uniformidad de una variable discreta. Aquí, $H_0: p(x)=p_0(x)$,  donde $p_0(x)$ representa proporciones uniformes para esa variable.
+
+1. Estadístico $T$:
+
+$X=\sum_{j=1}^k\frac{(O_j-E_j)^2}{E_j}$
+
+Donde $k$ es cada posible categoría que la variable puede tomar, $O_j$ es el número observado de individuos muestreados que pertenecen a la categoría $j$. $E_j$ es el número esperado de individuos muestreados que pertenecen a la categoría $j$ si $H_0$ fuera cierto.
+
+2. Distribución de referencia:
+
+$\chi^2_{k-1}$. Esta distribución se acerca a $N(0,1)$ cuando $n$ incrementa.
+
+3. Decisión:
+
+Para todos los casos, $H_0: p(x)=p_0(x)$
+
+* $H_A: p(x) \neq p_0(x)$, entonces rechazamos $H_0$ cuando $X>\chi^2_{k-1}(1-\alpha)$.
+
+Donde los valores con los cuales se compara $X^2$ son los valores críticos para cada caso.
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Vamos a simular la muestra a partir de algunos parametros
+# Valores discretos a partir de una distribucion uniforme:
+min_pop = 6
+max_pop = 10
+n = 20
+obs_prelim = rdunif(n = n, a = min_pop, b = max_pop)
+obs = as.vector(table(obs_prelim))
+
+# Cuales son los valores esperados asumiendo una uniformidad?
+n_vals = max_pop - min_pop + 1
+esp = rep(x = n/n_vals, times = n_vals)
+
+# H0: p(x) = p_0(x) , HA: p(x) != p_0(x)
+
+# Calculamos el estadistico:
+X_est = sum((obs-esp)^2/esp)
+
+# Supongamos que deseamos un nivel de significancia alpha = 0.05
+# Calculamos el valor critico
+alpha = 0.05
+k = n_vals # numero de categorias
+critical_value = qchisq(p = 1-alpha, df = k-1)
+
+X_est > critical_value # Rechazamos la hipotesis nula?
+
+# Calculemos el p-value
+p_value = 1-pchisq(q = X_est, df = k-1) # acumulada (p-value)
+
+# Podemos usar la funcion chisq.test implementada en R para hacer este test:
+p_x = rep(x = 1/n_vals, times = n_vals)
+chisq.test(obs, p = p_x)
+```
+
+
+## Prueba de hipótesis de dos muestras
+
+Para estas pruebas, tenemos dos muestras que pueden ser independientes o emparejadas (dependientes). Para este último caso, cada individuos de la primera muestra esta asociado a un único individuos de la segunda.
+
+### Prueba Z de muestras independientes
+
+Se tienen dos grupos $X_1, ..., X_m$ y $Y_1, ..., Y_n$, donde $\delta = \mu_X- \mu_Y$ (diferencia de medias entre poblaciones). Además, $\hat{\delta} = \bar{X}- \bar{Y}$. Para este tipo de prueba se asume que las varianzas son conocidas y que $H_0: \delta = \delta_0$.
+
+1. Estadístico $T$:
+
+$Z=\frac{\hat{\delta}-\delta_0}{\sqrt{\frac{\sigma^2_X}{m}+\frac{\sigma^2_Y}{n}}}$
+
+2. Distribución de referencia:
+
+$N(0,1)$
+
+3. Decisión:
+
+Para todos los casos, $H_0: \delta=\delta_0$
+
+* $H_A: \delta>\delta_0$, entonces rechazamos $H_0$ cuando $Z>z_{1-\alpha}$
+* $H_A: \delta<\delta_0$, entonces rechazamos $H_0$ cuando $Z<z_{\alpha}$
+* $H_A: \delta \neq\delta_0$, entonces rechazamos $H_0$ cuando $\mid Z\mid>z_{1-\alpha /2}$
+
+Donde los valores con los cuales se compara $Z$ son los valores críticos para cada caso.
+
+4. Intervalos de confianza:
+
+Cuando $H_A: \mu \neq \mu_0$:
+
+$(\hat{\delta}-z_{1-\alpha /2}\sqrt{\frac{\sigma^2_X}{m}+\frac{\sigma^2_Y}{n}}, \hat{\delta}+z_{1-\alpha /2}\sqrt{\frac{\sigma^2_X}{m}+\frac{\sigma^2_Y}{n}})$
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Simulamos la muestra:
+var_pop_1 = 2
+var_pop_2 = 3
+mean_pop_1 = 99
+mean_pop_2 = 100
+n_1 = 20
+n_2 = 25
+
+# Simulamos datos:
+obs_1 = rnorm(n = n_1, mean = mean_pop_1, sd = sqrt(var_pop_1))
+obs_2 = rnorm(n = n_2, mean = mean_pop_2, sd = sqrt(var_pop_2))
+
+# Calculamos media de las muestras:
+mean_sample_1 = mean(obs_1)
+mean_sample_2 = mean(obs_2)
+delta = mean_sample_1 - mean_sample_2
+
+# H0: delta = 0, HA: delta != 0
+delta_0 = 0
+
+# Calculamos el estadistico:
+z_stat_delta_0 = (delta-delta_0)/sqrt((var_pop_1/n_1) + (var_pop_2/n_2))
+
+# Supongamos que deseamos un nivel de significancia alpha = 0.05
+alpha = 0.05
+critical_value = qnorm(p = 1-alpha/2)
+
+abs(z_stat_delta_0) < critical_value # Rechazamos la hipotesis nula?
+
+# Calculamos el p-value:
+p_value = 2*pnorm(q = z_stat_delta_0) # acumulada (p-value)
+
+# Vamos a obtener los intervalos de confianza:
+delta - qnorm(p = 1 - alpha/2)*sqrt((var_pop_1/n_1) + (var_pop_2/n_2)) # limite inferior
+delta + qnorm(p = 1 - alpha/2)*sqrt((var_pop_1/n_1) + (var_pop_2/n_2)) # limite superior
+
+
+# Usamos la funcion implementada en la libreria PASWR2 para hacer este test:
+z.test(x = obs_1, y = obs_2, alternative = 'two.sided', mu = 0,
+       sigma.x = sqrt(var_pop_1), sigma.y = sqrt(var_pop_2), conf.level = 0.95)
+```
+
+
+
+### Prueba t de muestras independientes (varianzas iguales)
+
+Se utiliza cuando no se tiene información acerca de la varianza. Aquí se puede asumir que $\sigma_X^2 = \sigma_Y^2 = \sigma^2$. Luego, se puede calcular la varianza agrupada:
+
+$s_p^2=\frac{(m-1)s_X^2+(n-1)s_Y^2}{m+n-2}$
+
+1. Estadístico $T$:
+
+$t=\frac{\hat{\delta}-\delta_0}{\sqrt{\frac{s_p^2}{m}+\frac{s_p^2}{n}}}$
+
+2. Distribución de referencia:
+
+$t_{m+n-2}$
+
+3. Decisión:
+
+Para todos los casos, $H_0: \delta=\delta_0$
+
+* $H_A: \delta>\delta_0$, entonces rechazamos $H_0$ cuando $t>t_{m+n-2,1-\alpha}$
+* $H_A: \delta<\delta_0$, entonces rechazamos $H_0$ cuando $t<t_{m+n-2,\alpha}$
+* $H_A: \delta \neq\delta_0$, entonces rechazamos $H_0$ cuando $\mid t\mid>t_{m+n-2,1-\alpha /2}$
+
+Donde los valores con los cuales se compara $t$ son los valores críticos para cada caso.
+
+4. Intervalos de confianza:
+
+Cuando $H_A: \mu \neq \mu_0$:
+
+$(\hat{\delta}-t_{m+n-2,1-\alpha /2}\sqrt{\frac{s_p^2}{m}+\frac{s_p^2}{n}}, \hat{\delta}+t_{m+n-2,1-\alpha /2}\sqrt{\frac{s_p^2}{m}+\frac{s_p^2}{n}})$
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Cuando no tenemos informacion acerca de la varianza de la poblacion:
+# Vamos a asumir que las varianzas son iguales.
+
+# Con la misma simulacion del ejemplo anterior:
+# Calculamos la varianza de la muestra
+var_sample_1 = var(obs_1)
+var_sample_2 = var(obs_2)
+
+
+# Calculamos S2_p:
+S2p = ((n_1-1)*var_sample_1 + (n_2-1)*var_sample_2)/(n_1+n_2-2)
+
+# Calculamos el estadistico:
+t_stat = (delta-delta_0)/sqrt((S2p/n_1) + (S2p/n_2))
+
+# Supongamos que deseamos un nivel de significancia alpha = 0.05
+alpha = 0.05
+critical_value = qt(p = 1-alpha/2, df = n_1+n_2-2)
+
+abs(t_stat) > critical_value # Rechazamos la hipotesis nula?
+
+# Calculamos el p-value
+p_value = 2*pt(q = t_stat, df = n_1+n_2-2) # acumulada (p-value)
+
+# Vamos a obtener los intervalos de confianza:
+delta - qt(p = 1 - alpha/2, df = n_1+n_2-2)*sqrt((S2p/n_1) + (S2p/n_2)) # limite inferior
+delta + qt(p = 1 - alpha/2, df = n_1+n_2-2)*sqrt((S2p/n_1) + (S2p/n_2)) # limite superior
+
+# Ahora usemos una funcion para correr un t-test en manera simple:
+# Recordamos que asumimos que varianzas de las dos poblaciones son iguales
+t.test(x = obs_1, y = obs_2, mu = 0, var.equal = TRUE, alternative = 'two.sided', 
+       conf.level = 0.95)
+```
+
+
+### Prueba t de muestras independientes (varianzas diferentes)
+
+Se utiliza cuando no se tiene información acerca de la varianza de la población. Aquí se asume que $\sigma_X^2 \neq \sigma_Y^2$. 
+
+1. Estadístico $T$:
+
+$t=\frac{\hat{\delta}-\delta_0}{\sqrt{\frac{s_X^2}{m}+\frac{s_Y^2}{n}}}$
+
+2. Distribución de referencia:
+
+$t_{\nu}$, donde
+
+$\nu = \frac{(\frac{s_X^2}{m}+\frac{s_Y^2}{n})^2}{\frac{s_X^4}{m^2(m-1)} + \frac{s_Y^4}{n^2(n-1)}}$
+
+3. Decisión:
+
+Para todos los casos, $H_0: \delta=\delta_0$
+
+* $H_A: \delta>\delta_0$, entonces rechazamos $H_0$ cuando $t>t_{\nu,1-\alpha}$
+* $H_A: \delta<\delta_0$, entonces rechazamos $H_0$ cuando $t<t_{\nu,\alpha}$
+* $H_A: \delta \neq\delta_0$, entonces rechazamos $H_0$ cuando $\mid t\mid>t_{\nu,1-\alpha /2}$
+
+Donde los valores con los cuales se compara $t$ son los valores críticos para cada caso.
+
+4. Intervalos de confianza:
+
+Cuando $H_A: \mu \neq \mu_0$:
+
+$(\hat{\delta}-t_{\nu,1-\alpha /2}\sqrt{\frac{s_X^2}{m}+\frac{s_Y^2}{n}}, \hat{\delta}+t_{\nu,1-\alpha /2}\sqrt{\frac{s_X^2}{m}+\frac{s_Y^2}{n}})$
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Cuando no tenemos informacion acerca de la varianza de la poblacion:
+# Vamos a asumir que las varianzas NO son iguales.
+
+# Vamos a seguir usando el mismo ejemplo:
+# Para este caso, vamos a usar simplemente la funcion implementada en R,
+# cambiando el argumento var.equal. 
+t.test(x = obs_1, y = obs_2, mu = 0, var.equal = FALSE, alternative = 'two.sided', 
+       conf.level = 0.95)
+```
+
+
+### Prueba Z de muestras emparejadas
+
+Se tienen dos grupos $X_1, ..., X_m$ y $Y_1, ..., Y_n$, donde $\delta = \mu_X- \mu_Y$ (diferencia de medias entre poblaciones), pero no son independientes:
+
+$Cov(X,Y)=E[(X-E(X))(Y-E(Y))]=\sigma_{XY}$
+
+Además, $\bar{D} = \bar{X}- \bar{Y}$. 
+
+1. Estadístico $T$:
+
+$Z=\frac{\bar{D}-\delta_0}{\sqrt{\frac{\sigma^2_X}{n}+\frac{\sigma^2_Y}{n}-2\frac{\sigma_{XY}}{n}}}$
+
+2. Distribución de referencia:
+
+$N(0,1)$
+
+3. Decisión:
+
+Para todos los casos, $H_0: \delta=\delta_0$
+
+* $H_A: \delta>\delta_0$, entonces rechazamos $H_0$ cuando $Z>z_{1-\alpha}$
+* $H_A: \delta<\delta_0$, entonces rechazamos $H_0$ cuando $Z<z_{\alpha}$
+* $H_A: \delta \neq\delta_0$, entonces rechazamos $H_0$ cuando $\mid Z\mid>z_{1-\alpha /2}$
+
+Donde los valores con los cuales se compara $Z$ son los valores críticos para cada caso.
+
+4. Intervalos de confianza:
+
+Cuando $H_A: \mu \neq \mu_0$:
+
+$(\bar{D}-z_{1-\alpha /2}\sqrt{\frac{\sigma^2_X}{n}+\frac{\sigma^2_Y}{n}-2\frac{\sigma_{XY}}{n}}, \bar{D}+z_{1-\alpha /2}\sqrt{\frac{\sigma^2_X}{n}+\frac{\sigma^2_Y}{n}-2\frac{\sigma_{XY}}{n}})$
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Simulamos la muestra:
+var_pop = 4
+mean_pop = 103
+n = 20
+
+# Simulamos datos:
+obs_1 = rnorm(n = n, mean = mean_pop, sd = sqrt(var_pop))
+obs_2 = obs_1 + 5
+
+# Para este ejemplo usamos el camino sencillo:
+# Seguimos con H0: delta_0 = 0, HA: delta_0 != 0
+# Usamos la funcion implementada en la libreria PASWR2 para hacer este test:
+z.test(x = obs_1, y = obs_2, alternative = 'two.sided', mu = 0, paired = TRUE,
+       sigma.d = sqrt(var_pop), conf.level = 0.95)
+```
+
+
+### Prueba t de muestras emparejadas 
+
+Se utiliza cuando no se tiene información acerca de la varianza de la población.
+
+1. Estadístico $T$:
+
+$t=\frac{\bar{D}-\delta_0}{\sqrt{\frac{s_X^2}{m}+\frac{s_Y^2}{n}-2\frac{s_{XY}}{n}}}$
+
+2. Distribución de referencia:
+
+$t_{n-1}$
+
+3. Decisión:
+
+Para todos los casos, $H_0: \delta=\delta_0$
+
+* $H_A: \delta>\delta_0$, entonces rechazamos $H_0$ cuando $t>t_{n-1,1-\alpha}$
+* $H_A: \delta<\delta_0$, entonces rechazamos $H_0$ cuando $t<t_{n-1,\alpha}$
+* $H_A: \delta \neq\delta_0$, entonces rechazamos $H_0$ cuando $\mid t\mid>t_{n-1,1-\alpha /2}$
+
+Donde los valores con los cuales se compara $t$ son los valores críticos para cada caso.
+
+4. Intervalos de confianza:
+
+Cuando $H_A: \mu \neq \mu_0$:
+
+$(\bar{D}-t_{n-1,1-\alpha /2}\sqrt{\frac{s_X^2}{m}+\frac{s_Y^2}{n}-2\frac{s_{XY}}{n}}, \bar{D}+t_{n-1,1-\alpha /2}\sqrt{\frac{s_X^2}{m}+\frac{s_Y^2}{n}-2\frac{s_{XY}}{n}})$
+
+### Prueba Chi-cuadrado de dos muestras
+
+Utilizado cuando se quiere comparar varianzas de dos poblaciones.
+
+1. Estadístico $T$:
+
+$F=\frac{s_1^2}{s_2^2}$
+
+Donde $s_1^2$ y $s_2^2$ son las varianzas de la muestra de la población 1 y 2, respectivamente.
+
+2. Distribución de referencia:
+
+$F_{n_1-1, n_2-1}$, donde $n_1$ y $n_2$ es el número de observaciones en la muestra 1 y 2, respectivamente.
+
+3. Decisión:
+
+Para todos los casos, $H_0: \mu=\mu_0$
+
+* $H_A: \sigma_1^2>\sigma ^2_2$, entonces rechazamos $H_0$ cuando $F>F_{n_1-1,n_2-1}(1-\alpha)$
+* $H_A: \sigma_1^2<\sigma ^2_2$, entonces rechazamos $H_0$ cuando $F<F_{n_1-1,n_2-1}(\alpha)$
+* $H_A: \sigma_1^2\neq \sigma ^2_2$, entonces rechazamos $H_0$ cuando $\mid F\mid > F_{n_1-1,n_2-1}(1-\alpha /2)$
+
+Donde los valores con los cuales se compara $F$ son los valores críticos para cada caso.
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Simulamos la muestra:
+var_pop_1 = 2
+var_pop_2 = 3
+mean_pop_1 = 99
+mean_pop_2 = 100
+n_1 = 30
+n_2 = 25
+
+# Simulamos datos:
+obs_1 = rnorm(n = n_1, mean = mean_pop_1, sd = sqrt(var_pop_1))
+obs_2 = rnorm(n = n_2, mean = mean_pop_2, sd = sqrt(var_pop_2))
+
+# Calculamos la varianzas de la muestras:
+var_sample_1 = var(obs_1)
+var_sample_2 = var(obs_2)
+
+# H0: var_1 = var_2, HA: var_1 < var_2
+# Calculamos el estadistico
+F_stat = var_sample_1/var_sample_2
+
+# Supongamos que deseamos un nivel de significancia alpha = 0.05
+# Calculamos el valor critico
+alpha = 0.05
+critical_value = qf(p = alpha, df1 = n_1 - 1, df2 = n_2 - 1)
+
+F_stat < critical_value # Rechazamos la hipotesis nula?
+
+# Calculamos el p-value:
+p_value = pf(q = F_stat, df1 = n_1 - 1, df2 = n_2 - 1) # acumulada (p-value)
+
+# Ahora usamos la funcion para correr este test:
+var.test(x = obs_1, y = obs_2, alternative = 'less', conf.level = 0.95)
+```
+
+## Prueba de hipótesis no paramétricas
+
+La mayoría de pruebas de hipótesis que hemos descrito hasta el momento requieren que la distribución de la variable en la población sea cercana a la normal. Sin embargo, existen otras pruebas de hipótesis que no requieren este supuesto, comúnmente llamadas pruebas no paramétricas. A continuación describimos las más importantes rápidamente.
+
+### Prueba del signo
+
+Se usa para decidir si una distribución binomial tiene la misma probabilidad de tener éxito o fallar ($p_0 = 0.5$). Se puede realizar fácilmente en R utilizando la función `binom.test` y especificar que $p = 0.5$. Claramente, $H_0:p = p_0$ y $H_A: p \neq p_0$.
+
+### Prueba de Wilcoxon (Signo ordenado)
+
+Se usa para verificar si la distribución de dos muestras son idénticas. Claramente, $H_0:p_1(x) = p_2(x)$ y $H_A: p_1(x) \neq p_2(x)$.
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+require(MASS)
+# Usamos esta base de datos:
+head(immer) 
+
+# Para datos emparejados
+wilcox.test(immer$Y1, immer$Y2, paired=TRUE) 
+```
+
+### Prueba de Wilcoxon-Mann-Whitney
+
+Se usa para verificar si la distribución de dos muestras son idénticas. Claramente, $H_0:p_1(x) = p_2(x)$ y $H_A: p_1(x) \neq p_2(x)$. Principalmente para evaluar si los muestreos vienen de poblaciones idénticas.
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Usamos esta base de datos:
+head(mtcars) 
+
+# Para datos emparejados
+wilcox.test(mpg ~ am, data=mtcars) 
+```
+
+### Prueba de Kruskal-Wallis
+
+Se usa para verificar si la distribución de dos muestras son idénticas. Claramente, $H_0:p_1(x) = p_2(x)$ y $H_A: p_1(x) \neq p_2(x)$. Principalmente para evaluar si los muestreos vienen de poblaciones idénticas.
+
+Ahora vamos a ver como hacer esta prueba en R.
+```{r warning=FALSE, message=FALSE}
+# Usamos esta base de datos:
+head(airquality) 
+
+# Para datos emparejados
+kruskal.test(Ozone ~ Month, data = airquality)
+```
+

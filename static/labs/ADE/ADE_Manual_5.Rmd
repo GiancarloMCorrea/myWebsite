@@ -1,0 +1,476 @@
+---
+title: 'Lab 05'
+author: "Giancarlo M. Correa"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Datos de composición de especies
+Ecólogos colectan datos que son usados para evaluar hipótesis o describir fenómenos de la naturaleza. Y lo ideal sería que, una vez identificada la pregunta ecológica, se diseñara el estudio y se recogieran los datos de manera que se obtuvieran fuertes inferencias. Sin embargo, hay muchos aspectos importantes de la recolección de datos ecológicos relacionados con el diseño de estudio y el método de muestreo que influirán en el tipo y la fuerza de las inferencias estadísticas que se puedan hacer:
+
+* La identificación del alcance deseado de la inferencia.
+* La elección de unidades de observación/experimentación apropiadas.
+* La elección de los tipos de datos que se han de reunir.
+* Un plan de muestreo robusto (es decir, la distribución espacial y/o temporal de las unidades y el/los método(s) de reunión de los datos).
+
+Una vez que hemos identificado nuestra pregunta ecológica, lo primero que tenemos que hacer es determinar qué datos recoger. Este es uno de los pasos más importantes en todo el proceso de modelado, porque si recogemos el tipo de datos equivocado, ningún modelo estadístico de ningún tipo nos permitirá responder a nuestra pregunta ecológica. Si bien hay muchas consideraciones importantes en este paso, tenemos que considerar cuidadosamente el número y los tipos de variables a recolectar y sus relaciones. En los estudios ecológicos, hay varios tipos importantes de datos:
+
+* Datos continuos (biomasa)
+* Conteo
+* Proporciones
+* Datos binarios (presencia/ausencia)
+
+Los datos de comunidades de especies son principalmente establecidos en matrices de sitios de muestreo por especies:
+
+|         | **Especie 1** | **Especie 2** | **Especie 3** | **Especie 4** | **Especie 5** | **Especie 6** | **...** |
+|:-------:|:---------:|:---------:|:---------:|-----------|-----------|-----------|-----------|
+| **Sitio 1** |           |           |           |           |           |           |           |
+| **Sitio 2** |           |           |           |           |           |           |           |
+| **Sitio 3** |           |           |           |           |           |           |           |
+| **Sitio 4** |           |           |           |           |           |           |           |
+| **Sitio 5** |           |           |           |           |           |           |           |
+| **...** |           |           |           |           |           |           |           |
+
+Donde se van añadiendo celda por celda los valores del tipo de dato colectado.
+
+Para iniciar cargamos los datos que utilizaremos en todos los ejemplos a desarrollar en este manual. La data muestra los datos de abundancia por conteo de 12 especies de arañas en 28  sitios de muestreo.
+
+```{r }
+#Matriz de abundancia de especies: "Spiders_28x12_spe.txt"
+spe = read.table(file="data/Spiders_28x12_spe.txt")
+```
+
+
+
+### 1. Exploración de datos 
+Podemos utilizar las funciones de resumen R para explorar los datos "spe" (datos de abundancia de arañas) y descubrir características como las dimensiones de la matriz, los nombres de las columnas y las estadísticas descriptivas de esas columnas.
+
+```{r , message=FALSE, results='hide'}
+spe[1:5, 1:10]            # Muestra solo 5 lineas y 10 columnas
+head(spe)                 # Muestra las primeras 6 lineas
+tail(spe)                 # Muestra solo las 6 ultimas lineas
+nrow(spe)                 # Numero de filas (sitios)
+ncol(spe)                 # Numero de columnas (especies)
+dim(spe)                  # Dimensiones del dataframe (filas y columnas)
+colnames(spe)             # Labels de columnas (descriptores = especies)
+rownames(spe)             # Labels de filas (objetos = sitios)
+summary(spe)              # Estadisticos descriptivos por columnas
+```
+
+Observando la distribución de abundancia de especies
+```{r , results='hide'}
+# Valores de abundancia minima y maxima en toda la data set
+range(spe)
+# Valores minimos y maximos de cada especie
+apply(spe, 2, range)
+# Conteo de casos para cada clase de abundancia
+(ab <- table(unlist(spe)))
+# Numero of ausencias
+sum(spe == 0)
+# Proporcion de ceros en el data set de la comunidad
+sum(spe == 0) / (nrow(spe) * ncol(spe))
+```
+
+```{r}
+# Barplot de la distribucion de las clases de abundancia
+barplot(ab, 
+        las = 1,main="Distribution de las clases de abundancia",
+        xlab = "Clase de abundancia",
+        ylab = "Frecuencia",
+        col = gray(5 : 0 / 5)
+)
+```
+
+Se observa que hay una gran frecuencia de valores ceros en los datos de abundancia. Por ello, hallaremos la cantidad de ausencias y la proporción de ceros en los datos de composición de especies de arañas. 
+
+```{r, results='hide'}
+# Numero of ausencias
+sum(spe == 0)
+# Proporcion de ceros en el data set de la comunidad
+sum(spe == 0) / (nrow(spe) * ncol(spe))
+```
+
+La proporción de ceros en la matriz es de ~0.46. Entonces, calcularemos el número de sitios donde cada especie esta presente.
+
+```{r, results='hide'}
+spe.pres<- colSums(spe>0) # Suma de sitios donde cada especie esta presente 
+spe.relf <- 100 * spe.pres/nrow(spe) # Porcentaje de frecuencias
+```
+
+```{r, results='hide'}
+# Ploteamos histogramas de resultados
+par(mfrow = c(1,2)) 
+hist(spe.pres, 
+     main = "Ocurrencia de especies", 
+     right = FALSE, 
+     las = 1, 
+     xlab = "Numero de ocurrencia", 
+     ylab = "Numero de especies", 
+     breaks = seq(0, 30, by = 5),
+     col = "bisque"
+)
+hist(spe.relf, 
+     main = "Frecuencia relativa de especies", 
+     right = FALSE, 
+     las = 1,
+     xlab = "Frecuencia de ocurrencias (%)", 
+     ylab = "Numero de especies",
+     breaks = seq(0, 100, by = 10),
+     col = "bisque"
+)
+```
+
+El mayor número de especies se encuentra en un número intermedio de sitios.
+
+
+## Diversidad de especies
+
+Biodiversidad es el más importante concepto en ecología. Puede ser estudiado a todos los niveles de organización de la vida, de genes (moléculas) a ecosystemas.
+La diversidad de organismos es la forma más común en la que diversidad se define y mide. En el estudio de comunidades ecológicas, indices de diversidad de especies son índices bióticos de síntesis que capturan la información multidimensional relativa a la composición de especies de una comunidad.
+Es así que iremos revisando brevemente paso a paso cada uno de las diferentes medidas de diversidad.
+
+Antes de iniciar, tenemos que cargar las librerias que usaremos:
+```{r,message=FALSE,warning=FALSE}
+library(vegan)
+library(gclus)
+library(ape)
+library(adespatial)
+library(dendextend)
+library(pvclust)
+```
+
+### Riqueza de especies y curvas de rarefacción
+
+La medida más simple de diversidad es *q*, el número de especies or riqueza de especies. Aunque parece sencillo, hay un problema con su estimación. De hecho, debemos basarnos en una muestra del área (o por ejemplo volumen en los medios acuáticos) de interés. En consecuencia, el verdadero número total de especies en esa zona o volumen está fuera del alcance en la práctica. Cada unidad de muestreo contiene un cierto número de individuos pertenecientes a un cierto número de especies y, dado que algunas especies son más raras que otras y, por lo tanto, tienen menos probabilidades de ser detectadas, el número total de especies de una unidad de muestreo o un conjunto de unidades de muestreo aumenta con el área o volumen muestreado y el número de individuos detectados.
+Por ello, la comparación de la riqueza de especies de dos unidades de muestreo y/o dos grupos de individuos, que son estimados del verdadero número de especies, está sesgada.
+
+Para asegurar la comparabilidad entre dos sitios, Sanders (1968) propuso un método de rarefacción, que estima el número de especies en unidades de muestreo que contienen el mismo número de individuos; por lo tanto, se basa en el concepto de riqueza numérica de especies. Un punto importante es que la rarefacción sólo puede calcularse en conteos verdaderos (no transformados) de individuos. La fórmula de Sanders ha sido corregida por Hurlbert (1971). 
+
+$$E(q^{'})=\sum_{i=1}^{q}[1-\frac{\binom{n-n_i}{n^{'}}}{\binom{n}{n^{'}}}]$$
+
+donde, $n^{'}<=(n-n_1)$ es el número de individuos en las más abundantes especies, y los terminos en paréntesis son combinaciones.
+
+Para calcular los valores de rarefacción de los sitios de muestreo de las especies de arañas, tenemos que trabajar con los datos de conteo en bruto y desarrollar algunos analisis exploratorios de los datos: 
+```{r,results='hide'}
+(spe.nbsp <- specnumber(spe)) #numero de especies en cada sitio de muestreo
+spe.nbsp[spe.nbsp == min(spe.nbsp)] #sitio con min de riqueza de especies obs
+spe.nbsp[spe.nbsp == max(spe.nbsp)] #sitio con max de riqueza de especies obs
+range(spe.nbsp) #rango de valores de riqueza de especies de los sitios  
+```
+
+Los valores mínimos y máximos de riqueza de especies de arañas en los sitios de muestreo son de 3 a 11, respectivamente.
+
+Adicionalmente, es importante saber cual es la abundancia total (suma total del conteo de especies) de cada uno de los sitios de muestreo:
+```{r}
+spe.abund <- rowSums(spe) #abundancia total en los sitios de muestreo
+range(spe.abund)
+spe.abund[spe.nbsp == min(spe.nbsp)] #abund en el sitio con el menor numero de especies
+spe.abund[spe.nbsp == max(spe.nbsp)] #abund en el sitio con el mayor numero de especies
+
+spe.nbsp[spe.abund == min(spe.abund)] #numero de especies en el sitio con la menor abund
+spe.nbsp[spe.abund == max(spe.abund)] #numero de especies en el sitio con la mayor abund
+```
+
+Entonces, ahora sí corremos la curva de rarefacción para los sitios de muestreo de la data de compoisición de especies de arañas. Rarefacción puede ser calculada mediante la función rarefy() del paquete vegan.
+
+```{r, results='hide'}
+raremax <- min(spe.abund) #rarefacccion del min de abund total en sitios de muestreo   
+spe.rare <- rarefy(spe, raremax) #calcula los valores de rarefaccion
+
+#Curva de rarefaccion
+rarecurve(
+  spe, 
+  step = 1, 
+  sample = raremax, 
+  xlab = "Numero de individuos (tamaño de muestra)", 
+  ylab = "Especies",
+  label = TRUE, 
+  col = "blue"
+)
+```
+
+La curva de rarefacción nos muestra que el sitio de muestreo con menos número de especies estimadas es el #18 (~2.87 especies), donde la Especie 11 brinda la mayor abundancia (25 individuos). El sitio #25 es que es estimado con mayor número de especies (~7.52), que comparado con los valores observados (reales) de los sitios de muestreo nos brinda aproximadamente los mismos estimados.
+
+En general la curva de rarefacción es una versión suavizada de las curvas de acumulación de especies, obtenida por el re-muestreo repetido del conjunto final de individuos o muestras. Es solo una expectativa de la curva de acumulación. 
+
+
+### Componentes de la diversidad basado en la distribución de la abundancia de especies
+
+Un vector de abundancia de especies puede ser definido como una variable cualitativa donde cada especie es un estado, y el perfil de abundancia es la distribución de la frecuencia de las observaciones.
+
+Basados en que el aumento del número de diversos tipos de organismos se caracteriza por una mayor riqueza de especies. Una definición básica de equitabilidad nos permite decir que una comunidad es descrita como equitable cuando ningún orgamismo es dominante.
+
+#### Índices de diversidad
+
+
+Los indices de diversidad son medidas matemáticas de la diversidad de especies en una comunidad determinada, se basan en los valores de riqueza y abundancia de especies.
+Los dos índices mayormente utilizados en el estudio de comunidades son Shannon y Simpsons y sus ecuaciones están basadas en la frecuendia relativa de proporción de especiesÑ
+
+$$p_i=\frac{n_i}{n}$$ 
+donde, $n$ es el número de individuos total y $n_i$ es el número de individuos de cada especie $i$.
+
+**Indice de diversidad de Shannon (Shannon, 1948).**
+Indice de información estadística que asume que todas las especies están representadas en la muestra y que han sido aleatoriamiente muestreadas. El valor de H aumenta con el número de especies.
+
+$$H=-\sum_{i=1}^{q}p_ilogp_i$$
+
+**Indice de diversidad de Simpson (Simpson, 1949).**
+Indice de dominancia/concentración. Da más peso a las especies abundantes y las especies raras no afectan el valor de la diversidad. 
+Este índice da la probabilidad de que dos organismos elegidos al azar pertenezcan a la misma especie:
+
+$$\lambda=\sum_{i=1}^{q}{\binom{n_i}{n}}^2=\sum_{i=1}^{q}p_i^2$$
+En realidad esta cantidad aumenta cuando la probabilidad de que dos organismos sean interespecíficos es grande (es decir, cuando la riqueza de especies es baja), de modo que generalmente se transforma en una forma de diversidad ya sea como **$D=1-\lambda$** (índice de Gini-Simpson; Greenberg 1956) o, **$D = 1/\lambda$** (índice Simpson inverso; Hill 1973). Esta última versión hace que el índice sea menos sensible a los cambios en las abundancias de las especies (generalmente pocas) muy abundantes. El índice Gini-Simpson puede convertirse en **$D= (1 - \lambda)/\lambda$**. Este índice es la relación entre el total de las posibles interacciones interespecíficas y las posibles interacciones intraespecíficas (Margalef y Gutiérrez 1983).
+
+
+**Números de Hill (Hill, 1973).**
+La riqueza de especies, la entropía de Shannon y la diversidad de Simpson son en realidad casos especiales de la fórmula de entropía generalizada de Rényi (Rényi 1961), como señalan Hill (1973) y Pielou (1975): 
+
+$$H_a=\frac{1}{1-a}log\sum_{i=1}^{q}p_i^{a}$$
+
+donde, $a$ es la medida de orden de entropía $(a=0,1,2,...)$. Hill (1973) propone el uso de los llamados números efectivos de especies o números de Hill. 
+
+$$N_a=e^{H_a}$$
+La medida de **a** cuantifica la importancia de la abundancia de especies, y así la equitabilidad: cuando a = 0 la diversidad es tan solo el número de especies (ejem: presencia-ausencia), y, cuando el valor de *a* aumenta se empieza a dar más y más importancia a las especies abundantes. 
+
+La siguiente tabla nos muestra las tres primeras entropías de Rényi, los correspondientes números de Hill y la equitabilidad de Shannon y Simpson.
+
+|**Número de entropía**| **Diversidad - Hill** | **Equitabilidad**|
+|--------------------|---------------------|:----------------:|
+|$H_0=logq$ |$N_0=q$ (q: número de especies) | |
+|$H_1=-\sum p_ilogp_i=H$| $N_1=exp(H)$ | $E_1=N_1/N_0$ (Shannon)|
+|$H_2=-log\sum p_i^{2}$| $N_2=1/\lambda$ | $E_2=N_2/N_0$ (Simpson)|
+
+Empezaremos a hallar los indices de diversidad y equitabilidad de cada uno de los sitios de muestreo para los datos de composición de especies de arañas.
+
+```{r, results='hide'}
+# Hallando Indices de diversidad 
+(N0 <- rowSums(spe > 0))                # Riqueza de especies - N de Hills orden1 
+(N0 <- specnumber(spe))                 # Riqueza de especies (otra forma)
+(H<-diversity(spe, index="shannon"))    # Indice de Shannon (base e)
+(Hb2 <- diversity(spe, base = 2))       # Indice de Shannon (base 2)
+(N1 <- exp(H))                          # N de Hills orden2 - Shannon (base e)
+                                        # (numero de especies abundantes)
+(N1b2 <- 2^Hb2)                         # N de Hills orden2 - Shannon (base 2)
+(N2 <- diversity(spe, index="inv"))     # Indice de Simpson  (inverso)
+                                        # (numero de especies dominantes)
+(J <- H / log(N0))                      # Equitabilidad de Pielou 
+(E10 <- N1 / N0)                        # Equitabilidad de Shannon (Hill's ratio)
+(E20 <- N2 / N0)                        # Equitabilidad de Simpson (Hill's ratio)
+div <- data.frame(N0, H, Hb2, N1, N1b2, N2, E10, E20, J)
+```
+
+Mostramos los resultados de los indices de diversidad de los primeros 8 sitios de muestreo.
+
+```{r, echo=FALSE}
+div[1:8,] 
+```
+
+### Diversidad de especies en el espacio
+
+Una propiedad muy interesante de la diversidad de especies es su organización a través del espacio. Este fenómeno, que ahora es bien conocido por los ecologistas comunitarios, fue examinado por primera vez por Whittaker en dos trabajos fundamentales (1960, 1972) en los que describió los niveles de diversidad alfa, beta y gamma. El desarrollo del análisis espacial a escala múltiple de las comunidades se basa en el concepto de Whittaker de la diversidad beta.
+
+
+![\centering](diversity.png){width=50%}
+
+
+#### Diversidad alpha
+La diversidad alfa ($\alpha$) es la diversidad en la composición de especies en sitios individuales i. Los índices utilizados para la diversidad alfa estiman, de diferentes maneras, la varianza en la identidad de especies de los individuos observados en un sitio determinado. 
+Un monocultivo, por ejemplo, tiene la menor diversidad alfa posible porque no hay varianza en la identidad de especies entre los individuos. 
+La diversidad alfa se mide por uno de los índices de entropía de Rényi: H0, H1 o H2, o por los números de diversidad de Hill's: N0 , N1 o N2. 
+Los índices más utilizados son N0, H1 y N2.
+
+#### Diversidad gamma
+La diversidad gamma ($\gamma$) es la diversidad de toda la región de interés en un estudio. Normalmente se mide agrupando las observaciones de un grupo de unidades de muestreo (que forman una muestra en el sentido estadístico), es decir, un gran número de sitios de la zona de interés, excepto en los casos en que se conoce la composición de la comunidad de toda una zona, por ejemplo, parcelas forestales permanentes. 
+La diversidad gamma se mide utilizando los mismos índices que la diversidad alfa.
+
+#### Diversiversidad beta
+La diversidad beta ($\beta$) es de naturaleza diferente: conceptualmente es la variación en la composición de especies entre los sitios en el área geográfica de interés. Su valor variará en función de la extensión de la zona, el tamaño físico de las unidades de muestreo y el intervalo de muestreo en el área de estudio, que constituyen tres aspectos de la escala de estudio. 
+Los estudios de la diversidad beta pueden centrarse en realidad en dos aspectos de la estructura de la comunidad. El primero es la reemplazo (turnover), o el cambio en la composición de la comunidad entre unidades de muestreo adyacentes, que se explora mediante el muestreo a lo largo de un gradiente espacial, temporal o ambiental. El segundo es un enfoque no direccional del estudio de la variación de la comunidad a través del espacio (o el tiempo); no se refiere a ningún gradiente específico, sino que se centra en la variación de la composición de la comunidad entre las unidades de estudio. 
+
+Whittaker (1960, 1972) demostró que la diversidad beta podía estimarse utilizando datos de presencia/ausencia o datos cuantitativos de especies. Los ecologistas utilizan ambos tipos de medidas para estudiar la diversidad beta, aunque algunos investigadores sólo se refieren a los datos de presencia/ausencia cuando hablan de la tasa de sustitución de especies, o de renovación, a lo largo de un gradiente ecológico. Sin embargo, en la bibliografía sobre ordenación, los ecologistas utilizan con mayor frecuencia los datos sobre abundancia de especies para estudiar las tasas de renovación con referencia a la aparición y desaparición de especies con distribuciones unimodales a lo largo de los gradientes.
+
+Whittaker (1960, 1972), propone un método para obtener una medida de la diversidad beta a partir de los datos de presencia/ausencia de especies:
+
+$$\beta=S/\bar\alpha$$
+donde, S es el número de especies en un vector de composición de la comunidad compuesta que representa el área de interés, y $\bar\alpha$ es el número medio de especies observadas en los sitios que se utilizaron para calcular S. Se trata de un enfoque multiplicativo, en el que S representa la diversidad gamma.
+
+Adicionalmente, Whittaker (1960, 1972) sugirió que la diversidad beta también podía estimarse a partir de matrices de distancia computadas entre sitios. Este enfoque se basa en el hecho de que una distancia entre dos sitios, computada a partir de los datos de composición de la comunidad, proporciona una medida de la variación, o diversidad beta entre estos sitios. Para obtener un índice general de diversidad beta en un grupo de sitios, Whittaker (1972) sugirió utilizar la media (no la varianza) de las distancias entre los sitios.
+
+Utilizando la función beta.div() del paquete adespatial, se puede hallar la diversidad beta a partir de matrices de distancia.
+
+```{r}
+#los datos son transformados por hellinger
+spe.beta <- beta.div(spe, method = "hellinger", nperm = 9999)
+spe.beta$beta  # diversidad beta total (BDTotal)
+```
+
+
+## Medidas de asociación 
+La mayoría de métodos de análisis multivariados, en particular la ordinación y técnicas de agrupamiento (clusters), son basados principalmente en la comparación de todos los posibles pares de objetos (sitios de muestreo) y descriptores (especies). Las comparaciones toman forma de medidas de asociación (llamados también coeficientes o índices) que se agrupan en una matriz cuadrada y simétrica de asociación, de dimensiones _n x n_ cuando se comparan los objetos, o _p x p_ cuando se comparan las variables.
+
+El álgebra matricial es la base de los métodos de ordención. Una matriz consiste en datos (por ejemplo, valores medidos) divididos en filas y columnas. Los análisis multivariados se realizan en matrices de asociación calculadas a partir de matrices de datos ecológicos de composición de especies. La creación de una matriz de asociación permite calcular la similaridad y distancia entre los objetos o los descriptores (Legendre y Legendre 2012). Antes de embarcarse en los análisis de ordenación, es importante pasar algún tiempo en sus matrices de datos. El estudio de las posibles medidas de asociación que pueden generarse a partir de los datos antes de hacer una ordenación puede ayudarle a comprender mejor qué medidas de distancia son apropiadas para los métodos de ordenación. Puede ser difícil ver el propósito de cada índice de desemejanza, pero este conocimiento será necesario para comprender mejor los métodos de ordenación canónica que se presentan más adelante.
+
+En resumen: Para la ordinación de objetos, es necesario calcular la distancia entre ellos. Estas distancias pueden estar calculadas de diferentes maneras, tomando en consideración si son datos de abundancia o de presencia/ausencia. Y aún más importante, existen muchas propiedades que son de gran importancia para calcular las medidas de distancia.
+
+
+
+### Medidas de distancia
+
+* Similitud (S): una medida en la que "el máximo (S = 1) se alcanza cuando dos objetos son idénticos y el mínimo cuando dos objetos son completamente diferentes". (Legendre y Legendre 2012).
+
+* Distancia (también "disimilitud" - D): una medida en la que "el máximo (D=1) se alcanza cuando dos objetos son completamente diferentes". (Legendre y Legendre 2012). Distancia o diferencia (D) = 1- S
+
+La elección de una medida de asociación dependerá de los datos, pero también de lo que se sabe de ellos desde el punto de vista ecológico. Por ejemplo, la distancia euclidiana es una medida de distancia muy común, fácil de usar y útil para comprender cómo las diferencias entre dos muestras se basan en la co-ocurrencia de especies. El cálculo de la distancia euclidiana tiene en cuenta los ceros en los datos, lo que significa que dos muestras o sitios sin ninguna especie en común (doble ausencia) pueden parecer más similares que dos sitios que comparten unas pocas especies. En este caso, la distancia euclidiana puede ser engañosa y a menudo es mejor elegir una medida de distancia diferente si muchas especies tienen una abundancia cero en su matriz. Esta propiedad se conoce comúnmente como el problema de la ordenación "doble cero".
+
+Algunas medidas de distancia: 
+
+
+|   **Medida**    |   **Propiedad** |   **Descripción**   |
+|:------------:|:----------------:|-----------------|
+|Euclideana   |métrica | Distancia entre dos puntos en un espacio en 2D|
+|Manhattan    |métrica | Distancia entre dos puntos - la distancia es la suma de las diferencias entres las coordenadas cartesianas|
+|Chord        |métrica | Generalmente utilizada para determinar las diferencias debidas a la deriva genética|
+|Mahalanobis  |métrica | Distancia entre un punto y una distribución, donde la distancia es el número de desviaciones estándar del punto correspondiente a la media de la distribución|
+|Chi-cuadrado |métrica | Similar a la distancia euclideana|
+|Bray-Curtis  |semimétrica | Disimilaridad entre dos muestras (o sitios de muestreo) donde la suma de los valores mínimos de las especies presentes en los dos sitios se dividen por la suma de las especies enumeradas en cada sitio|
+|Jaccard      |métrica | Similaridad entre dos muestras, definido como el tamaño de la intersección de las muestras dividido por el tamaño de la unión de los conjuntos de muestras|
+|Sorensen's     |semimétrica | Bray-Curtis correponde a 1 - Sorensen|
+
+Para los datos cuantitativos de las especies podemos utilizar la función vegdist () para calcular índices de disimilitud en los datos de composición de la comunidad. Estos pueden ser mostrados en forma de matriz si se desea. 
+
+```{r , results='hide'}
+spe.db<-vegdist(spe, method="bray") # distancia de Bray 
+                                    #(con datos de presencia/ausencia, 
+                                    #corresponde a Sorensen)  
+spe.dj<-vegdist(spe, method="jac") # distancia de Jaccard 
+spe.dg<-vegdist(spe, method="gower") # distancia de Gower  
+spe.db<-as.matrix(spe.db) # reordenando en formato matriz 
+                          #(para su visualización, o para exportar en .csv)
+```
+
+Una versión resumida de la matriz de spe.db que representa la distancia entre las tres primeras especies de Spiders_28x12_spe se vería así: 
+
+|           | **Especie 1** | **Especie 2** | **Especie 3** |
+|:-----------:|:-----------:|:-----------:|:-----------:|
+| **Especie 1**  | 0.00      | 0.38      | 0.19      |
+| **Especie 2** | 0.38      | 0.00      | 0.29      |
+| **Especie 3** | 0.19      | 0.29      | 0.00      |
+
+Se puede ver que cuando se compara una especie con ella misma (por ejemplo, la Especie 1 con la Especie 1), la distancia es 0 ya que las especies son idénticas.
+
+Estas mismas medidas de distancia pueden ser calculadas a partir de los datos de presencia-ausencia utilizando el argumento binario=TRUE en la función vegdist(). Esto resultará en medidas de distancia ligeramente diferentes. 
+
+
+### Transformacion de dato de composicion de comunidades
+Los datos de composición de la comunidad también pueden normalizarse o transformarse. La función de decodificación vegana () proporciona opciones para estandarizar y transformar este tipo de datos.
+
+Transformar la abundancia en datos de presencia y ausencia con la función decostand()
+```{r}
+spe.pa<-decostand(spe, method="pa")
+spe.pa[1:5,1:5] #observamos las primeras 5 lineas y columnas
+```
+
+Los principales métodos de tranformación de datos de composición de especies son los siguientes:
+
+| **Método** | **Descripción** | **código** |
+|:-----------:|-----------|:-----------:|
+| Chord | Abundancia de especies tranformadas a un vector de valor 1. Preserva la distancia euclideana | decostand(x, method="normalize")|
+| Hellinger | Preserva distancia euclideana. La mejor estadisticamente. Usada también con datos binarios | decostand(x,method="hellinger") |
+| Perfil de especies | En perfiles de abundancia relativa de especies. Para datos de composición. No es la mejor. | decostand(x, method="total")
+| Chi-cuadrado | Reduce el valor de especies abundantes. Da más peso a especies raras.|decostand(x, method="chi.squeare")|
+
+Se pueden utilizar estas transformaciones para corregir la influencia de las especies raras, por ejemplo:
+
+```{r, results='hide'}
+    #Transformacion de Hellinger
+    spe.hel<-decostand(spe, method="hellinger") #se puede escribir tan solo "hel"
+ 
+    #Transformacion de chi-cuadrado
+    spe.chi<-decostand(spe, method="chi.square")
+```
+
+## Metodos de agrupamiento
+
+Una aplicación de la asociación de matrices es la agrupación. No es un método estadístico por sí mismo, porque no prueba una hipótesis, sino que pone de relieve las estructuras de los datos mediante la partición de los objetos o de los descriptores. Como resultado, los objetos similares se combinan en grupos, lo que permite identificar las distinciones - o contrastes - entre los grupos. 
+Una ventaja que brinda esta metodología es de dividir un conjunto de sitios en grupos con respecto a sus condiciones ambientales o a la composición de su comunidad.
+
+Los resultados de la agrupación suelen representarse como dendrogramas (árboles), en los que los objetos se aglomeran en grupos. 
+Existen varias familias de métodos de agrupación, pero a los efectos de este curso, tan solo se presentará una visión general de tres métodos de agrupación aglomerada jerárquica: la agrupación de enlace única (simple), la agrupación de enlace completo y la agrupación de varianza mínima de Ward. Véase el capítulo 8 de Legendre y Legendre (2012) para más detalles sobre las diferentes familias de métodos de agrupación.
+
+En los métodos jerárquicos, los elementos de las agrupaciones (o grupos) inferiores se convierten en miembros de agrupaciones más grandes y de mayor rango, por ejemplo, especie, género, familia, orden. 
+
+**Importante:** Antes de la agrupación, es necesario crear una matriz de asociación entre los objetos. La matriz de distancia es la elección por defecto de las funciones de agrupación en R. 
+
+La matriz de asociación se clasifica primero en orden de distancia creciente (o similitudes decrecientes). Luego, los grupos se forman jerárquicamente siguiendo las reglas específicas de cada método.
+
+Tomemos un ejemplo simple de una matriz de distancia euclidiana entre 5 objetos que fueron ordenados en orden ascendente. 
+
+![\centering](cluster.example.png){width=60%}
+
+### Método de agrupación de enlace simple y enlace completo
+ En la agrupación aglomerada de enlace simple (también llamada clasificación de vecino más cercano), se aglomeran los objetos a las distancias más cercanas. Los dos objetos más cercanos se aglomeran primero, los dos objetos/clusters más cercanos siguientes se unen a continuación, y así sucesivamente, lo que a menudo genera largos y delgados clusters o cadenas de objetos (véase cómo se agrupan sucesivamente los objetos del 1 al 5 en la Figura 2). 
+Por el contrario, en la aglomeración de enlace completo, un objeto se aglomera en un grupo sólo cuando está vinculado al elemento más lejano del grupo, que a su vez lo vincula a todos los miembros de ese grupo (en el ejemplo anterior, el grupo formado por los objetos 3 y 4 sólo se aglomera con el grupo 1-2 a 0,4, distancia a la que se vinculan los objetos 1, 2, 3 y 4). Como resultado, la agrupación de vinculación completa formará muchos grupos pequeños y separados, y es más apropiado para buscar contrastes, discontinuidades en los datos.
+
+Comparemos los métodos de agrupación de enlaces simples y completos utilizando los datos de las especies de arañas.
+
+Los datos de las especies ya fueron transformados por Hellinger. El análisis de conglomerados que requiere índices de similitud o disimilitud, el primer paso será generar los índices de distancia de Hellinger. 
+
+
+```{r, results='hide'}
+spe.dhel<-vegdist(spe.hel,method="euclidean") #crea una Matriz de distancias Hellinger 
+                                              #a partir de los datos de abundancia 
+                                              #transformados
+# Para ver la diferencia entre los dos tipos de objetos
+head(spe.hel) #spe.hel: datos de abundancia tranformados a Hellinger
+head(spe.dhel) #spe.dhel: matriz de distancias de Hellinger entre los sitios
+```
+
+La mayoría de métodos de agrupamiento pueden ser calculados con la función hclust() del paquete stats de R.
+
+```{r,results='hide'}
+# Agrupamiento a enlace simple
+spe.ch.single<-hclust(spe.dhel, method="single")
+# Agrupamiento a enlace completo
+spe.ch.complete<-hclust(spe.dhel, method="complete")
+
+# Ploteamos ambos clusters
+plot(spe.ch.single)
+plot(spe.ch.complete)
+```
+
+
+### Método de agrupación de Ward de varianza mínima
+La agrupación de varianza mínima de Ward difiere de estos dos métodos en que agrupa los objetos en grupos utilizando el criterio de los mínimos cuadrados (similar a los modelos lineales). Al principio, cada objeto se considera como un grupo propio. En cada paso, el par de cúmulos que se fusionan es el que conduce a un aumento mínimo de la suma total de cuadrados dentro del grupo.
+
+De nuevo, es posible generar un cluster de variación mínima de Ward con hclust(). Sin embargo, el dendograma muestra distancias al cuadrado por defecto. Para comparar este dendrograma con los resultados de la agrupación de vinculación única y completa, se debe calcular la raíz cuadrada de las distancias. 
+
+```{r, results='hide'}
+# Agrupamiento por Método de Ward
+spe.ch.ward<-hclust(spe.dhel, method="ward.D2")
+plot(spe.ch.ward)
+
+#Re-plot el dendrograma usando las raíces cuadradas de los niveles de fusión
+spe.ch.ward$height<-sqrt(spe.ch.ward$height)
+plot(spe.ch.ward)
+plot(spe.ch.ward, hang=-1) # hang=-1 alinea todos los objetos en una misma linea
+```
+
+Los clusters generados con el método de Ward tienden a ser más esféricos y a contener un número similar de objetos.
+
+Hay que tener cuidado en la elección de una medida de asociación y un método de agrupación para abordar correctamente un problema. Qué es lo que más le interesa: los gradientes? los contrastes? Además, los resultados deben ser interpretados con respecto a las propiedades del método utilizado. Si más de un método parece adecuado para una cuestión ecológica, calcularlos todos y comparar los resultados sería el camino a seguir. 
+Como recordatorio, la agrupación no es un método estadístico, pero se pueden tomar otras medidas para identificar agrupaciones interpretables (por ejemplo, dónde cortar el árbol), o para calcular estadísticas de agrupación. La agrupación también puede combinarse con la ordenación para distinguir grupos de sitios. 
+
+## Referencias
+
+* Legendre, P., & Legendre, L. (2012). Numerical ecology. Elsevier.
+* Borcard, D., Gillet, F., & Legendre, P. (2018). Numerical ecology with R. Springer.

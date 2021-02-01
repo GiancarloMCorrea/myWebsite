@@ -1,0 +1,810 @@
+---
+title: 'Lab 04'
+author: "Giancarlo M. Correa"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+En este capítulo vamos a dar una breve introducción a los principales conceptos y métodos básicos en análisis de series de tiempo y de datos espaciales.
+
+## Introducción al análisis de series de tiempo
+
+Para el análisis de series de tiempo tenemos que tomar un enfoque distinto al que hemos venido observando. No podemos tomar *varias observaciones* en un momento dado, por lo que solo podemos tener una realización $\{x_t\}$ de distribuciones conjuntas de una secuencia de variables aleatorias $\{X_t \}$. De este modo, $\{x_t\}$ viene a ser la serie de tiempo observada.
+
+Una serie de tiempo $( \{ x_t \})$ puede ser descompuesta en tres componentes:
+
+1. Tendencia ($m_t$)
+2. Componente estacional ($s_t$)
+3. Remanente ($\epsilon_t$)
+
+De tal forma que:
+
+$x_t=m_t+s_t+e_t$
+
+#### Tendencia ($m_t$)
+
+Se utiliza para extraer la señal de la serie. Podemos unas usar filtros lineales para hacer esto, por ejemplo, una media móvil.
+
+$m_t=\sum_{a}^{i=0}\frac{1}{2a+1}x_{t+1}$
+
+Si $a=1$, entonces:
+
+$m_t=\frac{1}{3}(x_{t-1}+x_{t}+x_{t+1})$
+
+
+#### Componente estacional $(s_t)$
+
+Como su nombre lo menciona, nos da información de fluctuaciones repetitivas dentro de cada año.
+
+#### Remanente $(e_t)$
+
+Para calcular el remanente, simplemente restamos los otros dos componentes de la serie de tiempo original $x_t$:
+
+$e_t=x_t-m_t-s_t$
+
+
+### White noise (ruido blanco)
+
+Una serie de tiempo $\{w_t\}$ es un ruido blanco discreto si sus componentes son independientes e identicamente distribuidos con media cero. Normalmene asumimos:
+
+$w_t \sim  N(0,q)$
+
+Donde nos referimos al ruido blanco gaussiano. Esto es lo que esperamos obtener cuando removemos la autocorrelación de la serie (i.e. tendencias, efectos estacionales, etc). Entonces $\epsilon_t$ será un ruido blanco con las propiedades:
+
+$\overline{x}=0$
+
+$$c_k=Cov(e_t,e_{t+k})= \begin{cases}
+    q       & \quad \text{si }  k=0\\
+    0  & \quad \text{si } k \neq  0
+  \end{cases}$$
+  
+  
+$$r_k=Cor(e_t,e_{t+k})= \begin{cases}
+    1       & \quad \text{si }  k=0\\
+    0  & \quad \text{si } k \neq  0
+  \end{cases}$$
+
+
+### Random walk 
+
+Es una serie de tiempo $ \{ x_t \}$:
+
+$$x_t=x_{t-1}+w_t$$
+donde, $w_t$ es ruido blanco, normalmente $w_t \sim  N(0,q)$
+
+Un random walk es una serie no estacionaria (i.e. sus propiedades dependen de donde nos ubiquemos en la serie de tiempo). Como también podemos notar, un ruido blanco $w_t$ es estacionario.
+
+
+### Autocorrelación
+
+#### Función de autocorrelación (ACF)
+
+La autocorrelación es la correlación de una variable con si misma a diferentes lags o saltos $(k)$ de tiempos.
+
+$$r_k=Cor(x_t,x_{t+k})$$
+El intervalo de confianza (95%) es calculado como:
+
+$$-\frac{1}{n}\pm\frac{2}{\sqrt{n}}$$
+donde, $n$ es el número de datos.
+
+#### Función de autocorrelación parcial (PACF)
+
+Mide la correlación lineal de una serie $\{x_t\}$ y una versión "salteada" (lagged) de ella $ \{ x_{t+k} \}$ con la dependencia lineal de  $ \{ x_{t-1},x_{t-2},...,x_{t-(k-1)} \}$ removida.
+
+$$f_k=\begin{cases}
+    Cor(x_1,x_0)=r_1  & \quad \text{si }  k=1\\
+Cor(x_k-x_k^{k-1},x_0-x_0^{k-1})  & \quad \text{si } k \geq  2
+  \end{cases}$$
+
+
+#### Función de correlación cruzada
+
+Empleada para dos o más series distintas, donde se quiere observar el grado de correlación entre ellas a diferentes 'saltos'.
+
+$$g_k^{xy}=\frac{1}{n}\sum_{t=1}^{n-k}(y_t - \overline{y})(x_{t+k} - \overline{x})$$
+
+Luego:
+
+$$r_k^{xy}=\frac{g_k^{xy}}{\sqrt{SD_xSD_y}}$$
+
+### Modelos autoregresivos (AR)
+
+Describe el comportamiento de una serie de tiempo. Tiene un orden $p$, abreviado como $AR(p)$:
+
+$$x_t=\phi_1 x_{t-1}+\phi_2 x_{t-2}+...+\phi_p x_{t-p}+w_t$$
+donde $w_t$ es un ruido blanco.
+
+### Modelos de media móvil (MA)
+
+Tiene un orden $q$, abreviado como $MA(q)$, es una suma ponderada del error aleatorio actual más los $q$ errores más recientes:
+
+$$x_t=w_t+\theta_1 w_{t-1}+\theta_2 w_{t-2}+...+\theta_q w_{t-q}$$
+donde $w_t$ es un ruido blanco.
+
+### Modelos de media móvil autoregresivos (ARMA)
+
+Es una mezcla de los dos modelos anteriores $ARMA(p,q)$:
+
+$$x_t=\phi_1 x_{t-1}+\phi_2 x_{t-2}+...+\phi_p x_{t-p}+w_t+
+\theta_1 w_{t-1}+\theta_2 w_{t-2}+...+\theta_q w_{t-q}$$
+
+donde $w_t$ es un ruido blanco.
+
+
+Ahora vamos a ver todos estos conceptos aprendidos en R:
+```{r warning=FALSE, message=FALSE}
+#Leemos las librerias que vamos a utilizar para este capitulo
+require(stats)
+require(MARSS)
+require(forecast)
+require(datasets)
+require(nlme)
+require(pgirmess)
+require(ncf)
+require(spdep)
+require(geoR)
+require(gstat)
+require(spatstat)         
+require(raster)  
+
+# Leer datos a utilizar
+load('data/NHTemp.RData')
+Temp = NHTemp
+load('data/MLCO2.RData')
+CO2 = MLCO2
+
+# Veamos como se estructuran mis datos normalmente:
+head(CO2)
+tail(CO2)
+
+# Vamos a transformalo en un formato ts
+# Especificamos frecuencia (12 meses)
+co2 = ts(data = CO2$ppm, frequency = 12, start = c(CO2[1, "year"], 
+                                                    CO2[1, "month"]))
+
+# Podemos hacer una figura de este objeto:
+plot.ts(co2, ylab = expression(paste("CO"[2], " (ppm)")))
+
+# Ahora para la variable temperatura
+temp.ts = ts(data = Temp$Value, frequency = 12, start = c(1880, 1))
+
+
+## Podemos juntar ambas series de tiempo
+# Interseccion:
+datI = ts.intersect(co2, temp.ts)
+
+# Union:
+datU = ts.union(co2, temp.ts)
+
+# Plotear el objeto unido
+plot(datI, main = "", yax.flip = TRUE)
+
+# Usando la data de CO2, podemos descomponerla en los
+# componentes: tendencia, estacional, remanente
+co2.decomp = decompose(co2)
+
+# Veamos esta descomposicion
+plot(co2.decomp, yax.flip = TRUE)
+
+
+# Creamos una funcion de autocorrelacion
+acf(co2, lag.max = 36)
+
+# Como interpretamos estos resultados?
+# Serie altamente correlacionada en muchos 'lags' o saltos
+
+# Creamos una funcion de autocorrelacion parcial
+pacf(co2, lag.max = 36)
+
+# Como interpretamos esto?
+# Aproximacion de la correlacion entre el componente remanente.
+# Importante para construir modelos AR MA ARMA (ver mas adelante)
+
+# Veamos correlacion cruzada
+# Leemos dos bases de datos: abun linces y ciclo solar
+suns = ts.intersect(lynx, sunspot.year)[, "sunspot.year"]
+lynx = ts.intersect(lynx, sunspot.year)[, "lynx"]
+
+# Vamos a graficarlas:
+plot(cbind(suns, lynx), yax.flip = TRUE)
+
+
+# Veamos la correlacion cruzada
+# x = ciclo solar
+# y = lince
+ccf(suns, log(lynx), ylab = "Cross-correlation")
+
+# Como interpretamos esto?
+# Mirar la correlacion cruzada a -3 y -5
+# El numero de linces son relativamente mas bajos
+# 3-5 anios despues de un ciclo solar alto 
+
+# El numero de linces son relativamente mas altos 
+# 11-13 anios antes de un ciclo solar alto
+
+# Ruido blanco
+
+# Vamos a simular ruido blanco:
+set.seed(123)
+GWN = rnorm(n = 100, mean = 5, sd = 0.2)
+
+# Grafiquemos
+plot.ts(GWN)
+abline(h = 5, col = "blue", lty = "dashed")
+
+# Veamos el ACF
+acf(GWN, main = "", lag.max = 20)
+
+# Vemos lo que esperabamos?
+# No hay correlacion! Si tiene sentido!
+
+# Random walk
+# Vamos a simularlo
+set.seed(123)
+TT = 100 # n puntos a simular
+# iniciamos ruido blanco y random walk
+xx = ww = rnorm(n = TT, mean = 0, sd = 1)
+# Loop:
+for (t in 2:TT) {
+  xx[t] = xx[t - 1] + ww[t]
+}
+
+# Ahora observemos lo simulado:
+par(mfrow = c(1, 2))
+plot.ts(xx, ylab = expression(italic(x[t])))
+acf(xx)
+
+# Tiene sentido el ACF?
+# Si tiene sentido la ACF. Tiene una fuerte autocorrelacion
+
+# AR models:
+
+# Simulemos 2 AR time series:
+set.seed(456)
+# Especificamos el orden en 'order', los coeficientes phi en 'ar' 
+# y la sd del ruido blanco:
+AR.sm = list(order = c(1, 0, 0), ar = 0.1, sd = 0.1) 
+AR.lg = list(order = c(1, 0, 0), ar = 0.9, sd = 0.1)
+# Simulamos
+AR1.sm = arima.sim(n = 50, model = AR.sm)
+AR1.lg = arima.sim(n = 50, model = AR.lg)
+
+# Veamos que obtenemos
+par(mfrow = c(1, 2))
+ylm = c(min(AR1.sm, AR1.lg), max(AR1.sm, AR1.lg))
+plot.ts(AR1.sm, ylim = ylm, ylab = expression(italic(x)[italic(t)]), 
+        main = expression(paste(phi, " = 0.1")))
+plot.ts(AR1.lg, ylim = ylm, ylab = expression(italic(x)[italic(t)]), 
+        main = expression(paste(phi, " = 0.9")))
+
+# Ahora hagamos lo mismo para un orden mayor
+set.seed(123)
+ARp = c(0.7, 0.2, -0.1, -0.3)
+AR.mods = list()
+for (p in 1:4) {
+  AR.mods[[p]] = arima.sim(n = 10000, list(ar = ARp[1:p]))
+}
+
+# Ploteamos
+# par(mfrow = c(4, 3))
+# for (p in 1:4) {
+#   plot.ts(AR.mods[[p]][1:50], ylab = paste("AR(", p, ")", sep = ""))
+#   acf(AR.mods[[p]], lag.max = 12)
+#   pacf(AR.mods[[p]], lag.max = 12, ylab = "PACF")
+# }
+
+# Observemos el PACF
+# El orden de proceso AR esta relacionado con
+# el numero de autocorrelaciones significativas 
+# a diferentes saltos.
+
+# MA models:
+# Hagamos lo mismo que hicimos para AR models:
+set.seed(123)
+MA.sm = list(order = c(0, 0, 1), ma = 0.2, sd = 0.1)
+MA.lg = list(order = c(0, 0, 1), ma = 0.8, sd = 0.1)
+MA.neg = list(order = c(0, 0, 1), ma = -0.5, sd = 0.1)
+# Simulamos
+MA1.sm = arima.sim(n = 50, model = MA.sm)
+MA1.lg = arima.sim(n = 50, model = MA.lg)
+MA1.neg = arima.sim(n = 50, model = MA.neg)
+
+
+# Plot:
+par(mfrow = c(1, 3))
+plot.ts(MA1.sm, ylab = expression(italic(x)[italic(t)]), 
+        main = expression(paste(theta, " = 0.2")))
+plot.ts(MA1.lg, ylab = expression(italic(x)[italic(t)]), 
+        main = expression(paste(theta,  " = 0.8")))
+plot.ts(MA1.neg, ylab = expression(italic(x)[italic(t)]), 
+        main = expression(paste(theta,  " = -0.5")))
+
+# Analicemos el patron 
+# No gran cambio: simples combinaciones de ruido blanco
+
+# Ahora para diferentes ordenes:
+set.seed(123)
+MAq = c(0.7, 0.2, -0.1, -0.3)
+MA.mods = list()
+for (q in 1:4) {
+  MA.mods[[q]] = arima.sim(n = 1000, list(ma = MAq[1:q]))
+}
+
+# Plot:
+# par(mfrow = c(4, 3))
+# for (q in 1:4) {
+#   plot.ts(MA.mods[[q]][1:50], ylab = paste("MA(", q, ")", sep = ""))
+#   acf(MA.mods[[q]], lag.max = 12)
+#   pacf(MA.mods[[q]], lag.max = 12, ylab = "PACF")
+# }
+
+# ACF va a cero bastante rapido
+# PACF: va a cero lentamente
+
+# ARMA models:
+
+# Vamos a estimar los parametros de un modelo ARMA
+
+# Simulamos una serie de timepo:
+set.seed(123)
+ARMA22 = list(order = c(2, 0, 2), ar = c(-0.7, 0.2), ma = c(0.7, 0.2))
+# la media del proceso
+mu = 5
+# simulamos usando la funcion arima.sim. Cambia 'n' para ver su efecto
+ARMA.sim = arima.sim(n = 100, model = ARMA22) + mu
+## estimate parameters
+arima(x = ARMA.sim, order = c(2, 0, 2))
+
+# Usamos esta funcion para estimar los parametros adecuados 
+# para diferentes ordenes (lo que normalmente queremos hacer)
+auto.arima(ARMA.sim, start.p = 0, max.p = 3, start.q = 0, max.q = 3)
+
+# Son buenos los estimados?
+
+# Una aplicacion: --------------------------------
+# Importante!: Usarlo cuando implementamos una regresion lineal
+# con datos que tienen autocorrelacion temporal
+
+# Leemos datos:
+chum = read.csv('data/coastwide_chum_data.csv')
+
+# Seleccionamos solo una parte de la base de datos:
+stock1 = chum[chum$stock=='SE-SC AKPen',c('stock','entry.yr','spawners','recruits','ln.rs',
+                                         'loc.sst','w.sst.1','w.sst.2','npgo2','npgo','pdo2','pdo','long','lat')]
+head(stock1)
+
+# Implementamos una regresion lineal:
+lm_loc_sst = lm(ln.rs~spawners+loc.sst,data=stock1)
+
+# Observamos checking plots:
+opar = par(mfrow=c(2,2)) # panel 2 por 2
+plot(lm_loc_sst)
+par(opar)
+
+# Vemos si existe algun tipo de correlacion temporal
+opar = par(mfrow=c(1,3)) # panel 2 por 2
+plot(residuals(lm_loc_sst), type = 'b')
+acf(residuals(lm_loc_sst))
+pacf(residuals(lm_loc_sst))
+par(opar)
+
+# Vamos a tratar de tomar en cuenta esta correlacion temporal
+gls_loc.sst = gls(ln.rs~spawners+loc.sst,data=stock1, method='ML')
+summary(gls_loc.sst)
+
+gls_loc.sst_AR1 = gls(ln.rs~spawners+loc.sst,data=stock1,
+                     correlation = corAR1(form=~entry.yr), method='ML')
+summary(gls_loc.sst_AR1)
+
+# Cual de los dos modelos es mejor?
+AIC(gls_loc.sst_AR1,gls_loc.sst)
+
+# Vemos si existe algun tipo de correlacion temporal
+opar = par(mfrow=c(1,2)) # panel 2 por 2
+pacf(residuals(gls_loc.sst,type='normalized'),main='Normalized residuals GLS_SST')
+pacf(residuals(gls_loc.sst_AR1,type='normalized'),main='Normalized residuals GLS_SST_AR1')
+par(opar)
+```
+
+
+## Introducción al análisis espacial
+
+Algunos conceptos importantes en este tema:
+
+* Ecologia espacial: se refiere al estudio y modelado del rol (o roles) del espacio sobre procesos ecológicos. Tiene aplicaciones en muchos campos como la conservación y manejo de recursos.
+
+* Escala espacial: importante cuando nos planteamos nuestra pregunta de investigación. Se refiere a la dimensión o dominio espacio-temporal de un proceso o patrón.
+
+### Definiciones:
+
+1. Grano:
+Unidad espacial más fina de medida para un proceso.
+
+2. Extensión:
+Área bajo investigación.
+
+### Datos o procesos puntuales
+
+Diferentes tipos de datos se pueden colectar en campo:
+
+a. Presencia en un área determinada.
+
+b. Presencia/ausencia.
+
+c. Algún indicador de abundancia.
+
+d. Alguna covariable adicional.
+
+Estudiar procesos puntuales nos ayuda a inferir comportamieno de la variable bajo estudio. Esto tiene una influencia importante sobre la ecología de la especie.
+Análisis del patrón de puntos examinan si hay regularidades en el proceso que representan (son agrupados? aleatorios? uniformes?).
+
+* **Proceso puntual**: son procesos aleatorios que resultan en realizaciones (observaciones) de puntos en tiempo y espacio.
+
+* **Proceso puntual de Poisson**: puntos son independientemente distribuidos (aleatorios) en el espacio.
+
+#### Modelos nulos (null models)
+
+Usados para evaluar la significancia del patrón observado de puntos. Normalmente son procesos aleatorios con los cuales vamos a comprar las observaciones.
+
+#### Aleatoriedad espacial completa (CSR)
+
+Asume que el número de puntos en una región sigue una distribución tipo Poisson con una media dada.  Además, asume que los puntos son una muestra aleatoria independiente, y todos tienen la misma probabilidad de ocurrir. Nos ayudan a determinar si los puntos observados son aleatorios o no al compararlos con este tipo de proceso puntual.
+
+Veamos ahora algunos métodos para estudiar el nivel de agregación de las observaciones.
+
+#### K de Ripley
+
+Calcula el grado de agregación espacial de puntos dentro de un círculo de radio *r* y lo contrasta con lo experado a partir de una distribución totalmente aleatoria (CSR).
+
+#### Distancia entre vecinos: Función G
+
+Estima la distribución acumulada de las distancias de los vecinos más cercanos a un punto dado. Útil para interpretar probabilidad de encontrar el vecino más cercano a una distancia *r*.
+
+#### Marcas bivariadas o multivariadas
+
+Usado para dos tipos de puntos (e.g. dos diferentes especies). Marcas son simplemente información acerca de los eventos (puntos), que puede ser categórica (e.g. presencia predador - presa) o continua (e.g. densidad de aves y árboles).
+
+### Efecto de borde
+
+Que sucede cuando no tengo suficientes puntos cerca del borde? Algunos resultados serán sesgados. Los métodos anteriormente mencionados pueden incorporar correciones para lidiar con este efecto de borde.
+
+Hasta el momento hemos asumido supuestos importantes en nuestros datos. Por ejemplo, isotropía, que quiere decir que los procesos espaciales no cambian en función de la dirección que se tome en cuenta. Además, estos métodos para estudiar la distribución de puntos asume que los datos provienen de un censo, lo cual dificilmente sucede. 
+
+
+### Dependencia espacial y autocorrelación
+
+Vamos a presentar definiciones importantes en este campo. Para esta parte vamos a trabajar con los valores de una variable en el espacio (ya no solamente procesos puntuales).
+
+Primera ley de la geografía: *Todo esta relacionado a todo lo demás, pero objetos cercanos lo están más que objetos distante*.
+
+* Estadística espacial: tiene por objetivo cuantificar el patrón espacial y si significancia estadística.
+
+* Geoestadística: tiene por objetivo cuantificar la varianza espacial y usar esta información para interpolar datos.
+
+* Dependencia espacial: similaridad de una variable como una función del lugar o distancia geográfica.
+
+Algunas otras definiciones:
+
+1. *Mecanismos endógenos*, provienen de la misma población.
+
+2. *Mecanismos exógenos*, provienen de factores externos a la población.
+
+3. *Dependencia espacial*, resultado de mecanismos endógenos y exógenos.
+
+4. *Autocorrelación espacial*, resultado solamente de mecanismos endógenos.
+
+
+### Cuantificación de correlación espacial
+
+#### Correlogramas
+
+Recordemos la correlación de Pearson:
+
+$$r(z_1,z_2)=\frac{\sum_{i=1}^{n}(z_{1i}-\overline{z}_1)(z_{2i}-\overline{z}_2)}{\sqrt{\sum_{i=1}^n(z_{1i}-\overline{z}_1)^2\sum_{i=1}^n(z_{2i}-\overline{z}_2)^2}}=\frac{Cov(z_1,z_2)}{\sqrt{Var(z_1)Var(z_2)}}$$
+
+Podemos extender esto al espacio (índice de Moran):
+
+$$I(d)=\frac{n}{W(d)} \frac{\sum_{i=1}^n \sum_{j=1}^n w_{ij}(d)(z_i-\overline{z})(z_j-\overline{z})}{\sum_{i=1}^n(z_i-\overline{z})^2}$$
+Algunos puntos importantes:
+
+* La figura de distancia vs. $I(d)$ es conocido como correlograma.
+
+* Valores cercanos a 0 indican ausencia de un patrón espacial.
+
+* Valores cercanos a 1 indican alta autocorrelación espacial.
+
+* Se necesitan normalmente más de 20 pares de puntos.
+
+* Asume isotropía, pero puede considerar anisotropía.
+
+* Sensible a outliers.
+
+
+#### Variogramas
+
+Otra forma de estudiar la autocorrelación espacial en una variable en el espacio. En geostadística, se centra en varianzas y covarianzas.
+
+$$Var(z)=\frac{1}{n-1}\sum_{i=1}^n(z_i - \overline{z})^2$$
+$$Cov(z_1,z_2)=\frac{1}{n-1}\sum_{i=1}^n(z_{1,i} - \overline{z}_1)(z_{2,i} - \overline{z}_2)$$
+La semivarianza es estimada:
+
+$$\gamma(d)=\frac{1}{2n(d)}\sum{i}^{n(d)}[z(x_i)-z(x_i+d)]^2$$
+**Definiciones importantes:**
+
+* Semivariograma (o variograma) es la representación gráfica de la semivarianza en función a la distancia.
+
+* Valores pequeños (cerca a 0) indican alta autocorrelación espacial.
+
+* Variogramas empíricos, provienen de los datos. Se representan simplemente por puntos.
+
+* Variogramas teóricos, vienen de un modelo que trata de ajustar a lo observado (variograma empírico). Es utilizado para la interpolación.
+
+Existen tres parámetros comunes que son estimados en un variograma teórico:
+
+a. Nugget: Variabilidad en datos a distancias muy cortas.
+
+b. Rango: Distancia hasta donde se observa dependencia.
+
+c. Sill: Nivel de variabilidad que no se atribuye a autocorrelación espacial.
+
+Existen varios tipos de modelos para implementar un variograma teórico, entre los más comunes son:
+
+* Esférico
+
+* Exponencial
+
+* Gausiano
+
+* Matérn
+
+#### Kriging
+
+Utilizado para inteprolar en una región dad basado en el grado de dependencia espacial. Usa información del semivariograma para realizar la interpolación espacial. El objetivo de esta interpolación es minimizar la varianza de la covarianza espacial en los datos. Normalmente modelado de la siguiente manera:
+
+$$z=f(x_i)+v(x_i)+\varepsilon_i$$
+
+donde, $f(x_i)$ es una función de tendencia (en el espacio) determinística, $x_i$ es un punto en el espacio, $z$ son los valores predichos por el kriging, $v(x_i)$ decribe la dependencia espacial, $\varepsilon_i$ describe el error.
+
+Para el kriging ordinario:
+$$f(x_i)=0$$
+Normalmente se usa kriging universal:
+$$f(x_i) \neq 0$$
+
+Pasos importantes para realizar una interpolación espacial mediante kriging:
+
+1. Tener puntos de muestreo con variable a modelar.
+
+2. Obtener el variograma teórico (puede ser con un modelo esférico, exponencial, etc.)
+
+3. Definir el área y grilla de interpolación.
+
+4. Con esta información, puedo realizar la interpolación mediante el método de kriging.
+
+A continuación vamos a ver algunas aplicaciones usando R:
+```{r warning=FALSE, message=FALSE}
+# Procesos puntuales:
+ 
+# Leemos datos:
+cactus = read.csv("data/cactus.csv")
+boundary = read.csv("data/cactus_boundaries.csv",header=T)
+
+# Explorar datos
+head(cactus)
+head(boundary)
+
+# creamos spatstat objects
+ppp.window = owin(xrange=c(boundary$Xmin, boundary$Xmax),
+                 yrange=c(boundary$Ymin, boundary$Ymax))
+ppp.cactus = ppp(cactus$East, cactus$North, window=ppp.window)
+
+# Graficamos los puntos de muestreo:
+par(mfrow = c(1,1))
+plot(ppp.cactus)
+
+# Un resumen de informacion
+summary(ppp.cactus)
+
+# Plots de densidad
+plot(density(ppp.cactus))
+
+# Elaborar cuadrantes:
+Q = quadratcount(ppp.cactus, nx = 4, ny = 4) 
+
+# Graficamos:
+plot(ppp.cactus, cex = 2)
+plot(Q, add = TRUE, cex = 1)
+
+# Prueba chi-sq para verificar CSR:
+quadrat.test(ppp.cactus, nx = 4, ny = 4, method="Chisq")
+# Mis datos no son aleatorios basados en esta prueba de hipotesis
+
+#Ripley's K function:
+#-----------------------#
+Knone = Kest(ppp.cactus, correction="none")
+
+# Graficamos el resultado
+plot(Knone)
+
+# Veamos en forma linearizada (mejor interpretacion):
+Lnone = Lest(ppp.cactus, correction="none")
+plot(Lnone, legend=F)
+
+# Comportamiento de agregacion. r = radio del circulo
+
+# Podemos ver la significancia del comportamiento de agregacion (MCMC)
+Lcsr = envelope(ppp.cactus, Lest, nsim=99, correction="trans")
+
+# Grafiquemos:
+plot(Lcsr, . - r~r, shade=c("hi", "lo"), legend=F)
+
+# Si la linea negra esta fuera de la zona gris, 
+# el comportamiento agregativo es significativo.
+
+#G function
+#-----------------------#
+Gtrans = Gest(ppp.cactus, correction="none")
+
+# Grafiquemos
+plot(Gtrans)
+
+# Ver significancia de este indicador
+Genv = envelope(ppp.cactus, Gest, nsim=99, rank=1, correction="rs", global=F)
+
+#plot G with envelope
+plot(Genv, shade=c("hi", "lo"), legend=F)
+
+# Interpretacion: este analisis sugiere que las
+# distancias a los vecinos mas cercanos son aleatorias
+# a pequenas escalas (<2m). Mientras que distancias
+# son mas cercanas a las esperadas a escalas mayores.
+
+# Marked point patterns
+##############################################
+# Ver la relacion entre cactus y un bicho
+
+# Creamos una nueva columna
+cactus$CheliPA = as.factor(ifelse(cactus$chelinidea>0, "presence", "absence"))
+head(cactus)
+
+# Creamos un nuevo objeto
+ppp.PA = ppp(cactus$East, cactus$North, window=ppp.window, marks=cactus$CheliPA)
+
+# Resumen:
+summary(ppp.PA)
+
+# Graficamos
+plot(split(ppp.PA))
+
+# Hacemos un analisis solamente considerando el bicho
+cheli.data = subset(cactus, chelinidea>0)
+ppp.bug = ppp(cheli.data$East, cheli.data$North, window=ppp.window)
+Lbug = envelope(ppp.bug, Lest, nsim=99, rank=1, i="presence", global=F)
+plot(Lbug, . - r~r, shade=c("hi", "lo"), legend=F)
+
+# Ahora hacemos el analisis para las dos variables:
+Lmulti = envelope(ppp.PA, Lcross, nsim=99, rank=1, i="presence", global=F, simulate=expression(rlabel(ppp.PA)))
+
+# Graficamos
+plot(Lmulti, . - r~r, shade=c("hi", "lo"), legend=F)
+
+# Ambas especies tienen un comportamiento espacial
+# similar (agregativo)
+
+# -----------------------------
+# Correlacion espacial y Geoestadistica:
+# 
+
+# Leemos los datos
+matrix = read.csv('data/cactus_matrix.csv', header=T)
+head(matrix)
+
+# Hacemos una grafica:
+plot(matrix[,"y"] ~ matrix[,"x"],
+     pch=21, cex=1.2,
+     bg=gray.colors(12)[cut(matrix[,"Height"], breaks = 12)])
+
+# Veamos la distribucion de la variable a estudiar:
+hist(matrix[,"Height"], xlab="Vegetation height (cm)",
+     main="histogram of vegetation height")
+
+# Distribucion normal es altamente recomendable
+
+# Calculamos la matriz de distancias:
+coords = cbind(matrix$x, matrix$y)
+colnames(coords) = c("x", "y")
+distmat = as.matrix(dist(coords))
+
+#Maxima distancia para considerar en el correlograma
+maxdist = 2/3*max(distmat)
+
+# Construimos el correlograma
+#--------------------------------------#
+correlog.pgirmess = pgirmess::correlog(coords, matrix$Height, method="Moran",
+                                        nbclass=14, alternative = "two.sided")
+
+# Hacemos una grafica:
+plot(correlog.pgirmess[,1], correlog.pgirmess[,2],
+     xlab="Distance (m)", ylab="Moran's I")
+abline(h=0)
+
+# Podemos construit un correlograma con IC
+spline.corr = spline.correlog(x = matrix$x, y = matrix$y, z = matrix$Height,
+                               xmax = maxdist, resamp=99, type="boot")
+# Graficamos
+plot(spline.corr)
+
+
+# Variogramas
+#############################################
+
+# Crear un nuevo objeto:
+geoR.veg = as.geodata(matrix)
+
+# Grafiquemos
+plot(geoR.veg)
+
+# Semivariograma empirico:
+emp = variog(geoR.veg, max.dist=maxdist)
+
+# Grafiquemos
+plot(emp)
+
+# Podemos modificar el numero de lags tambien:
+emp = variog(geoR.veg, max.dist=maxdist, breaks=c(seq(0,maxdist,by=3)))
+
+# Grafiquemos
+plot(emp)
+
+# Verifiquemos anisotropia:
+
+# Variograma direccional:
+emp4 = variog4(geoR.veg, max.dist=maxdist)
+
+# Grafiquemos
+plot(emp4, legend = FALSE)
+
+# Model-based variograms with likelihood fitting in geoR
+#-------------------------------------------------------#
+
+# Variograma teorico:
+# Exponential variogram
+mlexp = likfit(geoR.veg, cov.model="exp", ini=c(700,10))
+
+# Spherical variogram
+mlsph = likfit(geoR.veg, cov.model="sph", ini=c(700,10))
+
+# Podemos comparar
+summary(mlexp)
+summary(mlsph)
+AIC(mlexp,mlsph)
+
+# Grafiquemos
+plot(emp)
+lines(mlexp, col="blue") 
+lines(mlsph, col="red")
+
+# Kriging e interpolation
+############
+
+# Creamos grilla de interpolacion:
+new.grid.1m = expand.grid(0:max(matrix$x), 0:max(matrix$y))
+
+# Ordinary kriging
+krig.geoR.exp = krige.conv(geoR.veg,locations=new.grid.1m,
+                          krige=krige.control(cov.pars=c(mlexp$cov.pars[1], mlexp$cov.pars[2]), nugget = mlexp$nugget,
+                                              cov.model="exp", type.krige="OK"))
+
+# Graficamos
+image(krig.geoR.exp, main="krigged estimates")
+```
+
+

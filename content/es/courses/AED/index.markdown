@@ -15,19 +15,19 @@ links:
 - icon: laptop-code
   icon_pack: fas
   name: Lab 2
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ADE/ADE_Manual_2.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 3
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ADE/ADE_Manual_3.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 4
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ADE/ADE_Manual_4.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 5
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ADE/ADE_Manual_5.html
 projects: []
 subtitle: Statistical basis of common techniques used in ecology.
 summary: Statistical basis of common techniques used in ecology.

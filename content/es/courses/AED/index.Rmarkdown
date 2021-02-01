@@ -31,19 +31,19 @@ links:
 - icon: laptop-code
   icon_pack: fas
   name: Lab 2
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ADE/ADE_Manual_2.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 3
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ADE/ADE_Manual_3.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 4
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ADE/ADE_Manual_4.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 5
-  url: /labs/ADE/00-install_name_plot.html
+  url: /labs/ADE/ADE_Manual_5.html
 ---
 
 This course explores the statistical methods commonly used in ecology using the R programming language. It is an introductory course to other fields in ecology such as: spatial ecology, community ecology, species distribution models, and time series analysis. It is organized by **Cousteau Consultant Group** and taught in five days, three hours per day. In this page you can find a brief summary of the R codes discussed during this course. 
