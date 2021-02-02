@@ -29,30 +29,30 @@ links:
   name: Lab 5
   url: /labs/ADE/ADE_Manual_5.html
 projects: []
-subtitle: Statistical basis of common techniques used in ecology.
-summary: Statistical basis of common techniques used in ecology.
-title: Analysis of ecological data with R
+subtitle: Bases estadísticas de las técnicas más utilizadas en ecología.
+summary: Bases estadísticas de las técnicas más utilizadas en ecología.
+title: Análisis de datos ecológicos con R
 ---
 
-This course explores the statistical methods commonly used in ecology using the R programming language. It is an introductory course to other fields in ecology such as: spatial ecology, community ecology, species distribution models, and time series analysis. It is organized by **Cousteau Consultant Group** and taught in five days, three hours per day. In this page you can find a brief summary of the R codes discussed during this course.  
+Este curso explora los métodos estadísticos comúnmente usados ​​en ecología usando el lenguaje de programación R. Es un curso de introducción a otros campos de la ecología tales como: ecología espacial, ecología de comunidades, modelos de distribución de especies y análisis de series de tiempo. Está organizado por **Cousteau Consultant Group** y se imparte en cinco días, tres horas al día. En esta página puede encontrar un breve resumen de los códigos R discutidos durante este curso.
 
-## Course programme
+## Programa 
 
-The following topics are discussed:
+Los siguientes temas son tratados:
 
-- **Day 1:** Basics of R programming. Descriptive statistics. Introduction to probability.
-- **Day 2:** Hypothesis testing: one and two samples. ANOVA.
-- **Day 3:** Linear models.
-- **Day 4:** Introduction to time series analysis. Introduction to analysis of spatial data.
-- **Day 5:** Introduction to community ecology. Types of diversity. Cluster analysis.
+- **Día 1:** Conceptos básicos de la programación R. Estadísticas descriptivas. Introducción a la probabilidad.
+- **Día 2:** Prueba de hipótesis: una y dos muestras. ANOVA.
+- **Día 3:** Modelos lineales.
+- **Día 4:** Introducción al análisis de series de tiempo. Introducción al análisis de datos espaciales.
+- **Día 5:** Introducción a la ecología comunitaria. Tipos de diversidad. Análisis de conglomerados.
 
-## Objectives
+## Objetivos
 
-- Introduce statistical concepts used in ecology
-- Interpret statistical outcomes of statistical models
-- Familiarize with the R programming language applied to ecology
+- Introducir conceptos estadísticos utilizados en ecología.
+- Interpretar resultados estadísticos de modelos estadísticos.
+- Familiarizarse con el lenguaje de programación R aplicado a la ecología
 
-## Prerequisite
+## Prerrequisitos
 
-* Basic statistic concepts
-* Basic programming in the R language
+* Conceptos básicos de estadística
+* Conceptos básicos de programación en R
