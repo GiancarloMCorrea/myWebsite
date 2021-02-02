@@ -35,7 +35,7 @@ links:
 projects: []
 subtitle: Common statistical techniques used in community ecology.
 summary: Statistical basis of common techniques used in community ecology.
-title: Community analysis with R
+title: Community analysis in R
 ---
 
 This course explores the statistical methods commonly used in community ecology using the R programming language. There is an important theoretical component since the basis of multivariate methods are introduced and analized carefully. It is organized by **Cousteau Consultant Group** and taught in six days, three hours per day. In this page you can find a brief summary of the topics and R codes discussed during this course. *Paola Galloso* is an important contributor to the material presented in this course. *Information presented here only available in Spanish. I hope to translate this material to English soon.*

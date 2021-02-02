@@ -31,7 +31,7 @@ links:
 projects: []
 subtitle: Statistical basis of common techniques used in ecology.
 summary: Statistical basis of common techniques used in ecology.
-title: Analysis of ecological data with R
+title: Analysis of ecological data in R
 ---
 
 This course explores the statistical methods commonly used in ecology using the R programming language. It is an introductory course to other fields in ecology such as: spatial ecology, community ecology, species distribution models, and time series analysis. It is organized by **Cousteau Consultant Group** and taught in five days, three hours per day. In this page you can find a brief summary of the R codes discussed during this course.  
