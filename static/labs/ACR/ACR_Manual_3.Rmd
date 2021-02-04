@@ -1,0 +1,660 @@
+---
+title: 'Lab 03'
+author: "Giancarlo M. Correa"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Conceptos de álgebra lineal
+
+En esta sección veremos los conceptos necesarios para esta sesión de albebra lineal. Para un conocimiento más amplio de los conceptos presentados aquí, referirse a un libro de álgebra lineal o a [@legendre_numerical_2012].
+
+### Matriz identidad
+
+La matriz identidad ($I$) viene dada por:
+
+$$\mathbf{I} = \left[\begin{array}
+{rrrr}
+1 & 0 & ... & 0 \\
+0 & 1 & ... & 0 \\
+... & ... & ... & ... \\
+0 & 0 & ... & 1 
+\end{array}\right]
+$$
+
+Y tiene dimensiones $n\times n$ ($n$ files y $n$ columnas). Cuando el número de filas y columnas son iguales, se le llama *matriz cuadrada*.
+
+### Matriz transpuesta
+
+Una matriz transpuesta se obtiene cuando se intercambian el orden de filas y columnas de una matriz inicial. Por ejemplo, podemos pasar de la matriz:
+
+$$\mathbf{B} = \left[\begin{array}
+{rrr}
+1 & 2  & 3 \\
+4 & 5  & 6 \\
+7  & 8 & 9 \\
+10 & 11  & 12 
+\end{array}\right]
+$$
+
+A su transpuesta $B'$:
+
+$$\mathbf{B'} = \left[\begin{array}
+{rrrr}
+1 & 4  & 7 & 10 \\
+2 & 5  & 8 & 11 \\
+3 & 6 & 9 & 12
+\end{array}\right]
+$$
+
+Como vemos, para este ejemplo pasamos de una matriz $4\times 3$ a una matriz $3\times 4$, por lo tanto las dimensiones también cambian.
+
+### Matriz simétrica
+
+Una matriz simétrica es cuando $[b_{ij}] = [b_{ji}]$, donde $b_{ij}$ son los elementos que componen una matriz. Por ejemplo:
+
+$$\mathbf{B} = \left[\begin{array}
+{rrr}
+1 & 4 & 5 \\
+4 & 2 & 6  \\
+5 & 6 & 3  
+\end{array}\right]
+$$
+
+### Inversa de una matriz
+
+La inversa de una matriz $B$ es otra matriz $B^{-1}$ tal que $BB^{-1} = B^{-1}B = I$. Como vemos, si $B$ tiene dimensiones $n\times p$, $B^{-1}$ tiene dimensiones $p\times n$.
+
+### Vectores
+
+Un vector $[b]$ viene representado por una matriz de dimensiones $n\times 1$:
+
+$$\mathbf{[b]} = \left[\begin{array}
+{r}
+b_1  \\
+b_2  \\
+... \\
+b_n
+\end{array}\right]
+$$
+
+El tamaño de un vector $[b]$ puede ser calculado como
+
+\begin{equation} 
+  \label{eq:1}
+  \left|\left| b \right|\right| = \sqrt{b_1^2+b_2^2+...+b_n^2}
+\end{equation} 
+
+Para realizar la normalización de un vector, se divide cada elemento $b_{i}$ por la longitud del vector $\left|\left| b \right|\right|$. Por lo tanto, el tamaño de un vector normalizado siempre será igual a 1.
+
+Se dice que dos vectores son *ortogonales* cuando su producto es igual a cero. 
+
+### Vectores y valores propios
+
+Los vectores y valores propios se pueden obtener para una matriz $B_{nn}$ de la siguiente manera
+
+\begin{equation} 
+  \label{eq:2}
+  B_{nn}[u] = \lambda [u]
+\end{equation} 
+
+Los vectores que cumplen esta relación se les conocen como *vectores propios* de la matriz $B_{nn}$. Estos vectores propios se pueden representar en una matriz $U$, donde cada columna es un vector propio. Haciendo algunos arreglos cuando $[u] \neq 0$, tenemos:
+
+\begin{equation} 
+  \label{eq:3}
+  \left| B_{nn}-\lambda I_{nn} \right| = 0
+\end{equation} 
+
+Donde $\left| . \right|$ representa el determinante de una matriz. Los valores que toma $\lambda$ ($n$ valores) para que esta relación sea cierta vienen a ser los *valores propios* de la matriz $B$. 
+
+# Medidas de asociación
+
+En el análisis de comunidades, vamos a utilizar métodos estadísticos que utilizan el álgebra matricial. Vamos a partir de una matriz base compuesta por nuestros datos colectados en campo, a la cual llamaremos $Y$, donde las columnas vienen a ser los *descriptores* (especies ó variables ambientales) y las filas los *objetos* (sitios de muestreo). Los valores que componen esta matriz $y_{ij}$ es el índice de abundancia que estamos utilizando (e.g. conteo, biomasa, cobertura, presencia/ausencia, etc). Por ejemplo, esta es una matriz $Y_{np}$ de $p$ especies y $n$ sitios de muestreo:
+
+$$\mathbf{Y} = \left[\begin{array}
+{rrrr}
+y_{11} & y_{12} & ... & y_{1p} \\
+y_{21} & y_{22} & ... & y_{2p} \\
+... & ... & ... & ... \\
+y_{n1} & y_{n2} & ... & y_{np} 
+\end{array}\right]
+$$
+
+A partir de esta matriz $Y$, nosotros podemos calcular dos tipos de asociaciones: entre sitios de muestreos (objetos) o entre especies u variables ambientales (descriptores). Para el tipo de asociación entre objetos se le conoce como el análisis de ***modo Q***, donde la matriz que representa la asociación es $A_{nn}$, y los valores que componen esta matriz $a_{ij}$ es la fuerza de asociación entre objetos.
+
+Por otro lado, para el tipo de asociación entre descriptores se le conoce como el análisis de ***modo R***, donde la matriz que representa la asociación es $A_{pp}$, y los valores que componen esta matriz $a_{ij}$ es la fuerza de asociación entre descriptores.
+
+Vemos que esta matriz $A$ es cuadrada ya que tiene el mismo número de filas y columnas.
+
+Para hallar la matriz de asociación $A$, que puede ser entre objetos o descriptores, tenemos que definir un coeficiente de asociación, el cual cuantifica la fuerza de asociación entre descriptores u objetos.
+
+Para el caso *modo Q*, los coeficientes de asociación pueden ser coeficientes de similaridad ($S$) o disimilaridad (o distancia, $D$). Para el primer caso $A=S$, y para el segundo caso $A=D$. Debemos notar que $S$ y $D$ son matrices simétricas.  
+
+### Propiedades
+
+Algunas propiedades importantes de coeficientes de distancia son:
+
+1. Mínimo 0. Si $a=b$, entonces $D(a,b)$ = 0, donde $D$ representa distancia.
+2. Positividad. Si $a\neq b$, entonces $D(a,b)>0$.
+3. Simetría. $D(a,b)=D(b,a)$
+4. Triángulo desigual. $D(a,b)+D(b,c)\geq D(a,c)$
+
+### Clasificación
+
+En función a estas propiedades, los coeficientes de asociación pueden ser clasificados:
+
+* *Métricos*: Cumple con las cuatro propiedades
+* *Semimétricos*: Puede no cumplir la propiedad 4
+* *No métricos*: Puede no cumplir las propuedades 1, 2 y 3.
+
+Un coeficiente de asociación o disimilaridad es euclidiano si cualquier matriz $D$ resultante puede ser totalmente representado en un espacio euclideano sin distorsión.
+
+## Datos binarios (presencia-ausencia)
+
+Para casos donde la matriz $Y$ contiene datos de presencia/ausencia, se pueden identificar dos tipos de coeficientes de asociación:
+
+* *Simétrico*: Simple matching
+* *Asimétrico*: Jaccard, Sorensen, Ochiai
+
+Proponemos este ejemplo. Asumamos que tenemos la siguiente matriz es una parte de la matriz $Y$, donde las filas representan objetos y las columnas descriptores. Queremos hallar coeficientes de asociación entre estas dos filas. 
+
+$$\left[\begin{array}
+{rrrrrrr}
+1 & 1 & 0 & 1 & 1 & 0 & 0 \\
+0 & 0 & 1 & 1 & 1 & 0 & 0 
+\end{array}\right]
+$$
+
+A partir de aquí creamos una matriz de dimensión $2\times 2$. Los elementos que componen esta matriz son las veces que ambos objetos tienen presencia para determinada especie ($[1,1]$), presencia y ausencia en objeto 1 y 2, respectivamente ($[1,0]$), ausencia y presencia en objeto 2 y 1, respectivamente ($[0,1]$), y ausencia en ambos objetos ($[0,0]$). A partir de esto, construimos:
+
+$$\left[\begin{array}
+{rr}
+2 & 2 \\
+1 & 2
+\end{array}\right]
+$$
+
+Donde los valores de esta matriz $2\times 2$ (es 2 debido a que solo estamos comparando 2 objetos o sitios de muestreo) viene representada por:
+
+$$\left[\begin{array}
+{rr}
+a & b \\
+c & d
+\end{array}\right]
+$$
+### Simple matching
+
+Para el caso de *Simple Matching*, el índice de disimilaridad $D_{SM}$ es calculado:
+
+\begin{equation} 
+  \label{eq:4}
+  D_{SM} = \frac{b+c}{a+b+c+d}
+\end{equation} 
+
+Y $S_{SM}$ es:
+
+\begin{equation} 
+  \label{eq:4_2}
+  S_{SM} = \frac{a+d}{a+b+c+d}
+\end{equation}
+
+Para nuestro ejemplo, $S_{SM}=0.571$ y $D_{SM}=0.429$.
+
+### Índice de Jaccard
+
+Para el caso de *índice de Jaccard*, el índice de disimilaridad $D_{J}$ es calculado:
+
+\begin{equation} 
+  \label{eq:5}
+  D_{J} = \frac{b+c}{a+b+c}
+\end{equation} 
+
+Y $S_{J}$ es
+
+\begin{equation} 
+  \label{eq:5_2}
+  S_{J} = \frac{a}{a+b+c}
+\end{equation} 
+
+Para nuestro ejemplo, $S_{J}=0.4$ y $D_{J}=0.6$. Para este caso, se excluyen los dobles ceros y $D$ es métrica y no euclideana. Obteniendo $\sqrt{D}$ obtenemos que esta sea euclideana.
+
+### Índice de Sorensen
+
+Para el caso de *índice de Sorensen*, el índice de disimilaridad $D_{Sor}$ es calculado:
+
+\begin{equation} 
+  \label{eq:6}
+  D_{Sor} = \frac{b+c}{2a+b+c}
+\end{equation} 
+
+Y $S_{Sor}$:
+
+\begin{equation} 
+  \label{eq:6_2}
+  S_{Sor} = \frac{2a}{2a+b+c}
+\end{equation} 
+
+
+Para nuestro ejemplo, $S_{Sor}=0.571$ y $D_{Sor}=0.429$. Para este caso, se da doble peso a las presencias en los dos objetos y excluye doble ceros. $D$ es semimétrica no euclideana. Obteniendo $\sqrt{D}$ obtenemos que esta sea euclideana.
+
+### Índice de Ochiai
+
+Para el caso de *índice de Ochiai*, el índice de disimilaridad $D_{Och}$ es calculado:
+
+\begin{equation} 
+  \label{eq:7}
+  D_{Och} = 1 - \frac{a}{\sqrt{(a+b)(a+c)}}
+\end{equation} 
+
+Y $S_{Och}$:
+
+\begin{equation} 
+  \label{eq:7_2}
+  S_{Och} = \frac{a}{\sqrt{(a+b)(a+c)}}
+\end{equation} 
+
+Para nuestro ejemplo, $S_{Och}=0.577$ y $D_{Och}=0.423$. $D$ es semimétrica no euclideana. Obteniendo $\sqrt{D}$ obtenemos que esta sea euclideana.
+
+Como vemos, el índice de Jaccard es mas robusto cuando existen dobles ceros. En general, los índices asimétricos binarios son robustos a la presencia de dobles ceros, ya que el valor $d$ no es incluido en la fórmula.
+
+Hay que notar que $S$ es el complemento de $D$. Es decir, $s_{ij} = 1-d_{ij}$, donde $s_{ij}$ y $d_{ij}$ son los elementos que conforman $S$ y $D$, respectivamente. 
+Para el caso *modo R*, los coeficientes de asociación pueden ser coeficientes de dependencia (e.g. coeficientes de correlación).
+
+## Datos ambientales
+
+Para el caso de variables ambientales (variables cuantitativas), usamos coeficientes de distancia simétricos, donde tanto los dobles valores no cambian el valor de la distancia. La distancia euclideana es la distancia ordinaria de nuestro entorno, y es calculada para dos vectores $[x^1]$ y $[x^2]$ de longitud $p$:
+
+\begin{equation} 
+  \label{eq:8}
+  D_{Euc}(x^1, x^2) = \sqrt{\sum_{j=1}^p (x_{j}^1-x_{j}^2)}
+\end{equation}
+
+Esta distancia euclideana es afectada por las diferentes unidades de las variables ambientales, por lo que antes de calcularla, la matriz de variables ambientales se debe estandarizar. La manera como se puede estandarizar la exploramos en la sesión anterior (e.g. centrar datos o z-scores).
+
+### Coeficiente de Gower
+
+El coeficiente de Gower es considerado un coeficiente de disimilaridad para manejar descriptores con diferentes unidades, y viene representado como:
+
+\begin{equation} 
+  \label{eq:9}
+  D_{Gow}(x^1, x^2) = 1-\frac{1}{p}\sum_{j=1}^p s_j(x^1-x^2)
+\end{equation}
+
+Donde $s_j(x^1,x^2)$ es una función de similaridad parcial hallada de manera separada para cada descriptor. Para el caso de descriptores cuantitativos, esta se halla como:
+
+\begin{equation} 
+  \label{eq:10}
+  s_j(x^1,x^2) = 1-\frac{\left| x^1_{j} - x^2_{j} \right|}{R_j}
+\end{equation}
+
+Donde $R_j$ es el rango del descriptor $j$ (diferencia entre el valor máximo y mínimo).
+
+Para descriptores cualitativos o binarios, $s_j(x^1,x^2) = 1$ si los dos objetos tienen el mismo valor, caso contrario $s_j(x^1,x^2) = 0$.
+
+Una modificación del coeficiente de Gower es incluyendo pesos $w_{12j}$:
+
+\begin{equation} 
+  \label{eq:10_2}
+  D_{Gow}(x^1, x^2) = 1-(\frac{\sum_{j=1}^p w^{12}_{j}s_j(x^1, x^2)}{\sum_{j=1}^p w^{12}_{j}})
+\end{equation}
+
+El valor $w^{12}_{j}$ es igual a 0 cuando no existen datos en alguno de los objetos. En caso contrario, $w^{12}_{j} = 1$. 
+
+## Datos cuantitativos (abundancia)
+
+Para el caso de datos cuantitativos de especies, existen índices asimétricos no euclideanos, los cuales toman en cuenta la diferencias en la abundancia total de los sitios. Tenemos dos índices de similaridad:
+
+### Índice de Ruzicka
+
+Si comparamos dos objetos (sitios), el índice es calcuado como:
+
+\begin{equation} 
+  \label{eq:11}
+  D_{Ruz} = \frac{B+C}{A+B+C}
+\end{equation}
+
+Donde:
+
+- $A=$ Suma de abundancias comunes en sitios 1 y 2
+- $B=$ Suma de abundancias únicas del sitio 1
+- $C=$ Suma de abundancias únicas del sitio 2
+
+### Índice de diferencia porcentual (Bray-Curtis)
+
+Si comparamos dos objetos (sitios), el índice es calcuado como:
+
+\begin{equation} 
+  \label{eq:12}
+  D_{Bray} = \frac{B+C}{2A+B+C}
+\end{equation}
+
+Para el caso de índices euclidianos asimétricos, lo que normalmente se realiza es tranformar los datos en la matriz $Y$ utilizando las técnicas descritas en la sesión anterior. Luego, se calcula la distancia euclideana a partir de esta matriz tranformada. Por ejemplo, si se aplica una transformación de Hellinger y luego se calcula la distancia euclideana entre objetos, la matriz resultante se hace llamar la matriz de distancia de Hellinger.
+
+Algunas medidas de distancia que hemos visto: 
+
+
+|   **Medida**    |   **Propiedad** |   **Descripción**   |
+|:------------:|:----------------:|-----------------|
+|Euclideana   |métrica | Distancia entre dos puntos en un espacio en 2D|
+|Manhattan    |métrica | Distancia entre dos puntos - la distancia es la suma de las diferencias entres las coordenadas cartesianas|
+|Chord        |métrica | Generalmente utilizada para determinar las diferencias debidas a la deriva genética|
+|Mahalanobis  |métrica | Distancia entre un punto y una distribución, donde la distancia es el número de desviaciones estándar del punto correspondiente a la media de la distribución|
+|Chi-cuadrado |métrica | Similar a la distancia euclideana|
+|Bray-Curtis  |semimétrica | Disimilaridad entre dos muestras (o sitios de muestreo) donde la suma de los valores mínimos de las especies presentes en los dos sitios se dividen por la suma de las especies enumeradas en cada sitio|
+|Jaccard      |métrica | Similaridad entre dos muestras, definido como el tamaño de la intersección de las muestras dividido por el tamaño de la unión de los conjuntos de muestras|
+|Sorensen's     |semimétrica | Bray-Curtis correponde a 1 - Sorensen|
+
+Los principales métodos de tranformación de datos de composición de especies son los siguientes:
+
+| **Método** | **Descripción** | **código** |
+|:-----------:|-----------|:-----------:|
+| Chord | Abundancia de especies tranformadas a un vector de valor 1. Preserva la distancia euclideana | decostand(x, method="normalize")|
+| Hellinger | Preserva distancia euclideana. La mejor estadisticamente. Usada también con datos binarios | decostand(x,method="hellinger") |
+| Perfil de especies | En perfiles de abundancia relativa de especies. Para datos de composición. No es la mejor. | decostand(x, method="total")
+| Chi-cuadrado | Reduce el valor de especies abundantes. Da más peso a especies raras.|decostand(x, method="chi.squeare")|
+
+# Métodos de agrupamiento
+
+Una aplicación de la asociación de matrices es la agrupación. No es un método estadístico por sí mismo, porque no prueba una hipótesis, sino que pone de relieve las estructuras de los datos mediante la partición de los objetos o de los descriptores. Como resultado, los objetos similares se combinan en grupos, lo que permite identificar las distinciones - o contrastes - entre los grupos. 
+
+Una ventaja que brinda esta metodología es de dividir un conjunto de sitios en grupos con respecto a sus condiciones ambientales o a la composición de su comunidad.
+
+Los resultados de la agrupación suelen representarse como dendrogramas (árboles), en los que los objetos se aglomeran en grupos. 
+
+Existen varias familias de métodos de agrupación, pero a los efectos de este curso, tan solo se presentará una visión general de tres métodos de agrupación aglomerada jerárquica: la agrupación de enlace única (simple), la agrupación de enlace completo y la agrupación de varianza mínima de Ward. Véase el capítulo 8 de [@legendre_numerical_2012] para más detalles sobre las diferentes familias de métodos de agrupación.
+
+En los métodos jerárquicos, los elementos de las agrupaciones (o grupos) inferiores se convierten en miembros de agrupaciones más grandes y de mayor rango, por ejemplo, especie, género, familia, orden. 
+
+**Importante:** Antes de la agrupación, es necesario crear una matriz de asociación entre los objetos. La matriz de distancia es la elección por defecto de las funciones de agrupación en R. 
+
+La matriz de asociación se clasifica primero en orden de distancia creciente (o similitudes decrecientes). Luego, los grupos se forman jerárquicamente siguiendo las reglas específicas de cada método.
+
+Tomemos un ejemplo simple de una matriz de distancia euclidiana entre 5 objetos que fueron ordenados en orden ascendente. 
+
+![\centering](cluster.example.png){width=60%}
+
+## Método de agrupación de enlace simple y enlace completo
+
+En la agrupación aglomerada de enlace simple (también llamada clasificación de vecino más cercano), se aglomeran los objetos a las distancias más cercanas. Los dos objetos más cercanos se aglomeran primero, los dos objetos/clusters más cercanos siguientes se unen a continuación, y así sucesivamente, lo que a menudo genera largos y delgados clusters o cadenas de objetos (véase cómo se agrupan sucesivamente los objetos del 1 al 5 en la Figura anterior). 
+ 
+Por el contrario, en la aglomeración de enlace completo, un objeto se aglomera en un grupo sólo cuando está vinculado al elemento más lejano del grupo, que a su vez lo vincula a todos los miembros de ese grupo (en el ejemplo anterior, el grupo formado por los objetos 3 y 4 sólo se aglomera con el grupo 1-2 a 0,4, distancia a la que se vinculan los objetos 1, 2, 3 y 4). Como resultado, la agrupación de vinculación completa formará muchos grupos pequeños y separados, y es más apropiado para buscar contrastes, discontinuidades en los datos.
+
+Comparemos los métodos de agrupación de enlaces simples y completos utilizando los datos de las especies de arañas.
+
+Los datos de las especies ya fueron transformados por Hellinger. El análisis de conglomerados que requiere índices de similitud o disimilitud, el primer paso será generar los índices de distancia de Hellinger. 
+
+La mayoría de métodos de agrupamiento pueden ser calculados con la función `hclust` del paquete stats de R.
+
+## Método de agrupación de Ward de varianza mínima
+La agrupación de varianza mínima de Ward difiere de estos dos métodos en que agrupa los objetos en grupos utilizando el criterio de los mínimos cuadrados (similar a los modelos lineales). Al principio, cada objeto se considera como un grupo propio. En cada paso, el par de cúmulos que se fusionan es el que conduce a un aumento mínimo de la suma total de cuadrados dentro del grupo.
+
+De nuevo, es posible generar un cluster de variación mínima de Ward con `hclust`. Sin embargo, el dendograma muestra distancias al cuadrado por defecto. Para comparar este dendrograma con los resultados de la agrupación de vinculación única y completa, se debe calcular la raíz cuadrada de las distancias. 
+
+Los clusters generados con el método de Ward tienden a ser más esféricos y a contener un número similar de objetos.
+
+Hay que tener cuidado en la elección de una medida de asociación y un método de agrupación para abordar correctamente un problema. Qué es lo que más le interesa: los gradientes? los contrastes? Además, los resultados deben ser interpretados con respecto a las propiedades del método utilizado. Si más de un método parece adecuado para una cuestión ecológica, calcularlos todos y comparar los resultados sería el camino a seguir. 
+Como recordatorio, la agrupación no es un método estadístico, pero se pueden tomar otras medidas para identificar agrupaciones interpretables (por ejemplo, dónde cortar el árbol), o para calcular estadísticas de agrupación. La agrupación también puede combinarse con la ordenación para distinguir grupos de sitios. 
+
+# Aplicaciones con R
+
+Cargamos algunas librerías que vamos a utilizar
+```{r warning=FALSE, message=FALSE}
+require(reshape2)
+require(ade4)
+require(adespatial)
+require(vegan)
+require(gclus)
+require(cluster)
+require(FD)
+require(pvclust)
+require(dendextend)
+require(stats)
+require(maps)
+require(mapdata)
+```
+
+Vamos a correr algunas líneas que ya se hicieron en la sesión anterior, por lo que no repetiremos que significa cada línea
+```{r warning=FALSE, message=FALSE}
+# Leer los datos:
+ebsdata = read.csv('data/ebsdata.csv')
+# Vamos 'depurar' la base de datos: eliminemos algunas especies:
+ebsdata_new = ebsdata[!(ebsdata$SCIENTIFIC %in% c('', 'Buccinum sp. egg', 'Nematoda')), ]
+# separemos el lat-lon y env. variables de la data
+# Seleccionemos solo un anio = 2015
+ebs_year = ebsdata_new[ebsdata_new$YEAR == 2015, ]
+station_data = aggregate(ebs_year$STATION, list(lon = ebs_year$LONGITUDE, 
+                                                lat = ebs_year$LATITUDE,
+                                                bot_depth = ebs_year$BOT_DEPTH,
+                                                bot_temp = ebs_year$BOT_TEMP,
+                                                surf_temp = ebs_year$SURF_TEMP),unique)
+colnames(station_data)[6] = 'station'
+
+
+# Obtener matrix de especies y sitios de muestreo para el anio 2005:
+bio_2005 = acast(data = ebsdata_new[ebsdata_new$YEAR == 2005, ], 
+                 formula = STATION ~ SCIENTIFIC,
+                 fun.aggregate = mean, value.var = 'WTCPUE')
+# Dimensiones: Sitios x Especies
+# Reemplazar NaN con ceros:
+bio_2005[is.nan(bio_2005)] = 0
+```
+
+Seleccionemos las 100 especies con mayores abundancias (i.e. índice de biomasa) para este año
+```{r warning=FALSE, message=FALSE}
+in_sp = order(apply(bio_2005,2,mean),decreasing = TRUE)
+bio_2005_new = bio_2005[,in_sp[1:100]]
+dim(bio_2005_new)
+```
+
+Como vemos, solo hay 100 columnas (especies) en el objeto `bio_2005_new`. Ahora realicemos una exploración sencilla de esta matriz
+```{r warning=FALSE, message=FALSE}
+spe = bio_2005_new
+nrow(spe) # numero de filas (sitios, estaciones)
+ncol(spe) # numero de columnas (especies)
+# Valores de abundancia minima y maxima en toda la data set:
+range(spe)
+# Numero of ausencias:
+sum(spe == 0)
+# Proporcion de ceros en el data set de la comunidad:
+sum(spe == 0) / (nrow(spe) * ncol(spe))
+```
+
+Ahora realicemos las transformaciones que exploramos la sesión anterior y creemos un nuevo objeto para cada transformación
+```{r warning=FALSE, message=FALSE}
+spe.pa <- decostand(spe, method = "pa") 
+spe.scal <- decostand(spe, "max") 
+spe.rel <- decostand(spe, "total") # default MARGIN = 1
+spe.norm <- decostand(spe, "normalize") # default MARGIN = 1
+spe.hel <- decostand(spe, "hellinger")
+spe.chi <- decostand(spe, "chi.square")
+```
+
+Para mayores detalles acerca de estas transformaciones, ver `?decostand` de la librería `vegan`.
+
+Ahora seleccionamos las variables ambientales del objeto `station_data` que creamos anteriormente y luego vamos a estandarizar esa matriz
+```{r warning=FALSE, message=FALSE}
+env = station_data[,3:5] # seleccionamos depth, temperatura de fondo y superficie
+env.z = decostand(env, method="standardize") # estandarizar
+```
+
+Ahora calculemos algunas medidas de asociación (*modo Q*) para datos tipos presencia/ausencia. Tengamos en cuenta que estas funciones en R internamente estan convirtiendo la matriz `spe` en una matriz de presencia/ausencias
+```{r warning=FALSE, message=FALSE}
+# Matriz de disimilaridad de Jaccard:
+spe.dj.pa = vegdist(spe, "jac", binary = TRUE)
+#Matriz de disimilaridad de Sorensen:
+spe.ds.pa = dist.ldc(spe, "sorensen")
+#Matriz de disimilaridad de Ochiai:
+spe.och.pa = dist.ldc(spe,"ochiai")
+```
+
+Ahora veamos transformaciones para datos ambientales, para este caso usamos la matriz estandarizada (*modo Q*)
+```{r warning=FALSE, message=FALSE}
+env.de = dist(env.z, method = "euclidean")
+```
+
+Ahora veamos transformaciones para datos de especies cuantitativos (*modo Q*)
+```{r warning=FALSE, message=FALSE}
+# Matriz de disimilaridad de Bray Curtis 
+# en datos brutos de especies:
+spe.db = vegdist(spe)
+# Para abundancias log-transformadas:
+spe.dbln = vegdist(log1p(spe))
+# Matriz de distancia Chord:
+spe.dc = dist.ldc(spe, "chord")
+# Otra forma: transformar datos y luego hallar distancia:
+spe.norm = decostand(spe, "nor")
+spe.dc = dist(spe.norm)
+# Matriz de distancia de Hellinger:
+spe.dh = dist.ldc(spe) # Hellinger es la distancia por default
+# Matriz de distancia log-chord:
+spe.logchord = dist.ldc(spe, "log.chord")
+```
+
+Para calcular los coeficientes de asociación entre especies, primero debemos transponer la matriz original, y a partir de ahí realizar el agrupamiento
+```{r warning=FALSE, message=FALSE}
+# transpuesta de matriz de datos de especies:
+spe.t = t(spe) 
+# Chi-cuadrado:
+spe.t.chi = decostand(spe.t, "chi.square")
+spe.t.D16 = dist(spe.t.chi)
+# Indice de Jaccard en presencia-ausencia:
+spe.t.S7 = vegdist(spe.t, "jaccard", binary = TRUE)
+```
+
+Ahora paremos a métodos de agrupamiento. Primero calculamos la distancia euclideana a partir de la matriz $Y$ transformada por Hellinger
+```{r warning=FALSE, message=FALSE}
+# Calcular la matriz de distancias
+spe.dhel = vegdist(spe.hel,method="euclidean") 
+```
+
+Ahora usamos la función `hclust` para realizar un agrupamiento (*cluster*) de sitios de muestreo por tres métodos. 
+```{r warning=FALSE, message=FALSE}
+# Agrupamiento a enlace simple:
+spe.ch.single=hclust(spe.dhel, method="single")
+plot(spe.ch.single)
+# Agrupamiento a enlace completo:
+spe.ch.complete=hclust(spe.dhel, method="complete")
+plot(spe.ch.complete)
+# Agrupamiento por Método de Ward:
+spe.ch.ward=hclust(spe.dhel, method="ward.D2")
+plot(spe.ch.ward)
+```
+
+Las gráficas obtenidas son agrupaciones de sitios de muestreos con composición de especies similar. 
+
+Ahora identifiquemos cuantos grupos se pueden haber formado. Para esto usamos la función `cutree`, a la cual le debemos dar un número de grupos para que haga el corte
+```{r warning=FALSE, message=FALSE}
+# Escogemos un numero de grupos:
+k = 4  
+# Cortamos los dendogramas:
+spech.single.g = cutree(spe.ch.single, k = k)
+spech.complete.g = cutree(spe.ch.complete, k = k)
+spech.ward.g = cutree(spe.ch.ward, k = k)
+```
+
+Mediante tablas de contingencia, comparamos los agrupamientos de cada método
+```{r warning=FALSE, message=FALSE}
+# Agrupamiento simple vs completo
+table(spech.single.g, spech.complete.g)
+# Agrupamiento simple vs Ward
+table(spech.single.g, spech.ward.g)
+# Agrupamiento completo vs Ward
+table(spech.complete.g, spech.ward.g)
+```
+
+El siguiente código es para calcular de una manera objetiva el número óptimo de clusters. Mayores detalles de este método puede ser encontrado en [@borcard_numerical_2018]
+```{r warning=FALSE, message=FALSE}
+# Seleccionamos el dendograma de Ward y le
+# damos un nuevo nombre (objeto)
+hc = spe.ch.ward
+par(mfrow = c(1, 1))
+# Amplitudes medias de las siluetas (indice de calidad de Rousseeuw)
+Si = numeric(nrow(spe))
+for (k in 2:(nrow(spe) - 1))
+{  sil = silhouette(cutree(hc, k = k), spe.dhel)
+  Si[k] = summary(sil)$avg.width
+}
+k.best = which.max(Si)
+plot(1:nrow(spe), Si, type = "h", main ="Silhouette-optima de numero de clusters",
+  xlab = "k (numero de clusters)",
+  ylab = "Amplitud media")
+axis(1, k.best, paste("optimo", k.best, sep = "\n"),
+  col = "red",font = 2,  col.axis = "red")
+points(k.best, max(Si), pch = 16, col = "red", cex = 1.5) 
+```
+
+Ahora especificamos el número óptimo de agrupaciones obtenido
+```{r warning=FALSE, message=FALSE, fig.height = 8, fig.width = 5}
+#Numero de clusters escogido
+k <- 3
+#Plot de silueta para la particion final
+spech.ward.g = cutree(spe.ch.ward, k = k)
+sil = silhouette(spech.ward.g, spe.dhel)
+rownames(sil) = row.names(spe)
+plot( sil,main = "Plot de Silueta - Hell. - Ward",
+  cex.names = 0.8, col = 2:(k + 1), nmax = 100 )
+```
+
+```{r warning=FALSE, message=FALSE}
+# Reorder clusters
+spe.chwo = reorder.hclust(spe.ch.ward, spe.dhel)
+# ploteando cluster reordenado
+plot(spe.chwo,hang = -1, xlab = "3 groups", sub = "",
+  ylab = "Height", main = "Hell. - Ward (reordenado)",
+  labels = cutree(spe.chwo, k = k))
+rect.hclust(spe.chwo, k = k)
+```
+
+Las agrupaciones obtenidas pueden ser graficadas en el área de estudio
+```{r warning=FALSE, message=FALSE}
+station_data$groups = NA
+station_data$groups[match(names(spech.ward.g), station_data$station)] = spech.ward.g
+par(mar = c(4,4,0.5,0.5))
+plot(x = NA, y = NA, xlab = 'Longitud', ylab = 'Latitud', pch = 19, xlim = c(min(station_data$lon), max(station_data$lon)),
+     ylim = c(min(station_data$lat), max(station_data$lat)))
+points(x = station_data$lon, y = station_data$lat, pch = 19, col = station_data$groups)
+map('worldHires', add = TRUE, col='gray90', fill=TRUE)
+legend('bottomleft', legend = paste0('Grupo ', c(1,2,3)), bty = 'n', col = c(1,2,3),
+       pch = 19)
+```
+
+Ahora exploramos el método de *k-means*, donde usaremos los datos transformados por el método Chord, y especificamos tres grupos
+```{r warning=FALSE, message=FALSE}
+spe.kmeans = kmeans(spe.norm,centers = 3,nstart = 100)
+```
+
+También podemos especificar diferente número de grupos utilizando la función `cascadeKM`
+```{r warning=FALSE, message=FALSE}
+spe.KM.cascade = cascadeKM( spe.norm, inf.gr = 2, sup.gr = 6,
+    iter = 100, criterion = "ssi" )
+summary(spe.KM.cascade)
+spe.KM.cascade$results
+head(spe.KM.cascade$partition)
+plot(spe.KM.cascade, sortg = TRUE)
+```
+
+Vamos a graficar estos resultados en nuestra área de estudio
+```{r warning=FALSE, message=FALSE}
+spe.kmeans.g = spe.kmeans$cluster
+station_data$groups = NA
+station_data$groups[match(names(spe.kmeans.g), station_data$station)] = spe.kmeans.g
+par(mar = c(4,4,0.5,0.5))
+plot(x = NA, y = NA, xlab = 'Longitud', ylab = 'Latitud', pch = 19, xlim = c(min(station_data$lon), max(station_data$lon)),
+     ylim = c(min(station_data$lat), max(station_data$lat)))
+points(x = station_data$lon, y = station_data$lat, pch = 19, col = station_data$groups)
+map('worldHires', add = TRUE, col='gray90', fill=TRUE)
+legend('bottomleft', legend = paste0('Grupo ', c(1,2,3)), bty = 'n', col = c(1,2,3),
+       pch = 19)
+```
+
+# Referencias

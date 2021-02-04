@@ -19,7 +19,7 @@ links:
 - icon: laptop-code
   icon_pack: fas
   name: Lab 3
-  url: /labs/ACR/00-install_name_plot.html
+  url: /labs/ACR/ACR_Manual_3.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 4
