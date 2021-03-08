@@ -1,0 +1,505 @@
+---
+title: 'Lab 06'
+author: "Paola Galloso"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ordenacion Canonica
+
+Descritos originalmente por Rao (1964), los análisis canónicos reúnen muchos métodos estadísticos que combinan los conceptos de ordenación y regresión y comparten un objetivo común, que es, identificar las relaciones entre un conjunto de variables de respuesta (la matriz Y, que generalmente describe la composición de especies de las diferentes comunidades) y un conjunto de variables explicativas (la matriz X, que suele contener variables ambientales). 
+
+Los análisis canónicos se utilizan para comprobar las hipótesis ecológicas sobre los determinantes ambientales de la composición de las especies de la comunidad. Entre el conjunto de métodos de análisis canónico existentes, nos centraremos aquí principalmente en el análisis de redundancia canónica (RDA). 
+
+Véase el capitulo 11 de [@legendre_numerical_2012] para más detalles sobre los métodos de ordenacion canonica.
+
+
+
+## Analisis de Redundancia 
+
+El análisis de redundancia canónica es una extensión directa de la regresión múltiple, ya que modela el efecto de una matriz X de variables explicativas (n x p) sobre una matriz Y de variables de respuesta (n x m) realizando una ordenación. Y para obtener ejes de ordenación que correspondan a combinaciones lineales de las variables de la matriz X. 
+
+En un RDA, los ejes de ordenación se calculan a partir de un PCA de la matriz $\hat Y$, calculada ajustando las variables Y a las variables X mediante una regresión lineal multivariante. Tenga en cuenta que las variables explicativas X pueden ser cuantitativas, cualitativas o binarias. 
+
+Antes de realizar la RDA, las variables explicativas de X deben centrarse, estandarizarse (si las variables explicativas son de diferentes unidades), transformarse (para limitar la asimetría de las variables explicativas) o normalizarse (para linealizar sus relaciones) siguiendo los mismos principios que en una PCA. La colinealidad entre las variables explicativas también debe ser mínima para realizar la RDA. 
+
+Para obtener el mejor modelo RDA, las variables explicativas pueden seleccionarse mediante selecciones progresivas o regresivas para eliminar las variables explicativas no significativas. 
+
+
+El cálculo de un RDA consta de dos pasos [@legendre_numerical_2012]: 
+
+* En el primer paso, se calcula la matriz de valores ajustados de $\hat Y$ mediante la ecuación lineal :
+
+$$\hat Y = X[X'X]^{-1}X'Y$$
+
+* En un segundo paso, se realiza un PCA de la matriz $\hat Y$ (véanse las ecuaciones en la figura siguiente - Fig.1) para calcular sus valores y vectores propios, así como la matriz $Z$ que contiene los ejes de ordenación. Estos ejes corresponden a las combinaciones lineales de las variables explicativas de $X$. La linealidad de las combinaciones de las variables X es una propiedad fundamental de la RDA. 
+
+Al analizar la composición de especies de las comunidades, estos ejes de ordenación suelen interpretarse como gradientes ambientales complejos. 
+
+
+![\centering](RDA_imag.png){width=100%}
+
+
+
+
+Se pueden **extraer varios valores estadísticos del RDA**, en particular :
+
+- El $R^2$ mide la fuerza de la relación canónica entre Y y X calculando la proporción de la variación de Y explicada por las variables X.
+
+- El $R^2$ ajustado también mide la fuerza de la relación entre Y y X, pero aplica una corrección al $R^2$ para tener en cuenta el número de variables explicativas.
+
+- El estadístico F corresponde a una prueba global de la significación del RDA comparando el modelo estudiado con un modelo nulo.
+
+Esta prueba se basa en la hipótesis nula de que la fuerza de la relación calculada por el $R^2$ no es mayor que el valor que se obtendría para matrices X e Y del mismo tamaño sin ninguna relación estadística. Tenga en cuenta que el estadístico F también puede utilizarse para probar la significación de cada eje de ordenación de forma secuencial. 
+
+
+**Veamos algunos ejemplos** con los datos de composicion de especies. 
+Para ello cargamos las librerias a utilizar. 
+
+```{r warning=FALSE,message=FALSE}
+require(ade4)
+require(adespatial)
+require(vegan)
+```
+
+De manera similar, cargamos los datos, que nos va a permitir tener las matrices de sitios por composicion de especies y de sitios por variables ambientales.
+Siendo los datos:
+
+ - spe: la matriz de composicion de especies
+ - env: la matriz de variables ambientales
+ - lonlat: posiciones de longitud y latitud de cada sitio de muestreo.
+
+
+```{r warning=FALSE,message=TRUE}
+load("data/ebsdata_2005.RData")
+```
+
+Analisis de Redundancia con los datos de abundancia de especies tranformados mediante Hellinger en relacion con las variablies ambientales.
+Es importante primero preparar los datos ambientales: deben estar estandarizados y centrados.
+
+
+```{r warning=FALSE,message=TRUE}
+# Transformacion Hellinger de composicion de especies
+spe.hel <- decostand(spe, "hellinger")
+# Variables ambientales estandarizadas
+env.z <- decostand(env, method="standardize")
+```
+
+Usaremos la funcion ``rda()`` de la libreria vegan para realizar el RDA.
+
+Vamos a efectuar un RDA de los datos transformados por Hellinger constringido por todas las variables ambientales.
+
+```{r warning=FALSE,message=TRUE}
+#RDA con todas las env.z 
+(spe.rda <- rda(spe.hel ~ ., env.z))
+```
+
+
+Estos resultados incluyen la proporción de la varianza de Y explicada por las variables X (proporción restringida, 7,21%), la varianza de Y no explicada por X (proporción no restringida, 92.78%) y resumen los valores propios, las proporciones explicadas y las proporciones acumuladas de varianza para cada eje de ordenación. 
+
+De igual manera podemos extraer los valores del $R^2$ y $R^2$ ajustado de la regresion multiple realizada por el RDA.
+
+```{r warning=FALSE,message=TRUE}
+# R^2 no ajustado 
+(R2 = RsquareAdj(spe.rda)$r.squared) 
+# R^2 ajustado 
+(R2adj = RsquareAdj(spe.rda)$adj.r.squared)
+```
+
+Para seleccionar las variables explicativas relevantes, se puede hacer una selección progresiva a través de la función ``ordiR2step()`` de la libreria vegan (o la función ``forward.sel()`` del paquete packfor): 
+
+```{r warning=FALSE,message=TRUE}
+ordiR2step(rda(spe.hel~1, data=env.z), #modelo mas simple
+           scope= formula(spe.rda), #modelo completo
+           direction= "forward", 
+           R2scope=TRUE, #limitado por el R2 de modelo completo
+           pstep=1000) #ver el proceso de seleccion
+```
+
+En este caso, la selección progresiva retiene tan solo una variable, que es, la variable surf_temp. Esta variable puede colocarse en una nueva tabla de datos ``env.signif`` para realizar un nuevo RDA que contenga sólo la variable X significativa: 
+
+```{r warning=FALSE,message=TRUE}
+#Variables significativas
+env.signif = subset(env.z, select = c("surf_temp"))
+### Rehacer el RDA utilizando solo la variable explicativa significativa
+(spe.rda.signif <- rda(spe.hel~., data=env.signif))
+```
+
+Las variable explicativa ``surf_temp`` ahora explica el 6.6% de la varianza de Y.
+
+El $R^2$ ajustado de esta RDA se calcula a partir de la función RsquareAdj : 
+
+```{r warning=FALSE,message=TRUE}
+#R2 ajustado
+(R2adj <- RsquareAdj(spe.rda.signif)$adj.r.squared)
+```
+
+
+Para visualizar los resultados de la RDA, es posible trazar triplots utilizando la función ``plot()``. Al igual que en el PCA, al elegir el scaling 1, las distancias entre los objetos son aproximaciones de sus distancias euclidianas, mientras que en el scaling 2 los ángulos entre las variables X e Y reflejan su correlación. 
+
+Por tanto, los triplots de scaling 1 pueden utilizarse para interpretar las distancias entre los objetos, mientras que los triplots de scaling 2 permiten interpretar las relaciones entre las variables X e Y.
+
+Para obtener un triplot de scaling 1 y 2 de un RDA, se puede utilizar el siguiente código: 
+
+```{r warning=FALSE,message=TRUE, results="hide"}
+#Para hacer los plots rapidamente y de manera sencilla
+plot(spe.rda, scaling=1, main="Triplot RDA (scaling 1)")
+plot(spe.rda, scaling=2, main="Triplot RDA (scaling 2)")
+```
+
+Y podemos mejorar nuestros plots:
+
+````{r warning=FALSE, message=TRUE}
+##Codigo para mejorar plots
+#scaling 1
+plot(spe.rda, scaling=1, main="Triplot RDA - scaling 1", type="none",
+     xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-2,2), ylim=c(-2,2))
+points(scores(spe.rda, display="sites", choices=c(1,2), scaling=1),
+       pch=21, col="black", bg="steelblue", cex=1.2)
+arrows(0,0,scores(spe.rda, display="species", choices=c(1), scaling=1),
+       scores(spe.rda, display="species", choices=c(2), scaling=1),
+       col="black",length=0)
+text(scores(spe.rda, display="species", choices=c(1), scaling=1),
+     scores(spe.rda, display="species", choices=c(2), scaling=1),
+     labels=rownames(scores(spe.rda, display="species", scaling=1)),
+     col="black", cex=0.8)    
+arrows(0,0,scores(spe.rda, display="bp", choices=c(1), scaling=1),
+       scores(spe.rda, display="bp", choices=c(2), scaling=1),
+       col="red")
+text(scores(spe.rda, display="bp", choices=c(1), scaling=1)+0.05,
+     scores(spe.rda, display="bp", choices=c(2), scaling=1)+0.05,
+     labels=rownames(scores(spe.rda, display="bp", choices=c(2), scaling=1)),
+     col="red", cex=1) 
+ 
+#Scaling 2
+plot(spe.rda.signif, scaling=2, main="Triplot RDA - scaling 2", type="none",
+     xlab=c("RDA1"), ylab=c("RDA2"), xlim=c(-3,3), ylim=c(-2,2))
+points(scores(spe.rda, display="sites", choices=c(1,2), scaling=2),
+       pch=21, col="black", bg="steelblue", cex=1.2)
+arrows(0,0,scores(spe.rda, display="species", choices=c(1), scaling=2)*2,
+       scores(spe.rda, display="species", choices=c(2), scaling=2)*2,
+       col="black",length=0)
+text(scores(spe.rda, display="species", choices=c(1), scaling=2)*2.1,
+     scores(spe.rda, display="species", choices=c(2), scaling=2)*2.1,
+     labels=rownames(scores(spe.rda, display="species", scaling=2)),
+     col="black", cex=0.8)    
+arrows(0,0,scores(spe.rda, display="bp", choices=c(1), scaling=2),
+       scores(spe.rda, display="bp", choices=c(2), scaling=2),
+       col="red")
+text(scores(spe.rda, display="bp", choices=c(1), scaling=2)+0.05,
+     scores(spe.rda, display="bp", choices=c(2), scaling=2)+0.05,
+     labels=rownames(scores(spe.rda, display="bp", choices=c(2), scaling=2)),
+     col="red", cex=1)  
+```
+
+
+
+
+## Analisis de Correspondencia Canonico - CCA (Canonic Correspondance Analysis)
+
+Es la forma canónica del análisis de correspondencia. Cualquier matriz de datos que puede ser sometida a un CA es la matriz respuesta Y adecuada para una CCA.
+Tipo de datos: presencia-ausencia o abundancia.
+
+**CCA es RDA con dos modificaciones:**
+
+- Los datos de composición de especies son transformados en una matriz de contribuciones de Chi-cuadrado.
+
+- Se incluye una matriz de ponderaciones en el cálculo de la regresión multivariante, donde las ponderaciones son las sumas de las filas (fi+) de Y divididas por la suma total de la matriz (f++)
+
+
+![\centering](CCA_imag.png){width=75%}
+
+
+
+
+**Diferencias de CCA con RDA**
+
+- En el CCA, la medida de la variación explicada no es un R2 "verdadero", sino un ratio de inercias. 
+
+- "R2 ajustado" se estima mediante un procedimiento de bootstrap (Peres-Neto et al. 2006). Para un CCA, la función RsquareAdj() lo hace con 1000 permutaciones por defecto. En consecuencia, los valores obtenidos pueden variar de una ejecución a otra.
+
+- La variación se expresa ahora como coeficiente de contingencia medio al cuadrado. 
+
+- Los scores de las especies están representadas por puntos en el triplot. 
+
+- Los scores de los sitios son medias ponderadas (en lugar de sumas ponderadas) de las puntuaciones de las especies.
+
+
+Analisis de Correspondencia Canonico con los datos de abundancia de especies en relacion con las variablies ambientales.
+Es importante primero preparar los datos ambientales: deben estar estandarizados y centrados.
+
+Usaremos la funcion ``cca()`` de la libreria vegan para realizar el CCA.
+
+```{r message=TRUE, warning=FALSE}
+(spe.cca <- cca(spe ~ ., env.z))
+```
+
+Podemos extraer los valores del $R^2$ ajustado de la regresion multiple realizada por el RDA.
+
+```{r message=TRUE, warning=FALSE}
+# R^2 ajustado
+RsquareAdj(spe.cca)
+```
+
+Para el caso de los **triplots de CCA**:
+
+- Scaling tipo 1: permite interpretar las distancias entre los objetos (especies). Las comunidades en los sitios de muestreo (número) más cercanos tienen composición de especies más similares. Las especies más cercanas suelen ocupar los mismos sitios.
+
+- El scaling tipo 2: permite interpretar las relaciones entre las variables X y Y. Las flechas largas = esta variable explica fuertemente la variación en la matriz Y de abundancias. Las flechas que apuntan en direcciones opuestas = relación negativa. Las flechas apuntan en la misma dirección = relación positiva.
+
+
+Ahora vemos las graficas del CCA realizado - triplots:
+
+
+```{r message=TRUE, warning=FALSE}
+# Scaling 1
+plot(spe.cca, scaling = 1, display = c("sp", "lc", "cn"), 
+     main = "Triplot CCA - scaling 1")
+# Default scaling 2
+plot(spe.cca,display = c("sp", "lc", "cn"), 
+     main = "Triplot CCA - scaling 2")
+```
+
+Y biplots:
+
+```{r message=TRUE, warning=FALSE}
+par(mfrow = c(1, 2))
+# CCA scaling 1 biplot sin especies (usando lc site scores)
+plot(spe.cca, scaling = 1, 
+     display = c("lc", "cn"), 
+     main = "Biplot CCA - scaling 1" )
+# CCA scaling 2 biplot con species pero sin sitios
+plot(spe.cca, scaling = 2, 
+     display = c("sp", "cn"), 
+     main = "Biplot CCA - scaling 2")
+```
+
+
+
+# Diversidad Beta
+
+Una propiedad muy interesante de la diversidad de especies es su organización en el espacio. Este fenómeno, ahora bien conocido por los ecologistas de comunidades, fue analizado por primera vez por Whittaker en dos artículos fundamentales (1960, 1972) en los que describía los niveles de diversidad alfa, beta y gamma de las comunidades naturales. 
+
+Alfa es la diversidad local, beta es la diferenciación espacial y gamma es la diversidad regional. El interés de los ecólogos de comunidades por la diversidad beta se debe a que la variación espacial de la composición de las especies les permite poner a prueba las hipótesis sobre los procesos que generan y mantienen la biodiversidad en los ecosistemas. El muestreo a través del espacio, el tiempo o a lo largo de gradientes que representan procesos de interés es una forma de llevar a cabo experimentos mensurativos (Hurlbert 1984) que implican procesos naturales sin las limitaciones (por ejemplo, el pequeño tamaño de la muestra) de los experimentos controlados.
+
+La diversidad beta es conceptualmente la variación en la composición de las especies entre sitios dentro de un área geográfica de interés (Whittaker 1960). Varios autores han utilizado esa descripción del concepto, como Legendre et al. (2005), Anderson et al. (2011) y Baselga & Orme (2012). Se han propuesto diferentes ecuaciones para medir esa variación. 
+
+
+Vellend (2001) y Anderson et al. (2011) señalaron que los estudios sobre la diversidad beta podrían centrarse en dos aspectos de la estructura de la comunidad, distinguiendo dos tipos de diversidad beta:
+
+* Turnover (recambio), es el cambio direccional en la composición de la comunidad de una unidad de muestreo a otra a lo largo de un gradiente espacial, temporal o ambiental. Mide las disimilaridades entre sitios de muestro cercanos (vecinos) a lo largo del gradiente y relaciona los cambios con los valores del gradiente (posiciones en el espacio, tiempo u otros). 
+
+* Enfoque no-direccional para el estudio de la variación de la comunidad a través del espacio. No se refiere a ningún gradiente explicito, sino que simplemente se centra en la variación de la composición de la comunidad entre las unidades de muestreo. 
+
+
+- Whittaker 1960, 1972
+
+Hallado como $\beta = S/\bar \alpha$ o $log(\beta)=log(S)-log(\alpha)$
+
+donde, S: diversidad gamma (# de especies en la zona de interés mas amplia).
+
+y, $\bar \alpha$: media de #especies en un sitio de muestreo.
+
+
+## Diversidad Beta como la varianza total de la composicion de la comunidad
+
+Esta sección presenta dos formas equivalentes de calcular la varianza total de la matriz de composición de la comunidad Y. La primera es directa, es simplemente la varianza total de la matriz Y. La segunda se basa en las matrices de disimilitud de la comunidad calculadas utilizando los índices disimilaridad ya estudiadas en la sesion 3. 
+
+También se muestra que la varianza total puede dividirse en las contribuciones de las especies individuales y de los sitios de muestreo individuales.
+
+Formas de hallar la Var(Y)
+
+*Suma de cuadrados*
+
+La forma habitual de obtener Var(Y) consiste en calcular una matriz de desviaciones al cuadrado de las medias de las columnas. Sea S (por "cuadrado") una matriz rectangular de _n x p_ en la que cada elemento $s_{ij}$ es el cuadrado de la diferencia entre el valor de $y_{ij}$ y el valor medio de la correspondiente especie $j$:
+
+Lo primero es centrar Y por columnas y luego elevar al cuadrado los valores:
+
+$$S=[s_{ij}]=[(y_{ij}-\bar y_j)^2]$$
+
+luego, sumar todos los valores en matriz S para obtener SS(Y):
+
+$$SS_{total}=SS(Y)=\sum_{i=1}^{n} s_{ij}$$
+
+entonces, dividimos la suma de cuadrados totales por los grados de libertad (n-1) para obtener la Var(Y):
+
+$$BD_{total}=Var(Y)=SS_{total}/(n-1)$$
+
+
+_Importante_: estos cálculos asumen que la distancia Euclidiana representa correctamente las relaciones entre los sitios. Sin embargo, la distancia Euclidiana es inapropiada y no debería ser usada para el calculo de diversidad beta.
+
+En estudios de diversidad beta, estas ecuaciones no deben ser utilizadas directamente en datos de abundancia o biomasa de especies no transformadas. 
+
+* Transformación de Chord
+
+* Transformación de Hellinger
+
+
+_Las estadisticas de BDtotal son comparables?_:
+
+BDtotal estadísticos calculados con el mismo índice D son comparables porque tienen un valor máximo fijo (1 o 0,5, según el índice D utilizado). El valor máximo se alcanza para conjuntos de sitios que difieren completamente en la composición de especies.
+
+Las estadísticas BDTotal calculadas con el mismo índice D son comparables:
+_entre grupos taxonómicos_ observados en los mismos sitios de muestreo en un área geográfica de interés; y, _para un grupo taxonómico dado, entre áreas de estudio_ representadas por conjuntos de datos que tienen el mismo o diferente número de unidades de muestreo (n), siempre que las unidades de muestreo sean del mismo tamaño o representen el mismo esfuerzo de muestreo.
+
+
+**Descomposicion en contribuciones de especies y sitios**
+
+Debido a que Bdtotal es calculado como la variación total de Y, Sstotal puede ser descompuesto en las contribuciones de especies y sitios a esa variación. 
+
+1. Contribuciones locales a la Diversidad Beta (LCBD)
+
+LCBD es hallado como la suma de los valores de S en cada fila i.
+
+$$LCBD_i = \sum_{j=1}^{p}s_{ij}/SS_{total}$$
+
+Valores de LCBD representan el grado de singularidad de las unidades de muestreo en términos de composición comunitaria. 
+
+
+2. Contribuciones de las especies a la Diversidad Beta (SCBD)
+
+SCBD es hallado como la suma de valores de S en cada columna j:
+
+$$SCBD_j = \sum_{i=1}^{p}s_{ij}/SS_{total}$$
+
+Especies con altos valores de SCBD tiene altas abundancias pero tan solo en pocos sitios de muestreo, y así gran varianza. 
+
+
+**Diversidad beta de una matriz de disimilaridad**
+
+Whittaker (1972), la diversidad beta puede ser hallada de una matriz de disimilaridad.
+
+* Datos de presencia-ausencia:
+
+Coeficientes de Jaccard o Sorensen, o beta hallado para par de sitios.
+
+* Datos cuantitativos`:
+
+Diferencia porcentual (Bray-Curtis), Hellinger, Chord, Chi-cuadrado, etc.
+
+Whittaker (1972): la media de las disimilaridades de Jaccard, Sorensen y Diferencia porcentual, es otro valor de inidice para diversidad beta.
+
+
+**Formas de particionar la diversidad Beta**
+
+* BDtotal entre especies (SCBD) y entre sitios (LCBD).
+
+* SStotal en ordenaciones simples y canonicas (PCA, RDA).
+
+* Análisis multivariado de la varianza (MANOVA) utilizando un único factor divide el SStotal en sumas de cuadrados dentro y entre grupos.
+
+* El SStotal puede dividirse con respecto a dos o más matrices de variables explicativas mediante la partición de la variación basada en la RDA (Borcard & Legendre 1992, 1994).
+
+* El SSTotal puede dividirse en función de diferentes escalas espaciales mediante el análisis de funciones propias espaciales (MEM, AEM), el variograma multivariante y el análisis de ordenación multiescalar (Wagner 2003, 2004).
+
+Véase adicionalmente el articulo de [@legendre2013beta] que nos describe los diferentes indices de calculo de la diversidad beta total y sus particiones.
+
+
+**Ahora pasemos a los ejercicios:**
+
+Usaremos la funcion ``beta.div()`` de la libraria adespatial para hallar los valores de diversidad beta total y sus particiones con respecto a contribuciones de especies (SCBD) y sitios (LCBD).
+
+Es importante transformar los datos de la matriz de composicion de especies, para este caso utilizaremos la transformacion Hellinger.
+
+```{r warning=FALSE, message=TRUE}
+spe.beta = beta.div(spe, method = "hellinger", nperm = 9999)
+```
+
+Extraemos los resultados, como el SStotal y el BDtotal:
+
+```{r warning=FALSE, message=TRUE}
+summary(spe.beta)
+spe.beta$beta  # SSTotal and BDTotal
+```
+
+Adicionalmente, podemos saber cuales son las especies que tienen mayor SCBD en funcion a la media total de SCBD.
+
+```{r warning=FALSE, message=TRUE}
+spe.beta$SCBD[spe.beta$SCBD >= mean(spe.beta$SCBD)]
+```
+
+Para el caso de las contribuciones locales a la diversidad beta (LCBD). La funcion realiza varias iteraciones para poder tener un valor p-value, nos permite saber la significancia de la estimacion del valor de LCBD en cada uno de los sitios de muestreo.
+
+```{r warning=FALSE, message=TRUE, results="hide"}
+# Valores LCBD
+spe.beta$LCBD
+# p-values
+spe.beta$p.LCBD
+```
+
+Podemos plotear los valores de LCBD en el area de estudio, lo cual nos permite saber cuales son los sitios o areas que presentan mayor variacion de la diversidad beta en funcion de la contribucion de los sitios.
+
+```{r warning=FALSE, message=TRUE}
+# Plot de LCBD values en el area de estudio
+plot(lonlat,asp = 1,cex.axis = 0.8, 
+     pch = 21, col = "white", 
+     bg = "brown",cex = spe.beta$LCBD*250, 
+     main = "LCBD values",xlab = "Longitud", 
+     ylab = "Latitud")
+```
+
+Por ejemplo, si deseamos comparar la diversidad beta entre areas o zonas especificas. Podemos utilizar el agrupamiento para seleccionar esas areas que poseen caracteristicas similares en este caso en funcion a su comunidad de especies.
+
+```{r warning=FALSE, message=TRUE}
+###Usamos los grupos generados por clustering Ward
+#para definir 3 diferentes zonas de "estudio" 
+#y asi poder comparar su diversidad beta
+spe.ch.ward=hclust(dist(spe.hel), method="ward.D2")
+k=3 #numero de grupos
+tree_ward = cutree(spe.ch.ward, k = k) #cortamos dendograma
+````
+
+Definimos que sitios de muestreo pertenecen a cada grupos
+
+```{r warning=FALSE, message=TRUE}
+group_1 = which(tree_ward == 1) #sitios de grupo 1
+group_2 = which(tree_ward == 2) #sitios de grupo 2
+group_3 = which(tree_ward == 3) #sitios de grupo 3
+```
+
+Y armamos las matrices de datos por cada grupo:
+
+```{r warning=FALSE, message=TRUE}
+#armamos las matrices de datos por grupo
+spe_g1 = spe[group_1,] 
+spe_g2 = spe[group_2,]
+spe_g3 = spe[group_3]
+```
+
+Finalmente hallamos la diversidad beta de cada grupo. Y observamos cuales son los valores de BDtotal y SStotal de cada grupo a igual que las especies que tienen los mayores valores de SCBD.
+
+```{r warning=FALSE, message=TRUE}
+#Grupo 1 
+spe.beta.g1 = beta.div(spe_g1, method="hellinger",nperm = 9999)
+spe.beta.g1$beta #valor de  SStotal y BDtotal
+spe.beta.g1$SCBD[spe.beta.g1$SCBD>= mean(spe.beta.g1$SCBD)]
+
+#Grupo 2
+spe.beta.g2 = beta.div(spe_g2, method="hellinger",nperm = 9999)
+spe.beta.g2$beta #valor de  SStotal y BDtotal
+spe.beta.g2$SCBD[spe.beta.g2$SCBD>= mean(spe.beta.g2$SCBD)]
+
+#Grupo 3
+spe.beta.g3 = beta.div(spe_g3, method="hellinger",nperm = 9999)
+spe.beta.g3$beta #valor de  SStotal y BDtotal
+spe.beta.g3$SCBD[spe.beta.g3$SCBD>= mean(spe.beta.g3$SCBD)]
+````
+
+Observamos los valores de BDtotal de cada grupo, que nos permite comparar los cambios en BDtotal de cada grupo.
+
+```{r warning=FALSE, message=TRUE}
+c(spe.beta.g1$beta[2],spe.beta.g2$beta[2],spe.beta.g3$beta[2])
+```
+
+
+# Referencias

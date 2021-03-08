@@ -1,0 +1,251 @@
+---
+title: 'Lab 05'
+author: "Paola Galloso"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Ordenacion no restringida
+
+## Analisis de Coordenadas Principales (PCoA) - Principal Coordinate Analysis
+
+El Analisis de Componentes Principales, al igual que el Analisis de Correspondencia, requieren la conservación de las distancias entre los objetos: la distancia euclidiana en el caso del PCA, y la distancia Chi-cuadrado en el CA.
+Si el objetivo es ordenar los objetos basándose en otra medida de distancia más apropiada para el problema, la PCoA es una técnica de elección. 
+
+En un PCA, los datos se giran de manera que el primer componente principal (una combinación lineal de los descriptores) explique la mayor proporción de la variación; la contribución de cada descriptor (especie o variable ambiental) a cada componente principal puede entonces evaluarse en función de su puntuación.
+
+El PCoA es un segundo método de ordenación sin restricciones en el que los puntos se añaden uno tras otro al espacio de ordenación utilizando la distancia euclidiana o cualquier medida de distancia métrica (disimilitud) que se elija. Así, se coloca un primer punto en la espacio de ordenación, luego un segundo punto situado al valor de la distancia del primero, luego un tercero y así sucesivamente añadiendo tantos ejes (dimensiones) como sean necesarios. A veces es difícil elegir entre hacer un PCA o un PCoA. Sin embargo, PCA permite reducir los datos multivariados a un número reducido de dimensiones, mientras que PCoA es útil para ver las distancias entre sitios (u objetos). El PCoA también es especialmente adecuado para conjuntos de datos con más columnas que filas. Por ejemplo, si se han observado cientos de especies en un número reducido de cuadrículas, puede ser más adecuado un enfoque PCoA que utilice la distancia Bray-Curtis (véase más adelante). 
+
+**Aplicaciones** 
+
+- Producir ordenaciones de objeto en un espacio reducido 2-D (o 3-D).
+- Desempeña el papel de una transformación de datos tras el calculo de un índice D bien elegido. 
+- Las coordenadas de los objetos en el espacio de PCoA de dimensión completa representan los datos transformados. 
+- Pueden utilizarse como entrada para un análisis de redundancia (RDA) u otro método de análisis de datos. 
+
+
+**PCoA y distancias no-métricas**
+
+El PCoA puede ser también utilizado para capturar la información de distancias no-métricas, como la distancia Bray-Curtis para datos cuantitativos. Y Sorensen u Ochiai para datos binarios (presencia-ausencia).
+
+Sin embargo, el PCoA tendrá valores propios negativos y coordenadas principales complejas. Relacionados con la imposibilidad de poder representar distancias no-métricas en el espacio euclidiano sin correciones.
+
+Existen diferentes métodos de eliminacion de valores propios negativos. El método màs sencillo y que funciona en la mayoria de los casos es de hallar la raiz cuadrada de la matriz de disimilaridad antes de realizar un PCoA. Esto permite transformar una matriz D semi-métrica a una matriz métrica.
+
+Adicionalmente, el Método de Lingoes y de Cailliez son dos métodos que nos 
+permiten corregir la semi-metricidad de la matriz D y asì tener valores propios positivos de la descomposicion realizada por el PCoA.
+
+- _Método de lingoes_ : corrige las disimilaridad añadiendo una cosntante a la raiz de las disimilaridades. 
+$$\hat D_{hi}=\sqrt{D^2_{hi}+2c_1}$$
+donde, $c_1$ es el valor absoluto del valor propio negativo mayor.
+
+- _Método de Cailliez_ : corrige las disimilaridades añadiendo una constante a las disimilaridades.
+$$\hat D_{hi}=D_{hi}+c_2$$
+donde, $c_2$ es el mayor valor de los valores propios positivos.
+
+De manera general, estos métodos permiten cumplir con una de las propiedades métricas de Dsimilaridad que es el triangulo desigual: la suma de los dos lados de un triangulo dibujado en un espacio Euclidiano ordinario es igual o mayor al tercer lado. 
+
+Los métodos de corrección sqrt(D), Lingoes y Cailliez producen una ordenación en los ejes 1 y 2 muy similar a la de PCoA sin corrección a menos que el valor absoluto de los mayores valores propios negativos se acerque o sea mayor que los dos primeros valores propios.
+
+**Veamos algunos ejemplos** con los datos de composicion de especies. 
+Para ello cargamos las librerias a utilizar. 
+
+```{r warning=FALSE,message=FALSE}
+require(vegan)
+require(gclus)
+require(ape)
+```
+
+De manera similar, cargamos los datos, que nos va a permitir tener las matrices de sitios por composicion de especies y de sitios por variables ambientales.
+Siendo los datos:
+
+ - spe: la matriz de composicion de especies
+ - env: la matriz de variables ambientales
+ - lonlat: posiciones de longitud y latitud de cada sitio de muestreo.
+
+
+```{r warning=FALSE,message=TRUE}
+load("data/ebsdata_2005.RData")
+```
+
+Utilizaremos como base los ejemplos aplicativos de [@borcard_numerical_2018].
+
+Analisis de Coordenadas Principales con los datos de abundancia de especies tranformados mediante Hellinger.
+Usaremos la funcion ``pcoa()`` de la libreria vegan para realizar el PCoA.
+
+```{r warning=FALSE,message=TRUE}
+spe.hel = decostand(spe,method="hell") #transf a hellinger
+
+#PCoA
+spe.h.pcoa = pcoa(D=dist(spe.hel))
+```
+
+Extraemos los resultados, se van a observar que los valores propios (eigenvalues) son calculado por cada uno de los puntos (en este caso cada especie) del PCoA y valores de las correcciones aplicadas.
+
+_Relative_eig_ : valores propios relativos.
+
+_Broken_stick_: fracciones esperadas de la varianza explicada (bajo el modelo de Broken stick).
+
+_Cumul_eig_: Suma acumulada de los valores propios relativos.
+
+_Cumul_br__stick_: suma acumulada de la varianza.
+
+
+La columna _Cumul_eig_ muestra la suma acumulada de los valores propios relativos. Se trata de estadísticas pseudo-R2. Como en PCA, indican la proporción de la varianza de los datos expresada por los gráficos PCoA en 1, 2, 3, ... dimensiones.
+
+
+```{r warning=FALSE,message=TRUE, results='hide'}
+spe.h.pcoa
+```
+
+La salida de ``$vectors`` muestra todos los valores propios de cada especie (cada fila) y muestra también cuántos ejes se han añadido para mantener las distancias entre todos los puntos por igual. En la parte inferior de la salida también aparece la "trace", que es la suma de todos los valores propios (tanto positivos como negativos).
+
+Los vectores propios asociados a cada valor propio contienen las coordenadas de cada sitio en el espacio euclidiano. Estos son los resultados más útiles para el análisis posteriores, ya que captan con precisión la distancia entre los objetos. 
+Graficamos el PCoA usando la funcion ``biplot.pcoa()``:
+
+```{r warning=FALSE,message=TRUE}
+par(mar=c(0,0,3,0))
+biplot.pcoa(spe.h.pcoa ,spe.hel,dir.axis2 = -1)
+```
+
+
+Podemos también realizar un PCoA con otra medida de distancia, como Bray-Curtis: para ello tenemos primero que hallar la matriz de distancia Bray-curtis
+
+```{r warning=FALSE,message=TRUE}
+spe.bray = vegdist(spe,method="bray") #bray curtis es por default
+```
+
+Y con esa matriz D Bray-Curtis corremos el PCoA:
+
+```{r warning=FALSE,message=TRUE}
+spe.b.pcoa = pcoa(spe.bray)
+```
+
+Observamos la grafica:
+
+```{r warning=FALSE,message=TRUE}
+biplot.pcoa(spe.b.pcoa,spe.hel,dir.axis2 = -1)
+```
+
+De la misma manera realizamos el PCoA con correccion, que nos permite eliminar los valores propios negativos que tenemos luego del PCA.
+
+```{r warning=FALSE,message=TRUE}
+# PCoA en una matriz D de Bray Curtis con
+# correcion de Lingoes 
+spe.bray.l.pcoa = pcoa(spe.bray, correction = "lingoes")
+# PCoA en una matriz D de Bray Curtis con
+# correccion de Cailliez
+spe.bray.c.pcoa = pcoa(spe.bray, correction = "cailliez")
+```
+
+
+
+
+## Escalamiento multidimensional no-métrico (NMDS) - No-metric Multidimensional Scaling
+
+Los métodos de ordenación sin restricciones presentados anteriormente permiten organizar objetos (por ejemplo, sitios) caracterizados por descriptores (por ejemplo, especies) en un espacio que comprende el conjunto de dimensiones descritas por el elipsoide que representa la nube de puntos de datos. En otras palabras, PCA, CA y PCoA calculan un gran número de ejes de ordenación (número proporcional al número de descriptores) que representan la variación de los descriptores entre los sitios y preservan las distancias entre los objetos (distancia euclidiana en PCA, distancia Chi2 en CA y distancia definida por el usuario en PCoA). El usuario puede entonces seleccionar los ejes de interés (normalmente los dos primeros ejes de ordenación) para representar los objetos en un biplot. Así, el biplot resultante representa correctamente las distancias entre objetos (por ejemplo, la similitud de los sitios), pero no representa todas las dimensiones de la variación en el espacio de ordenación (ya que los ejes 3, 4, ..., no aparecen en el biplot, pero siguen contribuyendo a explicar la variación entre objetos).
+
+En algunos casos, la prioridad no es conservar la distancia exacta entre los objetos, sino, por el contrario, representar con la mayor precisión posible las relaciones entre los objetos a lo largo de un número reducido de ejes (normalmente dos o tres) especificados por el usuario. En estos casos, el posicionamiento multidimensional no-métrico (NMDS) es la solución. Si el usuario define un número de ejes igual a dos, el biplot producido por el NMDS es la mejor solución gráfica para representar en dos dimensiones la similitud entre los objetos (siendo los objetos disímiles los más alejados y los similares los más cercanos). Además, el NMDS permite al usuario elegir la medida de distancia que quiere utilizar para ordenar los objetos.
+
+Para encontrar la mejor representación de los objetos, el NMDS aplica un procedimiento iterativo que tiene como objetivo posicionar los objetos dentro del número especificado de dimensiones para minimizar una función de tensión (que varía de 0 a 1) que mide la calidad del ajuste de la distancia entre los objetos en el espacio de ordenación. Así, cuanto menor sea el valor de la tensión, más precisa será la representación de los objetos en el espacio de ordenación. Una segunda forma de evaluar la precisión de un NMDS es construir un diagrama de Shepard que represente las distancias entre los objetos en el biplot de ordenación como una función de sus distancias reales. El R2 obtenido de la regresión entre estos dos tipos de distancias mide la bondad de ajuste del NMDS. 
+
+
+**Realizaremos el NMDS** en los de abundancia de especies ``spe`` con una distancia de Bray-Curtis y k=2 ejes de ordenacion.
+
+Para ello usaremos la funcion ``metaMDS`()``. 
+
+```{r warning=FALSE, message=TRUE}
+spe.nmds = metaMDS(spe,distance = "bray") #D Bray-Curtis
+```
+
+Extraemos los resultados:
+
+```{r warning=FALSE,message=TRUE, results="hide"}
+spe.nmds
+```
+
+Para **evaluar la calidad del ajuste** usamos el Diagrama de Shepard que nos va a permitir identificar la correlacion entre las distancias observadas (reales) y las distancias de la ordenacion.
+
+```{r warning=FALSE,message=TRUE}
+# Shepard plot y calidad de ajuste
+par(mfrow = c(1, 2))
+stressplot(spe.nmds, main = "Shepard plot")
+gof = goodness(spe.nmds)
+plot(spe.nmds, type = "t", main = "Calidad de ajuste")
+points(spe.nmds, display = "sites", cex = gof * 300)
+```
+
+Ploteamos los resultados:
+
+```{r warning=FALSE,message=TRUE}
+plot(spe.nmds, type = "t", main = paste("NMDS/Bray Curtis - Stress =",
+                                        round(spe.nmds$stress, 3)))
+```
+
+Adicionalmente podemos combinar los resultados de un agrupamiento con el NMDS, que nos permite mejorar el plot de ordenacion.
+
+Trabajamos con el agrupamiento de Ward utilizado la matriz de distancia de Bray-Curtis. Cortamos el dendograma en 4 grupos (k=4) para tener los sitios de muestreo que pertenecen a cada grupo formado.
+
+```{r warning=FALSE,message=TRUE}
+spe.bray.ward = hclust(spe.bray, "ward.D2") 
+#usamos k=4 para cutree
+spe.bw.groups = cutree(spe.bray.ward, k = 4)
+grp.lev = levels(factor(spe.bw.groups))
+```
+
+Combinamos el agrupamiento con los resultados de NMDS:
+
+```{r warning=FALSE,message=TRUE}
+sit.sc = scores(spe.nmds)
+##Ploteamos
+p =  ordiplot(sit.sc, type = "n", 
+              main = "NMDS/BrayCurtis + clusters Ward/BrayCurtis")
+for (i in 1:length(grp.lev))
+{points(sit.sc[spe.bw.groups == i, ],
+         pch = (14 + i),cex = 2,col = i + 1)
+}
+text(sit.sc, row.names(spe), pos = 4, cex = 0.7)
+# Aniadimos el dendograma
+ordicluster(p, spe.bray.ward, col = "dark grey")
+#Aniadimos leyenda
+legend("bottomright", paste("Group", c(1:length(grp.lev))),
+  pch = 14 + c(1:length(grp.lev)),  col = 1 + c(1:length(grp.lev)),
+  pt.cex = 2)
+```
+
+
+## PCoA o NMDS?
+
+|Analisis de Coordenadas Principales| Escalamiento Multidimensional no-métrico|
+|-------|-------|
+|Descomposicion de valores propios de la matriz de disimilaridad transformada|Algoritmo de optimizacion iterativa|
+|No distorsion de disimilaridades|Disimilaridades distorsionadas|
+|Pseudo-R2 es la suma de valores propios de los ejes de interés dividio por la suma de todos los valores propios. Indica la fraccion de la varianza de los datos| Numero de dimensiones fijo: k|
+|Es mejor| El estadistico de estrés no indica la proporcion de varianza de los datos - es la cantidad de distorsion de las disimilaridades iniciales |
+
+
+
+## Resumen
+
+La ordenación es un potente método analítico para estudiar las relaciones entre objetos caracterizados por diferentes descriptores (por ejemplo, sitios descritos por sus comunidades biológicas, o sus variables ambientales), pero existen muchos métodos de ordenación. Estos métodos difieren principalmente en el tipo de distancia que preservan, el tipo de variables que permiten y el número de dimensiones del espacio de ordenación. Para orientar mejor la elección del método de ordenación que se va a utilizar, la tabla siguiente identifica las características de cada uno de los cuatro métodos de ordenación presentados en la sesion 4 y 5. 
+
+|  |Distancia preservada | Variables | Numero maximo de ejes con una matriz nxp|
+|:--:|:---------:|:------:|:----:|
+|PCA|Euclidiana|Datos cuantitativos, relaciones lineares|p|
+|CA|chi-cuadrado|No-negativos, datos cuantitativos, dimensionalmente homogeneos, o datos binarios|p-1|
+|PCoA|Todas|cuantitativos, semi-cuantitativos o mixtos| p-1|
+|NMDS|Todas|cuantitativos, semi-cuantitativos o mixtos| definido por uno|
+
+Véase el capitulo 8 de [@legendre_numerical_2012] para más detalles sobre los métodos de ordenacion no restringida.
+
+# Referencias

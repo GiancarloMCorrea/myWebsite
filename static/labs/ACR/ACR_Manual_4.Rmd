@@ -1,0 +1,577 @@
+---
+title: 'Lab 04'
+author: "Paola Galloso"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+bibliography: references.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Especies indicadoras
+
+* Problema clásico en ecología y biogeografía: las especies constituyen los mejores indicadores de las condiciones de un ecosistema.
+
+* Monitoreo ambiental, conservación, planificación del uso del territorio: buscamos bioindicadores de los tipos de hábitats que hay que conservar o rehabilitar.
+
+La identificación de especies indicadoras, o especies características, es una operación clásica en ecología y biogeografía. Los estudios que describen los tipos de hábitat suelen mencionar una o varias especies que los caracterizan. El monitoreo ambiental, así como la investigación dirigida a la conservación de especies o a la planificación del uso de la tierra, a menudo implica la identificación de especies indicadoras (bioindicadores). Dado que las especies indicadoras dan un significado ecológico a la tipología de un sitio, proporcionan criterios para (a) comparar diferentes tipologías obtenidas mediante el análisis de datos (agrupación) y (b) identificar niveles de interés en un dendrograma. 
+
+Las especies indicadoras difieren de las asociaciones de especies en que son indicativas de grupos particulares de lugares. Una buena especie indicadora debe encontrarse mayoritariamente en un grupo de la clasificación y estar presente en la mayoría de los lugares que pertenecen a ese grupo.
+
+El método de valor indicador (IndVal), propuesto por [@dufrene1997species] :
+
+$$IndVal_{Grupo_k,Especie_j}=100 \times A_{kj} \times B_{kj}$$
+
+donde, $A_{kj} = Nidividuos_{kj}/Nindividuos_{+k}$ es la especificidad
+y, $B_{kj}=Nsitios_{kj}/Nsitios_{k+}$ es la fidelidad.
+
+La especificidad es la probabilidad de que un nuevo lugar muestreado sea del ‘sitio’  X dado que la especie Y hubiera sido encontrada. Y la fidelidad  es la probabilidad de encontrar la especie Y en un nuevo muestreo dentro del ‘sitio’ X.
+
+Una especie será considerada como indicadora de un sitio o área cuando el valor de su IndVal sea el máximo en ese sitio o área en comparación con las otras.
+$$IndVal_{especie j}=max[IndVal_{kj}]$$.
+
+
+# Ordenación en el espacio
+
+El objetivo general de la ordenación es de representar los objetos (sitios de muestreo) en un diagrama de dispersión multivariado. 
+Los datos ecológicos son multivariables, lo que hace que se tenga dificultades en su análisis. Cada variable representa una dimensión de una ordenación que tendrá a su vez muchas dimensiones.
+En ecología, se suelen observar muchas variables en cada sitio. - Por ejemplo, en cada sitio se pueden observar cientos de especies y muchas variables ambientales.
+En la mayoría de los casos, los ecólogos buscan describir la principales tendencias en la variación de los objetos (sitios) a través de todos los descriptores, no sólo algunos.
+
+
+**Definiciones importantes**
+
+* Varianza: es la medida de la dispersión de una variable $y_i$ a su media.
+* Co-varianza:es la medida de co-dispersión de las variables $y_j$ y $y_i$ a su media.
+* Correlación: es la medida de la fuerza de enlace entre dos variables. 
+* Valores propios: son la proporción de varianza (dispersión) representada por un eje de ordenación.
+* Ortogonalidad: es el ángulo recto entre 2 ejes o 2 flechas, dice que éstos son independientes = no correlacionados.
+* Score: es la posición de un punto sobre un eje. Todos los scores de un punto brindan sus coordenadas en un espacio multidimensional.
+* Dispersión (inercia): es la medida de la variabilidad total del diagrama de dispersión del espacio multidimensional en función a su centro de gravedad. 
+
+
+# Ordenación no restringida 
+
+Los análisis de ordenación no restringida o sin restricciones permiten organizar las muestras, los lugares o las especies a lo largo de gradientes continuos (por ejemplo, ecológicos o medioambientales). La ordenación sin restricciones difiere de los análisis canónicos (que será descrito más adelante en la sesión 6) en que estas técnicas no intentan definir una relación entre las variables dependientes e independientes. 
+
+La ordenación no restringida puede utilizarse para: 
+
+* Evaluar las relaciones dentro de un conjunto de variables (no entre conjuntos de variables).
+* Encontrar elementos clave de variación dentro de las muestras, los sitios, las especies, etc.
+* Reducir el tamaño de un conjunto de datos multivariable sin una pérdida significativa de información.
+* Crear nuevas variables para utilizarlas en análisis posteriores (como la regresión). 
+
+Los componentes principales de los ejes de ordenación son, de hecho, combinaciones lineales de las variables originales.
+
+Para la selección del método más adecuado de análisis, es importante tener en consideración el tipo de variable de estudio y la medida de disimilaridad que va a ser preservada durante el análisis. 
+Los métodos de ordenación sin restricciones son los siguientes (en esta sesión describiremos los dos primeros y los siguientes en la sesión 5): 
+
+
+| **Método** | **Disimilaridad Preservada** | **Tipos de Variables** |
+|:--------:|:--------------------------:|--------------------|
+|Análisis de Componentes Principales (PCA) | Distancia euclidiana | Variables cuantitativas con relaciones lineares, dimensionalmente homogéneas (cuidado con dobles ceros) |
+| Análisis de Correspondencia (CA)| Distancia de chi-cuadrado | Datos de tipo frecuencia o presencia-ausencia, dimensionalmente homogéneos, no negativos |
+| Análisis de Coordenadas Principales (PCoA) | Todas las medidas de disimilaridad | Variables cuantitativas, semi-cuantitativas, cualitativas o mixtas |
+| Escalamiento Multidimensional no-métrico (NMDS) | Todas las medidas de disimilaridad | Variables cuantitativas, semi-cuantitas, cualitativas o mixtas |
+
+Véase el capitulo 8 de [@legendre_numerical_2012] para más detalles sobre los métodos de ordenacion no restringida.
+
+
+## Análisis de Componentes Principales - PCA (Principal Component Analysis)
+
+El análisis de componentes principales (o PCA) fue descrito originalmente por Pearson (1901), aunque se suele atribuir a Hotelling (1933), quien lo propuso de forma independiente. Este método y muchas de sus implicaciones para el análisis de datos se presentan en el artículo seminal de Rao (1964). 
+
+El PCA se utiliza para generar, a partir de un gran conjunto de datos, un pequeño número de variables clave que permitan representar la máxima cantidad de variación en el conjunto de datos. En otras palabras, PCA se utiliza para generar combinaciones de variables a partir de un conjunto mayor de variables, conservando la mayor parte de la variación del conjunto de datos. 
+
+PCA es una potente técnica de análisis en descriptores cuantitativos (como la abundancia de especies), pero no puede aplicarse a datos binarios (como la ausencia/presencia de especies).
+
+**Etapas de cálculo**
+
+Para explicar las etapas de cálculo del análisis de componentes principales, daremos como ejemplo una matriz de datos Y:
+$$Y=\left[\begin{array}
+{rr}
+2 & 1 \\
+3 & 4 \\
+5 & 0 \\
+7 & 6 \\
+9 & 2 
+\end{array}\right]$$
+
+donde cada columna de la matriz Y es centrada con su media:
+
+$$Y_c=[y-\bar{y}]=\left[\begin{array}
+{rr}-3.2 & -1.6 \\
+-2.2 & 1.4 \\
+-0.2 & -2.6 \\
+1.8 & 3.4 \\
+3.8 & -0.6 
+\end{array}\right]$$
+para luego hallar la matriz de covarianza S:
+$$S=\frac{1}{n-1}Y^{'}_{c}Y_c=\left[\begin{array}
+{rr} 8.2 & 1.6 \\
+1.6 & 5.8  
+\end{array}\right]$$
+La matriz S es descompuesta en su matriz de valores propios ($\Lambda$) y vectores propios ($U$)
+$$\Lambda=\left[\begin{array}
+{rr} 9 & 0 \\
+0 & 5  
+\end{array}\right]   \\   
+U=\left[\begin{array}
+{rr} 0.8944 & -0.4472 \\
+0.4472 & 0.8944 
+\end{array}\right]$$
+
+A partir de la matriz centrada $Y_c$ y la matriz de vectores propios $U$, se tiene la triz de componentes principales $F$:
+$$F=[y-\bar y]U$$
+La matriz $U$ contiene los cosenos directivos, es decir, el coseno de los ángulos entre las variables y los ejes de componentes principales.
+
+Las nuevas variables producidas por un PCA no están correlacionadas entre sí (los ejes de ordenación son ortogonales) y pueden utilizarse en otros tipos de análisis, como las regresiones múltiples (Gotelli y Ellison, 2004). Los componentes principales localizan la posición de los objetos en el nuevo sistema de coordenadas calculado por el PCA. 
+
+El PCA se basa en una matriz de asociación entre variables, y tiene la característica de preservar las distancias euclidianas y detectar únicamente las relaciones lineales. Por consiguiente, las abundancias brutas de las especies deben someterse a una pretransformación (como una transformación de Hellinger) antes de realizar el PCA. 
+
+**Para hacer un PCA,se necesita:** 
+
+- Un conjunto de variables (sin distinción entre variables independientes o dependientes, es decir, un conjunto de especies O un conjunto de variables ambientales). 
+- Sitios (objetos, muestras) donde se miden las mismas variables. 
+- En general, es mejor tener más sitios que variables en el conjunto de datos (más filas que columnas). 
+
+PCA es especialmente útil para las matrices de datos que contienen más de dos variables, pero es más fácil describir su funcionamiento con un ejemplo bidimensional. En el siguiente ejemplo (basado en Clarke y Warwick 2001), la matriz contiene datos de abundancia para dos especies en nueve sitios: 
+
+
+|Sitio | Especie 1 | Especie 2 |
+|:------:|:----------:|:-----------:|
+|A|6|2|
+|B|0|0|
+|C|5|8|
+|D|7|6|
+|E|11|6|
+|F|10|10|
+|G|15|8|
+|H|18|14|
+|I|14|14|
+
+
+La representación bidimensional de los sitios debe tener este aspecto (Fig.1): 
+
+![\centering](pca1.png){width=40%}
+
+Este gráfico de dispersión es una ordenación. Muestra la distribución de las especies entre los sitios, pero se puede imaginar que es más difícil visualizar un gráfico de este tipo en presencia de más de dos especies. En este caso, el objetivo es reducir el número de variables en componentes principales. Para reducir los datos bidimensionales anteriores a una sola dimensión, se puede realizar un PCA, como se observa en la Figura 2.
+
+![\centering](pca2.png){width=40%}
+
+Aqui la primera componente principal se orienta en la dirección de la mayor variación de los puntos, siendo éstos perpendiculares a la línea. Y a continuación, se añade un segundo componente principal perpendicular al primero, como se observa en la Figura 3. 
+
+![\centering](pca3.png){width=40%}
+
+En el diagrama final (Fig.4), los dos ejes de PCA están girados y los ejes son ahora los componentes principales (no las especies).
+
+![\centering](pca4.png){width=40%}
+
+En el caso de los PCA con más de dos variables, los componentes principales se suman de la siguiente manera (Clarke y Warwick 2001):
+
+* PC1 = eje que maximiza la varianza de los puntos que se proyectan perpendicularmente al eje. 
+* PC2 = eje perpendicular a PC1, pero cuya dirección es de nuevo la que maximiza la varianza cuando los puntos se proyectan perpendicularmente a él. 
+* PC3 y así sucesivamente: perpendicular a los dos primeros ejes cuya dirección es de nuevo la que maximiza la varianza cuando los puntos se proyectan perpendicularmente a ella.
+
+Cuando hay más de dos dimensiones, el PCA produce un nuevo espacio en el que todos los ejes del PCA son ortogonales (lo que significa que la correlación entre cada combinación de dos ejes es cero), y en el que los ejes del PCA se ordenan según la proporción de varianza de los datos originales que explican. 
+
+
+**A tomar en consideración**
+
+El PCA es un método linear basado en algunas hipótesis claves:
+
+- Distribución normal multivariante de datos (solo para hacer inferencias).
+- Numero limitado de ceros.
+- El gradiente de interés debe causar la mayor parte de la varianza en el conjunto de datos.
+
+Si no se respetan estas hipótesis, puede producirse un efecto herradura, en el que los extremos de la herradura están próximos entre sí, pero en realidad representan condiciones opuestas del gradiente.
+
+Algunos de estos problemas pueden solucionarse mediante el uso de transformaciones de los datos apropiadas antes de realizar un PCA (log, hellinger, chord).
+
+En algunos casos, e.g. los estudios que abarcan largos gradientes ambientales, es preferible utilizar métodos alternativos de ordenación sin restricciones (por ejemplo, CA).
+
+
+
+
+## Analisis de Correspondencia - CA (Correspondence Analysis)
+
+Uno de los supuestos clave del PCA es que las especies están relacionadas linealmente entre sí y responden linealmente a los gradientes ecológicos. Sin embargo, este no es necesariamente el caso en los datos ecológicos (por ejemplo, muchas especies muestran una distribución unimodal a lo largo de los gradientes ambientales). 
+
+La utilización del análisis de componentes principales con datos que contengan especies con una distribución unimodal, o un gran número de ceros (ausencia de especies), puede dar lugar a un fenómeno estadístico denominado "efecto herradura" que se produce a lo largo de los gradientes ecológicos. 
+
+En estos casos, se puede utilizar el Análisis de Correspondencia (CA) para representar mejor los datos (véase Legendre & Legendre, 2012 para más información). Dado que el CA preserva las distancias Chi-cuadrado entre los objetos (mientras que el PCA preserva las distancias euclidianas), esta técnica es, de hecho, más apropiada para ordenar conjuntos de datos que contienen especies con distribución unimodal, y ha sido durante mucho tiempo una de las técnicas más utilizadas para analizar los datos de ausencia-presencia o abundancia de especies. 
+
+En CA, los datos brutos se transforman primero en una matriz **Q** de las contribuciones celda por celda al estadístico Chi-cuadrado de Pearson, y la matriz resultante se somete a una descomposición de valores singulares para calcular los valores propios y los vectores propios de la ordenación. 
+
+
+El resultado de un CA representa, por tanto, una ordenación en la que se conservan las distancias Chi-cuadrado entre los objetos (en lugar de la distancia euclidiana de un PCA). La distancia Chi-cuadrado no está influenciada por la presencia de dobles ceros. Así, el CA es un potente método de ordenación para el análisis de las abundancias brutas de las especies (es decir, sin pretransformación). 
+
+A diferencia del PCA, el AC puede aplicarse a datos cuantitativos o binarios (como la abundancia de especies o la ausencia-presencia). 
+
+
+
+# Aplicaciones con R
+
+Cargamos algunas librerías que vamos a utilizar
+```{r warning=FALSE, message=FALSE}
+require(labdsv)
+require(indicspecies)
+require(vegan)
+require(gclus)
+require(ape)
+```
+
+De manera similar, cargamos los datos, que nos va a permitir tener las matrices de sitios por composicion de especies y de sitios por variables ambientales.
+Siendo los datos:
+
+ - spe: la matriz de composicion de especies
+ - env: la matriz de variables ambientales
+ - lonlat: posiciones de longitud y latitud de cada sitio de muestreo.
+ 
+```{r warning=FALSE, message=FALSE, results="hide"}
+load("data/ebsdata_2005.RData")
+```
+
+Utilizaremos como base los ejemplos aplicativos de [@borcard_numerical_2018].
+
+Iniciemos con el **analisis de especies indicadoras** de nuestra matriz de datos ``env``, para ello utilizaremos IndVal - valores indicadores (Dufrene and Legendre) que calcularemos mediante la función `?indval` del paquete ``labdsv``.
+
+Como buscamos la identificacion de especies indicadoras de areas en particular, vamos a utilizar los resultados del clustering por el método de Ward realizado en la sesion anterior.  
+```{r warning=FALSE, message=FALSE}
+#Generamos el agrupamiento por el metodo de Ward
+spe.hel = decostand(spe,method="hell") #transf a hellinger
+spe.dhel=vegdist(spe.hel,method="euclidean") #matriz D
+spe.ch.ward=hclust(spe.dhel, method="ward.D2") #cluster Ward
+```
+
+En ese caso, vamos a tener 3 agrupaciones diferentes, por lo cual vamos a cortar el dendograma en 3 grupos (k=3).
+```{r warning=FALSE, message=FALSE}
+k=3
+hc = cutree(spe.ch.ward, k = k)
+```
+
+Y con la identificacion de que sitio de muestreo pertenece a cada grupo, vemos que especies son indicadoras de cada agrupamiento utilizando ``indval()``.
+```{r warning=FALSE, message=TRUE, results="hide"}
+iva <- indval(spe, hc, numitr = 1000)
+head(iva$pval) #p-values para todas las especies
+```
+
+Tabla de las especies indicadoras significantes de cada agrupamiento:
+
+```{r warning=FALSE, message=TRUE}
+gr = iva$maxcls[iva$pval <= 0.05] 
+iv = iva$indcls[iva$pval <= 0.05]
+pv = iva$pval[iva$pval <= 0.05]
+fr = apply(spe > 0, 2, sum)[iva$pval <= 0.05]
+fidg = data.frame(group = gr, indval = iv,
+pvalue = pv, freq = fr)
+fidg = fidg[order(fidg$group, -fidg$indval), ]
+head(fidg)
+````
+
+El IndVal de especies puede ser calculado tambiém mediante la funcion ``multipatt`` [@de2010improving]. Esta funcion nos permite buscar cuales son las especies indicadoras en cada grupo individualmente y también en conjunto de grupos. Nos da los valores de A (especificidad), B(fidelidad) y stat (que viene a ser la raiz cuadrada de IndVal).
+
+```{r warning=FALSE,message=TRUE}
+iva2 <- multipatt( spe, hc, max.order = 2, #max,order: cantidad de conjuntos agrupados 
+  control = how(nperm = 999))
+pval.adj2 <- p.adjust(iva2$sign$p.value)
+summary(iva2, indvalcomp = TRUE)
+```
+
+
+
+Ahora pasamos al primero método de ordenacion no restringida - **Analisis de componentes Principales**. El PCA (asi como el RDA) es implementado por la funcion ``rda()`` de la librebria ``vegan``. 
+
+Vamos a iniciar con el PCA en las variables ambientales. Para ello, es necesario estadarizar la matriz de variables ambientales para poder eliminar la unidad de medida de cada una de las variables.
+
+```{r,warning=FALSE,message=TRUE}
+#estandarizamos datos ambientales 
+env.z<-decostand(env, method="standardize")
+```
+
+calculamos su PCA:
+
+```{r warning=FALSE,message=TRUE}
+env.pca = rda(env.z)
+```
+
+Y observamos el resumen de los resultados obtenidos:
+
+_Paritioning of variance_, nos muestra los valores de variance total y varianza sin restricciones. Esta varianza es explicada por los descriptores en un PCA (en este caso las variables ambientales). En un PCA la varianza total y varianza sin restricciones son iguales.
+
+_Eigenvalues_ son los valores propios de cada componente princial,y _Proportion explained_ es la proporcion de la varianza explicada por cada componente principal (PC). Por ejemplo, PC1 explica 0.45 de la varianza total, PC2 explica 0.34 de la varianza total que significa que la proporcion acumulada explicada por PC1 y PC2 es de 0.78.
+
+````{r warning=FALSE, message=TRUE, results = 'hide'}
+summary(env.pca, dislay=NULL) #scaling 2 por default
+```
+
+**Interpretación de los resultados del PCA**
+
+Esta salida de R contiene los valores propios o "eigenvalue" del PCA. El valor propio es el valor de la variación reducido a la longitud de un vector, y corresponde a la cantidad de variación explicada por cada eje de ordenación del PCA. Como puede ver, la función de resumen proporciona mucha información. Entre los resultados, la proporción de la varianza de los datos explicada por las variables sin restricciones es un dato importante. 
+
+También se pueden extraer partes de los resultados: 
+
+```{r warning=FALSE,message=TRUE}
+#valores propios
+(ev = env.pca$CA$eig)
+```
+
+Los scores (es decir, las coordenadas) de los lugares o las especies también pueden extraerse de un PCA. Estas puntuaciones permiten, por ejemplo, utilizar un componente principal como variable en otro análisis, o realizar gráficos adicionales. Por ejemplo, puede derivar una sola variable del conjunto de datos "env" utilizando PCA y luego utilizarla para correlacionarla mediante regresión con otra variable, o para determinar un gradiente espacial. Para extraer las puntuaciones de un PCA, utilice la función scores (): 
+
+```{r warning=FALSE,message=TRUE}
+# scores de la variables ambientales del 1er y 2do eje
+env.scores<-scores(env.pca, display="species", choices=c(1,2))
+# scores de los sitios del 1er y 2do eje 
+site.scores<-scores(env.pca, display="sites", choices=c(1,2)) 
+#Importante: si no especifica el numero de componentes principales mediante el argumento 
+#choices = c (1,2) o choices = c (1: 2), los scores de todos 
+#los componentes principales seran extraidos.
+````
+
+El PCA de los datos ambientales produce tantos componentes principales como variables (es decir, columnas en el conjunto de datos), es decir, 3 componentes principales. Por lo tanto, el número de variables a procesar no se reduce directamente por el PCA. Para reducir el número de variables, es necesario determinar qué componentes principales son significativos y deben conservarse, por ejemplo, mediante el criterio de Kaiser-Guttman. Este criterio compara la varianza explicada por cada componente principal con la media de la varianza explicada por todos los componentes principales. A continuación, se puede trazar un histograma que ilustra la importancia de los diferentes componentes principales utilizando el código siguiente:
+
+
+```{r warning=FALSE,message=TRUE}
+#Identificamos los ejes significantes por Kaiser-Guttman
+#Broken stick model
+screeplot(env.pca, bstick = TRUE, npcs = length(env.pca$CA$eig))
+````
+
+La función plot () permite trazar un biplot en el que los sitios se muestran en números negros y las variables en rojo. El biplot PCA de las variables ambientales puede realizarse de la siguiente manera: 
+
+"Scaling" se refiere a la parte del PCA que se escala a los valores propios. Scaling = 2 significa que las puntuaciones de las especies se escalan a los valores propios, mientras que scaling = 1 significa que las puntuaciones de los sitios se escalan a los valores propios. En el scaling = 1, se conservan las distancias euclidianas entre los sitios (las filas de la matriz de datos), mientras que en el scaling = 2 se conservan las correlaciones entre las especies (las columnas de la matriz de datos). Esto implica que cuando se observa un biplot de PCA en Scaling = 2, el ángulo entre los descriptores representa su correlación. 
+
+
+```{r warning=FALSE,message=TRUE}
+# scaling 2 = biplot de correlacion :
+plot(env.pca, scaling=2, type="none",xlim=c(-3,5),
+     xlab=c("PC1 (%)", round((env.pca$CA$eig[1]/sum(env.pca$CA$eig))*100,2)),
+     ylab=c("PC2 (%)", round((env.pca$CA$eig[2]/sum(env.pca$CA$eig))*100,2)))
+points(scores(env.pca, display="sites", choices=c(1,2), scaling=2), 
+       col="black", bg="darkgreen", cex=1) 
+text(scores(env.pca, display="species", choices=c(1), scaling=2),
+     scores(env.pca, display="species", choices=c(2), scaling=2),
+     labels=rownames(scores(env.pca, display="species", scaling=2)),
+     col="red", cex=1)
+```
+
+Adicionalmente, es posible combinar los resultados de un clustering con la ordenacion. Para ese caso, es necesario primero calcular los agrupamientos generados en los sitios de muestreo en funcion a las variables ambientales:
+Hallar la distancia euclidiana de la matriz de datos ambientales estandarizados y performar su agrupamiento por el método de Ward. 
+
+
+```{r warning=FALSE,message=TRUE}
+env.w = hclust(dist(env.z,"euclidian"),method="ward.D")
+```
+
+Cortaremos el dendograma en 4 sitios para poder extraer los scores de cada uno de los sitios que componen cada grupo.
+
+```{r warning=FALSE,message=TRUE}
+#cortamos dendograma en 4 sitios (k=4)
+gr = cutree(env.w, k=4)
+grl = levels(factor(gr))
+#extrayendo los scores de sitios, scaling 1
+sit.sc1 <- scores(env.pca, display = "wa", scaling = 1)
+```
+
+Ploteamos los sitios de muestreo en un biplot de ordenacion, se pueden observar los diferentes grupos del agrupamiento.
+
+```{r warning=FALSE,message=TRUE}
+#Plot de sitios con simbolos de clusters (scaling 1)
+p = plot(env.pca, display = "wa",
+  scaling = 1, type = "n", main = "Correlacion PCA + clusters")
+abline(v = 0, lty = "dotted")
+abline(h = 0, lty = "dotted")
+for (i in 1:length(grl)) 
+  {points(sit.sc1[gr == i, ],
+         pch = (14 + i), cex = 2,
+         col = i + 1)}
+text(sit.sc1, row.names(env), cex = 0.5, pos = 3)
+#aniado dendograma
+ordicluster(p,env.w,col="darkgrey")
+#Aniadimos leyenda 
+legend("topright",paste("Cluster", c(1:length(grl))),
+  pch = 14 + c(1:length(grl)),col = 1 + c(1:length(grl)),
+  pt.cex = 2)
+```
+
+El PCA es mayormente utilizado para el analisis de los datos de composicion de especies. Para ese caso, se usaran las abundancias de especies transformadas por Hellinger para realizar el PCA.
+
+```{r warning=FALSE,message=TRUE,results="hide"}
+#spe.hel : abundancias transformadas Hellinger
+spe.h.pca = rda(spe.hel)
+summary(spe.h.pca, display=NULL)
+```
+
+De la misma manera que para las variables ambientales, para reducir el número de componentes, es necesario determinar qué componentes principales son significativos y deben conservarse, por ejemplo, mediante el criterio de Kaiser-Guttman.
+
+```{r warning=FALSE,message=TRUE}
+#identificacion de ejes significativos
+#por el criterio de Kaiser-Guttman
+ev = spe.h.pca$CA$eig
+ev[ev>mean(ev)]
+screeplot(spe.h.pca,bstick = TRUE, 
+          npcs = length(spe.h.pca$CA$eig))
+```
+
+Este histograma muestra que la proporción de la varianza explicada por cada componente cae por debajo de la proporción media explicada por todos los componentes después del eje de ordenación PC16. 
+
+De la misma manera que para el PCA de variables ambietales, se puede extraer los resultados de los valores propios y los scores tanto de los sitios como las especies: 
+
+```{r warning=FALSE,message=TRUE, results="hide"}
+#extraccion de resultados
+eigen(cov(spe.hel)) #metodo alternativo de calculo de valores propios
+#Scores de especies en los dos primeros ejes del PCA
+(spe.scores<-scores(spe.h.pca, display="species",scaling=1)) 
+#scores de sitios en los dos primeros ejes del PCA
+(sit.scores<-scores(spe.h.pca, display="sites",scaling=2))
+```
+
+
+Plots para el PCA de composicion de especies:
+
+```{r warning=FALSE,message=TRUE}
+# scaling 1 = biplot de distancia 
+plot(spe.h.pca, scaling=1, type="none", 
+     xlab=c("PC1 (%)", 
+            round((spe.h.pca$CA$eig[1]/sum(spe.h.pca$CA$eig))*100,2)),
+     ylab=c("PC2 (%)", 
+            round((spe.h.pca$CA$eig[2]/sum(spe.h.pca$CA$eig))*100,2)))
+points(scores(spe.h.pca, display="sites",scaling=1),
+       col="black", bg="steelblue", cex=0.25)
+text(scores(spe.h.pca, display="species", choices=c(1), scaling=1),
+     scores(spe.h.pca, display="species", choices=c(2), scaling=1),
+     labels=rownames(scores(spe.h.pca, display="species", scaling=1)),
+     col="red", cex=0.8)       
+#Anadimos las flechas para las especies
+spe.sc=scores(spe.h.pca,choices=1:2,scaling=,display="sp")
+arrows(0,0,spe.sc[,1],spe.sc[,2],length=0)
+```
+
+
+Finalmente, vamos a usar el método de **analisis de correspondencia** en los datos de composicion de especies no transformafos (datos originales) utilizando la funcion ``cca()`` de la libreria ``vegan``.
+
+
+```{r warning=FALSE,message=TRUE}
+spe.ca = cca(spe)
+```
+
+Extraer sus resultados:
+
+```{r warning=FALSE,message=TRUE, results="hide"}
+summary(spe) #scaling tipo 2 por default
+```
+
+Identificar los ejes significativos mediante el métdod de Kaiser-Guttman.
+
+```{r warning=FALSE,message=TRUE}
+ev=spe.ca$CA$eig
+ev[ev>mean(ev)]
+n=length(ev)
+barplot(ev, main="Valores propios", col="grey", las=2)
+abline(h=mean(ev), col="red")
+legend("topright", "Valores propios promedio", lwd=1, col=2, bty="n")
+```
+
+Según este histograma, a partir del eje de ordenación CA24, la proporción de varianza explicada disminuye por debajo de la proporción media explicada por todos los ejes. 
+
+Ahora plotemos el CA de la composicion de especies:
+
+```{r warning=FALSE,message=TRUE}
+par(mfrow = c(1, 2))
+#Scaling tipo 1
+plot(spe.ca, scaling=1, type="none", main='CA - biplot scaling 1',
+     xlab=c("CA1 (%)", round((spe.ca$CA$eig[1]/sum(spe.ca$CA$eig))*100,2)),
+     ylab=c("CA2 (%)", round((spe.ca$CA$eig[2]/sum(spe.ca$CA$eig))*100,2)),
+     xlim=c(-9,9))
+points(scores(spe.ca, display="sites", choices=c(1,2), scaling=1),
+       col="black", bg="steelblue", cex=0.5)
+text(scores(spe.ca, display="species", choices=c(1), scaling=1),
+     scores(spe.ca, display="species", choices=c(2), scaling=1),
+     labels=rownames(scores(spe.ca, display="species", scaling=1)),
+     col="red", cex=0.3)
+
+#scaling tipo 2
+plot(spe.ca, scaling=1, type="none", main='CA - biplot scaling 2',
+     xlab=c("CA1 (%)", round((spe.ca$CA$eig[1]/sum(spe.ca$CA$eig))*100,2)),
+     ylab=c("CA2 (%)", round((spe.ca$CA$eig[2]/sum(spe.ca$CA$eig))*100,2)), 
+     xlim=c(-9,9))
+points(scores(spe.ca, display="sites", choices=c(1,2), scaling=2),
+       col="black", bg="steelblue", cex=0.5)
+text(scores(spe.ca, display="species", choices=c(1), scaling=2),
+     scores(spe.ca, display="species", choices=c(2), scaling=2),
+     labels=rownames(scores(spe.ca, display="species", scaling=2)),
+     col="red", cex=0.3)
+```
+
+
+En ambos plots se puede observar que existe una especie que se ecuentra muy alejada del centro de ordenacion, al igual que un sitio de muestreo. 
+
+De manera adicional, vimos el método propuesto por Daniel Borcard para realizar una eliminacion de especies raras. Este método va a tomar en consideracion las ocurrencias de cada especie. Y es trabajado de la siguiente manera:
+
+1. Ordenar las especies en la tabla de datos en función de su presencia creciente o decreciente. Eso facilitará la eliminación gradual de las especies con valores de ocurrencia pequeños.
+2. Realizar un primer CA. Observe la inercia total, así como los primeros valores propios.
+3. Repetir este paso después de eliminar las especies con ocurrencia 1; las especies con ocurrencia 1 y 2; las especies con ocurrencia 1 a 3; y así sucesivamente. Después de cada análisis, anote la inercia total, así como los primeros valores propios.
+4. Graficar estos resultados. Debería observarse un pico en la inercia total y en algunos de los valores propios. El pico indica que se ha ido demasiado lejos en la eliminación de las especies raras.
+
+Lo primero es hallar la ocurrencia de especie, aqui estamos hallando las frecuencias de ocurrencia de cada una de las especies en la data total.
+
+```{r warning=FALSE,message=TRUE, results="hide"}
+occ = apply(spe>0,2,sum)
+```
+
+Y siguiendo los pasos de D. Borcard, usaremos el metodo de CA para definir las especies raras que pueden ser eliminadas sin generar un cambio significativo en el analisis:
+
+```{r warning=FALSE,message=TRUE, results="hide"}
+eig = matrix(NA,11,4) #matriz de los 1eros 4 eigenvalues de cada CA
+inert = matrix(NA,11,1) #matriz de los valores totales de Inercia de cada CA
+#corremos un loop que haga un CA y saque los valores de eigenvalues e inercia
+#para cada vez que vamos eliminando la ocurrencia de las species
+for (j in 1:11) {
+  aba = spe[,(occ >= (j-1))] #selecciono las ocurrencias de la data
+  spe.ca1 = cca(aba) #corro su CA
+  eig[j,]=spe.ca1$CA$eig[1:4] #extraigo eigenvalues
+  inert[j,] = spe.ca1$tot.chi #extraigo inercia total
+}
+```
+
+Ploteamos en 2 graficas nuestros resultados. Izq: inercias totales de cada CCA de species ocurrence removed, y en la derecha: los 1eros 4 eigenvalues de cada CCA.
+
+```{r warning=FALSE,message=TRUE}
+par(mfrow=c(1,2))
+plot(0:10,inert,type="b",xlab="Species ocurrence removed",
+     ylab="", axes=FALSE,col="darkgreen")
+axis(1,0:10)
+axis(2,las=1)
+abline(v=0,lty=2,col="grey")
+legend("bottomright",legend="Total inertia in CA",bty="n",lty=1,pch=1,
+       col="darkgreen")
+box()
+plot(0:10,eig[,1],type="b",ylim=c(0,1),xlab="Species ocurrence removed",
+     ylab="",axes=FALSE)
+lines(0:10,eig[,2],type="b",col="red")
+lines(0:10,eig[,3],type="b",col="blue")
+lines(0:10,eig[,4],type="b",col="green")
+legend("bottomright",legend=paste("Eigenvalue",1:4),bty="n",
+       col=c("black","red","blue","green"),lty=1,pch=1)
+axis(1,0:10)
+axis(2,las=1)
+abline(v=0,lty=2,col="grey")
+box()
+```
+
+Entonces con la grafica pudimos observar que la eliminacion de las species con ocurrencias de 1 a 7 pueden eliminarse ya que tienen muy poco efecto en los primeros eigenvalues.
+
+```{r, warning=FALSE,message=TRUE}
+#cuales son esas especies?
+names(which(occ<=4))
+```
+
+
+# Referencias
