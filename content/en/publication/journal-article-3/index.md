@@ -4,8 +4,8 @@ abstract: Distinct types of fish species experience variation in somatic growth 
   and space in integrated analysis-based stock assessment. A few previous studies have reported 
   biased and imprecise assessment model outcomes when variability in somatic growth was ignored. 
   In this study, we used a simulation-estimation framework to expand previous analyses and to 
-  examine the consequences of ignoring or incorporating spatial and temporal (year and 
-  cohort specific) variability in somatic growth in stock assessment models. The study included 
+  examine the consequences of ignoring or incorporating spatial and temporal (year and cohort 
+  specific) variability in somatic growth in stock assessment models. The study included 
   three life history types small pelagic (e.g. sardine), gadids (e.g. cod), and long-lived (e.g. rockfish). 
   In general, ignoring any type of variability in somatic growth led to biased and imprecise estimates of 
   stock spawning biomass and management quantities. Unequal distribution of fishing mortality across space 
