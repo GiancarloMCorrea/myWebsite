@@ -40,7 +40,7 @@ publishDate: "2021-04-01T00:00:00Z"
 summary: Fish growth variability.
 tags:
 - Source Themes
-title: Spatial and temporal variability in somatic growth in fisheries stock assessment models: evaluating the consequences of misspecification
+title: Spatial and temporal variability in somatic growth in fisheries stock assessment models evaluating the consequences of misspecification
 url_code: ""
 url_dataset: ""
 url_pdf: https://www.researchgate.net/publication/351942897_Spatial_and_temporal_variability_in_somatic_growth_in_fisheries_stock_assessment_models_evaluating_the_consequences_of_misspecification
