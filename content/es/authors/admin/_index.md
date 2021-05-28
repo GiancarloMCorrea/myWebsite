@@ -37,9 +37,9 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/gmoroncorrea
-- icon: linkedin
+- icon: orcid
   icon_pack: fab
-  link: https://www.linkedin.com/in/ghmcorrea/
+  link: https://orcid.org/0000-0003-0682-1152
 superuser: true
 title: Giancarlo Helar Morón Correa
 ---
