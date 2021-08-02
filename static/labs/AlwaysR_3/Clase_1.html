@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>AlwaysR, Módulo III: Estadística en R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Giancarlo M. Correa" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: inverse, center, middle
+
+# AlwaysR, Módulo III: Estadística en R
+
+## Clase 1: Introducción. Estadística descriptiva. Distribuciones de probabilidad. 
+
+### Giancarlo M. Correa
+
+&lt;img src="LOGO05.png" width="350px"/&gt;
+
+---
+
+
+
+class: inverse, center, middle
+
+# Introducción
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 70px;
+height: 128px;
+z-index: 0;
+background-image: url(LOGO06.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+bottom:-3em;left:0;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'https://cousteau-group.com/'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+---
+
+# Presentaciones
+
+* Mi nombre es:
+
+* Mi nacionalidad es y/o resido en:
+
+* Me dedico a:
+
+* Mi área de estudio es:
+
+---
+
+# Silabo
+
+Revisar silabo en [Cousteau Consultant Group](https://cousteau-group.com/cursos/).
+
+También puede ser encontrado en el Google Drive.
+
+---
+
+# Metodología
+
+* ***Preguntas***: En cualquier momento. Dejar preguntas en el chat o activar micrófono.
+
+--
+
+* ***Material***: Presentaciones, códigos y videos en Google Drive. También puede ser encontrado en mi [sitio web](https://giancarlomcorrea.netlify.app/es/courses/).
+
+--
+
+* ***Certificado***: De asistencia ó aprobación (cumplir con un proyecto final).
+
+--
+
+* ***Horas de oficina***: Miércoles 11 de agosto a las 18:00 horas (GMT-5)
+
+--
+
+* ***Contacto***: Escribir a [*cursos@cousteau-group.com*](mailto:cursos@cousteau-group.com)
+
+
+---
+
+class: inverse, center, middle
+
+# Estadística descriptiva
+
+---
+
+# Variable
+
+Es un atributo que describe un individuo, lugar, o cosa. Este atributo puede variar entre individuos. Ejemplo: altura total, temperatura, edad, estadio sexual.
+
+--
+
+* **Cuantitativa**: Refleja magnitud. Representa una medida y es numérica.
+
+&gt; - *Discreta*: Valores que toman son contables y tienen un número finito de posibilidades.
+
+&gt; - *Continua*: Valores no son contables y tiene un infinito número de posibilidades.
+
+--
+
+* **Cualitativa**: No son numericas, valores son categorías.
+
+&gt; - *Nominal*: No existe un orden para los niveles.
+
+&gt; - *Ordinal*: Existe un orden para los niveles. 
+
+---
+
+# Muestra
+
+Tomamos datos de la altura ( `\(m\)` ) de 20 árboles ( `\(n = 20\)` ) de un bosque que se quiere investigar y lo guardamos en un vector llamado `altura`:
+
+
+
+
+```r
+print(altura)
+```
+
+```
+##  [1]  94.40  97.70 115.59 100.71 101.29 117.15 104.61  87.35  93.13  95.54
+## [11] 112.24 103.60 104.01 101.11  94.44 117.87 104.98  80.33 107.01  95.27
+```
+
+--
+
+También tomamos datos del número de raíces principales de cada árbol: 
+
+
+
+
+```r
+print(raices)
+```
+
+```
+##  [1] 1 3 2 4 4 0 2 4 2 2 5 2 3 2 0 4 1 0 1 5
+```
+
+---
+
+# Media
+
+Calculada como:
+
+`$$\bar{x}={\frac {1}{n}}\sum _{i=1}^{n}x_{i}={\frac {x_{1}+x_{2}+\cdots +x_{n}}{n}}$$`
+
+--
+
+En *R* podemos usar:
+
+
+```r
+mean(x = altura)
+```
+
+```
+## [1] 101.4165
+```
+
+Unidades: `\(m\)`
+
+---
+
+# Mediana
+
+Valor encontrado en el medio de todo el conjunto de valores.
+
+--
+
+En *R* podemos usar:
+
+
+```r
+median(x = altura)
+```
+
+```
+## [1] 101.2
+```
+
+Unidades: `\(m\)`
+
+---
+
+# Moda
+
+El valor más frecuente en los datos.
+
+--
+
+*R* no tiene una función por defecto para calcular la moda, pero podemos hacer una:
+
+
+```r
+getmode &lt;- function(x) {
+   uniqv &lt;- unique(x)
+   uniqv[which.max(tabulate(match(x, uniqv)))]
+}
+```
+
+--
+
+Luego la usamos:
+
+
+```r
+getmode(x = raices)
+```
+
+```
+## [1] 2
+```
+
+---
+
+# Varianza
+
+Calculada como (para la muestra):
+
+`$$s^2 = \frac{\sum_{i=1}^{n}(x_i - \bar{x})^2} {n-1}$$`
+
+--
+
+En *R* podemos usar:
+
+
+```r
+var(x = altura)
+```
+
+```
+## [1] 94.62027
+```
+
+Si se desea calcular la varianza poblacional, se multiplica por `\((n-1)/n\)`.
+
+Unidades: `\(m^2\)`.
+
+---
+
+# Desviación estándar
+
+Calculada como (para la muestra):
+
+`$$s = \sqrt{s^2}$$`
+
+--
+
+En *R* podemos usar:
+
+
+```r
+sd(x = altura)
+```
+
+```
+## [1] 9.727295
+```
+
+Unidades: `\(m\)`.
+
+---
+
+# Coeficiente de variación
+
+Calculada como:
+
+`$$CV = s/\bar{x}$$`
+
+--
+
+En *R* podemos usar:
+
+
+```r
+sd(altura)/mean(altura)
+```
+
+```
+## [1] 0.09591432
+```
+
+
+---
+
+# Mínimo y máximo
+
+Simplemente se calcula es mínimo y máximo valor observado en la muestra.
+
+--
+
+En *R* podemos usar (mínimo):
+
+
+```r
+min(x = altura)
+```
+
+```
+## [1] 80.33
+```
+
+Unidades: `\(m\)`.
+
+--
+
+En *R* podemos usar (máximo):
+
+
+```r
+max(x = altura)
+```
+
+```
+## [1] 117.87
+```
+
+Unidades: `\(m\)`.
+
+
+---
+
+# Rango
+
+Simplemente se calcula es mínimo y máximo valor observado en la muestra.
+
+--
+
+En *R* podemos usar:
+
+
+```r
+range(x = altura)
+```
+
+```
+## [1]  80.33 117.87
+```
+
+Unidades: `\(m\)`.
+
+---
+
+# Cuartiles y percentiles
+
+* *Cuartiles*: Valores que dividen a los datos en cuatro partes. E.g.: primer (25%), segundo (50%) y tercer (75%) cuartil.
+
+* *Percentil*: Valores que dividen a los datos en cien partes. E.g.: Percentil 1, 2, etc.
+
+--
+
+En *R* podemos usar (cuartiles y percentiles):
+
+
+```r
+quantile(x = altura, probs = 0.25)
+```
+
+```
+##     25% 
+## 95.0625
+```
+
+Aquí, `probs = 0.25` especifica el primer cuartil o el percentil 25. 
+
+--
+
+
+```r
+quantile(x = altura, probs = 0.6)
+```
+
+```
+##     60% 
+## 103.764
+```
+
+Aquí, `probs = 0.6` especifica el percentil 60.
+
+Unidades: `\(m\)`.
+
+---
+
+# Rango interquartil
+
+Diferencia entre el tercer y primer cuartil.
+
+--
+
+En *R* podemos usar:
+
+
+```r
+IQR(x = altura)
+```
+
+```
+## [1] 10.425
+```
+
+
+
+---
+
+# Datos faltantes
+
+En el caso que tengamos datos faltantes, la variable puede ser:
+
+
+```
+##  [1]  94.40  97.70     NA 100.71 101.29 117.15     NA  87.35  93.13  95.54
+## [11] 112.24 103.60 104.01 101.11  94.44 117.87 104.98  80.33 107.01  95.27
+```
+
+--
+
+Si usamos las funciones anteriores tal cual, vemos que:
+
+
+```r
+mean(altura)
+```
+
+```
+## [1] NA
+```
+
+--
+
+En estos casos, tenemos que agregar el argumento `na.rm = TRUE` a las funciones exploradas:
+
+
+```r
+mean(altura, na.rm = TRUE)
+```
+
+```
+## [1] 100.4517
+```
+
+
+
+---
+
+# Figuras
+
+
+```r
+boxplot(x = altura, ylab = 'Altura (m)')
+```
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-22-1.png" width="500" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Figuras
+
+
+```r
+hist(x = altura, xlab = 'Altura (m)', ylab = 'Frecuencia', main = '')
+```
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-23-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Figuras
+
+
+```r
+hist(x = altura, xlab = 'Altura (m)', ylab = 'Frecuencia', main = '')
+abline(v = mean(altura), col = 'red', lty = 2)
+```
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-24-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Figuras
+
+
+```r
+hist(x = altura, xlab = 'Altura (m)', ylab = 'Frecuencia', main = '')
+abline(v = mean(altura), col = 'red', lty = 2)
+abline(v = median(altura), col = 'blue', lty = 2)
+```
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-25-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Figuras
+
+
+```r
+plot(density(altura))
+```
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-26-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Distribuciones de probabilidad
+
+---
+
+# Distribución normal
+
+Función de densidad:
+
+`$$f(x) = \frac{1}{{\sigma \sqrt{2\pi}}} e^{{{ -(x - \mu)^2/2\sigma^2 }}}\hspace{1cm}-\infty &lt;x&lt; \infty$$`
+
+donde `\(\mu\)` (media) y `\(\sigma\)` (desviación estándar) son los parámetros de la función. Representada como: `\(N(\mu, \sigma^2)\)`.
+
+--
+
+Media `\(E(X) = \mu\)`
+
+Varianza `\(Var(X) = \sigma^2\)`
+
+
+---
+
+# Distribución normal
+
+Podemos generar 100 números aleatorios con distribución normal, con determinada media y desviación estándar:
+
+
+```r
+rnorm(n = 100, mean = 20, sd = 3)
+```
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-28-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Distribución normal
+
+Distribución normal estándar ( `\(\mu = 0\)` y `\(\sigma^2=1\)` ):
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-29-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Distribución normal
+
+Probabilidad acumulada:
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-30-1.png" width="300" style="display: block; margin: auto;" /&gt;
+
+--
+
+Podemos usar la función:
+
+
+```r
+pnorm(q = -2, mean = 0, sd = 1)
+```
+
+```
+## [1] 0.02275013
+```
+
+---
+
+# Distribución normal
+
+Probabilidad a un valor de variable dado:
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-32-1.png" width="300" style="display: block; margin: auto;" /&gt;
+
+--
+
+Podemos usar la función:
+
+
+```r
+dnorm(x = -2, mean = 0, sd = 1)
+```
+
+```
+## [1] 0.05399097
+```
+
+---
+
+# Distribución normal
+
+Valor de variable dado una probabilidad acumulada:
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-34-1.png" width="300" style="display: block; margin: auto;" /&gt;
+
+--
+
+Podemos usar la función:
+
+
+```r
+qnorm(p = 0.0227, mean = 0, sd = 1)
+```
+
+```
+## [1] -2.000929
+```
+
+---
+
+# Distribución normal
+
+Ejemplo 1:
+
+¿Cúal es la probabilidad que la altura de un árbol sea menor a 90 m, dado que la media de la muestra es 100 y desviación estándar de 10?
+
+--
+
+
+```r
+pnorm(q = 90, mean = 100, sd = 10)
+```
+
+```
+## [1] 0.1586553
+```
+
+--
+
+Ejemplo 2:
+
+¿Cúal es la probabilidad que la altura de un árbol sea mayor a 115 m, dado que la media de la muestra es 100 y desviación estándar de 10?
+
+--
+
+
+```r
+1 - pnorm(q = 115, mean = 100, sd = 10)
+```
+
+```
+## [1] 0.0668072
+```
+
+
+---
+
+# Distribución lognormal
+
+Función de densidad:
+
+`$$f(x) = \frac{1}{{x\sigma \sqrt{2\pi}}} e^{{{ -(ln(x) - \mu)^2/2\sigma^2 }}}\hspace{1cm} x\in (0,+\infty)$$`
+
+donde `\(\mu\)` (media) y `\(\sigma\)` (desviación estándar) son los parámetros de la función. Representada como: `\(LnN(\mu, \sigma^2)\)`.
+
+--
+
+Media `\(E(X) = e^{\mu+\sigma^2/2}\)`
+
+Varianza `\(Var(X) = e^{2\mu+\sigma^2}(e^{\sigma^2}-1)\)`
+
+
+---
+
+# Distribución lognormal
+
+Podemos generar 1000 números aleatorios con distribución lognormal, con determinada media y desviación estándar:
+
+
+```r
+rlnorm(n = 1000, mean = 2, sd = 1)
+```
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-39-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Distribución lognormal
+
+Similar al caso de la distribución normal, podemos calcular:
+
+--
+
+Probabilidad acumulada:
+
+
+```r
+plnorm(q = 20, mean = 2, sd = 1)
+```
+
+```
+## [1] 0.8403099
+```
+
+--
+
+Probabilidad a un valor de variable dado:
+
+
+```r
+dlnorm(x = 20, mean = 2, sd = 1)
+```
+
+```
+## [1] 0.01215017
+```
+
+--
+
+Valor de variable dado una probabilidad acumulada:
+
+
+```r
+qlnorm(p = 0.84, mean = 2, sd = 1)
+```
+
+```
+## [1] 19.97453
+```
+
+---
+
+# Distribución poisson
+
+Función de densidad:
+
+`$$P(X=x) = \frac{{e^{ - \lambda } \lambda ^x }}{{x!}}\hspace{1cm}x=0,1,2,...$$`
+
+donde `\(\lambda\)` es el parámetro principal y es mayor a cero. Representada como: `\(Poi(\lambda)\)`.
+
+--
+
+Media `\(E(X) = \lambda\)`
+
+Varianza `\(Var(X) = \lambda\)`
+
+
+---
+
+# Distribución poisson
+
+Podemos generar 100 números aleatorios con distribución poisson, con determinada parámetro `\(\lambda\)`:
+
+
+```r
+rpois(n = 100, lambda = 10)
+```
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-44-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Distribución Poisson
+
+Similar al caso de la distribución normal, podemos calcular:
+
+--
+
+Probabilidad acumulada:
+
+
+```r
+ppois(q = 8, lambda = 10)
+```
+
+```
+## [1] 0.3328197
+```
+
+--
+
+Probabilidad a un valor de variable dado:
+
+
+```r
+dpois(x = 8, lambda = 10)
+```
+
+```
+## [1] 0.112599
+```
+
+--
+
+Valor de variable dado una probabilidad acumulada:
+
+
+```r
+qpois(p = 0.33, lambda = 10)
+```
+
+```
+## [1] 8
+```
+
+
+---
+
+# Distribución binomial
+
+Función de probabilidad:
+
+`$$P(X=x) = \binom{n}{x}p^x(1-p)^{n-x}\hspace{1cm}x=0,1,2,...,n$$`
+
+donde `\(n\)` representa el número de intentos y `\(p\)` es la probabilidad de ocurrencia de un evento de interés. Representada como: `\(Bin(n,p)\)`.
+
+--
+
+Media `\(E(X) = np\)`
+
+Varianza `\(Var(X) = np(1-p)\)`
+
+
+---
+
+# Distribución binomial
+
+Podemos generar 100 experimentos (`n=100`), cada uno con 20 intentos (`size=20`), donde cada intento tiene probabilidad de éxito `\(p=0.5\)` para un evento de interés:
+
+
+```r
+rbinom(n = 100, size = 20, prob = 0.5)
+```
+
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-49-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+El número de veces donde el evento de interés ha sido exitoso para los 100 experimentos
+
+---
+
+# Distribución binomial
+
+Similar al caso de la distribución normal, podemos calcular:
+
+--
+
+Probabilidad acumulada:
+
+
+```r
+pbinom(q = 10, size = 20, prob = 0.5)
+```
+
+```
+## [1] 0.5880985
+```
+
+--
+
+Probabilidad a un valor de variable dado:
+
+
+```r
+dbinom(x = 10, size = 20, prob = 0.5)
+```
+
+```
+## [1] 0.1761971
+```
+
+--
+
+Valor de variable dado una probabilidad acumulada:
+
+
+```r
+qbinom(p = 0.588, size = 20, prob = 0.5)
+```
+
+```
+## [1] 10
+```
+
+---
+
+# Distribución binomial
+
+Ejemplo 1:
+
+Se sabe que la proporción de hembras en una muestra es de 0.6. En una muestra se tienen 80 individuos. ¿Cuál es la probabilidad de encontrar menos de 40 hembras? 
+
+--
+
+
+```r
+pbinom(q = 40, size = 80, prob = 0.6)
+```
+
+```
+## [1] 0.04449706
+```
+
+
+---
+
+class: inverse, center, middle
+
+# Gracias!
+
+Contacto: [**cursos@cousteau-group.com**](mailto:cursos@cousteau-group.com)
+
+&lt;img src="LOGO05.png" width="450" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
