@@ -15,7 +15,7 @@ links:
 - icon: laptop-code
   icon_pack: fas
   name: Lab 1
-  url: /labs/AlwaysR_3/Clase_1.html
+  url: /labs/AlwaysR_3/AlwaysR_III_Manual_1_website.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 2
