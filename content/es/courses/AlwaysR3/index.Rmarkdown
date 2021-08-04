@@ -38,20 +38,8 @@ links:
   url: /labs/AlwaysR_3/Clase_2.html
 - icon: laptop-code
   icon_pack: fas
-  name: Lab 2
-  url: /labs/AlwaysR_3/Clase_1.html
-- icon: laptop-code
-  icon_pack: fas
-  name: Lab 3
-  url: /labs/AlwaysR_3/Clase_1.html
-- icon: laptop-code
-  icon_pack: fas
-  name: Lab 4
-  url: /labs/AlwaysR_3/Clase_1.html
-- icon: laptop-code
-  icon_pack: fas
-  name: Lab 5
-  url: /labs/AlwaysR_3/Clase_1.html
+  name: Lab 1
+  url: /labs/AlwaysR_3/AlwaysR_III_Manual_2_website.html
 ---
 
 Este curso explora los métodos estadísticos más utilizados usando el lenguaje de programación R. Es un curso netamente aplicado, donde el principal objetivo es la parte de programación. Está organizado por **Cousteau Consultant Group** y se imparte en cinco días, tres horas al día. En esta página puede encontrar las presentaciones y un breve resumen de los códigos R discutidos durante este curso.

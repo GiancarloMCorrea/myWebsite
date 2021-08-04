@@ -1,0 +1,152 @@
+---
+title: 'Lab 02'
+author: "Giancarlo M. Correa"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+En esta sección se resume los conceptos más importantes vistos en la parte práctica de cada clase.
+
+Cargamos librerías a utilizar
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(car)
+library(Sleuth3)
+library(MASS)
+library(PairedData)
+library(BSDA)
+```
+
+Bases de datos a utilizar:
+
+```{r}
+head(ex0222)
+head(Cars93)
+data(Rugby)
+head(Rugby)
+```
+
+Si queremos saber que información contiene cada base de datos, podemos ver la ayuda de ellas mediante `?ex0222`.
+
+## Caso 1
+
+Asumamos que las variables `EXPERT.1` y `EXPERT.2` tienen distribución normal. Queremos hacer una prueba para saber si la media de los puntajes dados por el experto 1 es mayor a la media de los puntajes dado por el experto 2.
+
+Definimos la hipótesis nula y alternativa:
+
+* $H_0: \mu_1 \leq \mu_2$
+* $H_A: \mu_1 > \mu_2$
+
+También puede ser representada:
+
+* $H_0: \delta \leq 0$
+* $H_A: \delta > 0$
+
+Donde $\delta = \mu_1 - \mu_2$
+
+Usamos la función `t.test` para una prueba de dos muestras pareadas:
+
+```{r}
+t.test(x = Rugby$EXPERT.1, y = Rugby$EXPERT.2, paired = TRUE, mu = 0,
+       alternative = 'greater')
+```
+
+Esto nos lleva a fallar en rechazar $H_0$, lo que quiere decir que la media de los puntajes del experto 1 es menor o igual a la media de los puntajes del experto 2.
+
+Podemos observar la distribución de las variables `EXPERT.1` y `EXPERT.2`:
+
+```{r}
+hist(Rugby$EXPERT.1)
+hist(Rugby$EXPERT.2)
+```
+
+Parece que su distribución no es normal, por lo que una prueba `t.test` no puede ser válida. Podemos usar una prueba Wilcoxon Signed-Rank. Aquí:
+
+* $H_0$: la distribución 1 es menor o igual a la distribución 2
+* $H_A$: la distribución 1 es mayor a la distribución 2
+
+Ejecutamos el test:
+
+```{r}
+wilcox.test(x = Rugby$EXPERT.1, y = Rugby$EXPERT.2, paired = TRUE, alternative = 'greater')
+```
+
+Como vemos, el $p-value$ es grande, por lo que nos lleva a fallar en rechazar la hipótesis nula.
+
+## Caso 2
+
+Deseamos hacer una prueba para saber si las variables `Origen` y `Man.trans.avail` de la base de datos `Cars93` están asociadas.
+
+Para esto, podemos aplicar una prueba Chi-cuadrado de Pearson:
+
+* $H_0$: las variables son independientes entre ellas
+* $H_A$: las variables no son independientes entre ellas
+
+```{r}
+myTable = table(Cars93$Origin, Cars93$Man.trans.avail)
+chisq.test(x = myTable)
+```
+
+Basado en el $p-value$, rechazamos la hipótesis nula y se concluye que las variables no son independientes, por lo que estan asociadas una con otra.
+
+## Caso 3
+
+Queremos evaluar si existen diferencias en el precio de vehículos (`Price`) en base al tipo de tracción (`DriveTrain`) de la base de datos `Cars93`.
+
+Podemos hacer un ANOVA en este caso:
+
+* $H_0$: el precio medio de cada tipo de tracción es igual
+* $H_A$: existe algún tipo de tracción con precio medio diferente a los demás
+
+```{r}
+MyAnova = aov(Price ~ DriveTrain, data = Cars93)
+summary(MyAnova)
+```
+
+Basado en este resultado, rechazamos la hipótesis nula y se concluye que algún tipo de tracción tiene precio medio diferente a los demás. 
+
+Si queremos comparar por pares:
+
+```{r}
+TukeyHSD(x = MyAnova)
+```
+
+Aquí podemos observar que existe una diferencia significativa entre `Rear` y `4WD`, y entre `Rear` y `Front`.
+
+Sin embargo, también tenemos que revisar los supuestos más importantes del ANOVA:
+
+```{r}
+plot(MyAnova, 1)
+plot(MyAnova, 2)
+```
+
+Basados en estos gráficos, al parece el supuesto de normalidad no se estaría cumpliendo.
+
+## Caso 4
+
+Usando la base de datos `Cars93`, encuentra si existe una probabilidad de encontrar un carro con bolsa de aire en el asiento de pasajero (`Driver only` de la columna `AirBags`) mayor a 0.75.
+
+En este caso:
+
+* $H_0: p \leq 0.75$
+* $H_A: p>0.75$
+
+Usamos una prueba binomial
+
+```{r}
+X = sum(Cars93$AirBags == 'Driver only')
+n = nrow(Cars93)
+binom.test(x = X, n = n, p = 0.75, alternative = 'greater')
+```
+
+El $p-value$ es muy grande, por lo que fallamos en rechazar $H_0$. Esto quiere decir que la probabilidad de encontrar un carro con bolsa de aire en el asiento de pasaje es menor o igual a 0.75.
