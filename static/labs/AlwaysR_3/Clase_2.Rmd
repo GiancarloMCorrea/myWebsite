@@ -364,7 +364,7 @@ knitr::include_graphics("images/fig7.png")
 
 # Prueba binomial (exacta)
 
-Tenemos: $H_0: p=p_0$
+Tenemos: $H_0: p\leq p_0$ ó $H_0: p\geq p_0$ ó $H_0: p=p_0$
 
 --
 
@@ -636,6 +636,9 @@ En R podemos usar:
 wilcox.test(x = immer$Y1, y = immer$Y2, paired=TRUE) 
 ```
 
+* $H_0:$ las distribuciones son idénticas
+* $H_A:$ las distribuciones no son idénticas
+
 ---
 
 # Pruebas no paramétricas
@@ -663,6 +666,9 @@ En R podemos usar:
 wilcox.test(mpg ~ am, data=mtcars, paired = FALSE) 
 ```
 
+* $H_0:$ las distribuciones son idénticas
+* $H_A:$ las distribuciones no son idénticas
+
 ---
 
 # Pruebas no paramétricas
@@ -689,6 +695,9 @@ En R podemos usar:
 ```{r}
 kruskal.test(Ozone ~ Month, data = airquality) 
 ```
+
+* $H_0:$ las distribuciones son idénticas
+* $H_A:$ las distribuciones no son idénticas
 
 ---
 
@@ -718,7 +727,8 @@ chisq.test(x = myTab)
 
 --
 
-Basado en el $p-value$, las variables de filas y columnas **no** son independientes entre ellas, por lo tanto están estadísticamente asociadas.
+* $H_0:$ las variables son independientes entre ellas
+* $H_A:$ las variables **no** son independientes entre ellas
 
 ---
 
@@ -736,9 +746,9 @@ Tenemos varias muestras de diferentes poblaciones:
 
 * Muestra 1: $X_{11}, ..., X_{1n_1}$ de la población 1 con media $\mu_1$ y varianza $\sigma_1^2$.
 
-* Muestra 2: $X_{21}, ..., X_{2n_2}$ de la población 1 con media $\mu_2$ y varianza $\sigma_2^2$.
+* Muestra 2: $X_{21}, ..., X_{2n_2}$ de la población 2 con media $\mu_2$ y varianza $\sigma_2^2$.
 
-* Muestra n: $X_{m1}, ..., X_{mn_m}$ de la población 1 con media $\mu_m$ y varianza $\sigma_m^2$.
+* Muestra m: $X_{m1}, ..., X_{mn_m}$ de la población m con media $\mu_m$ y varianza $\sigma_m^2$.
 
 ---
 
@@ -860,6 +870,9 @@ library(car)
 leveneTest(y = myAnova)
 ```
 
+* $H_0$: varianzas son iguales (homogéneas)
+* $H_A$: varianzas no son iguales (homogéneas)
+
 ---
 
 # ANOVA
@@ -880,6 +893,10 @@ plot(myAnova, 2)
 aov_residuals <- residuals(object = myAnova )
 shapiro.test(x = aov_residuals )
 ```
+
+* $H_0$: la distribución es normal
+* $H_A$: la distribución **no** es normal
+
 
 ---
 

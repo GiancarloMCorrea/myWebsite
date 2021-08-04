@@ -425,7 +425,7 @@ Supongamos que realizo un muestreo de una población y capturé 20 individuos ( 
 
 # Prueba binomial (exacta)
 
-Tenemos: `\(H_0: p=p_0\)`
+Tenemos: `\(H_0: p\leq p_0\)` ó `\(H_0: p\geq p_0\)` ó `\(H_0: p=p_0\)`
 
 --
 
@@ -546,7 +546,7 @@ ks.test(x = rVar, y = 'pnorm', mean = 3, sd = 0.4,
 ## 	One-sample Kolmogorov-Smirnov test
 ## 
 ## data:  rVar
-## D = 0.82622, p-value &lt; 2.2e-16
+## D = 0.91046, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided
 ```
 
@@ -790,6 +790,9 @@ wilcox.test(x = immer$Y1, y = immer$Y2, paired=TRUE)
 ## alternative hypothesis: true location shift is not equal to 0
 ```
 
+* `\(H_0:\)` las distribuciones son idénticas
+* `\(H_A:\)` las distribuciones no son idénticas
+
 ---
 
 # Pruebas no paramétricas
@@ -843,6 +846,9 @@ wilcox.test(mpg ~ am, data=mtcars, paired = FALSE)
 ## alternative hypothesis: true location shift is not equal to 0
 ```
 
+* `\(H_0:\)` las distribuciones son idénticas
+* `\(H_A:\)` las distribuciones no son idénticas
+
 ---
 
 # Pruebas no paramétricas
@@ -890,6 +896,9 @@ kruskal.test(Ozone ~ Month, data = airquality)
 ## Kruskal-Wallis chi-squared = 29.267, df = 4, p-value = 6.901e-06
 ```
 
+* `\(H_0:\)` las distribuciones son idénticas
+* `\(H_A:\)` las distribuciones no son idénticas
+
 ---
 
 # Prueba Chi-cuadrado de Pearson
@@ -931,7 +940,8 @@ chisq.test(x = myTab)
 
 --
 
-Basado en el `\(p-value\)`, las variables de filas y columnas **no** son independientes entre ellas, por lo tanto están estadísticamente asociadas.
+* `\(H_0:\)` las variables son independientes entre ellas
+* `\(H_A:\)` las variables **no** son independientes entre ellas
 
 ---
 
@@ -949,9 +959,9 @@ Tenemos varias muestras de diferentes poblaciones:
 
 * Muestra 1: `\(X_{11}, ..., X_{1n_1}\)` de la población 1 con media `\(\mu_1\)` y varianza `\(\sigma_1^2\)`.
 
-* Muestra 2: `\(X_{21}, ..., X_{2n_2}\)` de la población 1 con media `\(\mu_2\)` y varianza `\(\sigma_2^2\)`.
+* Muestra 2: `\(X_{21}, ..., X_{2n_2}\)` de la población 2 con media `\(\mu_2\)` y varianza `\(\sigma_2^2\)`.
 
-* Muestra n: `\(X_{m1}, ..., X_{mn_m}\)` de la población 1 con media `\(\mu_m\)` y varianza `\(\sigma_m^2\)`.
+* Muestra m: `\(X_{m1}, ..., X_{mn_m}\)` de la población m con media `\(\mu_m\)` y varianza `\(\sigma_m^2\)`.
 
 ---
 
@@ -1097,6 +1107,9 @@ leveneTest(y = myAnova)
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
+* `\(H_0\)`: varianzas son iguales (homogéneas)
+* `\(H_A\)`: varianzas no son iguales (homogéneas)
+
 ---
 
 # ANOVA
@@ -1124,6 +1137,10 @@ shapiro.test(x = aov_residuals )
 ## data:  aov_residuals
 ## W = 0.9879, p-value = 0.2189
 ```
+
+* `\(H_0\)`: la distribución es normal
+* `\(H_A\)`: la distribución **no** es normal
+
 
 ---
 
