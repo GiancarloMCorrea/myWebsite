@@ -18,7 +18,7 @@ links:
   url: /labs/AlwaysR_3/AlwaysR_III_Manual_1_website.html
 - icon: file-powerpoint
   icon_pack: fas
-  name: Clase 1
+  name: Clase 2
   url: /labs/AlwaysR_3/Clase_2.html
 - icon: laptop-code
   icon_pack: fas
