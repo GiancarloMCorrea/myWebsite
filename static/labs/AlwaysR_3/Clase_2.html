@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>AlwaysR, Módulo III: Estadística en R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Giancarlo M. Correa" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: inverse, center, middle
+
+# AlwaysR, Módulo III: Estadística en R
+
+## Clase 2: Pruebas de hipótesis. ANOVA. Comparaciones múltiples.
+
+### Giancarlo M. Correa
+
+&lt;img src="LOGO05.png" width="350px"/&gt;
+
+---
+
+
+
+class: inverse, center, middle
+
+# Pruebas de hipótesis
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 70px;
+height: 128px;
+z-index: 0;
+background-image: url(LOGO06.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+bottom:-3em;left:0;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'https://cousteau-group.com/'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+---
+
+# Tipos de estudios
+
+## Experimental
+
+* Laboratorio ó en campo
+
+* Podemos elegir a los individuos
+
+* Requiere manipulación
+
+* Normalmente usado para estudiar diferentes ‘tratamientos’
+
+* Puede determinar causalidad
+
+---
+
+# Tipos de estudios
+
+## Observacional
+
+* En campo
+
+* Diseño de muestreo
+
+* Los individuos no son elegidos a voluntad
+
+* Utilizado normalmente para estudiar diferentes ‘tratamientos’ y realizar inferencias acerca de la población
+
+* Difícil para determinar causalidad
+
+---
+
+# Prueba de hipótesis
+
+* De una muestra
+
+* De dos muestras
+
+--
+
+&lt;img src="images/fig1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Prueba de hipótesis
+
+* **Hipótesis nula** ( `\(H_0\)` ): Un valor especificado o rango de valores para el parámetro de interés. Normalmente representa los valores ‘no interesantes’.
+
+Ejemplo: `\(H_0: \mu = 0\)`
+
+--
+
+* **Hipótesis alternativa** ( `\(H_A\)` ): Un valor especificado diferente o rango de valores para el parámetro de interés. Normalmente representan los valores ‘interesantes’.
+
+Ejemplo: `\(H_A: \mu &gt; 0\)`
+
+---
+
+# Prueba de hipótesis
+
+Podemos obtener dos resultados:
+
+* Rechazar la hipótesis nula
+* Fallar en rechazar la hipótesis nula
+
+--
+
+&lt;img src="images/fig2.jpg" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Componentes de una prueba de hipótesis
+
+* **Nivel de significancia** ( `\(\alpha\)` ): probabilidad de un error Tipo I (rechazar la hipótesis nula cuando de hecho es verdadera). 
+
+--
+
+* **Estadístico de prueba**: Valor calculado a partir de una función de los valores muestreados que es usado para decidir entre la hipótesis nula o alternativa.
+
+--
+
+* **Distribución de referencia**: Distribución que usamos para decidir si rechazamos la hipótesis nula.
+
+--
+
+* **Región de rechazo**: Valores para los cuales la hipótesis nula será rechazada.
+
+--
+
+* **Valor crítico**: Valor con el cual el estadístico de prueba será comparado para decidir si rechazamos la hipótesis nula.
+
+---
+
+# Componentes de una prueba de hipótesis
+
+Ejemplo: Para `\(H_0: \mu = 0\)`
+
+&lt;img src="images/fig3.jpg" width="500" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Pruebas de hipótesis de una muestra
+
+---
+
+# Prueba Z (Z-test)
+
+Tenemos: `\(H_0: \mu\leq \mu_0\)` ó `\(H_0: \mu\geq \mu_0\)` ó `\(H_0: \mu=\mu_0\)`
+
+--
+
+Estadístico de prueba:
+
+`$$Z = \frac{\bar{X}-\mu_0}{\sqrt{\sigma^2/n}}$$`
+
+Se asume que la varianza de la población es conocida ( `\(\sigma^2\)` ). `\(n\)` es el individuos en la muestra. `\(\bar{X}\)` es la media de la muestra.
+
+--
+
+Distribución de referencia: `\(Z \sim N(0,1)\)`
+
+--
+
+Decisión:
+
+* `\(H_A: \mu &gt; \mu_0\)`: Rechazamos `\(H_0\)` cuando `\(Z&gt;z_{1-\alpha}\)`
+* `\(H_A: \mu &lt; \mu_0\)`: Rechazamos `\(H_0\)` cuando `\(Z&lt;z_{1-\alpha}\)`
+* `\(H_A: \mu \neq \mu_0\)`: Rechazamos `\(H_0\)` cuando `\(\mid Z\mid &gt;z_{1-\alpha /2}\)`
+
+---
+
+# P-valor
+
+* **p-value**: Probabilidad de observar una media muestral que es tanto o más extrema que la observada, bajo la hipótesis nula es verdadera.
+
+&lt;img src="images/fig4.png" width="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Prueba Z (Z-test)
+
+Ejemplo: Dado `\(H_0: \mu = 12\)` y `\(H_A: \mu \neq 12\)`. Obtenemos un `\(Z=2.1\)` y un `\(p-value=0.0357\)`. La correcta interpretación es: Hay 3.57% de probabilidad de observar el `\(Z\)` obtenido (o uno mayor) cuando la hipótesis nula es verdadera ( `\(\mu = 12\)` ).
+
+--
+
+&lt;img src="images/fig5.png" width="500" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Intervalos de confianza
+
+El intervalo construido contendrá el valor verdadero de `\(\mu\)` (media de la población) el `\((1-\alpha)100\%\)` de las veces que repetimos el experimento.
+
+--
+
+&lt;img src="images/fig6.png" width="500" style="display: block; margin: auto;" /&gt;
+
+--
+
+* **NO** es correcto decir que hay `\((1-\alpha)100\%\)` de probabilidad que la media de la población este en este intervalo (de un experimento en específico).
+
+---
+
+# Prueba Z (Z-test)
+
+Veamos la distribución de la variable `Sepal.Width` de la base de datos `iris`:
+
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-7-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Prueba Z (Z-test)
+
+Para: 
+
+* `\(H_0: \mu = 0\)`
+* `\(H_A: \mu \neq 0\)`
+* `\(\sigma = 0.4\)`
+
+En R podemos usar:
+
+
+
+
+```r
+z.test(x = iris$Sepal.Width, alternative = 'two.sided', 
+       mu = 0, sigma.x = 0.4)
+```
+
+```
+## 
+## 	One-sample z-Test
+## 
+## data:  iris$Sepal.Width
+## z = 93.611, p-value &lt; 2.2e-16
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  2.993321 3.121345
+## sample estimates:
+## mean of x 
+##  3.057333
+```
+
+---
+
+# Prueba Z (Z-test)
+
+Para: 
+
+* `\(H_0: \mu \geq 0\)`
+* `\(H_A: \mu &lt; 0\)`
+* `\(\sigma = 0.4\)`
+
+En R podemos usar:
+
+
+
+
+```r
+z.test(x = iris$Sepal.Width, alternative = 'less', 
+       mu = 0, sigma.x = 0.4)
+```
+
+```
+## 
+## 	One-sample z-Test
+## 
+## data:  iris$Sepal.Width
+## z = 93.611, p-value = 1
+## alternative hypothesis: true mean is less than 0
+## 95 percent confidence interval:
+##        NA 3.111054
+## sample estimates:
+## mean of x 
+##  3.057333
+```
+
+---
+
+# Prueba Z (Z-test)
+
+Para: 
+
+* `\(H_0: \mu \leq 0\)`
+* `\(H_A: \mu &gt; 0\)`
+* `\(\sigma = 0.4\)`
+
+En R podemos usar:
+
+
+
+
+```r
+z.test(x = iris$Sepal.Width, alternative = 'greater', 
+       mu = 0, sigma.x = 0.4)
+```
+
+```
+## 
+## 	One-sample z-Test
+## 
+## data:  iris$Sepal.Width
+## z = 93.611, p-value &lt; 2.2e-16
+## alternative hypothesis: true mean is greater than 0
+## 95 percent confidence interval:
+##  3.003613       NA
+## sample estimates:
+## mean of x 
+##  3.057333
+```
+
+---
+
+# Prueba t (t-test)
+
+Tenemos: `\(H_0: \mu\leq \mu_0\)` ó `\(H_0: \mu\geq \mu_0\)` ó `\(H_0: \mu=\mu_0\)`
+
+--
+
+Estadístico de prueba:
+
+`$$t = \frac{\bar{X}-\mu_0}{\sqrt{s^2/n}}$$`
+
+`\(n\)` es el individuos en la muestra. `\(\bar{X}\)` es la media de la muestra. `\(s^2\)` es la varianza muestral.
+
+--
+
+Distribución de referencia: `\(t \sim t_{n-1}\)`
+
+--
+
+Decisión:
+
+* `\(H_A: \mu &gt; \mu_0\)`: Rechazamos `\(H_0\)` cuando `\(t&gt;t_{n-1,1-\alpha}\)`
+* `\(H_A: \mu &lt; \mu_0\)`: Rechazamos `\(H_0\)` cuando `\(t&lt;t_{n-1,\alpha}\)`
+* `\(H_A: \mu \neq \mu_0\)`: Rechazamos `\(H_0\)` cuando `\(\mid t\mid &gt;t_{n-1,1-\alpha /2}\)`
+
+---
+
+# Prueba t (t-test)
+
+Para: 
+
+* `\(H_0: \mu = 0\)`
+* `\(H_A: \mu \neq 0\)`
+
+En R podemos usar:
+
+
+```r
+t.test(x = iris$Sepal.Width, alternative = 'two.sided', 
+       mu = 0)
+```
+
+```
+## 
+## 	One Sample t-test
+## 
+## data:  iris$Sepal.Width
+## t = 85.908, df = 149, p-value &lt; 2.2e-16
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  2.987010 3.127656
+## sample estimates:
+## mean of x 
+##  3.057333
+```
+
+---
+
+# Prueba binomial (exacta)
+
+Ejemplo:
+
+Supongamos que realizo un muestreo de una población y capturé 20 individuos ( `\(n=20\)` ). El evento de interés es que un individuo sea macho ( `\(p = P(macho)\)` ). Tenemos que `\(H_0: p=0.5\)` y `\(H_A: p&gt;0.5\)`. Entonces:
+
+* Si observo `\(X = 2\)` machos, debo rechazar `\(H_0\)`?
+
+--
+
+* Si observo `\(X = 10\)` machos, debo rechazar `\(H_0\)`?
+
+--
+
+* Si observo `\(X = 16\)` machos, debo rechazar `\(H_0\)`?
+
+---
+
+# Prueba binomial (exacta)
+
+&lt;img src="images/fig7.png" width="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Prueba binomial (exacta)
+
+Tenemos: `\(H_0: p=p_0\)`
+
+--
+
+Distribución de referencia: `\(X \sim Binom(n,p_0)\)`
+
+Donde `\(X = \sum_{i=1}^n Y_i\)`, e `\(Y_i\)` es un evento con éxito/fracaso:
+
+`$$P(Y_i=1)=p\hspace{3cm}P(Y_i=0)=1-p$$`
+
+--
+
+Decisión:
+
+* `\(H_A: \mu &gt; \mu_0\)`: Rechazamos `\(H_0\)` cuando?
+* `\(H_A: \mu &lt; \mu_0\)`: Rechazamos `\(H_0\)` cuando?
+* `\(H_A: \mu \neq \mu_0\)`: Rechazamos `\(H_0\)` cuando?
+
+---
+
+# Prueba binomial (exacta)
+
+&lt;img src="images/fig8.png" width="800" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Prueba binomial (exacta)
+
+Tenemos: 
+
+* `\(H_0: p = 0.5\)`
+* `\(H_A: p \neq 0.5\)`
+
+Para la variable `Species` de la base de datos `iris`, donde la presencia de la especie `setosa` es mi evento de interés: 
+
+
+```r
+X = sum(iris$Species == 'setosa')
+n = nrow(iris)
+```
+
+---
+
+# Prueba binomial (exacta)
+
+* `\(H_0: p = 0.5\)`
+* `\(H_A: p \neq 0.5\)`
+
+En R podemos usar:
+
+
+```r
+binom.test(x = X, n = n, p = 0.5, alternative = 'two.sided')
+```
+
+```
+## 
+## 	Exact binomial test
+## 
+## data:  X and n
+## number of successes = 50, number of trials = 150, p-value = 5.448e-05
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.2585564 0.4148430
+## sample estimates:
+## probability of success 
+##              0.3333333
+```
+
+---
+
+# Prueba Kolmogorov-Smirnov
+
+Utilizada para testear la distribución de una variable.
+
+--
+
+Estadístico de prueba:
+
+`$$D = sup_x \mid \hat{F}(x) - F_0(x)\mid$$`
+
+Donde `\(\hat{F}(x)=\frac{1}{n}\sum_{i=1}^n 1\{X_i\leq x\}\)`, la cual es la proporción de observaciones menores a `\(x\)`.
+
+--
+
+&lt;img src="images/fig9.png" width="350" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Prueba Kolmogorov-Smirnov
+
+Simulamos una variable:
+
+
+```r
+rVar = rnorm(n = 100, mean = 5, sd = 1)
+hist(rVar)
+```
+
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-20-1.png" width="350" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Prueba Kolmogorov-Smirnov
+
+
+En R podemos usar:
+
+
+```r
+ks.test(x = rVar, y = 'pnorm', mean = 3, sd = 0.4, 
+        alternative = 'two.sided')
+```
+
+```
+## 
+## 	One-sample Kolmogorov-Smirnov test
+## 
+## data:  rVar
+## D = 0.88222, p-value &lt; 2.2e-16
+## alternative hypothesis: two-sided
+```
+
+--
+
+En este caso:
+
+* `\(H_0: F(x) = N(3,0.4^2)\)`
+* `\(H_A: F(x) \neq N(3,0.4^2)\)`
+
+
+---
+
+class: inverse, center, middle
+
+# Pruebas de hipótesis de dos muestras
+
+---
+
+# Tipos de pruebas de dos muestras
+
+* **Muestras emparejadas**: un individuo muestreado en la primera muestra está relacionado a otro único individuos en la segunda muestra.
+
+--
+
+* **Muestras independientes**: individuos de la primera muestra son independientes a los individuos de la segunda muestra.
+
+---
+
+# Prueba t de muestras independientes
+
+Tenemos: `\(H_0: \delta\leq \delta_0\)` ó `\(H_0: \delta\geq \delta_0\)` ó `\(H_0: \delta=\delta_0\)`
+
+Donde: `\(\delta = \mu_X-\mu_Y\)`
+
+--
+
+Estadístico de prueba:
+
+`$$t = \frac{\hat{\delta}-\delta_0}{\sqrt{s_p^2/m + s_p^2/n}}$$`
+
+`\(m\)` es el número de individuos en la muestra 1 y `\(n\)` es el número de individuos en la muestra 2. `\(\bar{X}\)` es la media de la muestra. `\(s_p^2\)` es la varianza agrupada. `\(\hat{\delta} = \bar{X}-\bar{Y}\)`.
+
+--
+
+Distribución de referencia: `\(t \sim t_{m+n-2}\)`
+
+--
+
+Decisión:
+
+* `\(H_A: \delta &gt; \delta_0\)`: Rechazamos `\(H_0\)` cuando `\(t&gt;t_{m+n-2,1-\alpha}\)`
+* `\(H_A: \delta &lt; \delta_0\)`: Rechazamos `\(H_0\)` cuando `\(t&lt;t_{m+n-2,\alpha}\)`
+* `\(H_A: \delta \neq \delta_0\)`: Rechazamos `\(H_0\)` cuando `\(\mid t\mid &gt;t_{m+n-2,1-\alpha /2}\)`
+
+
+---
+
+# Prueba t de muestras independientes
+
+Para la variable `Petal.Length`, podemos seleccionar los valores para la especie `setosa` y `virginica`:
+
+
+```r
+setosaVal = iris$Petal.Length[iris$Species == 'setosa']
+virginicaVal = iris$Petal.Length[iris$Species == 'virginica']
+```
+
+---
+
+# Prueba t de muestras independientes
+
+Y en R podemos usar la función:
+
+
+```r
+t.test(x = setosaVal, y = virginicaVal, alternative = 'two.sided', 
+       mu = 0, paired = FALSE, var.equal = FALSE)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  setosaVal and virginicaVal
+## t = -49.986, df = 58.609, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -4.253749 -3.926251
+## sample estimates:
+## mean of x mean of y 
+##     1.462     5.552
+```
+
+--
+
+Donde:
+
+* `\(H_0: \delta = 0\)`
+* `\(H_A: \delta \neq 0\)`
+
+--
+
+Tener cuidado al especificar los argumentos `paired` y `var.equal`.
+
+---
+
+# Prueba t de muestras emparejadas
+
+Tenemos: `\(H_0: \delta\leq \delta_0\)` ó `\(H_0: \delta\geq \delta_0\)` ó `\(H_0: \delta=\delta_0\)`
+
+Donde: `\(\delta = \mu_X-\mu_Y\)`
+
+--
+
+Estadístico de prueba:
+
+`$$t = \frac{\hat{D}-\delta_0}{\sqrt{(s_x^2+s_y^2-2s_{xy})/n}}$$`
+
+`\(m\)` es el número de individuos en la muestra 1 y `\(n\)` es el número de individuos en la muestra 2. `\(\bar{X}\)` es la media de la muestra. `\(s_p^2\)` es la varianza agrupada. `\(\hat{D} = \bar{X}-\bar{Y}\)`.
+
+--
+
+Distribución de referencia: `\(t \sim t_{n-1}\)`
+
+--
+
+Decisión:
+
+* `\(H_A: \delta &gt; \delta_0\)`: Rechazamos `\(H_0\)` cuando `\(t&gt;t_{n-1,1-\alpha}\)`
+* `\(H_A: \delta &lt; \delta_0\)`: Rechazamos `\(H_0\)` cuando `\(t&lt;t_{n-1,\alpha}\)`
+* `\(H_A: \delta \neq \delta_0\)`: Rechazamos `\(H_0\)` cuando `\(\mid t\mid &gt;t_{n-1,1-\alpha /2}\)`
+
+---
+
+# Prueba t de muestras emparejadas
+
+Usemos la base de datos:
+
+
+```r
+library(PairedData)
+data(BloodLead)
+head(BloodLead)
+```
+
+```
+##   Pair Exposed Control
+## 1  P01      38      16
+## 2  P02      23      18
+## 3  P03      41      18
+## 4  P04      18      24
+## 5  P05      37      19
+## 6  P06      36      11
+```
+
+---
+
+# Prueba t de muestras emparejadas
+
+En R podemos usar la función:
+
+
+```r
+t.test(x = BloodLead$Exposed, y = BloodLead$Control, alternative = 'two.sided', 
+       mu = 0, paired = TRUE)
+```
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  BloodLead$Exposed and BloodLead$Control
+## t = 5.783, df = 32, p-value = 2.036e-06
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  10.34469 21.59470
+## sample estimates:
+## mean of the differences 
+##                 15.9697
+```
+
+--
+
+Donde:
+
+* `\(H_0: \delta = 0\)`
+* `\(H_A: \delta \neq 0\)`
+
+---
+
+# Pruebas no paramétricas
+
+## Prueba Wilcoxon Signed-Rank
+
+Utilizado cuando tenemos observaciones emparejadas y no tenemos información para asumir una distribución normal de la variable. Usando esta prueba podemos decidir si las distribuciones de los datos comparados son idénticas.
+
+Usemos la base de datos:
+
+
+```r
+library(MASS)
+head(immer)
+```
+
+```
+##   Loc Var    Y1    Y2
+## 1  UF   M  81.0  80.7
+## 2  UF   S 105.4  82.3
+## 3  UF   V 119.7  80.4
+## 4  UF   T 109.7  87.2
+## 5  UF   P  98.3  84.2
+## 6   W   M 146.6 100.4
+```
+
+
+---
+
+# Pruebas no paramétricas
+
+## Prueba Wilcoxon Signed-Rank
+
+En R podemos usar:
+
+
+```r
+wilcox.test(x = immer$Y1, y = immer$Y2, paired=TRUE) 
+```
+
+```
+## Warning in wilcox.test.default(x = immer$Y1, y = immer$Y2, paired = TRUE):
+## cannot compute exact p-value with ties
+```
+
+```
+## 
+## 	Wilcoxon signed rank test with continuity correction
+## 
+## data:  immer$Y1 and immer$Y2
+## V = 368.5, p-value = 0.005318
+## alternative hypothesis: true location shift is not equal to 0
+```
+
+---
+
+# Pruebas no paramétricas
+
+## Prueba Mann-Whitney-Wilcoxon
+
+Utilizado cuando tenemos observaciones independientes y no tenemos información para asumir una distribución normal de la variable. Usando esta prueba podemos decidir si las distribuciones de los datos comparados son idénticas.
+
+Usemos la base de datos:
+
+
+```r
+head(mtcars)
+```
+
+```
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+```
+
+
+---
+
+# Pruebas no paramétricas
+
+## Prueba Mann-Whitney-Wilcoxon
+
+En R podemos usar:
+
+
+```r
+wilcox.test(mpg ~ am, data=mtcars, paired = FALSE) 
+```
+
+```
+## Warning in wilcox.test.default(x = c(21.4, 18.7, 18.1, 14.3, 24.4, 22.8, :
+## cannot compute exact p-value with ties
+```
+
+```
+## 
+## 	Wilcoxon rank sum test with continuity correction
+## 
+## data:  mpg by am
+## W = 42, p-value = 0.001871
+## alternative hypothesis: true location shift is not equal to 0
+```
+
+---
+
+# Pruebas no paramétricas
+
+## Prueba Kruskal-Wallis
+
+Utilizado cuando tenemos observaciones independientes y no tenemos información para asumir una distribución normal de la variable. Usando esta prueba podemos decidir si las distribuciones de los datos comparados son idénticas.
+
+Usemos la base de datos:
+
+
+```r
+head(airquality)
+```
+
+```
+##   Ozone Solar.R Wind Temp Month Day
+## 1    41     190  7.4   67     5   1
+## 2    36     118  8.0   72     5   2
+## 3    12     149 12.6   74     5   3
+## 4    18     313 11.5   62     5   4
+## 5    NA      NA 14.3   56     5   5
+## 6    28      NA 14.9   66     5   6
+```
+
+
+---
+
+# Pruebas no paramétricas
+
+## Prueba Kruskal-Wallis
+
+En R podemos usar:
+
+
+```r
+kruskal.test(Ozone ~ Month, data = airquality) 
+```
+
+```
+## 
+## 	Kruskal-Wallis rank sum test
+## 
+## data:  Ozone by Month
+## Kruskal-Wallis chi-squared = 29.267, df = 4, p-value = 6.901e-06
+```
+
+---
+
+# Prueba Chi-cuadrado de Pearson
+
+Empleado para hacer una prueba a una tabla de contingencia de dos variables categóricas. Evalúa si hay una asociación significativa entre las categorías de las dos variables.
+
+
+
+
+```r
+myTab
+```
+
+```
+##         ill
+## pet      Toxo no-Toxo
+##   Cat     100      20
+##   No-Cat   50      30
+```
+
+---
+
+# Prueba Chi-cuadrado de Pearson
+
+En R podemos usar:
+
+
+```r
+chisq.test(x = myTab)
+```
+
+```
+## 
+## 	Pearson's Chi-squared test with Yates' continuity correction
+## 
+## data:  myTab
+## X-squared = 10.028, df = 1, p-value = 0.001542
+```
+
+--
+
+Basado en el `\(p-value\)`, las variables de filas y columnas **no** son independientes entre ellas, por lo tanto están estadísticamente asociadas.
+
+---
+
+class: inverse, center, middle
+
+# Análisis de Varianza (ANOVA)
+
+---
+
+# ANOVA
+
+Tenemos varias muestras de diferentes poblaciones:
+
+--
+
+* Muestra 1: `\(X_{11}, ..., X_{1n_1}\)` de la población 1 con media `\(\mu_1\)` y varianza `\(\sigma_1^2\)`.
+
+* Muestra 2: `\(X_{21}, ..., X_{2n_2}\)` de la población 1 con media `\(\mu_2\)` y varianza `\(\sigma_2^2\)`.
+
+* Muestra n: `\(X_{m1}, ..., X_{mn_m}\)` de la población 1 con media `\(\mu_m\)` y varianza `\(\sigma_m^2\)`.
+
+---
+
+# ANOVA
+
+Supuestos:
+
+* Independencia dentro de grupos
+
+* Independencia entre grupos
+
+* Normalidad de la variable
+
+* Igual varianza en todas las poblaciones
+
+---
+
+# ANOVA
+
+La pregunta al usar un ANOVA es: Son las medias poblacionales iguales una con otra?
+
+--
+
+Por lo tanto, la hipótesis nula es:
+
+`\(H_0: \mu_1=\mu_2=...=\mu_m\)`
+
+--
+
+La hipótesis alternativa es:
+
+`\(H_A: \mu_1\neq \mu_2\neq...\neq \mu_m\)`
+
+--
+
+En palabras sencillas, un ANOVA compara la varianza dentro de los grupos con la varianza de todas las observaciones juntas para decidir si las medias poblacionales son iguales (es por esto que es llamado análisis de varianza).
+
+---
+
+# ANOVA
+
+Ejemplo:
+
+&lt;img src="images/fig10.png" width="650" style="display: block; margin: auto;" /&gt;
+
+---
+
+# ANOVA
+
+A razonar:
+
+&lt;img src="images/fig11.jpg" width="650" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# ANOVA
+
+Observamos diferencias significativas?
+
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-37-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# ANOVA
+
+Hagamos un ANOVA para la variable seleccionada:
+
+
+```r
+myAnova = aov(Sepal.Length ~ Species, data = iris)
+summary(myAnova)
+```
+
+```
+##              Df Sum Sq Mean Sq F value Pr(&gt;F)    
+## Species       2  63.21  31.606   119.3 &lt;2e-16 ***
+## Residuals   147  38.96   0.265                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+# Comparaciones de pares múltiples
+
+Un ANOVA nos dice si alguna media es diferente, pero no nos dice cuál.
+
+--
+
+Si queremos comparar medias por pares, podemos usar una prueba Tukey.
+
+## Prueba Tukey
+
+
+```r
+TukeyHSD(x = myAnova)
+```
+
+```
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = Sepal.Length ~ Species, data = iris)
+## 
+## $Species
+##                       diff       lwr       upr p adj
+## versicolor-setosa    0.930 0.6862273 1.1737727     0
+## virginica-setosa     1.582 1.3382273 1.8257727     0
+## virginica-versicolor 0.652 0.4082273 0.8957727     0
+```
+
+---
+
+# ANOVA
+
+Tenemos que verificar los supuestos de un ANOVA:
+
+--
+
+### Homogeneidad de varianza
+
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-40-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# ANOVA
+
+### Homogeneidad de varianza
+
+
+```r
+library(car)
+leveneTest(y = myAnova)
+```
+
+```
+## Levene's Test for Homogeneity of Variance (center = median)
+##        Df F value   Pr(&gt;F)   
+## group   2  6.3527 0.002259 **
+##       147                    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+---
+
+# ANOVA
+
+### Normalidad
+
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-42-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# ANOVA
+
+### Normalidad: Prueba de Shapiro
+
+
+```r
+aov_residuals &lt;- residuals(object = myAnova )
+shapiro.test(x = aov_residuals )
+```
+
+```
+## 
+## 	Shapiro-Wilk normality test
+## 
+## data:  aov_residuals
+## W = 0.9879, p-value = 0.2189
+```
+
+---
+
+class: inverse, center, middle
+
+# Gracias!
+
+Contacto: [**cursos@cousteau-group.com**](mailto:cursos@cousteau-group.com)
+
+&lt;img src="LOGO05.png" width="450" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
