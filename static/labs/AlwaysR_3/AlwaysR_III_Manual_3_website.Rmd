@@ -1,0 +1,135 @@
+---
+title: 'Lab 03'
+author: "Giancarlo M. Correa"
+output:
+  html_document:
+    theme: flatly
+    toc: TRUE
+    toc_float: TRUE
+    toc_depth: 2
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+En esta sección se resume los conceptos más importantes vistos en la parte práctica de cada clase.
+
+Cargamos librerías a utilizar
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(Sleuth3)
+library(faraway)
+library(jtools)
+library(ggstance)
+library(broom.mixed)
+```
+
+Bases de datos a utilizar:
+
+```{r}
+head(cheddar)
+```
+
+Si queremos saber que información contiene cada base de datos, podemos ver la ayuda de ellas mediante `?cheddar`.
+
+## Modelos de regresión simple
+
+Queremos evaluar cómo varía la media de la variable `taste` en función a la variable `H2S`. Implementamos el modelo lineal y observamos la tabla resumen:
+
+```{r}
+mod1 = lm(taste ~ H2S, data = cheddar)
+summary(mod1)
+```
+
+Interpretación de la pendiente $\beta_1$: el valor medio de `taste` aumenta en 5.7761 cuando el valor de `H2S` aumenta en una unidad.
+
+De esta tabla, podemos extraer información importante que puede ser reportada en nuestro estudio:
+
+```{r}
+mod1$coefficients # Coeficientes
+mod1$residuals # Residuales
+mod1$fitted.values # Valores ajustados (sobre la linea ajustada) para las observaciones 
+```
+
+También podemos extraer información de la tabla resumen:
+```{r}
+mySummary = summary(mod1)
+mySummary$coefficients # coeficientes
+mySummary$sigma # desviacion estandar de los residuales
+mySummary$adj.r.squared # R2-adj
+```
+
+Si queremos encontrar los intervalos asociados a la línea ajustada:
+```{r}
+predict(object = mod1, interval = 'confidence')
+```
+
+Si queremos encontrar los intervalos de predicción para los valores de $X$ observados:
+```{r}
+predict(object = mod1, interval = 'prediction')
+```
+
+Este último intervalo lo vamos a guardar para poder graficarlo:
+```{r}
+newData_pred = predict(object = mod1, interval = 'prediction')
+plotData = cheddar
+plotData = cbind(plotData, newData_pred)
+```
+
+Hacemos una gráfica sin los intervalos de predicción:
+```{r}
+ggplot(cheddar, aes(x = H2S, y = taste)) +
+  geom_point() +
+  geom_smooth(method='lm') 
+```
+
+Ahora incluimos la línea de predicción:
+```{r}
+ggplot(plotData, aes(x = H2S, y = taste )) +
+  geom_point() +
+  geom_smooth(method="lm", se=TRUE) +
+  geom_line(aes(y=lwr), color = "red", linetype = "dashed") +
+  geom_line(aes(y=upr), color = "red", linetype = "dashed")
+```
+
+Podemos predecir también para valores nuevos de $X$:
+```{r}
+newData = data.frame(H2S = seq(from = 2.8, to = 10.2, by = 0.1))
+predict(object = mod1, newdata = newData, interval = 'prediction')
+```
+
+Ahora podemos revisar los supuestos del modelo gráficamente:
+```{r}
+plot(mod1, which = 1) # varianza constante
+plot(mod1, which = 2) # distribucion normal de residuos
+plot(mod1, which = 3) # outliers
+plot(mod1, which = 4) # puntos influyentes
+plot(mod1, which = 5) # leverage
+```
+
+## Modelos de regresión múltiple
+
+Podemos incluir una variable más al modelo anterior:
+```{r}
+mod2 = lm(taste ~ H2S + Lactic, data=cheddar)
+summary(mod2)
+```
+
+Podemos hacer gráficas para observar los parámetros estimados y su error asociado:
+```{r}
+plot_summs(mod2)
+plot_summs(mod2, scale = TRUE)
+plot_summs(mod2, scale = TRUE, inner_ci_level = .9)
+plot_summs(mod2, scale = TRUE, plot.distributions = TRUE, inner_ci_level = .9)
+```
+
+También podemos comparar los estimados de dos modelos diferentes:
+```{r}
+plot_summs(mod1, mod2, scale = TRUE)
+plot_summs(mod1, mod2, scale = TRUE, plot.distributions = TRUE)
+```
+
+
