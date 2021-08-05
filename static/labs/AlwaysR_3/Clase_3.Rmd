@@ -379,11 +379,11 @@ knitr::include_graphics("images/fig21.png")
 
 # Inferencia
 
-- El $R_2$ nos dice la proporción de la varianza en la respuesta explicada por las variables independientes.
+- El $R^2$ nos dice la proporción de la varianza en la respuesta explicada por las variables independientes.
 
-- Usualmente, un mayor $R_2$ es mejor.
+- Usualmente, un mayor $R^2$ es mejor.
 
-- Sin embargo, cuando se tienen varias variables explicativas, es preferible usar $R-adj$.
+- Sin embargo, cuando se tienen varias variables explicativas, es preferible usar $R^2-adj$.
 
 
 
