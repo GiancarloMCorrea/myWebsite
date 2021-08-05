@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>AlwaysR, Módulo III: Estadística en R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Giancarlo M. Correa" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: inverse, center, middle
+
+# AlwaysR, Módulo III: Estadística en R
+
+## Clase 3: Modelos lineales I
+
+### Giancarlo M. Correa
+
+&lt;img src="LOGO05.png" width="350px"/&gt;
+
+---
+
+
+
+class: inverse, center, middle
+
+# Modelos lineales
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 70px;
+height: 128px;
+z-index: 0;
+background-image: url(LOGO06.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+bottom:-3em;left:0;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'https://cousteau-group.com/'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+---
+
+# Pregunta de investigación
+
+¿Cómo varía la media de la variable respuesta `\(Y\)` en función a diferentes valores de la variable independiente `\(X\)`?
+
+--
+
+
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-2-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Pregunta de investigación
+
+Para este ejemplo, la pregunta es:
+
+--
+
+* ¿El promedio de altura de niños varía con la altura de los padres?
+
+--
+
+¿Si no supieramos usar un modelo lineal, que alternativas tendríamos para responder esta pregunta?
+
+--
+
+Podríamos agrupar la altura de padres en variables categóricas y ejecutar un ANOVA.
+
+---
+
+# Pregunta de investigación
+
+Diferentes medidas de agrupamiento:
+
+&lt;img src="images/FIG12.png" width="600" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Pregunta de investigación
+
+Diferentes medidas de agrupamiento:
+
+&lt;img src="images/fig13.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regresión lineal simple
+
+Establecer un modelo para:
+
+`$$\mu(altura_{niños}\mid altura_{padres})$$`
+
+--
+
+Para este caso, no estamos agrupando la altura de padres, sino estimamos una altura media de niños diferente para cada valor de la altura de padres.
+
+--
+
+Para esto usamos un modelo lineal, asumiendo que estas variables **varían linealmente**:
+
+`$$\mu(altura_{niños}\mid altura_{padres}) = \beta_0 +\beta_1altura_{padres}$$`
+
+---
+
+# Regresión lineal simple
+
+La ecuación anterior puede ser expresada más generalmente:
+
+`$$\mu(Y\mid X) = \beta_0 +\beta_1X$$`
+
+--
+
+* `\(\beta_0\)`: intercepto de `\(\mu(Y\mid X=0)\)`
+* `\(\beta_1\)`: pendiente (cuanto cambia `\(\mu(Y\mid X)\)` cuando `\(X\)` varía una unidad)
+
+---
+
+Para este ejemplo, `\(\beta_0 = 19.8261\)` y `\(\beta_1=0.7139\)`.
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-5-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+--
+
+Interpretación: A un valor dado de `\(X\)`, el estimado del modelo del valor medio de `\(Y\)` es `\(19.8261+0.7139X\)`.
+
+---
+
+Por ejemplo:
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-6-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+--
+
+La altura media estimada de niños cuando la altura de padre es `\(X=66\)` es `\(19.8261+0.7139(66) = 66.94\)`. En otras palabras: `\(\hat{\mu}(Y\mid X=66)=66.94\)`.
+
+---
+
+# Regresión lineal
+
+La media estimada de `\(Y\)` dada el valor de `\(X\)` es escrito como:
+
+`$$\hat{\mu}(Y\mid X) = \hat{\beta_0} + \hat{\beta_1}X$$`
+
+Donde:
+
+- `\(\hat{\beta_0}\)` es el estimado del intercepto
+- `\(\hat{\beta_1}\)` es el estimado de la pendiente
+
+--
+
+### Valores ajustados
+
+En ocasiones llamamos a la media estimada en `\(X=x\)` el valor ajustado:
+
+`$$\hat{Y_i} = \hat{\mu}(Y_i \mid X_i) = \hat{\beta_0} + \hat{\beta_1}X_i$$`
+---
+
+# Regresión lineal
+
+### Residuos
+
+Tienen el mismo significado que en un ANOVA. Son la diferencia entre el estimado del modelo y el valor observado:
+
+`$$Y_i - \hat{Y_i} = Y_i - (\hat{\beta_0} + \hat{\beta_1}X_i)$$`
+
+--
+
+El residual correspondiente a la observación `\(i\)` es simplemente la distancia vertical del punto `\((X_i,Y_i)\)` de la linea ajustada:
+
+
+&lt;img src="images/fig14.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regresión lineal
+
+¿Qué pasa si la línea ajustada es diferente?
+
+&lt;img src="images/fig15.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regresión lineal
+
+¿Qué línea parece mejor?
+
+&lt;img src="images/fig16.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regresión lineal
+
+La mejor línea estimada para `\(\mu(Y\mid X)\)`:
+
+&lt;img src="images/fig17.png" width="600" style="display: block; margin: auto;" /&gt;
+
+Intercepto es 19.8261 y pendiente es 0.7139. Interpretación: A un valor dado de `\(X\)`, el estimado del valor medio de `\(Y\)` por el modelo es `\(19.8261 + 0.7139X\)`.
+
+
+---
+
+# Regresión lineal
+
+En R podemos usar:
+
+
+```r
+mod &lt;- lm(cHeight ~ pHeight, data=ex0726)
+summary(mod)
+```
+
+```
+## 
+## Call:
+## lm(formula = cHeight ~ pHeight, data = ex0726)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.5007 -1.4864  0.0957  1.5136  9.1281 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 19.82606    2.82206   7.025 4.12e-12 ***
+## pHeight      0.71392    0.04076  17.513  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.244 on 931 degrees of freedom
+## Multiple R-squared:  0.2478,	Adjusted R-squared:  0.247 
+## F-statistic: 306.7 on 1 and 931 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# Correlación
+
+El coeficiente de correlación de la muestra `\(r_{XY}\)` es una forma de medir la asociación lineal entre dos variables `\(X\)` e `\(Y\)` en una muestra de pares `\((X_i,Y_i)\)`:
+
+`$$r_{XY} = \frac{\frac{1}{n-1} \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{s_Xs_Y}$$`
+
+--
+
+- `\(r_{XY}\)` toma valores entre -1 y 1
+- `\(r_{XY} = 1\)`: los puntos `\((X_i,Y_i)\)` caen exactamente en una línea con pendiente positiva
+- `\(r_{XY} = -1\)`: los puntos `\((X_i,Y_i)\)` caen exactamente en una línea con pendiente negativa
+
+--
+
+Importante
+
+- Correlación no nos dice la historia completa de asociación
+- Correlación nos dice acerca de la fuerza de una asociación lineal
+
+---
+
+# Correlación
+
+&lt;img src="images/fig18.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regresión lineal
+
+El modelo lineal también puede ser escrito como:
+
+`$$Y_i= \beta_0 + \beta_1 X_i + \epsilon_i$$`
+
+Donde `\(\epsilon_i\)` es el error de la observación `\(i\)`.
+
+--
+
+Es asumido que:
+
+- `\(E(\epsilon_i) = 0\)`
+- `\(Var(\epsilon_i) = \sigma^2\)` 
+
+---
+
+# Regresión lineal
+
+Supuestos
+
+1. El modelo lineal es correcto: La media de `\(Y\)` es una función lineal de `\(X\)`. Esto es: `\(\mu(Y \mid X) = \beta_0 + \beta_1X\)`.
+
+2. Los pares de observaciones `\((X_i,Y_i)\)` son independientes una de otra.
+
+3. La varianza de cada `\(Y_i\)` alrededor de su media `\(\mu(Y \mid X) = \beta_0 + \beta_1X\)` es el mismo valor `\(\sigma^2\)` (homocedasticidad).
+
+4. La distribución de `\(Y_i\)` alrededor de su media `\(\mu(Y \mid X) = \beta_0 + \beta_1X\)` es normal.
+
+---
+
+# Regresión lineal
+
+Si estos cuatro supuestos cumplen, entonces podemos decir que:
+
+`$$\hat{\beta_0} \sim N(\beta_0, \sigma^2_{\beta_0})$$`
+
+`$$\hat{\beta_1} \sim N(\beta_1, \sigma^2_{\beta_1})$$`
+
+--
+
+&lt;img src="images/fig19.png" width="600" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Regresión lineal
+
+
+```r
+summary(mod)
+```
+
+```
+## 
+## Call:
+## lm(formula = cHeight ~ pHeight, data = ex0726)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.5007 -1.4864  0.0957  1.5136  9.1281 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 19.82606    2.82206   7.025 4.12e-12 ***
+## pHeight      0.71392    0.04076  17.513  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.244 on 931 degrees of freedom
+## Multiple R-squared:  0.2478,	Adjusted R-squared:  0.247 
+## F-statistic: 306.7 on 1 and 931 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# Regresión lineal
+
+### Intervalos de confianza
+
+
+```r
+confint(mod, level = 0.95)
+```
+
+```
+##                  2.5 %     97.5 %
+## (Intercept) 14.2877372 25.3643907
+## pHeight      0.6339205  0.7939211
+```
+
+
+---
+
+# Inferencia
+
+### Sobre los parámetros estimados
+
+* `\(\beta_0\)`: ¿Es cero un valor adecuado para el intercepto? `\(H_0: \beta_0=0\)` y `\(H_A: \beta_0 \neq 0\)`
+
+* `\(\beta_1\)`: ¿Es cero un valor adecuado para la pendiente? `\(H_0: \beta_1=0\)` y `\(H_A: \beta_1 \neq 0\)`
+
+
+### Sobre la media estimada
+
+&lt;img src="images/fig20.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Inferencia
+
+### Sobre las predicciones de nuevas observaciones
+
+Intervalo que contiene el 95% de las alturas de niños para la subpoblación con padres que tienen 68 *(añadir unidades)* de altura.
+
+&lt;img src="images/fig21.png" width="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Inferencia
+
+- El `\(R_2\)` nos dice la proporción de la varianza en la respuesta explicada por las variables independientes.
+
+- Usualmente, un mayor `\(R_2\)` es mejor.
+
+- Sin embargo, cuando se tienen varias variables explicativas, es preferible usar `\(R-adj\)`.
+
+
+
+---
+
+# Inferencia
+
+
+
+```r
+summary(mod)
+```
+
+```
+## 
+## Call:
+## lm(formula = cHeight ~ pHeight, data = ex0726)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -9.5007 -1.4864  0.0957  1.5136  9.1281 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 19.82606    2.82206   7.025 4.12e-12 ***
+## pHeight      0.71392    0.04076  17.513  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.244 on 931 degrees of freedom
+## Multiple R-squared:  0.2478,	Adjusted R-squared:  0.247 
+## F-statistic: 306.7 on 1 and 931 DF,  p-value: &lt; 2.2e-16
+```
+
+
+---
+
+
+```r
+pi = predict(object = mod, interval = 'prediction') # intentar interval = 'confidence'
+newdf = cbind(ex0726, pi)
+
+ggplot(newdf, aes(x=pHeight, y=cHeight )) +
+  geom_point() +
+  geom_smooth(method="lm", se=TRUE) +
+  geom_line(aes(y=lwr), color = "red", linetype = "dashed") +
+  geom_line(aes(y=upr), color = "red", linetype = "dashed")
+```
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-19-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+
+# Interpretación
+
+### Pendiente
+
+Una unidad de incremento en `\(X\)` está asociado con un incremento en `\(\hat{\beta_1}\)` en la media de `\(Y\)`.
+
+--
+
+¿Qué significa si rechazamos `\(H_0: \beta_1 = 0\)`?
+
+--
+
+- Hay una posible tendencia lineal en la media de `\(Y\)` en función a `\(X\)`.
+
+--
+
+¿Qué significa si fallamos en rechazar `\(H_0: \beta_1 = 0\)`
+
+--
+
+- No hay evidencia (a un nivel de `\(\alpha\)`, `\(p-value=...\)`) para una tendencia lineal en la media de `\(Y\)` en función a `\(X\)`.
+
+
+---
+
+# Regresión múltiple
+
+Implementar un modelo con
+
+- Una sola variable respuesta `\(Y\)`
+
+- 2 o más variables independientes `\(X_1, X_2, ..., X_p\)`
+
+--
+
+La variable respuesta debe ser continua
+
+Las variables independientes pueden ser continuas, discretas o categóricas.
+
+--
+
+La notación es:
+
+`$$Y_i = \beta_0 + \beta_1 X_{i1} +  \beta_2 X_{i2} + ... +  \beta_p X_{ip} + \epsilon_i$$`
+
+Para `\(i=1,...,n\)`.
+
+---
+
+# Interpretación
+
+- Intercepto `\(\beta_0\)`: Da la respuesta media cuando todas las variables explanatorias (o independientes) son cero, esto es, cuando `\(X_1 = X_2 = ... = X_p=0\)`.
+
+--
+
+- Pendientes `\(\beta_1, ..., \beta_p\)`: `\(\beta_j\)` representa el cambio en la respuesta media de `\(Y\)` para un incremento en una unidad de la variable `\(X_j\)`, manteniendo todas las otras variables explanatorias constantes.
+
+---
+
+# Regresión múltiple
+
+
+```r
+library(Sleuth3)
+head(case0902)
+```
+
+```
+##            Species  Brain    Body Gestation Litter
+## 1         Aardvark    9.6    2.20        31    5.0
+## 2         Acouchis    9.9    0.78        98    1.2
+## 3 African elephant 4480.0 2800.00       655    1.0
+## 4          Agoutis   20.3    2.80       104    1.3
+## 5        Axis deer  219.0   89.00       218    1.0
+## 6           Badger   53.0    6.00        60    2.2
+```
+
+--
+
+- **Objetivo**: Encontrar una relación entre el peso del cerebro (respuesta) y otras variables explicativas (o independientes).
+
+- **Unidades experimentales**: 96 especies de mamíferos
+
+- **Respuesta**: Promedio de peso de cerebro `Brain` (gramos)
+
+- **Variables independientes**: `Body` (kilogramos), `Gestation` (days), `Litter` (número)
+
+---
+
+# Regresión múltiple
+
+
+```r
+mod &lt;- lm(Brain ~ Body + Gestation + Litter, data=case0902)
+summary(mod)
+```
+
+```
+## 
+## Call:
+## lm(formula = Brain ~ Body + Gestation + Litter, data = case0902)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1026.68   -62.08    17.29    51.73   988.76 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -225.29213   83.05875  -2.712  0.00797 ** 
+## Body           0.98588    0.09428  10.457  &lt; 2e-16 ***
+## Gestation      1.80874    0.35445   5.103 1.79e-06 ***
+## Litter        27.64864   17.41429   1.588  0.11579    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 224.6 on 92 degrees of freedom
+## Multiple R-squared:   0.81,	Adjusted R-squared:  0.8038 
+## F-statistic: 130.7 on 3 and 92 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# ANOVA
+
+Usado para comparar dos modelos anidados:
+
+
+```r
+mod1 = lm(Brain ~ 1, data=case0902)
+mod2 = lm(Brain ~ Body + Gestation + Litter, data=case0902)
+
+anova(mod1, mod2)
+```
+
+```
+## Analysis of Variance Table
+## 
+## Model 1: Brain ~ 1
+## Model 2: Brain ~ Body + Gestation + Litter
+##   Res.Df      RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1     95 24416574                                  
+## 2     92  4639348  3  19777226 130.73 &lt; 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+```
+
+--
+
+- `\(H_0\)`: `\(\beta_1=\beta_2 =\beta_3=0\)`
+- `\(H_1\)`: al menos uno de `\(\beta_1\)` o `\(\beta_2\)` o `\(\beta_3\)` no es cero.
+
+---
+
+# Revisión del modelo: varianza constante
+
+
+```r
+plot(mod, which = 1)
+```
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-23-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Revisión del modelo: normalidad
+
+
+```r
+plot(mod, which = 2)
+```
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-24-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Revisión del modelo
+
+Existen tres tipos de observaciones *raras* que podemos mencionar:
+
+- Una observación es dicha tener un alto *leverage* si el valor de la observación de la variable explanatoria es diferente del patrón general (solo en el espacio de las variables explanatorias).
+
+- Una observación es un *outlier* si la observación no se ajusta dentro del modelo ajustado.
+
+- Una observación es dicha ser *influyente* si el modelo ajustado depende indudablemente de su valor (i.e. cuando esta observación se remueve, los parámetros estimados cambian enormemente). 
+
+---
+
+# Revisión del modelo: leverage
+
+
+```r
+plot(mod, which = 5)
+```
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-25-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Revisión del modelo: outlier
+
+
+```r
+plot(mod, which = 3)
+```
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-26-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Revisión del modelo: influencia
+
+
+```r
+plot(mod, which = 4)
+```
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-27-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Revisión del modelo
+
+&lt;img src="images/fig22.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Revisión del modelo
+
+&lt;img src="images/fig23.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Continuará...
+
+El día de mañana veremos:
+
+- Interacciones
+
+- Problemas con los datos
+
+- Datos faltantes
+
+- Selección de modelos
+
+- Problemas con errores
+
+- Transformaciones
+
+- Efectos aleatorios
+
+---
+
+class: inverse, center, middle
+
+# Gracias!
+
+Contacto: [**cursos@cousteau-group.com**](mailto:cursos@cousteau-group.com)
+
+&lt;img src="LOGO05.png" width="450" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -24,6 +24,10 @@ links:
   icon_pack: fas
   name: Lab 2
   url: /labs/AlwaysR_3/AlwaysR_III_Manual_2_website.html
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Clase 3
+  url: /labs/AlwaysR_3/Clase_3.html
 projects: []
 subtitle: Aplicaciones estadísticas utilizando el lenguaje de programación R.
 summary: Aplicaciones estadísticas utilizando el lenguaje de programación R.
