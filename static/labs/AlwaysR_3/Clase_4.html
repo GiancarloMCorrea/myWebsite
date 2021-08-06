@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>AlwaysR, Módulo III: Estadística en R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Giancarlo M. Correa" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: inverse, center, middle
+
+# AlwaysR, Módulo III: Estadística en R
+
+## Clase 4: Modelos lineales II
+
+### Giancarlo M. Correa
+
+&lt;img src="LOGO05.png" width="350px"/&gt;
+
+---
+
+
+
+class: inverse, center, middle
+
+# Modelos lineales
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 70px;
+height: 128px;
+z-index: 0;
+background-image: url(LOGO06.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+bottom:-3em;left:0;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'https://cousteau-group.com/'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+---
+
+# Regresión múltiple: interacción
+
+Tenemos el modelo:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1} +  \beta_2 X_{2}$$`
+
+En este caso `\(X_1\)` es continua y `\(X_2\)` es una categórica de dos niveles (0 y 1).
+
+--
+
+Podemos incorporar una interacción:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1} +  \beta_2 X_{2} + \beta_3 (X_{1}X_{2})$$`
+
+Dos variables interactúan si el efecto de una variable sobre la respuesta media depende de la otra variable.
+
+--
+
+`\(\beta_3 (X_{1}X_{2})\)` es llamado el término de interacción. Permite que el efecto de `\(X_1\)` sobre la media de `\(Y\)` dependa en `\(X_2=0\)` o `\(X_2=1\)`.
+
+---
+
+# Regresión múltiple: interacción
+
+Cuando `\(X_2=0\)`:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1}$$`
+
+--
+
+Cuando `\(X_2=1\)`:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1} +  \beta_2 + \beta_3 X_{1}$$`
+
+--
+
+Estos dos modelos nos darán una línea, y estas líneas tendrán diferentes interceptos y pendientes.
+
+---
+
+
+
+
+```r
+mod1 = lm(mpg ~ cyl + am + cyl * am, data = mtcars)
+summary(mod1)
+```
+
+```
+## 
+## Call:
+## lm(formula = mpg ~ cyl + am + cyl * am, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.5255 -1.2820 -0.0191  1.6301  5.9745 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  30.8735     3.1882   9.684 1.95e-10 ***
+## cyl          -1.9757     0.4485  -4.405 0.000141 ***
+## am1          10.1754     4.3046   2.364 0.025258 *  
+## cyl:am1      -1.3051     0.7070  -1.846 0.075507 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.939 on 28 degrees of freedom
+## Multiple R-squared:  0.7852,	Adjusted R-squared:  0.7621 
+## F-statistic: 34.11 on 3 and 28 DF,  p-value: 1.73e-09
+```
+
+---
+
+
+```r
+plot_model(mod1, type = "int")
+```
+
+&lt;img src="Clase_4_files/figure-html/unnamed-chunk-3-1.png" width="500" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regresión múltiple: interacción
+
+Basado en el ejemplo anterior, el modelo es:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1} +  \beta_2 X_{2} + \beta_3 (X_{1}X_{2})$$`
+
+--
+
+Interpretación:
+
+- `\(\beta_0\)`: es la media de `\(Y\)` cuando `\(X_1\)` y `\(X_2\)` son iguales a cero (intercepto).
+
+--
+
+- `\(\beta_1\)`: da el cambio en la media de `\(Y\)` cuando `\(X_1\)` es incrementado por una unidad y `\(X_2=0\)`.
+
+--
+
+- `\(\beta_2\)`: da el cambio en la media de `\(Y\)` cuando `\(X_2\)` cambia de 0 a 1 y `\(X_1\)` es mantenido en cero.
+
+--
+
+- `\(\beta_3\)`: da la diferencia en el cambio en la media de `\(Y\)` cuando `\(X_1\)` es incrementado en una unidad cuando `\(X_2=1\)`, comparado al cambio en la media de `\(Y\)` cuando `\(X_1\)` es incrementado en una unidad cuando `\(X_2=0\)`.
+
+---
+
+# Problemas con datos
+
+### Multicolinealidad
+
+- No genera problemas estadísticos, sin embargo, genera problemas en la interpretación.
+
+--
+
+- No tiene sentido interpretar *el efecto de `\(X_1\)` manteniendo otras variables independientes constante* porque nosotros hemos observado una relación entre `\(X_1\)` y otras variables.
+
+---
+
+
+```r
+mod2 = lm(hipcenter ~ ., data = seatpos)
+summary(mod2)
+```
+
+```
+## 
+## Call:
+## lm(formula = hipcenter ~ ., data = seatpos)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -73.827 -22.833  -3.678  25.017  62.337 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept) 436.43213  166.57162   2.620   0.0138 *
+## Age           0.77572    0.57033   1.360   0.1843  
+## Weight        0.02631    0.33097   0.080   0.9372  
+## HtShoes      -2.69241    9.75304  -0.276   0.7845  
+## Ht            0.60134   10.12987   0.059   0.9531  
+## Seated        0.53375    3.76189   0.142   0.8882  
+## Arm          -1.32807    3.90020  -0.341   0.7359  
+## Thigh        -1.14312    2.66002  -0.430   0.6706  
+## Leg          -6.43905    4.71386  -1.366   0.1824  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 37.72 on 29 degrees of freedom
+## Multiple R-squared:  0.6866,	Adjusted R-squared:  0.6001 
+## F-statistic:  7.94 on 8 and 29 DF,  p-value: 1.306e-05
+```
+
+---
+
+# Problemas con datos
+
+La matriz de correlación entre *todas* las variables:
+
+
+```r
+round(cor(seatpos), digits = 2)
+```
+
+```
+##             Age Weight HtShoes    Ht Seated   Arm Thigh   Leg hipcenter
+## Age        1.00   0.08   -0.08 -0.09  -0.17  0.36  0.09 -0.04      0.21
+## Weight     0.08   1.00    0.83  0.83   0.78  0.70  0.57  0.78     -0.64
+## HtShoes   -0.08   0.83    1.00  1.00   0.93  0.75  0.72  0.91     -0.80
+## Ht        -0.09   0.83    1.00  1.00   0.93  0.75  0.73  0.91     -0.80
+## Seated    -0.17   0.78    0.93  0.93   1.00  0.63  0.61  0.81     -0.73
+## Arm        0.36   0.70    0.75  0.75   0.63  1.00  0.67  0.75     -0.59
+## Thigh      0.09   0.57    0.72  0.73   0.61  0.67  1.00  0.65     -0.59
+## Leg       -0.04   0.78    0.91  0.91   0.81  0.75  0.65  1.00     -0.79
+## hipcenter  0.21  -0.64   -0.80 -0.80  -0.73 -0.59 -0.59 -0.79      1.00
+```
+
+---
+
+# Problemas con datos
+
+¿Qué podemos hacer cuando tenemos variables correlacionadas?
+
+- Seleccionar las variables más importantes
+
+--
+
+- Identificar las variables correlacionadas claves para el modelo: variance inflation factors (VIF)
+
+--
+
+
+```r
+round(vif(mod2), digits = 2)
+```
+
+```
+##     Age  Weight HtShoes      Ht  Seated     Arm   Thigh     Leg 
+##    2.00    3.65  307.43  333.14    8.95    4.50    2.76    6.69
+```
+
+Valores `\(VIF_j &gt;10\)` indican una alta colinealidad.
+
+--
+
+Eliminar algunas variables no significa que ellas no están asociadas con la variable respuesta, solo que no las necesitamos para predecir la respuesta.
+
+---
+
+# Datos faltantes
+
+Podemos hablar de dos casos:
+
+* **Caso faltante**: cuando no tenemos información de *todas* las variables en una observación en el conjunto de datos.
+
+--
+
+* **Valores faltantes**: cuando no tenemos información de *algunas* variables en una observación en el conjunto de datos.
+
+--
+
+
+```r
+head(chmiss, n = 10)
+```
+
+```
+##       race fire theft  age involact income
+## 60626 10.0  6.2    29 60.4       NA 11.744
+## 60640 22.2  9.5    44 76.5      0.1  9.323
+## 60613 19.6 10.5    36   NA      1.2  9.948
+## 60657 17.3  7.7    37   NA      0.5 10.656
+## 60614 24.5  8.6    53 81.4      0.7  9.730
+## 60610 54.0 34.1    68 52.6      0.3  8.231
+## 60611  4.9 11.0    75 42.6      0.0 21.480
+## 60625  7.1  6.9    18 78.5      0.0 11.104
+## 60618  5.3  7.3    31 90.1       NA 10.694
+## 60647 21.5 15.1    NA 89.8      1.1  9.631
+```
+
+---
+
+# Datos faltantes
+
+Hay dos enfoques para lidiar con esto:
+
+- **Métodos de supresión**: eliminar las observaciones con algun tipo de datos faltantes.
+
+--
+
+- **Métodos de retención**: retienen las observaciones con datos faltantes para implementar una regresión modificada para datos faltantes.
+
+--
+
+### Método de supresión
+
+Simplemente eliminar las observaciones con datos faltantes e implementar el modelo luego. R hace esto por nosotros automaticamente.
+
+
+```
+##       race fire theft  age involact income
+## 60626 10.0  6.2    29 60.4       NA 11.744
+## 60640 22.2  9.5    44 76.5      0.1  9.323
+## 60613 19.6 10.5    36   NA      1.2  9.948
+## 60657 17.3  7.7    37   NA      0.5 10.656
+## 60614 24.5  8.6    53 81.4      0.7  9.730
+## 60610 54.0 34.1    68 52.6      0.3  8.231
+## 60611  4.9 11.0    75 42.6      0.0 21.480
+## 60625  7.1  6.9    18 78.5      0.0 11.104
+## 60618  5.3  7.3    31 90.1       NA 10.694
+## 60647 21.5 15.1    NA 89.8      1.1  9.631
+```
+
+---
+
+### Método de retención
+
+- **Imputación**: completar los datos perdidos con la media de cada variable. Se puede usar también la mediana, moda, etc. *Problemas*: Introduce error. Métodos de estimación de parámetros pueden estar sesgados.
+
+--
+
+- **Imputación a partir de regresión**: Implementar un modelo lineal con las observaciones completas. Luego, predecir valores cuando hayan datos faltantes. En este caso, la variable respuesta será la variable que tiene datos faltantes y las variables independientes todas las demás variables. 
+
+---
+
+# Selección de modelos
+
+El proceso de seleccionar tan pocas variables como sea posible para incluir en el modelo lineal (principio de parsimonia).
+
+--
+
+
+```r
+head(case1201)
+```
+
+```
+##         State  SAT Takers Income Years Public Expend Rank
+## 1        Iowa 1088      3    326 16.79   87.8  25.60 89.7
+## 2 SouthDakota 1075      2    264 16.07   86.2  19.95 90.6
+## 3 NorthDakota 1068      3    317 16.57   88.3  20.62 89.8
+## 4      Kansas 1045      5    338 16.30   83.9  27.14 86.3
+## 5    Nebraska 1045      5    293 17.25   83.6  21.05 88.5
+## 6     Montana 1033      8    263 15.91   93.7  29.48 86.4
+```
+
+---
+
+
+```r
+mod3 = lm(SAT ~ Takers + Income + Years + Public + Expend + Rank, data=case1201)
+summary(mod3)
+```
+
+```
+## 
+## Call:
+## lm(formula = SAT ~ Takers + Income + Years + Public + Expend + 
+##     Rank, data = case1201)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -60.046  -6.768   0.972  13.947  46.332 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -94.659109 211.509584  -0.448 0.656731    
+## Takers       -0.480080   0.693711  -0.692 0.492628    
+## Income       -0.008195   0.152358  -0.054 0.957353    
+## Years        22.610082   6.314577   3.581 0.000866 ***
+## Public       -0.464152   0.579104  -0.802 0.427249    
+## Expend        2.212005   0.845972   2.615 0.012263 *  
+## Rank          8.476217   2.107807   4.021 0.000230 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 26.34 on 43 degrees of freedom
+## Multiple R-squared:  0.8787,	Adjusted R-squared:  0.8618 
+## F-statistic: 51.91 on 6 and 43 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# Selección de modelos
+
+Con esta base de datos, el modelo más simple que podemos implementar es:
+
+`$$SAT_i=\beta_0+\epsilon_i$$`
+
+--
+
+El modelo más complicado es:
+
+`$$SAT_i=\beta_0+ \beta_1 Income_i+ \beta_2 Takers_i + \beta_3 Years_i + \beta_4 Rank_i + \beta_5 Expend_i + \beta_6 Public_i + \epsilon_i$$`
+
+--
+
+¿Cuantos modelos podemos implementar con esta base de datos?
+
+--
+
+`\(2^6\)` modelos posibles! (sin considerar interacciones!)
+
+---
+
+# Selección de modelos
+
+- **Eliminación hacia atrás**: Comienza con el full model. Elimina la variable con mayor *p-value* y corre el modelo nuevamente. Repite este proceso hasta que el modelo solo contiene variables con *p-value* por dejabo del valor crítico `\(\alpha\)`.
+
+--
+
+- **Selección hacia adelante**: Comienza con el modelo más sencillo (solo contiene intercepto). Añade la variable con menor *p-value* por debajo del nivel crítico `\(\alpha\)`. Repetir hasta que no haya variable que pueda ser añadida con *p-value* por debajo del nivel crítico `\(\alpha\)`.
+
+--
+
+### Limitaciones
+
+- Inclusión en el modelo no necesariamente significa que la variable es importante. 
+- Exclusión no necesariamente significa que la variable no sea importante. 
+- Se tiende a elegir los modelos más pequeños que los óptimos para predicción.
+
+---
+
+
+```r
+mod3 = lm(SAT ~ Takers + Income + Years + Public + Expend + Rank, data=case1201)
+backmod = ols_step_backward_p(mod3, prem=0.05, progress=FALSE) # Seleccion hacia atras
+summary(backmod$model)
+```
+
+```
+## 
+## Call:
+## lm(formula = paste(response, "~", paste(preds, collapse = " + ")), 
+##     data = l)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -64.802  -6.798   2.169  17.525  49.706 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -303.7243    97.8415  -3.104  0.00326 ** 
+## Years         26.0952     5.3894   4.842 1.49e-05 ***
+## Expend         1.8609     0.6351   2.930  0.00526 ** 
+## Rank           9.8258     0.5987  16.412  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 26.25 on 46 degrees of freedom
+## Multiple R-squared:  0.8711,	Adjusted R-squared:  0.8627 
+## F-statistic: 103.6 on 3 and 46 DF,  p-value: &lt; 2.2e-16
+```
+
+
+---
+
+
+```r
+mod3 = lm(SAT ~ Takers + Income + Years + Public + Expend + Rank, data=case1201)
+forwardmod = ols_step_forward_p(mod3, penter=0.05, progress=FALSE) # Seleccion hacia adelante
+summary(forwardmod$model)
+```
+
+```
+## 
+## Call:
+## lm(formula = paste(response, "~", paste(preds, collapse = " + ")), 
+##     data = l)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -64.802  -6.798   2.169  17.525  49.706 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -303.7243    97.8415  -3.104  0.00326 ** 
+## Rank           9.8258     0.5987  16.412  &lt; 2e-16 ***
+## Years         26.0952     5.3894   4.842 1.49e-05 ***
+## Expend         1.8609     0.6351   2.930  0.00526 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 26.25 on 46 degrees of freedom
+## Multiple R-squared:  0.8711,	Adjusted R-squared:  0.8627 
+## F-statistic: 103.6 on 3 and 46 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# Selección de modelos
+
+Métodos basados en criterio:
+
+- `\(AIC\)`: Criterio de información de Akaike. Toma en cuenta el número de observaciones, parámetros, y suma de residuales. Normalmente el menor `\(AIC\)` nos indica un mejor modelo.
+
+- `\(BIC\)`: Criterio de información Bayesiana. Toma en cuenta el número de observaciones, parámetros, y suma de residuales. Normalmente el menor `\(BIC\)` nos indica un mejor modelo.
+
+- `\(R^2-adj\)`: El mayor valor nos indica el mejor modelo.
+
+--
+
+Si deseas obtener el mejor modelo, se recomienda usar `\(BIC\)`.
+
+Si deseas usar el modelo para hacer predicciones, se recomienda usar `\(AIC\)`.
+
+Los modelos no necesitan ser anidados para ser comparados (pero si deben contener los mismos datos).
+
+---
+
+
+```r
+mod4 = lm(SAT ~ Years + Expend + Rank, data=case1201)
+summ4 = summary(mod4)
+mod5 = lm(SAT ~ Income + Years + Expend + Rank, data=case1201)
+summ5 = summary(mod5)
+```
+
+Comparar modelos con `\(R^2-adj\)`:
+
+
+```r
+summ4$adj.r.squared
+```
+
+```
+## [1] 0.8627047
+```
+
+```r
+summ5$adj.r.squared
+```
+
+```
+## [1] 0.8634092
+```
+
+---
+
+Comparar modelos con `\(AIC\)`:
+
+
+```r
+AIC(mod4)
+```
+
+```
+## [1] 474.5092
+```
+
+```r
+AIC(mod5)
+```
+
+```
+## [1] 475.1531
+```
+
+--
+
+Comparar modelos con `\(BIC\)`:
+
+
+```r
+BIC(mod4)
+```
+
+```
+## [1] 484.0694
+```
+
+```r
+BIC(mod5)
+```
+
+```
+## [1] 486.6252
+```
+
+---
+
+# Problemas con supuestos
+
+--
+
+### Linealidad de la asociación
+
+- Consecuencia depende en el grado de no-linealidad.
+
+- Buscar alternativas (e.g. modelos aditivos generalizados, splines, etc.)
+
+--
+
+### Independencia
+
+- Un modelo lineal no es robusto a la no independencia de observaciones.
+
+- Alternativa, usar la función `gls` (siempre y cuando se conozca la estructura del error)
+
+---
+
+
+```r
+head(globwarm)
+```
+
+```
+##      nhtemp  wusa jasper westgreen chesapeake tornetrask urals mongolia tasman
+## 1000     NA -0.66  -0.03      0.03      -0.66       0.33 -1.49     0.83  -0.12
+## 1001     NA -0.63  -0.07      0.09      -0.67       0.21 -1.44     0.96  -0.17
+## 1002     NA -0.60  -0.11      0.18      -0.67       0.13 -1.39     0.99  -0.22
+## 1003     NA -0.55  -0.14      0.30      -0.68       0.08 -1.34     0.95  -0.26
+## 1004     NA -0.51  -0.15      0.41      -0.68       0.06 -1.30     0.87  -0.31
+## 1005     NA -0.47  -0.15      0.52      -0.68       0.07 -1.25     0.77  -0.37
+##      year
+## 1000 1000
+## 1001 1001
+## 1002 1002
+## 1003 1003
+## 1004 1004
+## 1005 1005
+```
+
+---
+
+
+```r
+lmod = lm(nhtemp ~ wusa + jasper + westgreen + chesapeake + tornetrask + urals + mongolia + tasman, data=globwarm)
+plot(lmod$residuals)
+```
+
+&lt;img src="Clase_4_files/figure-html/unnamed-chunk-18-1.png" width="500" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+glmod = gls(nhtemp ~ wusa + jasper + westgreen + chesapeake +
+                tornetrask + urals + mongolia + tasman,
+                correlation=corAR1(form=~year),
+                data=na.omit(globwarm),
+                method="ML")
+print(glmod)
+```
+
+```
+## Generalized least squares fit by maximum likelihood
+##   Model: nhtemp ~ wusa + jasper + westgreen + chesapeake + tornetrask +      urals + mongolia + tasman 
+##   Data: na.omit(globwarm) 
+##   Log-likelihood: 81.10643
+## 
+## Coefficients:
+## (Intercept)        wusa      jasper   westgreen  chesapeake  tornetrask 
+## -0.23382586  0.06821988 -0.21744846  0.00337920 -0.01431892  0.05620305 
+##       urals    mongolia      tasman 
+##  0.22356123  0.05551398  0.12302818 
+## 
+## Correlation Structure: AR(1)
+##  Formula: ~year 
+##  Parameter estimate(s):
+##       Phi 
+## 0.5950251 
+## Degrees of freedom: 145 total; 136 residual
+## Residual standard error: 0.1718248
+```
+
+---
+
+# Problemas con supuestos
+
+### Normalidad
+
+- Si se tiene un muestreo grande `\(n\)`, este supuesto no causa problemas importantes.
+
+- Se recomienda usar ejercicios de simulación para saber los efectos de la no-normalidad de residuos sobre los parámetros estimados.
+
+---
+
+# Problemas con supuestos
+
+### Normalidad
+
+&lt;img src="images/fig24.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Problemas con supuestos
+
+### Normalidad
+
+&lt;img src="images/fig25.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Transformaciones
+
+Pueden ayudar en el ajuste del modelo y cumplir los supuestos de la regresión lineal (e.g. supuesto de varianza constante).
+
+--
+
+En vez de `\(Y_i = \beta_0+\beta_1 X_i + \epsilon_i\)`, podemos escribir:
+
+`$$log(Y_i) = \beta_0 + \beta_1 X_i + \epsilon_i$$`
+
+--
+
+Despues de ajustar el modelo, tenemos que volver a la escala original:
+
+`$$Y_i = exp(\beta_0 + \beta_1 X_i)exp(\epsilon_i)$$`
+
+--
+
+Obtener la variable respuesta en su escala original no es muy complicado. Sin embargo, los coeficientes estimados ya no tienen la misma interpretación. Por ejemplo:
+
+- Un incremento en una unidad en `\(X_1\)` ahora multiplicaría la respuesta media (en su escala original) por `\(e^{\hat{\beta_1}}\)`.
+
+---
+
+
+```r
+head(gala)
+```
+
+```
+##              Species Endemics  Area Elevation Nearest Scruz Adjacent
+## Baltra            58       23 25.09       346     0.6   0.6     1.84
+## Bartolome         31       21  1.24       109     0.6  26.3   572.33
+## Caldwell           3        3  0.21       114     2.8  58.7     0.78
+## Champion          25        9  0.10        46     1.9  47.4     0.18
+## Coamano            2        1  0.05        77     1.9   1.9   903.82
+## Daphne.Major      18       11  0.34       119     8.0   8.0     1.84
+```
+
+---
+
+
+```r
+lmod = lm(Species ~ Area + Elevation + Nearest + Scruz + Adjacent, data=gala)
+plot(lmod, which=1)
+```
+
+&lt;img src="Clase_4_files/figure-html/unnamed-chunk-23-1.png" width="500" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+gala$logSpecies = log(gala$Species)
+lmod = lm(logSpecies ~ Area + Elevation + Nearest + Scruz + Adjacent, data=gala)
+plot(lmod, which=1)
+```
+
+&lt;img src="Clase_4_files/figure-html/unnamed-chunk-24-1.png" width="500" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Efectos aleatorios
+
+- Modelo de efectos mixtos: cuando tenemos efectos fijos (como hemos visto hasta el momento) y efectos mixtos (como describiremos aquí).
+
+--
+
+- **Efecto fijo**: Se asume que no hay relación entre los diferentes niveles de una variable. Ejemplo: un efecto para hembras y un efecto para machos, pero estos efectos no interactúan uno con el otro.
+
+--
+
+- **Efecto aleatorio**: Nos da información acerca de niveles específicos (similar a un efecto fijo), pero también a nivel poblacional. Los niveles o grupos en un efecto aleatorio puede ser pensado como una muestra de niveles de una población más grande de niveles.
+
+--
+
+Tomar en cuenta:
+
+- No usar efectos aleatorios cuando el número de niveles es bajo.
+- No usar efectos aleatorios cuando no se quiere asumir que estos niveles vienen de una distribución común en la población.
+
+---
+
+# Efectos aleatorios
+
+¿En qué casos debo incorporar efectos aleatorios?
+
+1. ¿Los factores pueden ser considerados como una muestra aleatoria de una distribución de probabilidad?
+
+2. ¿La investigación tiene por objetivo hacer inferencia a una población mayor a la incluida en el modelo?
+
+3. ¿Hay una falta de independencia estadística debido a múltiples observaciones para un mismo nivel?
+
+---
+
+# Efectos aleatorios
+
+&lt;img src="images/fig26.png" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Efectos aleatorios
+
+
+```r
+head(sleepstudy)
+```
+
+```
+##   Reaction Days Subject
+## 1 249.5600    0     308
+## 2 258.7047    1     308
+## 3 250.8006    2     308
+## 4 321.4398    3     308
+## 5 356.8519    4     308
+## 6 414.6901    5     308
+```
+
+---
+
+Un modelo con efecto aleatorio en el intercepto:
+
+
+```r
+lmod1 = lmer ( Reaction ~ Days + ( 1 | Subject ) , data= sleepstudy )
+summary(lmod1)
+```
+
+```
+## Linear mixed model fit by REML ['lmerMod']
+## Formula: Reaction ~ Days + (1 | Subject)
+##    Data: sleepstudy
+## 
+## REML criterion at convergence: 1786.5
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.2257 -0.5529  0.0109  0.5188  4.2506 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Subject  (Intercept) 1378.2   37.12   
+##  Residual              960.5   30.99   
+## Number of obs: 180, groups:  Subject, 18
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept) 251.4051     9.7467   25.79
+## Days         10.4673     0.8042   13.02
+## 
+## Correlation of Fixed Effects:
+##      (Intr)
+## Days -0.371
+```
+
+---
+
+Un modelo con efecto aleatorio en el intercepto:
+
+
+```r
+coef(lmod1)$Subject
+```
+
+```
+##     (Intercept)     Days
+## 308    292.1888 10.46729
+## 309    173.5556 10.46729
+## 310    188.2965 10.46729
+## 330    255.8115 10.46729
+## 331    261.6213 10.46729
+## 332    259.6263 10.46729
+## 333    267.9056 10.46729
+## 334    248.4081 10.46729
+## 335    206.1230 10.46729
+## 337    323.5878 10.46729
+## 349    230.2089 10.46729
+## 350    265.5165 10.46729
+## 351    243.5429 10.46729
+## 352    287.7835 10.46729
+## 369    258.4415 10.46729
+## 370    245.0424 10.46729
+## 371    248.1108 10.46729
+## 372    269.5209 10.46729
+```
+
+
+---
+
+Un modelo con efecto aleatorio en la pendiente:
+
+
+```r
+lmod2 = lmer ( Reaction ~ Days + ( 0 + Days | Subject ) , data= sleepstudy )
+summary(lmod2)
+```
+
+```
+## Linear mixed model fit by REML ['lmerMod']
+## Formula: Reaction ~ Days + (0 + Days | Subject)
+##    Data: sleepstudy
+## 
+## REML criterion at convergence: 1766.5
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.5104 -0.5588  0.0541  0.6244  4.6022 
+## 
+## Random effects:
+##  Groups   Name Variance Std.Dev.
+##  Subject  Days  52.71    7.26   
+##  Residual      842.03   29.02   
+## Number of obs: 180, groups:  Subject, 18
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)   251.41       4.02  62.539
+## Days           10.47       1.87   5.599
+## 
+## Correlation of Fixed Effects:
+##      (Intr)
+## Days -0.340
+```
+
+---
+
+Un modelo con efecto aleatorio en la pendiente:
+
+
+```r
+coef(lmod2)$Subject
+```
+
+```
+##     (Intercept)       Days
+## 308    251.4051 20.0866918
+## 309    251.4051 -4.2326711
+## 310    251.4051 -0.8189202
+## 330    251.4051  9.1273878
+## 331    251.4051 10.6754843
+## 332    251.4051 11.5352979
+## 333    251.4051 12.7430088
+## 334    251.4051 10.4774867
+## 335    251.4051 -0.4337385
+## 337    251.4051 24.3577325
+## 349    251.4051  7.9069248
+## 350    251.4051 15.2012144
+## 351    251.4051  8.1041559
+## 352    251.4051 17.1349527
+## 369    251.4051 11.8340809
+## 370    251.4051 11.5298510
+## 371    251.4051  9.5898795
+## 372    251.4051 13.5923281
+```
+
+---
+
+Un modelo con efecto aleatorio en el intercepto y la pendiente:
+
+
+```r
+lmod3 = lmer ( Reaction ~ Days + ( Days | Subject ) , data= sleepstudy )
+summary(lmod3)
+```
+
+```
+## Linear mixed model fit by REML ['lmerMod']
+## Formula: Reaction ~ Days + (Days | Subject)
+##    Data: sleepstudy
+## 
+## REML criterion at convergence: 1743.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.9536 -0.4634  0.0231  0.4634  5.1793 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev. Corr
+##  Subject  (Intercept) 612.10   24.741       
+##           Days         35.07    5.922   0.07
+##  Residual             654.94   25.592       
+## Number of obs: 180, groups:  Subject, 18
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  251.405      6.825  36.838
+## Days          10.467      1.546   6.771
+## 
+## Correlation of Fixed Effects:
+##      (Intr)
+## Days -0.138
+```
+
+---
+
+Un modelo con efecto aleatorio en el intercepto y la pendiente:
+
+
+```r
+coef(lmod3)$Subject
+```
+
+```
+##     (Intercept)       Days
+## 308    253.6637 19.6662617
+## 309    211.0064  1.8476053
+## 310    212.4447  5.0184295
+## 330    275.0957  5.6529356
+## 331    273.6654  7.3973743
+## 332    260.4447 10.1951090
+## 333    268.2456 10.2436499
+## 334    244.1725 11.5418676
+## 335    251.0714 -0.2848792
+## 337    286.2956 19.0955511
+## 349    226.1949 11.6407181
+## 350    238.3351 17.0815038
+## 351    255.9830  7.4520239
+## 352    272.2688 14.0032871
+## 369    254.6806 11.3395008
+## 370    225.7921 15.2897709
+## 371    252.2122  9.4791297
+## 372    263.7197 11.7513080
+```
+
+---
+
+class: inverse, center, middle
+
+# Gracias!
+
+Contacto: [**cursos@cousteau-group.com**](mailto:cursos@cousteau-group.com)
+
+&lt;img src="LOGO05.png" width="450" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
