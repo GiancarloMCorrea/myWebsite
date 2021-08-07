@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>AlwaysR, Módulo III: Estadística en R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Giancarlo M. Correa" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+class: inverse, center, middle
+
+# AlwaysR, Módulo III: Estadística en R
+
+## Clase 5: Efectos aleatorios. Introducción a GLM.
+
+### Giancarlo M. Correa
+
+&lt;img src="LOGO05.png" width="350px"/&gt;
+
+---
+
+
+
+class: inverse, center, middle
+
+# Efectos aleatorios
+
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 70px;
+height: 128px;
+z-index: 0;
+background-image: url(LOGO06.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+bottom:-3em;left:0;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'https://cousteau-group.com/'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+---
+
+# Efectos aleatorios
+
+
+
+Veamos los datos:
+
+
+
+
+```r
+head(dragons)
+```
+
+```
+##   testScore bodyLength mountainRange site bodyLength2
+## 1 16.147309   165.5485      Bavarian    a   -2.206233
+## 2 33.886183   167.5593      Bavarian    a   -2.082204
+## 3  6.038333   165.8830      Bavarian    a   -2.185605
+## 4 18.838821   167.6855      Bavarian    a   -2.074419
+## 5 33.862328   169.9597      Bavarian    a   -1.934145
+## 6 47.043246   168.6887      Bavarian    a   -2.012538
+```
+
+
+```r
+str(dragons)
+```
+
+```
+## 'data.frame':	480 obs. of  5 variables:
+##  $ testScore    : num  16.15 33.89 6.04 18.84 33.86 ...
+##  $ bodyLength   : num  166 168 166 168 170 ...
+##  $ mountainRange: Factor w/ 8 levels "Bavarian","Central",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ site         : Factor w/ 3 levels "a","b","c": 1 1 1 1 1 1 1 1 1 1 ...
+##  $ bodyLength2  : num  -2.21 -2.08 -2.19 -2.07 -1.93 ...
+```
+
+---
+
+# Efectos aleatorios
+
+Podemos implementar un modelo lineal:
+
+
+```r
+basic_lm = lm(testScore ~ bodyLength2, data = dragons)
+summary(basic_lm)
+```
+
+```
+## 
+## Call:
+## lm(formula = testScore ~ bodyLength2, data = dragons)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -56.962 -16.411  -0.783  15.193  55.200 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  50.3860     0.9676  52.072   &lt;2e-16 ***
+## bodyLength2   8.9956     0.9686   9.287   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 21.2 on 478 degrees of freedom
+## Multiple R-squared:  0.1529,	Adjusted R-squared:  0.1511 
+## F-statistic: 86.25 on 1 and 478 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# Efectos aleatorios
+
+Podemos graficar los resultados:
+
+
+```r
+plot_model(model = basic_lm, type = 'pred', show.data = TRUE)
+```
+
+```
+## $bodyLength2
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-6-1.png" width="370" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Efectos aleatorios
+
+Podemos obtener mas figuras para revisar los supuestos. Ahora veamos:
+
+
+```r
+boxplot(testScore ~ mountainRange, data = dragons)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-7-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Efectos aleatorios
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-8-1.png" width="500" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Efectos aleatorios
+
+La variable `mountainRange` es una variable agrupadora! Este es un caso perfecto para incorporar un efecto aleatorio.
+
+--
+
+En este caso, si incluimos `mountainRange` dentro del modelo, nosotros estaríamos controlando el efecto que esta variable pueda tener sobre la variable respuesta y explicativa. 
+
+--
+
+Implementemos el modelo de efectos mixtos:
+
+
+```r
+mixed_lmer = lmer(testScore ~ bodyLength2 + (1 + bodyLength2|mountainRange), data = dragons)
+```
+
+---
+
+
+```r
+summary(mixed_lmer)
+```
+
+```
+## Linear mixed model fit by REML ['lmerMod']
+## Formula: testScore ~ bodyLength2 + (1 + bodyLength2 | mountainRange)
+##    Data: dragons
+## 
+## REML criterion at convergence: 3980.5
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.5004 -0.6683  0.0207  0.6592  2.9449 
+## 
+## Random effects:
+##  Groups        Name        Variance Std.Dev. Corr 
+##  mountainRange (Intercept) 324.102  18.003        
+##                bodyLength2   9.905   3.147   -1.00
+##  Residual                  221.578  14.885        
+## Number of obs: 480, groups:  mountainRange, 8
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept) 51.75302    6.40349   8.082
+## bodyLength2 -0.03326    1.68317  -0.020
+## 
+## Correlation of Fixed Effects:
+##             (Intr)
+## bodyLength2 -0.674
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see ?isSingular
+```
+
+---
+
+# Efectos aleatorios
+
+Revisar los supuestos: varianza constante
+
+
+```r
+plot(mixed_lmer)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-11-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Efectos aleatorios
+
+Revisar los supuestos: distribución normal
+
+
+```r
+qqnorm(resid(mixed_lmer))
+qqline(resid(mixed_lmer))
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-12-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Efectos aleatorios
+
+Podemos plotear la línea estimada:
+
+
+```r
+plot_model(model = mixed_lmer, type = 'pred', show.data = TRUE)
+```
+
+```
+## $bodyLength2
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-13-1.png" width="350" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Efectos aleatorios
+
+Pero también podemos hacerlo por categoría:
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-14-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Efectos aleatorios
+
+Otra gráfica para evaluar resultados:
+
+
+```r
+plot_model(mixed_lmer, type = 're')
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-15-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Efectos aleatorios
+
+¿Qué otra variable puedo incluir en el modelo como efecto aleatorio?
+
+
+```r
+headTail(dragons)
+```
+
+```
+##     testScore bodyLength mountainRange site bodyLength2
+## 1       16.15     165.55      Bavarian    a       -2.21
+## 2       33.89     167.56      Bavarian    a       -2.08
+## 3        6.04     165.88      Bavarian    a       -2.19
+## 4       18.84     167.69      Bavarian    a       -2.07
+## ...       ...        ...          &lt;NA&gt; &lt;NA&gt;         ...
+## 477     59.37     213.58       Sarntal    c        0.76
+## 478     68.75     207.63       Sarntal    c        0.39
+## 479     74.89     198.25       Sarntal    c       -0.19
+## 480     65.95     208.06       Sarntal    c        0.42
+```
+
+--
+
+**Site**: Se ha muestreado en 3 sitios de muestreo dentro de cada `montainRange`.
+
+
+---
+
+# Efectos aleatorios
+
+Implementamos un segundo modelo:
+
+
+```r
+mixed_lmer2 = lmer(testScore ~ bodyLength2 + (1 + bodyLength2|mountainRange/site), data = dragons)
+```
+
+---
+
+
+```r
+summary(mixed_lmer2)
+```
+
+```
+## Linear mixed model fit by REML ['lmerMod']
+## Formula: testScore ~ bodyLength2 + (1 + bodyLength2 | mountainRange/site)
+##    Data: dragons
+## 
+## REML criterion at convergence: 3968.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.2654 -0.6737 -0.0200  0.6931  2.8432 
+## 
+## Random effects:
+##  Groups             Name        Variance Std.Dev. Corr 
+##  site:mountainRange (Intercept)  19.8156  4.4515       
+##                     bodyLength2   0.7178  0.8472  1.00 
+##  mountainRange      (Intercept) 310.9691 17.6343       
+##                     bodyLength2   6.1119  2.4722  -1.00
+##  Residual                       208.5025 14.4396       
+## Number of obs: 480, groups:  site:mountainRange, 24; mountainRange, 8
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  51.4263     6.3408   8.110
+## bodyLength2   0.6691     1.8729   0.357
+## 
+## Correlation of Fixed Effects:
+##             (Intr)
+## bodyLength2 -0.461
+## optimizer (nloptwrap) convergence code: 0 (OK)
+## boundary (singular) fit: see ?isSingular
+```
+
+---
+
+# Efectos aleatorios
+
+Podemos plotear la línea estimada:
+
+
+```r
+plot_model(model = mixed_lmer2, type = 'pred', show.data = TRUE)
+```
+
+```
+## $bodyLength2
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-19-1.png" width="350" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Efectos aleatorios
+
+Pero también podemos hacerlo por categoría:
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-20-1.png" width="450" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Efectos aleatorios
+
+Ir a [sitio web](https://mfviz.com/hierarchical-models/).
+
+---
+
+class: inverse, center, middle
+
+# Modelos lineales generalizados (GLM)
+
+---
+
+# GLM
+
+Se emplea estos modelos cuando la varianza de la variable respuesta no es constante o no está normalmente distribuida.
+
+--
+
+GLM transforma la variable respuesta para que el método de estimación de parámetros siga *funcionando bien*.
+
+--
+
+Esta transformación hecha sobre la variable respuesta es definida por la función *link*.
+
+--
+
+Al momento de implementar un GLM, debemos decidir dos cosas:
+
+1. La distribución a utilizar
+2. La función *link*.
+
+`$$y_i \sim EDM(\mu_i, \phi/ \omega_i)$$`
+
+`$$g(\mu_i) = o_i + \beta_0 + \sum_{j=1}^p \beta_j x_{ji}$$`
+
+---
+
+# GLM
+
+Por ejemplo, podemos tener:
+
+
+```r
+data(quilpie)
+head(quilpie)
+```
+
+```
+##   Year Rain   SOI Phase Exceed y
+## 1 1921 38.4   2.7     2    Yes 1
+## 2 1922  0.0   2.0     5     No 0
+## 3 1923  0.0 -10.7     3     No 0
+## 4 1924 24.4   6.9     2    Yes 1
+## 5 1925  0.0 -12.5     3     No 0
+## 6 1926  9.1  -1.0     4     No 0
+```
+
+Para este caso, si `y` es la variable respuesta, entonces podemos usar:
+
+`$$y_i \sim Binom(\mu_i, m_i)$$`
+
+`$$log\frac{\mu_i}{1-\mu_i} = \beta_0 + \beta_1 SOI_i$$`
+
+---
+
+# GLM: respuesta binaria
+
+Para una variable de respuesta binaria (e.g. 0/1 - presencia/asusencia - hembra/macho), tipicamente la modelamos con una función *link* tipo *logit* y función de varianza `\(\mu (1-\mu)\)`. La respuesta modelada son las probabilidades de registro predichas (*predicted log odds*) del evento de interés.
+
+--
+
+
+```r
+head(hsb)
+```
+
+```
+##    id gender  race    ses schtyp     prog read write math science socst
+## 1  70   male white    low public  general   57    52   41      47    57
+## 2 121 female white middle public vocation   68    59   53      63    61
+## 3  86   male white   high public  general   44    33   54      58    31
+## 4 141   male white   high public vocation   63    44   47      53    56
+## 5 172   male white middle public academic   47    52   57      53    61
+## 6 113   male white middle public academic   44    52   51      63    61
+```
+
+--
+
+Para este ejemplo, modelaremos el registro de `hsb$prog == academic`. 
+
+---
+
+# GLM: respuesta binaria
+
+En R vamos a usar:
+
+
+```r
+hsb$obj_var = ifelse(test = hsb$prog == 'academic', yes = 1, no = 0)
+mod1 = glm(obj_var ~ read, family = binomial(), data = hsb)
+```
+
+--
+
+Aquí, la variable respuesta es una variable indicadora (binaria):
+
+
+```r
+hsb$obj_var[1:20]
+```
+
+```
+##  [1] 0 0 0 0 1 1 0 1 0 1 0 1 1 1 1 0 1 0 1 0
+```
+
+---
+
+
+```r
+summary(mod1)
+```
+
+```
+## 
+## Call:
+## glm(formula = obj_var ~ read, family = binomial(), data = hsb)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.8817  -1.0329   0.4935   1.0182   1.8654  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -4.67739    0.90426  -5.173 2.31e-07 ***
+## read         0.09207    0.01730   5.321 1.03e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 276.76  on 199  degrees of freedom
+## Residual deviance: 241.58  on 198  degrees of freedom
+## AIC: 245.58
+## 
+## Number of Fisher Scoring iterations: 4
+```
+
+---
+
+# GLM: respuesta binaria
+
+La revisión de supuestos en un GLM no es tan sencilla. Podemos revisar la independencia de observaciones (especialmente importante cuando tenemos datos que vienen con posible dependencia temporal o espacial):
+
+
+```r
+plot(qresid(mod1))
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-26-1.png" width="370" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: respuesta binaria
+
+&lt;img src="images/fig27.png" width="600" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# GLM: respuesta binaria
+
+Revisar los valores observados y ajustados:
+
+
+```r
+plot_model(model = mod1, type = 'pred', show.data = TRUE)
+```
+
+```
+## $read
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-28-1.png" width="350" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: respuesta binaria
+
+Revisar distribucion asumida:
+
+
+```r
+qqnorm(qresid(mod1))
+qqline(qresid(mod1))
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-29-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# GLM: respuesta binaria
+
+Revisar observaciones influyentes:
+
+
+```r
+plot(cooks.distance(mod1), type='h')
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-30-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: datos de conteo
+
+Cuando tenemos una variable discreta (e.g. conteo de individuos, de especies, etc.), es recomendable implementar el modelo usando la familia de distribuciones Poisson. 
+
+
+
+--
+
+
+```r
+head(cases)
+```
+
+```
+##   Days Students
+## 1    1        6
+## 2    2        8
+## 3    3       12
+## 4    3        9
+## 5    4        3
+## 6    4        3
+```
+
+---
+
+# GLM: datos de conteo
+
+Exploremos la que será la variable respuesta en nuestro modelo:
+
+
+```r
+hist(cases$Students)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-33-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+```r
+mod2 = glm(Students ~ Days, family = "poisson", data = cases)
+summary(mod2)
+```
+
+```
+## 
+## Call:
+## glm(formula = Students ~ Days, family = "poisson", data = cases)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.00482  -0.85719  -0.09331   0.63969   1.73696  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  1.990235   0.083935   23.71   &lt;2e-16 ***
+## Days        -0.017463   0.001727  -10.11   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 215.36  on 108  degrees of freedom
+## Residual deviance: 101.17  on 107  degrees of freedom
+## AIC: 393.11
+## 
+## Number of Fisher Scoring iterations: 5
+```
+
+---
+
+# GLM: datos de conteo
+
+Verificar independencia de residuos:
+
+
+```r
+plot(qresid(mod2))
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-35-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: datos de conteo
+
+Revisar los valores observados y ajustados:
+
+
+```r
+plot_model(model = mod2, type = 'pred', show.data = TRUE)
+```
+
+```
+## $Days
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-36-1.png" width="350" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: datos de conteo
+
+Revisar distribucion asumida:
+
+
+```r
+qqnorm(qresid(mod2))
+qqline(qresid(mod2))
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-37-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: datos de conteo
+
+Revisar observaciones influyentes:
+
+
+```r
+plot(cooks.distance(mod2), type='h')
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-38-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: datos de conteo con sobredispersión
+
+Exploremos una nueva base de datos:
+
+
+
+
+
+```r
+head(disc)
+```
+
+```
+##   count year yearSqr
+## 1     5    0       0
+## 2     3    1       1
+## 3     0    2       4
+## 4     2    3       9
+## 5     0    4      16
+## 6     3    5      25
+```
+
+
+---
+
+# GLM: datos de conteo con sobredispersión
+
+Exploremos la que ahora será nuestra variable explicativa:
+
+
+```r
+hist(disc$count)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-41-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+Implementemos un modelo Poisson
+
+
+```r
+mod3 = glm(count ~ year + yearSqr, family = "poisson", data = disc)
+summary(mod3)
+```
+
+```
+## 
+## Call:
+## glm(formula = count ~ year + yearSqr, family = "poisson", data = disc)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.9066  -0.8397  -0.2544   0.4776   3.3303  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  7.592e-01  1.814e-01   4.186 2.84e-05 ***
+## year         3.356e-02  8.499e-03   3.948 7.87e-05 ***
+## yearSqr     -4.106e-04  8.699e-05  -4.720 2.35e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 164.68  on 99  degrees of freedom
+## Residual deviance: 132.84  on 97  degrees of freedom
+## AIC: 407.85
+## 
+## Number of Fisher Scoring iterations: 5
+```
+
+---
+
+Implementemos un modelo quasi-Poisson
+
+
+```r
+mod4 = glm(count ~ year + yearSqr, family = "quasipoisson", data = disc)
+summary(mod4)
+```
+
+```
+## 
+## Call:
+## glm(formula = count ~ year + yearSqr, family = "quasipoisson", 
+##     data = disc)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.9066  -0.8397  -0.2544   0.4776   3.3303  
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  0.7592473  0.2072715   3.663 0.000406 ***
+## year         0.0335569  0.0097112   3.455 0.000816 ***
+## yearSqr     -0.0004106  0.0000994  -4.131 7.66e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 1.305649)
+## 
+##     Null deviance: 164.68  on 99  degrees of freedom
+## Residual deviance: 132.84  on 97  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 5
+```
+
+---
+
+# GLM: datos de conteo con sobredispersión
+
+Revisamos los residuos:
+
+
+```r
+qqnorm(qresid(mod4))
+qqline(qresid(mod4))
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-44-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: datos de conteo con sobredispersión
+
+Para la misma base de datos `disc`, implementemos un modelo negativo binomial, usado también cuando tenemos casos de sobredispersión.
+
+
+```r
+mod5 = glm.nb(count ~ year + yearSqr, data = disc)
+summary(mod5)
+```
+
+```
+## 
+## Call:
+## glm.nb(formula = count ~ year + yearSqr, data = disc, init.theta = 11.53157519, 
+##     link = log)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.6849  -0.7707  -0.2344   0.4232   2.7134  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)  7.526e-01  2.019e-01   3.727 0.000194 ***
+## year         3.386e-02  9.471e-03   3.575 0.000350 ***
+## yearSqr     -4.132e-04  9.627e-05  -4.292 1.77e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Negative Binomial(11.5316) family taken to be 1)
+## 
+##     Null deviance: 131.91  on 99  degrees of freedom
+## Residual deviance: 106.20  on 97  degrees of freedom
+## AIC: 406.21
+## 
+## Number of Fisher Scoring iterations: 1
+## 
+## 
+##               Theta:  11.53 
+##           Std. Err.:  7.42 
+## 
+##  2 x log-likelihood:  -398.214
+```
+
+---
+
+# GLM: datos de conteo con sobredispersión
+
+Revisamos los residuos:
+
+
+```r
+qqnorm(qresid(mod5))
+qqline(qresid(mod5))
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-46-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: respuesta gamma
+
+Dada nuestra base de datos:
+
+
+```r
+head(case1202)
+```
+
+```
+##   Bsal Sal77  Sex Senior Age Educ Exper
+## 1 5040 12420 Male     96 329   15  14.0
+## 2 6300 12060 Male     82 357   15  72.0
+## 3 6000 15120 Male     67 315   15  35.5
+## 4 6000 16320 Male     97 354   12  24.0
+## 5 6000 12300 Male     66 351   12  56.0
+## 6 6840 10380 Male     92 374   15  41.5
+```
+
+---
+
+# GLM: respuesta gamma
+
+Modelo lineal para modelar `units` como la variable respuesta:
+
+
+```r
+mod6 = lm(Exper ~ Age, data=case1202)
+summary(mod6)
+```
+
+```
+## 
+## Call:
+## lm(formula = Exper ~ Age, data = case1202)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -150.974  -21.633   -3.205   24.866  146.490 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -144.59165   20.26830  -7.134 2.28e-10 ***
+## Age            0.51754    0.04099  12.626  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 55.13 on 91 degrees of freedom
+## Multiple R-squared:  0.6366,	Adjusted R-squared:  0.6326 
+## F-statistic: 159.4 on 1 and 91 DF,  p-value: &lt; 2.2e-16
+```
+
+---
+
+# GLM: respuesta gamma
+
+Veamos los valores ajustados:
+
+
+```r
+plot_model(mod6, type = 'pred', show.data = TRUE)
+```
+
+```
+## $Age
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-49-1.png" width="350" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: respuesta gamma
+
+Exploremos la distribución de la variable respuesta:
+
+
+```r
+hist(case1202$Exper)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-50-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GLM: respuesta gamma
+
+¿Qué alternativas tenemos?
+
+--
+
+Podemos implementar un GLM con respuesta gamma (solo valores positivos):
+
+
+```r
+mod7 = glm(Exper + 1 ~ Age, data = case1202, family = Gamma(link = "log"))
+```
+
+---
+
+
+```r
+summary(mod7)
+```
+
+```
+## 
+## Call:
+## glm(formula = Exper + 1 ~ Age, family = Gamma(link = "log"), 
+##     data = case1202)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -2.22397  -0.60604  -0.02406   0.34153   1.07844  
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 1.4770108  0.2118855   6.971 4.87e-10 ***
+## Age         0.0060060  0.0004285  14.016  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for Gamma family taken to be 0.3321014)
+## 
+##     Null deviance: 101.471  on 92  degrees of freedom
+## Residual deviance:  46.044  on 91  degrees of freedom
+## AIC: 970.8
+## 
+## Number of Fisher Scoring iterations: 6
+```
+
+---
+
+# GLM: respuesta gamma
+
+
+```r
+plot_model(mod7, type = 'pred', show.data = TRUE)
+```
+
+```
+## $Age
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-53-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Gracias!
+
+Contacto: [**cursos@cousteau-group.com**](mailto:cursos@cousteau-group.com)
+
+&lt;img src="LOGO05.png" width="450" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
