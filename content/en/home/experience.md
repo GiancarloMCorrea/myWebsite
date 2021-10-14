@@ -28,7 +28,7 @@ experience:
     location: Oregon, USA
     date_start: '2018-09-15'
     date_end: ''
-    description: Researching and modelling applied to the Pacific cod in the eastern Bering Sea.
+    description: Research, population dynamic and ecology of the Pacific cod in the eastern Bering Sea.
         
   - title: Scientific Member
     company: Cousteau Consultant Group
@@ -36,7 +36,7 @@ experience:
     location: Lima, Perú
     date_start: '2020-09-01'
     date_end: ''
-    description: Researching in fisheries and marine ecology. Instructor in courses about ecology and statistics.
+    description: Research in fisheries and marine ecology. Instructor in ecology and statistics courses.
         
   - title: Graduate Teaching Assistant
     company: Oregon State University
@@ -44,7 +44,7 @@ experience:
     location: Oregon, USA
     date_start: '2020-03-25'
     date_end: '2020-06-15'
-    description: Taught statistical modelling applied to fisheries and marine ecology
+    description: Statistical modelling applied to fisheries and marine ecology
 
   - title: Researcher
     company: Marine Institute of Peru
@@ -52,5 +52,5 @@ experience:
     location: Callao, Perú
     date_start: '2014-01-01'
     date_end: '2018-08-20'
-    description: Stock assessment of small pelagic fish, spatial ecology of small pelagic fish, community ecology of pelagic communities	
+    description: Stock assessment and spatial ecology of small pelagic fish, community ecology of pelagic communities	
 ---
