@@ -18,4 +18,4 @@ design:
   columns: "2"
 ---
 
-Add any content to the body of the section here.
+Visit my [ResearchGate](https://www.researchgate.net/profile/Giancarlo-Moron-Correa) or [Google Scholar](https://scholar.google.com/citations?user=jg4hcWEAAAAJ&hl=es) to see my publications. 
