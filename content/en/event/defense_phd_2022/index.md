@@ -35,7 +35,6 @@ abstract: Variations in ocean conditions influenced by climate fluctuations may 
   a spatially explicit model, produced unbiased and precise results. 
   Finally, Chapter 5 includes the main conclusions of this dissertation, the pros and cons of population dynamics models, 
   and discusses the limitations of my research and extensions that future investigations could undertake.
-
 address:
   city: Corvallis
   country: US
