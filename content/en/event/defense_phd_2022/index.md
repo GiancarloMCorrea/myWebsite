@@ -16,7 +16,7 @@ abstract: Variations in ocean conditions influenced by climate fluctuations may 
   that quantifies changes and the larval behavioral response to the physical and biological environment. 
   The results indicate that, under the RCP8.5 scenario, the temperature in the larvae habitat will increase by 
   2 C while pCO2 will triple by 2100 compared to present day values. These changes will increase 
-  hatch success and standard length (mm), however, survival probability will decrease by 85% and recruitment by 50%. 
+  hatch success and standard length (mm), however, survival probability will decrease by 85\% and recruitment by 50\%. 
   A shallow retention area was detected in the southeast part of the eastern Bering Sea, being this area also 
   the most vulnerable to the future climate. 
   Chapter 3 explored how somatic growth variability impacts the age composition estimation, a critical 
