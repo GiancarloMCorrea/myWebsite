@@ -27,7 +27,7 @@ abstract: Variations in ocean conditions influenced by climate fluctuations may 
   compositions estimated by CRL displayed the highest consistency with other data in the model. Chapter 4 used a simulation-estimation framework 
   to expand previous analyses and examine the 
   consequences of spatial and temporal (year- and cohort-specific) variability in somatic growth in 
-  stock assessment models. The study included three life history "types:" small pelagic (e.g., sardine), gadids (e.g., cod), 
+  stock assessment models. The study included three life history types%3A small pelagic (e.g., sardine), gadids (e.g., cod), 
   and long-lived (e.g., rockfish). In general, ignoring any variability in somatic growth led to biased and imprecise 
   estimates of stock spawning biomass (SSB) and management quantities. Unequal distribution of fishing mortality 
   across space had large impacts on the performance of estimation models as well. Conversely, accounting for 
