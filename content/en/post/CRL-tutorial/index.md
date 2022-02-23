@@ -10,10 +10,10 @@ image:
   focal_point: ""
 lastMod: "2019-09-05T00:00:00Z"
 projects: []
-subtitle: CRL tutorial 1
-summary: CRL tutorial 2
+subtitle: Age-length keys and Continuation Ratio Logits
+summary: Age-length keys and Continuation Ratio Logits
 tags: []
-title: CRL tutorial 3
+title: Age composition estimation
 ---
 
 R Markdown
