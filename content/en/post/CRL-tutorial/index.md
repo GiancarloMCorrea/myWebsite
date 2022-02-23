@@ -22,9 +22,6 @@ ratio logits (Berg et al., 2012). These two methods were evaluated in a
 simulation experiment previously (Correa et al., 2020). I use simulated
 data for this example:
 
-    ## ## FSA v0.9.0. See citation('FSA') if used in publication.
-    ## ## Run fishR() for related website and fishR('IFAR') for related book.
-
 ``` r
 head(catch_data)
 ```
@@ -68,7 +65,7 @@ subsample data (each row represents a fish sampled). The columns are:
 -   `YEAR` is the sampling year
 -   `STATIONID` is the station name or code where the sample was taken
 -   `LON` and `LAT` are the longitude and latitude of the sampling
-    station
+    station, respectively
 -   `NUMBER_FISH` is the number of fish caught in the sampling station
 -   `LENGTH` is the fish size
 -   `AGE` is the fish age
@@ -76,7 +73,7 @@ subsample data (each row represents a fish sampled). The columns are:
 For this example, only data from one year is considered.
 
 Before going to the calculations, we should set the age plus group. In
-this case, we set it to 8.
+this case, we set it to 8:
 
 ``` r
 age_data$AGE = ifelse(test = age_data$AGE >= 8, yes = 8, no = age_data$AGE)
