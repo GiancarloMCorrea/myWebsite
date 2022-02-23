@@ -10,24 +10,26 @@ image:
   focal_point: ""
 lastMod: "2019-09-05T00:00:00Z"
 projects: []
-subtitle: Learn how to blog in Academic using Jupyter notebooks
-summary: Learn how to blog in Academic using Jupyter notebooks
+subtitle: CRL Tutorial 1
+summary: CRL Tutorial 2
 tags: []
-title: Display Jupyter Notebooks with Academic
+title: CRL Tutorial 3
 ---
+
 
 R Markdown
 ----------
 
 This is an R Markdown document. Markdown is a simple formatting syntax
 for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see <http://rmarkdown.rstudio.com>.
+using R Markdown see
+<a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.
 
 When you click the **Knit** button a document will be generated that
 includes both content as well as the output of any embedded R code
 chunks within the document. You can embed an R code chunk like this:
 
-``` {.r}
+``` r
 summary(cars)
 ```
 
@@ -44,7 +46,7 @@ Including Plots
 
 You can also embed plots, for example:
 
-![](test_files/figure-markdown/pressure-1.png)
+![](test_files/figure-markdown_github/pressure-1.png)
 
 Note that the `echo = FALSE` parameter was added to the code chunk to
 prevent printing of the R code that generated the plot.
