@@ -10,12 +10,11 @@ image:
   focal_point: ""
 lastMod: "2019-09-05T00:00:00Z"
 projects: []
-subtitle: CRL Tutorial 1
-summary: CRL Tutorial 2
+subtitle: CRL tutorial 1
+summary: CRL tutorial 2
 tags: []
-title: CRL Tutorial 3
+title: CRL tutorial 3
 ---
-
 
 R Markdown
 ----------
@@ -46,13 +45,7 @@ Including Plots
 
 You can also embed plots, for example:
 
-![png](pressure-1.png)
+![](index_files/figure-markdown_github/pressure-1.png)
 
 Note that the `echo = FALSE` parameter was added to the code chunk to
 prevent printing of the R code that generated the plot.
-
-Other way:
-
-<img src="pressure-1.png"
-     alt="Markdown Monster icon"
-     style="float: left; margin-right: 10px;" />
