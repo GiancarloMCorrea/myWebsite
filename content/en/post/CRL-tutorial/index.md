@@ -274,47 +274,6 @@ require information to the function `estimateAgeCRL`:
 prop_age_crl = estimateAgeCRL(AgeSubsample = age_data, LengthSubsample = len_data, FormulaGAM = 'LENGTH + s(LON, LAT)', AgeMin = 1, AgeMax = 8, AgeVariable = 'AGE', TimeVariable = 'YEAR')
 ```
 
-    ## Loading required package: mgcv
-
-    ## Loading required package: nlme
-
-    ## Warning: package 'nlme' was built under R version 4.0.5
-
-    ## 
-    ## Attaching package: 'nlme'
-
-    ## The following object is masked from 'package:dplyr':
-    ## 
-    ##     collapse
-
-    ## This is mgcv 1.8-33. For overview type 'help("mgcv-package")'.
-
-    ## Loading required package: plyr
-
-    ## ------------------------------------------------------------------------------
-
-    ## You have loaded plyr after dplyr - this is likely to cause problems.
-    ## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
-    ## library(plyr); library(dplyr)
-
-    ## ------------------------------------------------------------------------------
-
-    ## 
-    ## Attaching package: 'plyr'
-
-    ## The following object is masked from 'package:maps':
-    ## 
-    ##     ozone
-
-    ## The following objects are masked from 'package:dplyr':
-    ## 
-    ##     arrange, count, desc, failwith, id, mutate, rename, summarise,
-    ##     summarize
-
-    ## The following object is masked from 'package:FSA':
-    ## 
-    ##     mapvalues
-
 This function adds the proportions-at-age to `len_data` (`merged_data`
 element of the output list) and also reports the estimated
 proportion-at-age separately (`prop_age_matrix` element of the output
@@ -324,9 +283,9 @@ Then, we multiply the numbers-at-length by the proportions-at-age and
 sum over ages to estimate the age composition:
 
 ``` r
-age_comps_crl = as.data.frame(t(as.matrix(len_data$NUMBER_AT_LEN)) %*% as.matrix(prop_age_crl$prop_age_matrix))
-age_comps_crl = prop.table(x = age_comps_crl)
-age_comps_crl = reshape2::melt(age_comps_crl)
+age_comps_crl = as.data.frame(t(as.matrix(len_data$NUMBER_AT_LEN)) %*% as.matrix(prop_age_crl$prop_age_matrix)) # numbers-at-age
+age_comps_crl = prop.table(x = age_comps_crl) # proportions-at-age
+age_comps_crl = reshape2::melt(age_comps_crl) # organize 
 ```
 
     ## No id variables; using all as measure variables
@@ -385,4 +344,3 @@ Growth.” *Canadian Journal of Fisheries and Aquatic Sciences* 77 (11):
 
 Quinn, Terrance J., and Richard B. Deriso. 1999. *Quantitative Fish
 Dynamics*. Oxford University Press.
-
