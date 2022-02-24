@@ -18,9 +18,9 @@ title: Age composition estimation
 
 This is a tutorial to estimate age compositions from fishery-independent
 sources (e.g. survey) using classic age-length keys and continuation
-ratio logits (Berg et al., 2012). These two methods were evaluated in a
-simulation experiment previously (Correa et al., 2020). I use these
-libraries Shea and Boldt (2014):
+ratio logits (Berg and Kristensen (2012)). These two methods were
+evaluated in a simulation experiment previously (Correa et al. (2020)).
+I use these libraries:
 
 ``` r
 library(ggplot2)
@@ -29,6 +29,9 @@ library(dplyr)
 library(maps)
 library(mapdata)
 ```
+
+Data structure
+==============
 
 I use simulated data based on the bottom-trawl survey design in the
 eastern Bering Sea. The data have this structure:
@@ -166,11 +169,12 @@ head(len_data)
     ## # ... with 2 more variables: PROP_SAMPLED <dbl>, NUMBER_AT_LEN <dbl>
 
 Using age-length key (ALK)
---------------------------
+==========================
 
 We use the functions in the R package `FSA`.
 
-### ALK calculation
+ALK calculation
+---------------
 
 We construct the ALK using the information in the age subsample data.
 First, calculate the frequency by length and age.
@@ -215,7 +219,8 @@ alkPlot(key = ALK_year, type = "barplot")
 
 ![](index_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
-### Age composition estimation
+Age composition estimation
+--------------------------
 
 First, we calculate the numbers-at-length from all stations:
 
@@ -281,10 +286,23 @@ Final thoughts:
     information for size bins not present in the age subsample.
 
 Using continuation ratio logits
--------------------------------
+===============================
 
 To be added
 
-Shea, Nicholas, and Annika Boldt. 2014. “Supra-personal cognitive
-control.” *Trends in Cognitive Sciences* 18: 186–93.
-<https://doi.org/10.1016/j.tics.2014.01.006>.
+References
+----------
+
+Berg, Casper W., and Kasper Kristensen. 2012. “Spatial Age-Length Key
+Modelling Using Continuation Ratio Logits.” *Fisheries Research*
+129-130: 119–26.
+<https://doi.org/https://doi.org/10.1016/j.fishres.2012.06.016>.
+
+Correa, Giancarlo M., Lorenzo Ciannelli, Lewis A. K. Barnett, Stan
+Kotwicki, and Claudio Fuentes. 2020. “Improved Estimation of Age
+Composition by Accounting for Spatiotemporal Variability in Somatic
+Growth.” *Canadian Journal of Fisheries and Aquatic Sciences* 77 (11):
+1810–21. <https://doi.org/10.1139/cjfas-2020-0166>.
+
+Quinn, Terrance J., and Richard B. Deriso. 1999. *Quantitative Fish
+Dynamics*. Oxford University Press.
