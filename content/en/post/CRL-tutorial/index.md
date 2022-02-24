@@ -20,32 +20,12 @@ This is a tutorial to estimate age compositions from fishery-independent
 sources (e.g. survey) using classic age-length keys and continuation
 ratio logits (Berg et al., 2012). These two methods were evaluated in a
 simulation experiment previously (Correa et al., 2020). I use these
-libraries:
+libraries Shea and Boldt (2014):
 
 ``` r
 library(ggplot2)
 library(FSA)
-```
-
-    ## ## FSA v0.9.3. See citation('FSA') if used in publication.
-    ## ## Run fishR() for related website and fishR('IFAR') for related book.
-
-``` r
 library(dplyr)
-```
-
-    ## 
-    ## Attaching package: 'dplyr'
-
-    ## The following objects are masked from 'package:stats':
-    ## 
-    ##     filter, lag
-
-    ## The following objects are masked from 'package:base':
-    ## 
-    ##     intersect, setdiff, setequal, union
-
-``` r
 library(maps)
 library(mapdata)
 ```
@@ -293,12 +273,18 @@ ggplot(age_comps, aes(x=as.factor(age), y=prop)) +
 
 ![](index_files/figure-markdown_github/unnamed-chunk-15-1.png)
 
-Final thoughts: - In some cases, this estimation is perfomed by sampling
-strata and then extrapolated to the entire survey area. - Some users
-take subjective decisions to keep numbers-at-length information for size
-bins not present in the age subsample.
+Final thoughts:
+
+-   In some cases, this estimation is perfomed by sampling strata and
+    then extrapolated to the entire survey area.
+-   Some users take subjective decisions to keep numbers-at-length
+    information for size bins not present in the age subsample.
 
 Using continuation ratio logits
 -------------------------------
 
 To be added
+
+Shea, Nicholas, and Annika Boldt. 2014. “Supra-personal cognitive
+control.” *Trends in Cognitive Sciences* 18: 186–93.
+<https://doi.org/10.1016/j.tics.2014.01.006>.
