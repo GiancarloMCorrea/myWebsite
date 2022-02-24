@@ -19,8 +19,11 @@ title: Age composition estimation
 This is a tutorial to estimate age compositions from fishery-independent
 sources (e.g. survey) using classic age-length keys and continuation
 ratio logits (Berg and Kristensen 2012). These two methods were
-evaluated in a simulation experiment previously (Correa et al. 2020). I
-use these libraries:
+evaluated in a simulation experiment previously (Correa et al. 2020). Do
+not hesitate to contact me if you have any question or ideas about how
+to improve this tutorial.
+
+I use these libraries:
 
 ``` r
 library(ggplot2)
@@ -28,49 +31,53 @@ library(FSA)
 library(dplyr)
 library(maps)
 library(mapdata)
+library(devtools)
 ```
 
 Data structure
 --------------
 
 I use simulated data based on the bottom-trawl survey design in the
-eastern Bering Sea. The data have this structure:
+eastern Bering Sea, which can be found
+[here](https://github.com/gmoroncorrea/STageCompsEstimation/tree/master/sample_data).
+The data have this structure, and I only select one year (2007) for this
+example:
 
 ``` r
 head(catch_data)
 ```
 
-    ##   YEAR STATIONID    LON  LAT NUMBER_FISH
-    ## 1 2007       108 -165.1 54.7          38
-    ## 2 2007       230 -166.9 55.0          49
-    ## 3 2007       236 -166.3 55.0          36
-    ## 4 2007       241 -165.8 55.0          21
-    ## 5 2007       248 -165.1 55.0          19
-    ## 6 2007       310 -164.6 55.1          16
+    ##      YEAR STATIONID    LON  LAT NUMBER_FISH
+    ## 4538 2007       108 -165.1 54.7          38
+    ## 4539 2007       230 -166.9 55.0          49
+    ## 4540 2007       236 -166.3 55.0          36
+    ## 4541 2007       241 -165.8 55.0          21
+    ## 4542 2007       248 -165.1 55.0          19
+    ## 4543 2007       310 -164.6 55.1          16
 
 ``` r
 head(len_data)
 ```
 
-    ##   YEAR STATIONID    LON  LAT LENGTH FREQUENCY
-    ## 1 2007       108 -165.1 54.7     17         3
-    ## 2 2007       108 -165.1 54.7     23         2
-    ## 3 2007       108 -165.1 54.7     24         2
-    ## 4 2007       108 -165.1 54.7     26         1
-    ## 5 2007       108 -165.1 54.7     28         4
-    ## 6 2007       108 -165.1 54.7     35         3
+    ##       YEAR STATIONID    LON  LAT LENGTH FREQUENCY
+    ## 87039 2007       108 -165.1 54.7     17         3
+    ## 87040 2007       108 -165.1 54.7     23         2
+    ## 87041 2007       108 -165.1 54.7     24         2
+    ## 87042 2007       108 -165.1 54.7     26         1
+    ## 87043 2007       108 -165.1 54.7     28         4
+    ## 87044 2007       108 -165.1 54.7     35         3
 
 ``` r
 head(age_data)
 ```
 
-    ##   YEAR STATIONID    LON  LAT LENGTH AGE
-    ## 1 2007       108 -165.1 54.7     17   1
-    ## 2 2007       108 -165.1 54.7     23   1
-    ## 3 2007       108 -165.1 54.7     61   4
-    ## 4 2007       108 -165.1 54.7     61   4
-    ## 5 2007       230 -166.9 55.0     53   3
-    ## 6 2007       230 -166.9 55.0     60   4
+    ##       YEAR STATIONID    LON  LAT LENGTH AGE
+    ## 17264 2007       108 -165.1 54.7     17   1
+    ## 17265 2007       108 -165.1 54.7     23   1
+    ## 17266 2007       108 -165.1 54.7     61   4
+    ## 17267 2007       108 -165.1 54.7     61   4
+    ## 17268 2007       230 -166.9 55.0     53   3
+    ## 17269 2007       230 -166.9 55.0     60   4
 
 `catch_data` is the catch data, `len_data` is the length subsample data,
 and the `age_data` is the age subsample data (each row represents a fish
@@ -95,8 +102,7 @@ map(database = 'worldHires', add = TRUE, fill = TRUE, col = 'gray60')
 
 ![](index_files/figure-markdown_github/unnamed-chunk-3-1.png)
 
-For this example, only data from one year is considered. Also, I assume
-that the sampled area per station is constant over stations.
+I assume that the sampled area per station is constant over stations.
 Standardization (e.g. catch/area) would be required if this assumption
 does not meet for your data.
 
@@ -134,39 +140,13 @@ subsample (relative to the total catch) per station:
 ``` r
 len_data = left_join(len_data, catch_data, by = c('YEAR', 'STATIONID', 'LON', 'LAT'))
 len_data$PROP_SAMPLED = len_data$NUMBER_FISH_SAMPLED/len_data$NUMBER_FISH
-head(len_data)
 ```
-
-    ## # A tibble: 6 x 9
-    ## # Groups:   YEAR, STATIONID, LON, LAT [1]
-    ##    YEAR STATIONID   LON   LAT LENGTH FREQUENCY NUMBER_FISH_SAMPLED NUMBER_FISH
-    ##   <int>     <int> <dbl> <dbl>  <int>     <int>               <int>       <int>
-    ## 1  2007       108 -165.  54.7     17         3                  38          38
-    ## 2  2007       108 -165.  54.7     23         2                  38          38
-    ## 3  2007       108 -165.  54.7     24         2                  38          38
-    ## 4  2007       108 -165.  54.7     26         1                  38          38
-    ## 5  2007       108 -165.  54.7     28         4                  38          38
-    ## 6  2007       108 -165.  54.7     35         3                  38          38
-    ## # ... with 1 more variable: PROP_SAMPLED <dbl>
 
 Finally, we calculate the numbers-at-length per station:
 
 ``` r
 len_data$NUMBER_AT_LEN = len_data$FREQUENCY/len_data$PROP_SAMPLED
-head(len_data)
 ```
-
-    ## # A tibble: 6 x 10
-    ## # Groups:   YEAR, STATIONID, LON, LAT [1]
-    ##    YEAR STATIONID   LON   LAT LENGTH FREQUENCY NUMBER_FISH_SAMPLED NUMBER_FISH
-    ##   <int>     <int> <dbl> <dbl>  <int>     <int>               <int>       <int>
-    ## 1  2007       108 -165.  54.7     17         3                  38          38
-    ## 2  2007       108 -165.  54.7     23         2                  38          38
-    ## 3  2007       108 -165.  54.7     24         2                  38          38
-    ## 4  2007       108 -165.  54.7     26         1                  38          38
-    ## 5  2007       108 -165.  54.7     28         4                  38          38
-    ## 6  2007       108 -165.  54.7     35         3                  38          38
-    ## # ... with 2 more variables: PROP_SAMPLED <dbl>, NUMBER_AT_LEN <dbl>
 
 Using age-length key (ALK)
 --------------------------
@@ -250,31 +230,20 @@ composition for this year. See the statistical background in Quinn and
 Deriso (1999):
 
 ``` r
-age_comps = alkAgeDist(key = ALK_year, lenA.n = num_at_len_A$NUMBERS, len.n = num_at_len$NUMBERS)
-age_comps
+age_comps_alk = alkAgeDist(key = ALK_year, lenA.n = num_at_len_A$NUMBERS, len.n = num_at_len$NUMBERS)
+age_comps_alk$type = 'ALK'
+age_comps_alk
 ```
 
-    ##   age        prop          se
-    ## 1   1 0.534321495 0.006423584
-    ## 2   2 0.104063039 0.006896247
-    ## 3   3 0.051805725 0.005640747
-    ## 4   4 0.215700318 0.007399301
-    ## 5   5 0.057223880 0.005304152
-    ## 6   6 0.014732579 0.002398039
-    ## 7   7 0.014183269 0.002084561
-    ## 8   8 0.007969694 0.001587404
-
-Make simple plot:
-
-``` r
-ggplot(age_comps, aes(x=as.factor(age), y=prop)) + 
-  geom_bar(stat = "identity") +
-  theme_bw() +
-  xlab('Age') +
-  ylab('Proportion')
-```
-
-![](index_files/figure-markdown_github/unnamed-chunk-15-1.png)
+    ##   age        prop          se type
+    ## 1   1 0.534321495 0.006423584  ALK
+    ## 2   2 0.104063039 0.006896247  ALK
+    ## 3   3 0.051805725 0.005640747  ALK
+    ## 4   4 0.215700318 0.007399301  ALK
+    ## 5   5 0.057223880 0.005304152  ALK
+    ## 6   6 0.014732579 0.002398039  ALK
+    ## 7   7 0.014183269 0.002084561  ALK
+    ## 8   8 0.007969694 0.001587404  ALK
 
 Final thoughts:
 
@@ -283,10 +252,123 @@ Final thoughts:
 -   Some users take subjective decisions to keep numbers-at-length
     information for size bins not present in the age subsample.
 
-Using continuation ratio logits
--------------------------------
+Using continuation ratio logits (CRL)
+-------------------------------------
 
-To be added
+### Implementing CRL using GAM
+
+Here, I use an R function on [my
+GitHub](https://github.com/gmoroncorrea) to estimate proportions-at-age
+based on information in the length subsample. I source the R script:
+
+``` r
+source("CRLfunction.R")
+```
+
+There are some help comments on that [R
+script](https://github.com/gmoroncorrea/STageCompsEstimation/blob/master/CRLfunction.R),
+we recommend you to check them out before continuing. We pass the
+require information to the function `estimateAgeCRL`:
+
+``` r
+prop_age_crl = estimateAgeCRL(AgeSubsample = age_data, LengthSubsample = len_data, FormulaGAM = 'LENGTH + s(LON, LAT)', AgeMin = 1, AgeMax = 8, AgeVariable = 'AGE', TimeVariable = 'YEAR')
+```
+
+    ## Loading required package: mgcv
+
+    ## Loading required package: nlme
+
+    ## Warning: package 'nlme' was built under R version 4.0.5
+
+    ## 
+    ## Attaching package: 'nlme'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     collapse
+
+    ## This is mgcv 1.8-33. For overview type 'help("mgcv-package")'.
+
+    ## Loading required package: plyr
+
+    ## ------------------------------------------------------------------------------
+
+    ## You have loaded plyr after dplyr - this is likely to cause problems.
+    ## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+    ## library(plyr); library(dplyr)
+
+    ## ------------------------------------------------------------------------------
+
+    ## 
+    ## Attaching package: 'plyr'
+
+    ## The following object is masked from 'package:maps':
+    ## 
+    ##     ozone
+
+    ## The following objects are masked from 'package:dplyr':
+    ## 
+    ##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+    ##     summarize
+
+    ## The following object is masked from 'package:FSA':
+    ## 
+    ##     mapvalues
+
+This function adds the proportions-at-age to `len_data` (`merged_data`
+element of the output list) and also reports the estimated
+proportion-at-age separately (`prop_age_matrix` element of the output
+list).
+
+Then, we multiply the numbers-at-length by the proportions-at-age and
+sum over ages to estimate the age composition:
+
+``` r
+age_comps_crl = as.data.frame(t(as.matrix(len_data$NUMBER_AT_LEN)) %*% as.matrix(prop_age_crl$prop_age_matrix))
+age_comps_crl = prop.table(x = age_comps_crl)
+age_comps_crl = reshape2::melt(age_comps_crl)
+```
+
+    ## No id variables; using all as measure variables
+
+``` r
+colnames(age_comps_crl) = c('age', 'prop')
+age_comps_crl$type = 'CRL'
+age_comps_crl
+```
+
+    ##   age        prop type
+    ## 1   1 0.535259081  CRL
+    ## 2   2 0.103181746  CRL
+    ## 3   3 0.051818856  CRL
+    ## 4   4 0.210475530  CRL
+    ## 5   5 0.063704520  CRL
+    ## 6   6 0.014478567  CRL
+    ## 7   7 0.012694580  CRL
+    ## 8   8 0.008387121  CRL
+
+Compare age composition estimates
+---------------------------------
+
+We can plot the age compositions estimated by both methods:
+
+``` r
+age_comps = rbind(age_comps_alk[,c('age', 'prop', 'type')], age_comps_crl)
+
+ggplot(age_comps, aes(x=as.factor(age), y=prop, fill = factor(type))) + 
+  geom_bar(stat = "identity", position='dodge') +
+  theme_bw() +
+  xlab('Age') +
+  ylab('Proportion') +
+  guides(fill = guide_legend(title="Method"))
+```
+
+![](index_files/figure-markdown_github/unnamed-chunk-18-1.png)
+
+Small differences between these two methods are observed. However,
+Correa et al. (2020) showed that the CRL method is more precise and
+unbiased than the ALK method, especially when there is spatiotemporal
+variability in somatic growth in the fish population.
 
 ### References
 
@@ -303,3 +385,4 @@ Growth.” *Canadian Journal of Fisheries and Aquatic Sciences* 77 (11):
 
 Quinn, Terrance J., and Richard B. Deriso. 1999. *Quantitative Fish
 Dynamics*. Oxford University Press.
+
