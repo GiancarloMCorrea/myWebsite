@@ -18,9 +18,9 @@ title: Age composition estimation
 
 This is a tutorial to estimate age compositions from fishery-independent
 sources (e.g. survey) using classic age-length keys and continuation
-ratio logits (Berg and Kristensen (2012)). These two methods were
-evaluated in a simulation experiment previously (Correa et al. (2020)).
-I use these libraries:
+ratio logits (Berg and Kristensen 2012). These two methods were
+evaluated in a simulation experiment previously (Correa et al. 2020). I
+use these libraries:
 
 ``` r
 library(ggplot2)
@@ -31,7 +31,7 @@ library(mapdata)
 ```
 
 Data structure
-==============
+--------------
 
 I use simulated data based on the bottom-trawl survey design in the
 eastern Bering Sea. The data have this structure:
@@ -169,12 +169,11 @@ head(len_data)
     ## # ... with 2 more variables: PROP_SAMPLED <dbl>, NUMBER_AT_LEN <dbl>
 
 Using age-length key (ALK)
-==========================
+--------------------------
 
 We use the functions in the R package `FSA`.
 
-ALK calculation
----------------
+### ALK calculation
 
 We construct the ALK using the information in the age subsample data.
 First, calculate the frequency by length and age.
@@ -219,8 +218,7 @@ alkPlot(key = ALK_year, type = "barplot")
 
 ![](index_files/figure-markdown_github/unnamed-chunk-10-1.png)
 
-Age composition estimation
---------------------------
+### Age composition estimation
 
 First, we calculate the numbers-at-length from all stations:
 
@@ -286,12 +284,11 @@ Final thoughts:
     information for size bins not present in the age subsample.
 
 Using continuation ratio logits
-===============================
+-------------------------------
 
 To be added
 
-References
-----------
+### References
 
 Berg, Casper W., and Kasper Kristensen. 2012. “Spatial Age-Length Key
 Modelling Using Continuation Ratio Logits.” *Fisheries Research*
