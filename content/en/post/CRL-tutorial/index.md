@@ -6,7 +6,7 @@ date: "2019-02-05T00:00:00Z"
 draft: false
 featured: false
 image:
-  caption: ""
+  caption: 'Age-length key describes the probability of being a certain age given size.'
   focal_point: ""
 lastMod: "2019-09-05T00:00:00Z"
 projects: []
