@@ -25,12 +25,12 @@ experience:
   - title: Postdoctoral Fellow
     company: University of Washington
     company_url: 'https://fish.uw.edu/'
-    location: Seattle, USA
+    location: Seattle, WA, USA
     date_start: '2022-04-01'
     date_end: ''
     description: Research in fish stock assessment models (Woods Hole Assessment Model - WHAM).
 
-  - title: Scientific Member
+  - title: Researcher
     company: Cousteau Consultant Group
     company_url: 'https://cousteau-group.com/'
     location: Lima, Perú
@@ -41,7 +41,7 @@ experience:
   - title: Graduate Research Assistant
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'
-    location: Oregon, USA
+    location: Corvallis, OR, USA
     date_start: '2018-09-15'
     date_end: '2022-03-15'
     description: Research, population dynamic and ecology of the Pacific cod in the eastern Bering Sea.
@@ -49,7 +49,7 @@ experience:
   - title: Graduate Teaching Assistant
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'
-    location: Oregon, USA
+    location: Corvallis, OR, USA
     date_start: '2020-03-25'
     date_end: '2020-06-15'
     description: Statistical modelling applied to fisheries and marine ecology

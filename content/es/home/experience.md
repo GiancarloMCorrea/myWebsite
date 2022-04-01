@@ -25,7 +25,7 @@ experience:
   - title: Investigador Postdoctoral
     company: University of Washington
     company_url: 'https://fish.uw.edu/'
-    location: Seattle, USA
+    location: Seattle, WA, USA
     date_start: '2022-04-01'
     date_end: ''
     description: Investigación en modelos de evaluación de stock de peces (Woods Hole Assessment Model-WHAM)
@@ -41,7 +41,7 @@ experience:
   - title: Asistente de investigación de posgrado
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'
-    location: Oregon, USA
+    location: Corvallis, OR, USA
     date_start: '2018-09-15'
     date_end: '2018-03-15'
     description: Investigación aplicada al bacalao del Pacífico en la zona este del mar de Bering.
@@ -49,7 +49,7 @@ experience:
   - title: Asistente de enseñanza de posgrado
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'
-    location: Oregon, USA
+    location: Corvallis, OR, USA
     date_start: '2020-03-25'
     date_end: '2020-06-15'
     description: Curso de análisis de datos provenientes de pesquerías y muestreos en el ámbito marino.
