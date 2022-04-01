@@ -2,7 +2,7 @@
 bio: Fisheries scientist. 
 education:
   courses:
-  - course: Ph.D. in Ocean Ecology and Biogeochemistry
+  - course: Ph.D. in Ocean Ecology and Biogeochemistry. Statistics.
     institution: Oregon State University
     year: 2018-2022
   - course: M.S. (c) in Applied Mathematics

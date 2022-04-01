@@ -22,14 +22,14 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
-  - title: Asistente de investigación de posgrado
-    company: Oregon State University
-    company_url: 'https://oregonstate.edu/'
-    location: Oregon, USA
-    date_start: '2018-09-15'
+  - title: Investigador Postdoctoral
+    company: University of Washington
+    company_url: 'https://fish.uw.edu/'
+    location: Seattle, USA
+    date_start: '2022-04-01'
     date_end: ''
-    description: Investigación aplicada al bacalao del Pacífico en la zona este del mar de Bering.
-        
+    description: Investigación en modelos de evaluación de stock de peces (Woods Hole Assessment Model-WHAM)
+
   - title: Miembro científico
     company: Cousteau Consultant Group
     company_url: 'https://cousteau-group.com/'
@@ -37,7 +37,15 @@ experience:
     date_start: '2020-09-01'
     date_end: ''
     description: Investigación en ecología y pesquerías. Instructor de cursos en ecología, estadística y pesquerías.
-        
+ 
+  - title: Asistente de investigación de posgrado
+    company: Oregon State University
+    company_url: 'https://oregonstate.edu/'
+    location: Oregon, USA
+    date_start: '2018-09-15'
+    date_end: '2018-03-15'
+    description: Investigación aplicada al bacalao del Pacífico en la zona este del mar de Bering.
+               
   - title: Asistente de enseñanza de posgrado
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'

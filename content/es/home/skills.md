@@ -21,10 +21,6 @@ feature:
   icon_pack: fab
   name: R
 - description: 80%
-  icon: chart-line
-  icon_pack: fas
-  name: Estadística
-- description: 80%
   icon: fish
   icon_pack: fas
   name: Stock Synthesis
@@ -32,14 +28,10 @@ feature:
   icon: file-code
   icon_pack: fas
   name: LaTeX
-- description: 60%
+- description: 80%
   icon: markdown
   icon_pack: fab
   name: Rmarkdown
-- description: 30%
-  icon: water
-  icon_pack: fas
-  name: Modelos basados en individuos
 
 # Uncomment to use emoji icons.
 #- icon = ":smile:"

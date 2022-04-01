@@ -22,14 +22,14 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
-  - title: Graduate Research Assistant
-    company: Oregon State University
-    company_url: 'https://oregonstate.edu/'
-    location: Oregon, USA
-    date_start: '2018-09-15'
+  - title: Postdoctoral Fellow
+    company: University of Washington
+    company_url: 'https://fish.uw.edu/'
+    location: Seattle, USA
+    date_start: '2022-04-01'
     date_end: ''
-    description: Research, population dynamic and ecology of the Pacific cod in the eastern Bering Sea.
-        
+    description: Research in fish stock assessment models (Woods Hole Assessment Model - WHAM).
+
   - title: Scientific Member
     company: Cousteau Consultant Group
     company_url: 'https://cousteau-group.com/'
@@ -37,7 +37,15 @@ experience:
     date_start: '2020-09-01'
     date_end: ''
     description: Research in fisheries and marine ecology. Instructor in ecology and statistics courses.
-        
+
+  - title: Graduate Research Assistant
+    company: Oregon State University
+    company_url: 'https://oregonstate.edu/'
+    location: Oregon, USA
+    date_start: '2018-09-15'
+    date_end: '2022-03-15'
+    description: Research, population dynamic and ecology of the Pacific cod in the eastern Bering Sea.
+                
   - title: Graduate Teaching Assistant
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'
