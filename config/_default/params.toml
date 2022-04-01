@@ -100,7 +100,7 @@ address = {street = "1122 NE Boat St", city = "Seattle", region = "WA", postcode
 coordinates = {latitude = "47.652799", longitude = "-122.316613"}
 
 # Directions for visitors to locate you.
-directions = "School of Aquatic and Fisheries Sciences"
+directions = "School of Aquatic and Fisheries Sciences - UW"
 
 # Office hours
 # A list of your office hours. To remove, set to an empty list `[]`.
