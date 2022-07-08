@@ -226,7 +226,6 @@ Prepare the data object for WHAM. Here is the detailed code (in the future this 
 wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -296,8 +295,8 @@ my_input = prepare_wham_input(model_name="whamGrowth0",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c('none', 'none', 'none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = 'multinomial',
@@ -405,7 +404,6 @@ Prepare the data object for WHAM:
 wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -475,8 +473,8 @@ my_input = prepare_wham_input(model_name="whamGrowth1",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c('none', 'none', 'none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = 'multinomial',
@@ -555,8 +553,8 @@ my_input = prepare_wham_input(model_name="whamGrowth2",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 0.835), # K, Linf, t0
+                                            re = c('none', 'none', 'none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1), # K, Linf, L1, CV1, CVA
                                             est_pars = c(1,2)), # Estimate K, Linf
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -646,7 +644,6 @@ Prepare the data object for WHAM:
 wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1)
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -749,8 +746,8 @@ my_input = prepare_wham_input(model_name="whamGrowth3",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 0.835),# K, Linf, t0
+                                            re = c('none', 'none', 'none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1), # K, Linf, L1, CV1, CVA
                                             est_pars = c(1)),  # estimate K
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -838,7 +835,6 @@ Prepare the data object for WHAM:
 wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1)
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -908,8 +904,8 @@ my_input = prepare_wham_input(model_name="whamGrowth4",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c('none', 'none', 'none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = 'multinomial',
@@ -1172,7 +1168,6 @@ Prepare the data object for WHAM. Here is the detailed code (in the future this 
 wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -1242,8 +1237,8 @@ my_input = prepare_wham_input(model_name="whamGrowth0",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c('none', 'none', 'none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = 'multinomial',
@@ -1334,7 +1329,6 @@ Prepare the data object for WHAM:
 wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -1404,8 +1398,8 @@ my_input = prepare_wham_input(model_name="whamGrowth1",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c('none', 'none', 'none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = 'multinomial',
@@ -1493,7 +1487,6 @@ Prepare the data object for WHAM:
 wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -1563,8 +1556,8 @@ my_input = prepare_wham_input(model_name="whamGrowth1",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('iid_y', 'none', 'none'), # iid_y
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c('iid_y', 'none', 'none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = 'multinomial',

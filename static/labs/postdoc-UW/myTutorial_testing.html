@@ -1816,7 +1816,6 @@ beforehand:</p>
 <pre class="r"><code>wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -1883,8 +1882,8 @@ and catchability parameters are the same as in the OM:</p>
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = &#39;vB_classic&#39;,
-                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = &#39;none&#39;, initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = &#39;multinomial&#39;,
@@ -1976,7 +1975,6 @@ n_years = length(min_year:max_year)</code></pre>
 <pre class="r"><code>wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -2043,8 +2041,8 @@ and catchability parameters are the same as in the OM:</p>
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = &#39;vB_classic&#39;,
-                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = &#39;none&#39;, initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = &#39;multinomial&#39;,
@@ -2111,8 +2109,8 @@ parameters:</p>
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = &#39;vB_classic&#39;,
-                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
-                                            init_vals = c(0.16, 117.9, 0.835), # K, Linf, t0
+                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1), # K, Linf, L1, CV1, CVA
                                             est_pars = c(1,2)), # Estimate K, Linf
                               catchability = list(re = &#39;none&#39;, initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -2184,7 +2182,6 @@ n_years = length(min_year:max_year)</code></pre>
 <pre class="r"><code>wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1)
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -2284,8 +2281,8 @@ and catchability parameters are the same as in the OM:</p>
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = &#39;vB_classic&#39;,
-                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
-                                            init_vals = c(0.16, 117.9, 0.835),# K, Linf, t0
+                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1), # K, Linf, L1, CV1, CVA
                                             est_pars = c(1)),  # estimate K
                               catchability = list(re = &#39;none&#39;, initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -2353,7 +2350,6 @@ n_years = length(min_year:max_year)</code></pre>
 <pre class="r"><code>wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1)
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -2421,8 +2417,8 @@ for both fleets:</p>
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = &#39;vB_classic&#39;,
-                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = &#39;none&#39;, initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = &#39;multinomial&#39;,
@@ -2630,7 +2626,6 @@ beforehand:</p>
 <pre class="r"><code>wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -2697,8 +2692,8 @@ and catchability parameters are the same as in the OM:</p>
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = &#39;vB_classic&#39;,
-                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = &#39;none&#39;, initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = &#39;multinomial&#39;,
@@ -2769,7 +2764,6 @@ n_years = length(min_year:max_year)</code></pre>
 <pre class="r"><code>wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -2836,8 +2830,8 @@ and catchability parameters are the same as in the OM:</p>
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = &#39;vB_classic&#39;,
-                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c(&#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = &#39;none&#39;, initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = &#39;multinomial&#39;,
@@ -2902,7 +2896,6 @@ n_years = length(min_year:max_year)</code></pre>
 <pre class="r"><code>wham_data = list()
 wham_data$ages = 1:n_ages
 wham_data$lengths = fish_len
-wham_data$CV_len = c(0.1, 0.1) # age 1 and oldest
 wham_data$years = min_year:max_year
 
 wham_data$n_fleets = 1L
@@ -2969,8 +2962,8 @@ and catchability parameters are the same as in the OM:</p>
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = &#39;vB_classic&#39;,
-                                            re = c(&#39;iid_y&#39;, &#39;none&#39;, &#39;none&#39;), # iid_y
-                                            init_vals = c(0.16, 117.9, 0.835)), # K, Linf, t0
+                                            re = c(&#39;iid_y&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;, &#39;none&#39;), 
+                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)), # K, Linf, L1, CV1, CVA
                               catchability = list(re = &#39;none&#39;, initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               age_comp = &#39;multinomial&#39;,
