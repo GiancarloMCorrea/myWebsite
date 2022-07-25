@@ -19,8 +19,8 @@ title: Woods Hole Assessment Model
 In this tutorial, I present the extended features that my colleagues,
 Cole Monnahan and Jane Sullivan, and I have incorporated into the Woods
 Hole Assessment Model (WHAM). The base features of this model has been
-developed by Tim Miller and colleagues and are reported in (Stock and
-Miller 2021) and references therein. Also, several vignettes can be
+developed by Tim Miller and colleagues and are reported in Stock and
+Miller (2021) and references therein. Also, several vignettes can be
 found in the [WHAM
 website](https://timjmiller.github.io/wham/index.html) explaining how to
 run a model in WHAM. Before continuing exploring this tutorial, I highly
@@ -51,5 +51,6 @@ Model (WHAM): A General State-Space Assessment Framework That
 Incorporates Time- and Age-Varying Processes via Random Effects and
 Links to Environmental Covariates.” *Fisheries Research* 240 (August):
 105967. <https://doi.org/10.1016/j.fishres.2021.105967>.
+
 
 
