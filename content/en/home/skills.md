@@ -31,7 +31,7 @@ feature:
 - description: 70%
   icon: display-code
   icon_pack: fab
-  name: TMB
+  name: Template
 - description: 80%
   icon: markdown
   icon_pack: fab
