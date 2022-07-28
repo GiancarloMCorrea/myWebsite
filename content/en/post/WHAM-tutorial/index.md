@@ -220,7 +220,53 @@ The arguments are:
     -   `2dar1`: RE correlated by age and year
 -   `LAA$LAA_est`: Which LAA to estimate.
 
-**Under development**
+# Analysis of results
+
+The function `plot_wham_output` produces plots to summary the data
+inputs, outputs, parameters, and others. This function was also expanded
+in this new WHAM version.
+
+## Input data
+
+We can get a plot of the observed length compositions:
+
+![](index_files/figure-markdown_github/catch_len_comp_fleet_1.png)
+
+Or the input CAAL:
+
+![](index_files/figure-markdown_github/CAAL_index_1_Year_26.png)
+
+## Diagnostics
+
+We can compare the observed vs predicted length compositions:
+
+![](index_files/figure-markdown_github/Catch_len_comp_fleet_1_fit.png)
+
+or bubble plots of CAAL residuals:
+
+![](index_files/figure-markdown_github/Index_CAAL_resids_index_1_Year_26.png)
+
+## Parameters
+
+Some plots summarizing the variability in some parameters and biological
+aspects are also available. For example, the variability of mean
+length-at-age (when `growth$model = 2`):
+
+![](index_files/figure-markdown_github/LAA_tile.png)
+
+Or the variability of lengths-at-age (represented by the age-length
+transition matrix):
+
+![](index_files/figure-markdown_github/phi_mat_tile.png)
+
+I suggest the user explores all the plots and tables produced by this
+function.
+
+# Examples
+
+You can find several examples about how to use these new WHAM features
+[here](https://giancarlomcorrea.netlify.app/labs/postdoc-uw/mytutorial_testing).
+I will produce more examples in the future.
 
 ### References
 
