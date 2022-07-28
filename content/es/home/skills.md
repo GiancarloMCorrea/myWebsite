@@ -28,18 +28,18 @@ feature:
   icon: file-code
   icon_pack: fas
   name: LaTeX
-- description: 80%
-  icon: markdown
-  icon_pack: fab
-  name: Rmarkdown
 - description: 70%
   icon: display-code
   icon_pack: fab
   name: TMB
+- description: 80%
+  icon: markdown
+  icon_pack: fab
+  name: Rmarkdown
 - description: 100%
   icon: github
   icon_pack: fab
-  name: Manejo de código
+  name: Code management
   
 # Uncomment to use emoji icons.
 #- icon = ":smile:"
