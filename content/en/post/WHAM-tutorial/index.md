@@ -268,6 +268,9 @@ You can find several examples about how to use these new WHAM features
 [here](https://giancarlomcorrea.netlify.app/labs/postdoc-uw/mytutorial_testing).
 I will produce more examples in the future.
 
+**This tutorial is under development and some features could be changed
+in future versions**
+
 ### References
 
 Privitera-Johnson, Kristin M., Richard D. Methot, and André E. Punt.
