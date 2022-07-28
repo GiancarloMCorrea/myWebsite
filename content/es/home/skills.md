@@ -34,7 +34,7 @@ feature:
   name: Rmarkdown
 - description: 70%
   icon: code-simple
-  icon_pack: fab
+  icon_pack: fas
   name: TMB
 - description: 100%
   icon: github
