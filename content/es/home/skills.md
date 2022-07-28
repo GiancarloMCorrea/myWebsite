@@ -29,9 +29,9 @@ feature:
   icon_pack: fas
   name: LaTeX
 - description: 70%
-  icon: display-code
-  icon_pack: fab
-  name: Template
+  icon: laptop-code
+  icon_pack: fas
+  name: TMB
 - description: 80%
   icon: markdown
   icon_pack: fab
