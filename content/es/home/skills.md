@@ -32,7 +32,15 @@ feature:
   icon: markdown
   icon_pack: fab
   name: Rmarkdown
-
+- description: 70%
+  icon: code
+  icon_pack: fab
+  name: TMB
+- description: 100%
+  icon: github
+  icon_pack: fab
+  name: Manejo de código
+  
 # Uncomment to use emoji icons.
 #- icon = ":smile:"
 #  icon_pack = "emoji"

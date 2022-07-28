@@ -2,13 +2,13 @@
 authors:
 - admin
 categories: []
-date: "2019-02-05T00:00:00Z"
+date: "2022-02-05T00:00:00Z"
 draft: false
 featured: false
 image:
   caption: 'Age-length key describes the probability of being a certain age given size.'
   focal_point: ""
-lastMod: "2019-09-05T00:00:00Z"
+lastMod: "2022-02-05T00:00:00Z"
 projects: []
 subtitle: Age-length keys and Continuation Ratio Logits
 summary: Age-length keys and Continuation Ratio Logits
