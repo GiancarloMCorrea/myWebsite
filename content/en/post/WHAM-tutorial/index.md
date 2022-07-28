@@ -69,34 +69,31 @@ The new inputs are:
 
 -   `$lengths`: fish length bins
 -   `$catch_pal`: Length compositions for fisheries. Array (number of
-    fisheries $/times $ number of years $/times $ number of length
-    bins).
+    fisheries $$ number of years $$ number of length bins).
 -   `$catch_NeffL`: Input sample size for length compositions
-    (fisheries). Matrix (number of years $/times $ number of fisheries).
+    (fisheries). Matrix (number of years $$ number of fisheries).
 -   `$use_catch_pal`: Use (1) or not use (0) length compositions
-    (fisheries). Matrix (number of years $/times $ number of fisheries).
+    (fisheries). Matrix (number of years $$ number of fisheries).
 -   `$catch_caal`: Conditional length-at-age (CAAL) for fisheries. Array
-    (number of fisheries $/times $ number of years $/times $ number of
-    length bins $/times $ number of ages).
+    (number of fisheries $$ number of years $$ number of length bins $$
+    number of ages).
 -   `$catch_caal_Neff`: Input sample size for CAAL (fisheries). Matrix
-    (number of years $/times $ number of fisheries $/times $ number of
-    length bins).
+    (number of years $$ number of fisheries $$ number of length bins).
 -   `$use_catch_caal`: Use (1) or not use (0) CAAL (fisheries). Matrix
-    (number of years $/times $ number of fisheries).
+    (number of years $$ number of fisheries).
 -   `$index_pal`: Length compositions for indices. Array (number of
-    indices $/times $ number of years $/times $ number of length bins).
+    indices $$ number of years $$ number of length bins).
 -   `$index_NeffL`: Input sample size for length compositions (indices).
-    Matrix (number of years $/times $ number of indices).
+    Matrix (number of years $$ number of indices).
 -   `$use_index_pal`: Use (1) or not use (0) length compositions
-    (indices). Matrix (number of years $/times $ number of indices).
+    (indices). Matrix (number of years $$ number of indices).
 -   `$index_caal`: Conditional length-at-age (CAAL) for indices. Array
-    (number of indices $/times $ number of years $/times $ number of
-    length bins $/times $ number of ages).
+    (number of indices $$ number of years $$ number of length bins $$
+    number of ages).
 -   `$index_caal_Neff`: Input sample size for CAAL (indices). Matrix
-    (number of years $/times $ number of indices $/times $ number of
-    length bins).
+    (number of years $$ number of indices $$ number of length bins).
 -   `$use_index_caal`: Use (1) or not use (0) CAAL (indices). Matrix
-    (number of years $/times $ number of indices).
+    (number of years $$ number of indices).
 
 These data inputs are not mandatory (i.e. if length compositions for
 indices are not available, `$index_pal`, `$index_NeffL`, and
@@ -165,6 +162,64 @@ relationship. The arguments are:
 
 ## Somatic growth
 
+There are two main ways to model mean length-at-age: using the von
+Bertalanffy growth function or inputing a mean length-at-age.
+
+### von Bertalanffy growth function
+
+As parametrized by Schnute (1981). There are five parameters:
+
+-   *k*: growth rate
+-   *L*<sub>∞</sub>: Asymptotic length
+-   *L*<sub>1</sub>: length at age 1
+-   *C**V*<sub>1</sub>: coefficient of variation of lengths at age 1
+-   *C**V*<sub>*A*</sub>: coefficient of variation of lengths at age A
+    (age plus group)
+
+``` r
+prepare_wham_input(...,
+                   growth = list(model = 1, re, init_vals, est_pars),
+                   ...)
+```
+
+The arguments are:
+
+-   `growth$re`: random effects (RE) on growth parameters (5). Five
+    options are available:
+    -   `none`: no RE
+    -   `iid_y`: RE vary by year (uncorrelated)
+    -   `iid_c`: RE vary by cohort (uncorrelated)
+    -   `ar1_y`: RE correlated by year
+    -   `ar1_c`: RE correlated by cohort
+-   `growth$init_vals`: growth parameters initial values (5).
+-   `growth$est_pars`: Which growth parameter to estimate.
+
+### Input mean length-at-age (LAA)
+
+The number of parameters is equal to the number of ages. Also, the
+*C**V*<sub>1</sub> and *C**V*<sub>*A*</sub> should be specified in
+`growth`.
+
+``` r
+prepare_wham_input(...,
+                   growth = list(model = 2, re, init_vals, est_pars),
+                   LAA = list(LAA_vals, re, LAA_est),
+                   ...)
+```
+
+The arguments are:
+
+-   `LAA$LAA_vals`: LAA initial values (length equal to the number of
+    ages).
+-   `LAA$re`: random effects (RE) on LAA (1). Five options are
+    available:
+    -   `none`: no RE
+    -   `iid`: RE vary by year and age (uncorrelated)
+    -   `iid_a`: RE vary by age (uncorrelated)
+    -   `ar1_a`: RE correlated by age
+    -   `2dar1`: RE correlated by age and year
+-   `LAA$LAA_est`: Which LAA to estimate.
+
 **Under development**
 
 ### References
@@ -173,6 +228,10 @@ Privitera-Johnson, Kristin M., Richard D. Methot, and André E. Punt.
 2022. “Towards Best Practice for Specifying Selectivity in
 Age-Structured Integrated Stock Assessments.” *Fisheries Research* 249:
 106247. https://doi.org/<https://doi.org/10.1016/j.fishres.2022.106247>.
+
+Schnute, Jon. 1981. “A Versatile Growth Model with Statistically Stable
+Parameters.” *Canadian Journal of Fisheries and Aquatic Sciences* 38
+(9): 1128–40. <https://doi.org/10.1139/f81-153>.
 
 Stock, Brian C., and Timothy J. Miller. 2021. “The Woods Hole Assessment
 Model (WHAM): A General State-Space Assessment Framework That
