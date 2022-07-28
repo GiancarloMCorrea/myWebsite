@@ -276,7 +276,7 @@ in future versions**
 Privitera-Johnson, Kristin M., Richard D. Methot, and André E. Punt.
 2022. “Towards Best Practice for Specifying Selectivity in
 Age-Structured Integrated Stock Assessments.” *Fisheries Research* 249:
-106247. https://doi.org/<https://doi.org/10.1016/j.fishres.2022.106247>.
+106247. <https://doi.org/10.1016/j.fishres.2022.106247>.
 
 Schnute, Jon. 1981. “A Versatile Growth Model with Statistically Stable
 Parameters.” *Canadian Journal of Fisheries and Aquatic Sciences* 38
