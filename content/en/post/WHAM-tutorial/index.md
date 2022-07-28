@@ -170,7 +170,7 @@ Bertalanffy growth function or inputing a mean length-at-age.
 As parametrized by Schnute (1981). There are five parameters:
 
 -   *k*: growth rate
--   *L*<sub>∞</sub>: Asymptotic length
+-   *L*<sub>*i**n**f*</sub>: Asymptotic length
 -   *L*<sub>1</sub>: length at age 1
 -   *C**V*<sub>1</sub>: coefficient of variation of lengths at age 1
 -   *C**V*<sub>*A*</sub>: coefficient of variation of lengths at age A
