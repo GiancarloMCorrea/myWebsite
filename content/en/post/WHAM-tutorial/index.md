@@ -172,8 +172,8 @@ As parametrized by Schnute (1981). There are five parameters:
 -   *k*: growth rate
 -   *L*<sub>*i**n**f*</sub>: Asymptotic length
 -   *L*<sub>1</sub>: length at age 1
--   *C**V*<sub>1</sub>: coefficient of variation of lengths at age 1
--   *C**V*<sub>*A*</sub>: coefficient of variation of lengths at age A
+-   *CV*<sub>1</sub>: coefficient of variation of lengths at age 1
+-   *CV*<sub>*A*</sub>: coefficient of variation of lengths at age A
     (age plus group)
 
 ``` r
@@ -197,7 +197,7 @@ The arguments are:
 ### Input mean length-at-age (LAA)
 
 The number of parameters is equal to the number of ages. Also, the
-*C**V*<sub>1</sub> and *C**V*<sub>*A*</sub> should be specified in
+*CV*<sub>1</sub> and *CV*<sub>*A*</sub> should be specified in
 `growth`.
 
 ``` r
