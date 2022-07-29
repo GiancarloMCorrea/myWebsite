@@ -152,11 +152,15 @@ relationship. The arguments are:
 
 -   `LW$re`: random effects (RE) on LW parameters (2). Five options are
     available:
-    -   `none`: no RE
-    -   `iid_y`: RE vary by year (uncorrelated)
-    -   `iid_c`: RE vary by cohort (uncorrelated)
-    -   `ar1_y`: RE correlated by year
-    -   `ar1_c`: RE correlated by cohort
+
+| `LW$re` |         Random effects          |  Estimated parameters  |
+|---------|:-------------------------------:|:----------------------:|
+| `none`  |        constant in time         |                        |
+| `iid_y` |  varies by year (uncorrelated)  |   *σ*<sub>*W*</sub>    |
+| `iid_c` | varies by cohort (uncorrelated) |   *σ*<sub>*W*</sub>    |
+| `ar1_y` |    correlated by year (AR1)     | *σ*<sub>*W*</sub>, *ρ* |
+| `ar1_c` |   correlated by cohort (AR1)    | *σ*<sub>*W*</sub>, *ρ* |
+
 -   `LW$init_vals`: LW parameters initial values (2).
 -   `LW$est_pars`: Which LW parameter to estimate.
 
@@ -186,11 +190,15 @@ The arguments are:
 
 -   `growth$re`: random effects (RE) on growth parameters (5). Five
     options are available:
-    -   `none`: no RE
-    -   `iid_y`: RE vary by year (uncorrelated)
-    -   `iid_c`: RE vary by cohort (uncorrelated)
-    -   `ar1_y`: RE correlated by year
-    -   `ar1_c`: RE correlated by cohort
+
+| `growth$re` |         Random effects          |  Estimated parameters  |
+|-------------|:-------------------------------:|:----------------------:|
+| `none`      |        constant in time         |                        |
+| `iid_y`     |  varies by year (uncorrelated)  |   *σ*<sub>*G*</sub>    |
+| `iid_c`     | varies by cohort (uncorrelated) |   *σ*<sub>*G*</sub>    |
+| `ar1_y`     |    correlated by year (AR1)     | *σ*<sub>*G*</sub>, *ρ* |
+| `ar1_c`     |   correlated by cohort (AR1)    | *σ*<sub>*G*</sub>, *ρ* |
+
 -   `growth$init_vals`: growth parameters initial values (5).
 -   `growth$est_pars`: Which growth parameter to estimate.
 
@@ -213,18 +221,13 @@ The arguments are:
     ages).
 -   `LAA$re`: random effects (RE) on LAA (1). Five options are
     available:
-    -   `none`: no RE
-    -   `iid`: RE vary by year and age (uncorrelated)
-    -   `iid_a`: RE vary by age (uncorrelated)
-    -   `ar1_a`: RE correlated by age
-    -   `2dar1`: RE correlated by age and year
 
-| `LAA$re` |            Random effects             |                                    Estimated parameters |
-|----------------------------|:------------------------------:|-------------:|
+| `LAA$re` |            Random effects             |                  Estimated parameters                   |
+|----------------------|:-----------------------:|:-----------------------:|
 | `none`   |       constant in time and ages       |                                                         |
-| `iid`    | varies by year and age (uncorrelated) |                                       *σ*<sub>*L*</sub> |
-| `iid_a`  |     varies by age (uncorrelated)      |                                       *σ*<sub>*L*</sub> |
-| `ar1_a`  |        correlated by age (AR1)        |                    *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub> |
+| `iid`    | varies by year and age (uncorrelated) |                    *σ*<sub>*L*</sub>                    |
+| `iid_a`  |     varies by age (uncorrelated)      |                    *σ*<sub>*L*</sub>                    |
+| `ar1_a`  |        correlated by age (AR1)        |          *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>           |
 | `2dar1`  |  correlated by age and year (2D AR1)  | *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub> |
 
 -   `LAA$LAA_est`: Which LAA to estimate.
@@ -296,3 +299,4 @@ Model (WHAM): A General State-Space Assessment Framework That
 Incorporates Time- and Age-Varying Processes via Random Effects and
 Links to Environmental Covariates.” *Fisheries Research* 240 (August):
 105967. <https://doi.org/10.1016/j.fishres.2021.105967>.
+
