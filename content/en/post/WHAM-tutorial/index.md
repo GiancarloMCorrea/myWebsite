@@ -219,11 +219,13 @@ The arguments are:
     -   `ar1_a`: RE correlated by age
     -   `2dar1`: RE correlated by age and year
 
-| Tables        |      Are      |  Cool |
-|---------------|:-------------:|------:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      |   centered    |   $12 |
-| zebra stripes |   are neat    |    $1 |
+| `LAA$re` |            Random effects             |                                    Estimated parameters |
+|----------------------------|:------------------------------:|-------------:|
+| `none`   |       constant in time and ages       |                                                         |
+| `iid`    | varies by year and age (uncorrelated) |                                       *σ*<sub>*L*</sub> |
+| `iid_a`  |     varies by age (uncorrelated)      |                                       *σ*<sub>*L*</sub> |
+| `ar1_a`  |        correlated by age (AR1)        |                    *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub> |
+| `2dar1`  |  correlated by age and year (2D AR1)  | *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub> |
 
 -   `LAA$LAA_est`: Which LAA to estimate.
 
