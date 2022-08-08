@@ -1,13 +1,11 @@
 ---
-title: 'Lab 01'
+title: 'AlwaysR, Módulo III: Estadística en R.'
+subtitle: 'Lab 01'
 author: "Giancarlo M. Correa"
 output:
-  html_document:
-    theme: flatly
-    toc: TRUE
-    toc_float: TRUE
-    toc_depth: 2
-    number_sections: TRUE
+  prettydoc::html_pretty:
+    theme: tactile
+    highlight: github
 ---
 
 ```{r setup, include=FALSE}
@@ -18,7 +16,7 @@ En esta sección se resume los conceptos más importantes vistos en la parte pr�
 
 Cargamos librerías a utilizar
 
-```{r}
+```{r warnings = 'hide', message=FALSE}
 library(ggplot2)
 library(lattice)
 library(car)
@@ -26,7 +24,7 @@ library(summarytools)
 library(moments)
 ```
 
-## Estadísticos descriptivos
+# Estadísticos descriptivos
 
 Bases de datos a utilizar:
 
@@ -58,7 +56,7 @@ Calcular la asimetría de la distribución de una variable:
 skewness(x = iris$Petal.Width)
 ```
 
-Valores cercanos a cero significa una distribución asimétrica. Valores positivos significa que la distribución es asimétrica y tirada hacia la izquierda. Valores negativos significa que la distribución es asimétrica y tirada hacia la derecha.
+Valores cercanos a cero significa una distribución simétrica. Valores positivos significa que la distribución es asimétrica y tirada hacia la izquierda. Valores negativos significa que la distribución es asimétrica y tirada hacia la derecha.
 
 Calcular kurtosis de una variable, que nos indica que tan plano es el tope de una distribución:
 
@@ -90,7 +88,7 @@ rep(65, each = 42), rep(67, each = 12), rep(70, each = 10))
 hist(x)
 ```
 
-## Tablas de contingencia
+# Tablas de contingencia
 
 Tabla de contingencia:
 
@@ -154,7 +152,7 @@ ctable(
 ```
 
 
-## Gráficos
+# Gráficos
 
 Usaremos la librería `ggplot` para hacer los gráficos a lo largo del curso.
 

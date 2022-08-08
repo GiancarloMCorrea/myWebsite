@@ -3,7 +3,8 @@
   <head>
     <title>AlwaysR, Módulo III: Estadística en R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Giancarlo M. Correa" />
+    <meta name="author" content="Dr. Giancarlo M. Correa" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
@@ -99,7 +100,7 @@ También puede ser encontrado en el Google Drive.
 
 --
 
-* ***Horas de oficina***: Miércoles 11 de agosto a las 18:00 horas (GMT-5)
+* ***Horas de oficina***: Miércoles 17 de agosto a las 17:30 horas (GMT-5)
 
 --
 
@@ -190,6 +191,10 @@ mean(x = altura)
 
 Unidades: `\(m\)`
 
+--
+
+Algo **muy** imporante es ver la ayuda de una función cuando no sepamos como utilizarla, por ejemplo: `?mean` 
+
 ---
 
 # Mediana
@@ -242,6 +247,15 @@ getmode(x = raices)
 ## [1] 2
 ```
 
+--
+
+O utilizar:
+
+
+```r
+DescTools::Mode(x = altura)
+```
+
 ---
 
 # Varianza
@@ -289,6 +303,10 @@ sd(x = altura)
 ```
 
 Unidades: `\(m\)`.
+
+--
+
+Recordemos que `sd(x = altura)^2` es igual a `var(x = altura)`.
 
 ---
 
@@ -380,7 +398,7 @@ Unidades: `\(m\)`.
 
 --
 
-En *R* podemos usar (cuartiles y percentiles):
+En *R* podemos usar (para cuartiles y percentiles) (Unidades: `\(m\)`):
 
 
 ```r
@@ -407,8 +425,6 @@ quantile(x = altura, probs = 0.6)
 ```
 
 Aquí, `probs = 0.6` especifica el percentil 60.
-
-Unidades: `\(m\)`.
 
 ---
 
@@ -473,6 +489,36 @@ mean(altura, na.rm = TRUE)
 
 ---
 
+# Resumen de un conjunto de datos
+
+Podemos obtener estadísticos descriptivos rápidamente de todas las variables de una base de datos, por ejemplo:
+
+
+```r
+summary(airquality)
+```
+
+```
+##      Ozone           Solar.R           Wind             Temp      
+##  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00  
+##  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00  
+##  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
+##  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88  
+##  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
+##  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
+##  NA's   :37       NA's   :7                                       
+##      Month            Day      
+##  Min.   :5.000   Min.   : 1.0  
+##  1st Qu.:6.000   1st Qu.: 8.0  
+##  Median :7.000   Median :16.0  
+##  Mean   :6.993   Mean   :15.8  
+##  3rd Qu.:8.000   3rd Qu.:23.0  
+##  Max.   :9.000   Max.   :31.0  
+## 
+```
+
+---
+
 # Figuras
 
 
@@ -480,7 +526,7 @@ mean(altura, na.rm = TRUE)
 boxplot(x = altura, ylab = 'Altura (m)')
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-22-1.png" width="500" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-24-1.png" width="500" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -491,7 +537,7 @@ boxplot(x = altura, ylab = 'Altura (m)')
 hist(x = altura, xlab = 'Altura (m)', ylab = 'Frecuencia', main = '')
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-23-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-25-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -503,7 +549,7 @@ hist(x = altura, xlab = 'Altura (m)', ylab = 'Frecuencia', main = '')
 abline(v = mean(altura), col = 'red', lty = 2)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-24-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-26-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -516,7 +562,7 @@ abline(v = mean(altura), col = 'red', lty = 2)
 abline(v = median(altura), col = 'blue', lty = 2)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-25-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-27-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -527,7 +573,16 @@ abline(v = median(altura), col = 'blue', lty = 2)
 plot(density(altura))
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-26-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-28-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Figuras
+
+Los histogramas y boxplots nos dan información de la dispersión de los datos:
+
+&lt;img src="images/IQR_image.jpg" width="400" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
@@ -563,7 +618,7 @@ Podemos generar 100 números aleatorios con distribución normal, con determinad
 rnorm(n = 100, mean = 20, sd = 3)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-28-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-31-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -571,7 +626,7 @@ rnorm(n = 100, mean = 20, sd = 3)
 
 Distribución normal estándar ( `\(\mu = 0\)` y `\(\sigma^2=1\)` ):
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-29-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-32-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -579,7 +634,7 @@ Distribución normal estándar ( `\(\mu = 0\)` y `\(\sigma^2=1\)` ):
 
 Probabilidad acumulada:
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-30-1.png" width="300" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-33-1.png" width="300" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -600,7 +655,7 @@ pnorm(q = -2, mean = 0, sd = 1)
 
 Probabilidad a un valor de variable dado:
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-32-1.png" width="300" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-35-1.png" width="300" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -621,7 +676,7 @@ dnorm(x = -2, mean = 0, sd = 1)
 
 Valor de variable dado una probabilidad acumulada:
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-34-1.png" width="300" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-37-1.png" width="300" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -701,7 +756,7 @@ Podemos generar 1000 números aleatorios con distribución lognormal, con determ
 rlnorm(n = 1000, mean = 2, sd = 1)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-39-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-42-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -776,7 +831,7 @@ Podemos generar 100 números aleatorios con distribución poisson, con determina
 rpois(n = 100, lambda = 10)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-44-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-47-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -853,7 +908,7 @@ Podemos generar 100 experimentos (`n=100`), cada uno con 20 intentos (`size=20`)
 rbinom(n = 100, size = 20, prob = 0.5)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-49-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-52-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 El número de veces donde el evento de interés ha sido exitoso para los 100 experimentos
 

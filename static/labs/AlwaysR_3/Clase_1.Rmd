@@ -1,6 +1,6 @@
 ---
 title: "AlwaysR, Módulo III: Estadística en R"
-author: "Giancarlo M. Correa"
+author: "Dr. Giancarlo M. Correa"
 institute: "Cousteau Consultant Group"
 date: "17/07/2021"
 output:
@@ -76,7 +76,7 @@ También puede ser encontrado en el Google Drive.
 
 --
 
-* ***Horas de oficina***: Miércoles 11 de agosto a las 18:00 horas (GMT-5)
+* ***Horas de oficina***: Miércoles 17 de agosto a las 17:30 horas (GMT-5)
 
 --
 
@@ -157,6 +157,10 @@ mean(x = altura)
 
 Unidades: $m$
 
+--
+
+Algo **muy** imporante es ver la ayuda de una función cuando no sepamos como utilizarla, por ejemplo: `?mean` 
+
 ---
 
 # Mediana
@@ -198,6 +202,14 @@ Luego la usamos:
 getmode(x = raices)
 ```
 
+--
+
+O utilizar:
+
+```{r eval = FALSE}
+DescTools::Mode(x = altura)
+```
+
 ---
 
 # Varianza
@@ -235,6 +247,10 @@ sd(x = altura)
 ```
 
 Unidades: $m$.
+
+--
+
+Recordemos que `sd(x = altura)^2` es igual a `var(x = altura)`.
 
 ---
 
@@ -306,7 +322,7 @@ Unidades: $m$.
 
 --
 
-En *R* podemos usar (cuartiles y percentiles):
+En *R* podemos usar (para cuartiles y percentiles) (Unidades: $m$):
 
 ```{r}
 quantile(x = altura, probs = 0.25)
@@ -321,8 +337,6 @@ quantile(x = altura, probs = 0.6)
 ```
 
 Aquí, `probs = 0.6` especifica el percentil 60.
-
-Unidades: $m$.
 
 ---
 
@@ -374,6 +388,16 @@ altura = altura_save
 
 ---
 
+# Resumen de un conjunto de datos
+
+Podemos obtener estadísticos descriptivos rápidamente de todas las variables de una base de datos, por ejemplo:
+
+```{r}
+summary(airquality)
+```
+
+---
+
 # Figuras
 
 ```{r, out.width=500, fig.align="center"}
@@ -414,6 +438,17 @@ abline(v = median(altura), col = 'blue', lty = 2)
 ```{r, out.width=400, fig.align="center"}
 plot(density(altura))
 ```
+
+---
+
+# Figuras
+
+Los histogramas y boxplots nos dan información de la dispersión de los datos:
+
+```{r echo = FALSE, out.width=400, fig.align="center"}
+knitr::include_graphics("images/IQR_image.jpg")
+```
+
 
 ---
 
