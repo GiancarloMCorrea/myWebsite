@@ -4,6 +4,7 @@
     <title>AlwaysR, Módulo III: Estadística en R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Giancarlo M. Correa" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
@@ -17,7 +18,7 @@ class: inverse, center, middle
 
 ## Clase 3: Modelos lineales I
 
-### Giancarlo M. Correa
+### Dr. Giancarlo M. Correa
 
 &lt;img src="LOGO05.png" width="350px"/&gt;
 
@@ -702,11 +703,117 @@ plot(mod, which = 4)
 
 ---
 
+# Regresión múltiple: interacción
+
+Tenemos el modelo:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1} +  \beta_2 X_{2}$$`
+
+En este caso `\(X_1\)` es continua y `\(X_2\)` es una categórica de dos niveles (0 y 1).
+
+--
+
+Podemos incorporar una interacción:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1} +  \beta_2 X_{2} + \beta_3 (X_{1}X_{2})$$`
+
+Dos variables interactúan si el efecto de una variable sobre la respuesta media depende de la otra variable.
+
+--
+
+`\(\beta_3 (X_{1}X_{2})\)` es llamado el término de interacción. Permite que el efecto de `\(X_1\)` sobre la media de `\(Y\)` dependa en `\(X_2=0\)` o `\(X_2=1\)`.
+
+---
+
+# Regresión múltiple: interacción
+
+Cuando `\(X_2=0\)`:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1}$$`
+
+--
+
+Cuando `\(X_2=1\)`:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1} +  \beta_2 + \beta_3 X_{1}$$`
+
+--
+
+Estos dos modelos nos darán una línea, y estas líneas tendrán diferentes interceptos y pendientes.
+
+---
+
+
+
+
+```r
+mod1 = lm(mpg ~ cyl + am + cyl * am, data = mtcars)
+summary(mod1)
+```
+
+```
+## 
+## Call:
+## lm(formula = mpg ~ cyl + am + cyl * am, data = mtcars)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.5255 -1.2820 -0.0191  1.6301  5.9745 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  30.8735     3.1882   9.684 1.95e-10 ***
+## cyl          -1.9757     0.4485  -4.405 0.000141 ***
+## am1          10.1754     4.3046   2.364 0.025258 *  
+## cyl:am1      -1.3051     0.7070  -1.846 0.075507 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.939 on 28 degrees of freedom
+## Multiple R-squared:  0.7852,	Adjusted R-squared:  0.7621 
+## F-statistic: 34.11 on 3 and 28 DF,  p-value: 1.73e-09
+```
+
+---
+
+
+```r
+plot_model(mod1, type = "int")
+```
+
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-32-1.png" width="500" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Regresión múltiple: interacción
+
+Basado en el ejemplo anterior, el modelo es:
+
+`$$E(Y\mid X_1, X_2) = \beta_0 + \beta_1 X_{1} +  \beta_2 X_{2} + \beta_3 (X_{1}X_{2})$$`
+
+--
+
+Interpretación:
+
+- `\(\beta_0\)`: es la media de `\(Y\)` cuando `\(X_1\)` y `\(X_2\)` son iguales a cero (intercepto).
+
+--
+
+- `\(\beta_1\)`: da el cambio en la media de `\(Y\)` cuando `\(X_1\)` es incrementado por una unidad y `\(X_2=0\)`.
+
+--
+
+- `\(\beta_2\)`: da el cambio en la media de `\(Y\)` cuando `\(X_2\)` cambia de 0 a 1 y `\(X_1\)` es mantenido en cero.
+
+--
+
+- `\(\beta_3\)`: da la diferencia en el cambio en la media de `\(Y\)` cuando `\(X_1\)` es incrementado en una unidad cuando `\(X_2=1\)`, comparado al cambio en la media de `\(Y\)` cuando `\(X_1\)` es incrementado en una unidad cuando `\(X_2=0\)`.
+
+---
+
 # Continuará...
 
 El día de mañana veremos:
-
-- Interacciones
 
 - Problemas con los datos
 

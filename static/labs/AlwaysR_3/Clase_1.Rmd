@@ -1,6 +1,6 @@
 ---
 title: "AlwaysR, Módulo III: Estadística en R"
-author: "Dr. Giancarlo M. Correa"
+author: "Giancarlo M. Correa"
 institute: "Cousteau Consultant Group"
 date: "17/07/2021"
 output:
@@ -19,7 +19,7 @@ class: inverse, center, middle
 
 ## Clase 1: Introducción. Estadística descriptiva. Distribuciones de probabilidad. 
 
-### Giancarlo M. Correa
+### Dr. Giancarlo M. Correa
 
 <img src="LOGO05.png" width="350px"/>
 
@@ -68,7 +68,7 @@ También puede ser encontrado en el Google Drive.
 
 --
 
-* ***Material***: Presentaciones, códigos y videos en Google Drive. También puede ser encontrado en mi [sitio web](https://giancarlomcorrea.netlify.app/es/courses/).
+* ***Material***: Presentaciones, códigos y videos en Google Drive. También puede ser encontrado en mi [sitio web](https://giancarlomcorrea.netlify.app/courses/alwaysr3/).
 
 --
 

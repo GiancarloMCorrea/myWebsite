@@ -19,7 +19,7 @@ class: inverse, center, middle
 
 ## Clase 2: Pruebas de hipótesis. ANOVA. Comparaciones múltiples.
 
-### Giancarlo M. Correa
+### Dr. Giancarlo M. Correa
 
 <img src="LOGO05.png" width="350px"/>
 

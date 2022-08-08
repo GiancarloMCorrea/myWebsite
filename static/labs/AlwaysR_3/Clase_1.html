@@ -3,7 +3,7 @@
   <head>
     <title>AlwaysR, Módulo III: Estadística en R</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Dr. Giancarlo M. Correa" />
+    <meta name="author" content="Giancarlo M. Correa" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
@@ -18,7 +18,7 @@ class: inverse, center, middle
 
 ## Clase 1: Introducción. Estadística descriptiva. Distribuciones de probabilidad. 
 
-### Giancarlo M. Correa
+### Dr. Giancarlo M. Correa
 
 &lt;img src="LOGO05.png" width="350px"/&gt;
 
@@ -92,7 +92,7 @@ También puede ser encontrado en el Google Drive.
 
 --
 
-* ***Material***: Presentaciones, códigos y videos en Google Drive. También puede ser encontrado en mi [sitio web](https://giancarlomcorrea.netlify.app/es/courses/).
+* ***Material***: Presentaciones, códigos y videos en Google Drive. También puede ser encontrado en mi [sitio web](https://giancarlomcorrea.netlify.app/courses/alwaysr3/).
 
 --
 
@@ -149,8 +149,8 @@ print(altura)
 ```
 
 ```
-##  [1]  94.40  97.70 115.59 100.71 101.29 117.15 104.61  87.35  93.13  95.54
-## [11] 112.24 103.60 104.01 101.11  94.44 117.87 104.98  80.33 107.01  95.27
+##  [1]  94.40  97.70 115.59 100.71 101.29 117.15 104.61  87.35  93.13  95.54 112.24 103.60 104.01 101.11  94.44 117.87
+## [17] 104.98  80.33 107.01  95.27
 ```
 
 --
@@ -455,8 +455,8 @@ En el caso que tengamos datos faltantes, la variable puede ser:
 
 
 ```
-##  [1]  94.40  97.70     NA 100.71 101.29 117.15     NA  87.35  93.13  95.54
-## [11] 112.24 103.60 104.01 101.11  94.44 117.87 104.98  80.33 107.01  95.27
+##  [1]  94.40  97.70     NA 100.71 101.29 117.15     NA  87.35  93.13  95.54 112.24 103.60 104.01 101.11  94.44 117.87
+## [17] 104.98  80.33 107.01  95.27
 ```
 
 --
@@ -499,22 +499,14 @@ summary(airquality)
 ```
 
 ```
-##      Ozone           Solar.R           Wind             Temp      
-##  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00  
-##  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00  
-##  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00  
-##  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88  
-##  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00  
-##  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00  
-##  NA's   :37       NA's   :7                                       
-##      Month            Day      
-##  Min.   :5.000   Min.   : 1.0  
-##  1st Qu.:6.000   1st Qu.: 8.0  
-##  Median :7.000   Median :16.0  
-##  Mean   :6.993   Mean   :15.8  
-##  3rd Qu.:8.000   3rd Qu.:23.0  
-##  Max.   :9.000   Max.   :31.0  
-## 
+##      Ozone           Solar.R           Wind             Temp           Month            Day      
+##  Min.   :  1.00   Min.   :  7.0   Min.   : 1.700   Min.   :56.00   Min.   :5.000   Min.   : 1.0  
+##  1st Qu.: 18.00   1st Qu.:115.8   1st Qu.: 7.400   1st Qu.:72.00   1st Qu.:6.000   1st Qu.: 8.0  
+##  Median : 31.50   Median :205.0   Median : 9.700   Median :79.00   Median :7.000   Median :16.0  
+##  Mean   : 42.13   Mean   :185.9   Mean   : 9.958   Mean   :77.88   Mean   :6.993   Mean   :15.8  
+##  3rd Qu.: 63.25   3rd Qu.:258.8   3rd Qu.:11.500   3rd Qu.:85.00   3rd Qu.:8.000   3rd Qu.:23.0  
+##  Max.   :168.00   Max.   :334.0   Max.   :20.700   Max.   :97.00   Max.   :9.000   Max.   :31.0  
+##  NA's   :37       NA's   :7
 ```
 
 ---

@@ -4,6 +4,7 @@
     <title>AlwaysR, Módulo III: Estadística en R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Giancarlo M. Correa" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
@@ -17,7 +18,7 @@ class: inverse, center, middle
 
 ## Clase 2: Pruebas de hipótesis. ANOVA. Comparaciones múltiples.
 
-### Giancarlo M. Correa
+### Dr. Giancarlo M. Correa
 
 &lt;img src="LOGO05.png" width="350px"/&gt;
 
@@ -546,7 +547,7 @@ ks.test(x = rVar, y = 'pnorm', mean = 3, sd = 0.4,
 ## 	One-sample Kolmogorov-Smirnov test
 ## 
 ## data:  rVar
-## D = 0.91046, p-value &lt; 2.2e-16
+## D = 0.9127, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided
 ```
 
@@ -777,8 +778,7 @@ wilcox.test(x = immer$Y1, y = immer$Y2, paired=TRUE)
 ```
 
 ```
-## Warning in wilcox.test.default(x = immer$Y1, y = immer$Y2, paired = TRUE):
-## cannot compute exact p-value with ties
+## Warning in wilcox.test.default(x = immer$Y1, y = immer$Y2, paired = TRUE): cannot compute exact p-value with ties
 ```
 
 ```
@@ -833,8 +833,7 @@ wilcox.test(mpg ~ am, data=mtcars, paired = FALSE)
 ```
 
 ```
-## Warning in wilcox.test.default(x = c(21.4, 18.7, 18.1, 14.3, 24.4, 22.8, :
-## cannot compute exact p-value with ties
+## Warning in wilcox.test.default(x = c(21.4, 18.7, 18.1, 14.3, 24.4, 22.8, : cannot compute exact p-value with ties
 ```
 
 ```

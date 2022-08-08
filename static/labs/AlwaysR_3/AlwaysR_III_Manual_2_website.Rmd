@@ -1,13 +1,11 @@
 ---
-title: 'Lab 02'
+title: 'AlwaysR, Módulo III: Estadística en R.'
+subtitle: 'Lab 02'
 author: "Giancarlo M. Correa"
 output:
-  html_document:
-    theme: flatly
-    toc: TRUE
-    toc_float: TRUE
-    toc_depth: 2
-    number_sections: TRUE
+  prettydoc::html_pretty:
+    theme: tactile
+    highlight: github
 ---
 
 ```{r setup, include=FALSE}
