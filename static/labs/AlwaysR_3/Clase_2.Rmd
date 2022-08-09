@@ -141,11 +141,17 @@ knitr::include_graphics("images/fig2.jpg")
 
 # Componentes de una prueba de hipótesis
 
-Ejemplo: Para $H_0: \mu = 0$
+Ejemplo: 
 
 ```{r echo = FALSE, out.width=500, fig.align="center"}
 knitr::include_graphics("images/fig3.jpg")
 ```
+
+--
+
+- $c$ es el estadístico de prueba
+- La zona roja es la zona de rechazo
+- La distribución normal es la distribución de referencia
 
 ---
 
@@ -156,6 +162,8 @@ class: inverse, center, middle
 ---
 
 # Prueba Z (Z-test)
+
+Cuando conocemos la varianza poblacional.
 
 Tenemos: $H_0: \mu\leq \mu_0$ ó $H_0: \mu\geq \mu_0$ ó $H_0: \mu=\mu_0$
 
@@ -189,6 +197,9 @@ Decisión:
 knitr::include_graphics("images/fig4.png")
 ```
 
+--
+
+Valores muy pequeños de **p-value** nos llevarán a rechazar la hipótesis nula.
 
 ---
 
@@ -295,6 +306,8 @@ z.test(x = iris$Sepal.Width, alternative = 'greater',
 
 # Prueba t (t-test)
 
+Cuando no conocemos la varianza poblacional pero si la muestral.
+
 Tenemos: $H_0: \mu\leq \mu_0$ ó $H_0: \mu\geq \mu_0$ ó $H_0: \mu=\mu_0$
 
 --
@@ -339,17 +352,17 @@ t.test(x = iris$Sepal.Width, alternative = 'two.sided',
 
 Ejemplo:
 
-Supongamos que realizo un muestreo de una población y capturé 20 individuos ( $n=20$ ). El evento de interés es que un individuo sea macho ( $p = P(macho)$ ). Tenemos que $H_0: p=0.5$ y $H_A: p>0.5$. Entonces:
+Supongamos que realizo un muestreo de una población y capturé 20 individuos ( $n=30$ ). El evento de interés es que un individuo sea macho ( $p = P(macho)$ ). Tenemos que $H_0: p=0.5$ y $H_A: p>0.5$. Entonces:
 
-* Si observo $X = 2$ machos, debo rechazar $H_0$?
-
---
-
-* Si observo $X = 10$ machos, debo rechazar $H_0$?
+* Si observo $X = 5$ machos, debo rechazar $H_0$?
 
 --
 
-* Si observo $X = 16$ machos, debo rechazar $H_0$?
+* Si observo $X = 15$ machos, debo rechazar $H_0$?
+
+--
+
+* Si observo $X = 25$ machos, debo rechazar $H_0$?
 
 ---
 
@@ -564,7 +577,7 @@ Estadístico de prueba:
 
 $$t = \frac{\hat{D}-\delta_0}{\sqrt{(s_x^2+s_y^2-2s_{xy})/n}}$$
 
-$m$ es el número de individuos en la muestra 1 y $n$ es el número de individuos en la muestra 2. $\bar{X}$ es la media de la muestra. $s_p^2$ es la varianza agrupada. $\hat{D} = \bar{X}-\bar{Y}$.
+$n$ es el número de individuos en la muestra. $s_{x}^2$ es la varianza muestral de grupo $x$ y  $s_{y}^2$ del grupo $y$. $\hat{D} = \bar{X}-\bar{Y}$.
 
 --
 
@@ -768,7 +781,7 @@ Supuestos:
 
 # ANOVA
 
-La pregunta al usar un ANOVA es: Son las medias poblacionales iguales una con otra?
+La pregunta al usar un ANOVA es: ¿Son las medias poblacionales iguales una con otra?
 
 --
 
@@ -785,6 +798,14 @@ $H_A: \mu_1\neq \mu_2\neq...\neq \mu_m$
 --
 
 En palabras sencillas, un ANOVA compara la varianza dentro de los grupos con la varianza de todas las observaciones juntas para decidir si las medias poblacionales son iguales (es por esto que es llamado análisis de varianza).
+
+---
+
+# ANOVA
+
+```{r echo = FALSE, out.width=700, fig.align="center"}
+knitr::include_graphics("images/ANOVA.png")
+```
 
 ---
 

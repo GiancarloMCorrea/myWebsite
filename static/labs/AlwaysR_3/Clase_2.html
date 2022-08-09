@@ -4,7 +4,6 @@
     <title>AlwaysR, Módulo III: Estadística en R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Giancarlo M. Correa" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
@@ -161,9 +160,15 @@ Podemos obtener dos resultados:
 
 # Componentes de una prueba de hipótesis
 
-Ejemplo: Para `\(H_0: \mu = 0\)`
+Ejemplo: 
 
 &lt;img src="images/fig3.jpg" width="500" style="display: block; margin: auto;" /&gt;
+
+--
+
+- `\(c\)` es el estadístico de prueba
+- La zona roja es la zona de rechazo
+- La distribución normal es la distribución de referencia
 
 ---
 
@@ -174,6 +179,8 @@ class: inverse, center, middle
 ---
 
 # Prueba Z (Z-test)
+
+Cuando conocemos la varianza poblacional.
 
 Tenemos: `\(H_0: \mu\leq \mu_0\)` ó `\(H_0: \mu\geq \mu_0\)` ó `\(H_0: \mu=\mu_0\)`
 
@@ -205,6 +212,9 @@ Decisión:
 
 &lt;img src="images/fig4.png" width="500" style="display: block; margin: auto;" /&gt;
 
+--
+
+Valores muy pequeños de **p-value** nos llevarán a rechazar la hipótesis nula.
 
 ---
 
@@ -344,6 +354,8 @@ z.test(x = iris$Sepal.Width, alternative = 'greater',
 
 # Prueba t (t-test)
 
+Cuando no conocemos la varianza poblacional pero si la muestral.
+
 Tenemos: `\(H_0: \mu\leq \mu_0\)` ó `\(H_0: \mu\geq \mu_0\)` ó `\(H_0: \mu=\mu_0\)`
 
 --
@@ -403,17 +415,17 @@ t.test(x = iris$Sepal.Width, alternative = 'two.sided',
 
 Ejemplo:
 
-Supongamos que realizo un muestreo de una población y capturé 20 individuos ( `\(n=20\)` ). El evento de interés es que un individuo sea macho ( `\(p = P(macho)\)` ). Tenemos que `\(H_0: p=0.5\)` y `\(H_A: p&gt;0.5\)`. Entonces:
+Supongamos que realizo un muestreo de una población y capturé 20 individuos ( `\(n=30\)` ). El evento de interés es que un individuo sea macho ( `\(p = P(macho)\)` ). Tenemos que `\(H_0: p=0.5\)` y `\(H_A: p&gt;0.5\)`. Entonces:
 
-* Si observo `\(X = 2\)` machos, debo rechazar `\(H_0\)`?
-
---
-
-* Si observo `\(X = 10\)` machos, debo rechazar `\(H_0\)`?
+* Si observo `\(X = 5\)` machos, debo rechazar `\(H_0\)`?
 
 --
 
-* Si observo `\(X = 16\)` machos, debo rechazar `\(H_0\)`?
+* Si observo `\(X = 15\)` machos, debo rechazar `\(H_0\)`?
+
+--
+
+* Si observo `\(X = 25\)` machos, debo rechazar `\(H_0\)`?
 
 ---
 
@@ -547,7 +559,7 @@ ks.test(x = rVar, y = 'pnorm', mean = 3, sd = 0.4,
 ## 	One-sample Kolmogorov-Smirnov test
 ## 
 ## data:  rVar
-## D = 0.9127, p-value &lt; 2.2e-16
+## D = 0.87066, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided
 ```
 
@@ -667,7 +679,7 @@ Estadístico de prueba:
 
 `$$t = \frac{\hat{D}-\delta_0}{\sqrt{(s_x^2+s_y^2-2s_{xy})/n}}$$`
 
-`\(m\)` es el número de individuos en la muestra 1 y `\(n\)` es el número de individuos en la muestra 2. `\(\bar{X}\)` es la media de la muestra. `\(s_p^2\)` es la varianza agrupada. `\(\hat{D} = \bar{X}-\bar{Y}\)`.
+`\(n\)` es el número de individuos en la muestra. `\(s_{x}^2\)` es la varianza muestral de grupo `\(x\)` y  `\(s_{y}^2\)` del grupo `\(y\)`. `\(\hat{D} = \bar{X}-\bar{Y}\)`.
 
 --
 
@@ -778,7 +790,8 @@ wilcox.test(x = immer$Y1, y = immer$Y2, paired=TRUE)
 ```
 
 ```
-## Warning in wilcox.test.default(x = immer$Y1, y = immer$Y2, paired = TRUE): cannot compute exact p-value with ties
+## Warning in wilcox.test.default(x = immer$Y1, y = immer$Y2, paired = TRUE):
+## cannot compute exact p-value with ties
 ```
 
 ```
@@ -833,7 +846,8 @@ wilcox.test(mpg ~ am, data=mtcars, paired = FALSE)
 ```
 
 ```
-## Warning in wilcox.test.default(x = c(21.4, 18.7, 18.1, 14.3, 24.4, 22.8, : cannot compute exact p-value with ties
+## Warning in wilcox.test.default(x = c(21.4, 18.7, 18.1, 14.3, 24.4, 22.8, :
+## cannot compute exact p-value with ties
 ```
 
 ```
@@ -980,7 +994,7 @@ Supuestos:
 
 # ANOVA
 
-La pregunta al usar un ANOVA es: Son las medias poblacionales iguales una con otra?
+La pregunta al usar un ANOVA es: ¿Son las medias poblacionales iguales una con otra?
 
 --
 
@@ -997,6 +1011,12 @@ La hipótesis alternativa es:
 --
 
 En palabras sencillas, un ANOVA compara la varianza dentro de los grupos con la varianza de todas las observaciones juntas para decidir si las medias poblacionales son iguales (es por esto que es llamado análisis de varianza).
+
+---
+
+# ANOVA
+
+&lt;img src="images/ANOVA.png" width="700" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1021,7 +1041,7 @@ A razonar:
 
 Observamos diferencias significativas?
 
-&lt;img src="Clase_2_files/figure-html/unnamed-chunk-37-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-38-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1083,7 +1103,7 @@ Tenemos que verificar los supuestos de un ANOVA:
 
 ### Homogeneidad de varianza
 
-&lt;img src="Clase_2_files/figure-html/unnamed-chunk-40-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-41-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1115,7 +1135,7 @@ leveneTest(y = myAnova)
 
 ### Normalidad
 
-&lt;img src="Clase_2_files/figure-html/unnamed-chunk-42-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-43-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
