@@ -166,7 +166,7 @@ Ejemplo:
 
 --
 
-- `\(c\)` es el estadístico de prueba
+- `\(c\)` es el valor crítico
 - La zona roja es la zona de rechazo
 - La distribución normal es la distribución de referencia
 
@@ -415,7 +415,7 @@ t.test(x = iris$Sepal.Width, alternative = 'two.sided',
 
 Ejemplo:
 
-Supongamos que realizo un muestreo de una población y capturé 20 individuos ( `\(n=30\)` ). El evento de interés es que un individuo sea macho ( `\(p = P(macho)\)` ). Tenemos que `\(H_0: p=0.5\)` y `\(H_A: p&gt;0.5\)`. Entonces:
+Supongamos que realizo un muestreo de una población y capturé 30 individuos ( `\(n=30\)` ). El evento de interés es que un individuo sea macho ( `\(p = P(macho)\)` ). Tenemos que `\(H_0: p\leq 0.5\)` y `\(H_A: p&gt;0.5\)`. Entonces:
 
 * Si observo `\(X = 5\)` machos, debo rechazar `\(H_0\)`?
 
@@ -431,8 +431,7 @@ Supongamos que realizo un muestreo de una población y capturé 20 individuos ( 
 
 # Prueba binomial (exacta)
 
-&lt;img src="images/fig7.png" width="500" style="display: block; margin: auto;" /&gt;
-
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -452,9 +451,9 @@ Donde `\(X = \sum_{i=1}^n Y_i\)`, e `\(Y_i\)` es un evento con éxito/fracaso:
 
 Decisión:
 
-* `\(H_A: \mu &gt; \mu_0\)`: Rechazamos `\(H_0\)` cuando?
-* `\(H_A: \mu &lt; \mu_0\)`: Rechazamos `\(H_0\)` cuando?
-* `\(H_A: \mu \neq \mu_0\)`: Rechazamos `\(H_0\)` cuando?
+* `\(H_A: p &gt; p_0\)`: Rechazamos `\(H_0\)` cuando?
+* `\(H_A: p &lt; p_0\)`: Rechazamos `\(H_0\)` cuando?
+* `\(H_A: p \neq p_0\)`: Rechazamos `\(H_0\)` cuando?
 
 ---
 
@@ -498,7 +497,8 @@ binom.test(x = X, n = n, p = 0.5, alternative = 'two.sided')
 ## 	Exact binomial test
 ## 
 ## data:  X and n
-## number of successes = 50, number of trials = 150, p-value = 5.448e-05
+## number of successes = 50, number of trials = 150, p-value =
+## 5.448e-05
 ## alternative hypothesis: true probability of success is not equal to 0.5
 ## 95 percent confidence interval:
 ##  0.2585564 0.4148430
@@ -559,7 +559,7 @@ ks.test(x = rVar, y = 'pnorm', mean = 3, sd = 0.4,
 ## 	One-sample Kolmogorov-Smirnov test
 ## 
 ## data:  rVar
-## D = 0.87066, p-value &lt; 2.2e-16
+## D = 0.85421, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided
 ```
 
@@ -980,20 +980,6 @@ Tenemos varias muestras de diferentes poblaciones:
 
 # ANOVA
 
-Supuestos:
-
-* Independencia dentro de grupos
-
-* Independencia entre grupos
-
-* Normalidad de la variable
-
-* Igual varianza en todas las poblaciones
-
----
-
-# ANOVA
-
 La pregunta al usar un ANOVA es: ¿Son las medias poblacionales iguales una con otra?
 
 --
@@ -1017,6 +1003,20 @@ En palabras sencillas, un ANOVA compara la varianza dentro de los grupos con la 
 # ANOVA
 
 &lt;img src="images/ANOVA.png" width="700" style="display: block; margin: auto;" /&gt;
+
+---
+
+# ANOVA
+
+Supuestos:
+
+* Independencia dentro de grupos
+
+* Independencia entre grupos
+
+* Normalidad de la variable
+
+* Igual varianza en todas las poblaciones
 
 ---
 

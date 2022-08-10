@@ -149,7 +149,7 @@ knitr::include_graphics("images/fig3.jpg")
 
 --
 
-- $c$ es el estadístico de prueba
+- $c$ es el valor crítico
 - La zona roja es la zona de rechazo
 - La distribución normal es la distribución de referencia
 
@@ -352,7 +352,7 @@ t.test(x = iris$Sepal.Width, alternative = 'two.sided',
 
 Ejemplo:
 
-Supongamos que realizo un muestreo de una población y capturé 20 individuos ( $n=30$ ). El evento de interés es que un individuo sea macho ( $p = P(macho)$ ). Tenemos que $H_0: p=0.5$ y $H_A: p>0.5$. Entonces:
+Supongamos que realizo un muestreo de una población y capturé 30 individuos ( $n=30$ ). El evento de interés es que un individuo sea macho ( $p = P(macho)$ ). Tenemos que $H_0: p\leq 0.5$ y $H_A: p>0.5$. Entonces:
 
 * Si observo $X = 5$ machos, debo rechazar $H_0$?
 
@@ -368,10 +368,13 @@ Supongamos que realizo un muestreo de una población y capturé 20 individuos ( 
 
 # Prueba binomial (exacta)
 
-```{r echo = FALSE, out.width=500, fig.align="center"}
-knitr::include_graphics("images/fig7.png")
+```{r echo = FALSE, fig.align='center'}
+# Create a sample of 50 numbers which are incremented by 1.
+x <- seq(0,30,by = 1)
+# Create the binomial distribution.
+y <- dbinom(x,30,0.5)
+plot(x,y, type = 'h', xlab = 'X', ylab = 'Probability', main = 'Distribución binomial (n = 30, p = 0.5)')
 ```
-
 
 ---
 
@@ -391,9 +394,9 @@ $$P(Y_i=1)=p\hspace{3cm}P(Y_i=0)=1-p$$
 
 Decisión:
 
-* $H_A: \mu > \mu_0$: Rechazamos $H_0$ cuando?
-* $H_A: \mu < \mu_0$: Rechazamos $H_0$ cuando?
-* $H_A: \mu \neq \mu_0$: Rechazamos $H_0$ cuando?
+* $H_A: p > p_0$: Rechazamos $H_0$ cuando?
+* $H_A: p < p_0$: Rechazamos $H_0$ cuando?
+* $H_A: p \neq p_0$: Rechazamos $H_0$ cuando?
 
 ---
 
@@ -767,20 +770,6 @@ Tenemos varias muestras de diferentes poblaciones:
 
 # ANOVA
 
-Supuestos:
-
-* Independencia dentro de grupos
-
-* Independencia entre grupos
-
-* Normalidad de la variable
-
-* Igual varianza en todas las poblaciones
-
----
-
-# ANOVA
-
 La pregunta al usar un ANOVA es: ¿Son las medias poblacionales iguales una con otra?
 
 --
@@ -806,6 +795,20 @@ En palabras sencillas, un ANOVA compara la varianza dentro de los grupos con la 
 ```{r echo = FALSE, out.width=700, fig.align="center"}
 knitr::include_graphics("images/ANOVA.png")
 ```
+
+---
+
+# ANOVA
+
+Supuestos:
+
+* Independencia dentro de grupos
+
+* Independencia entre grupos
+
+* Normalidad de la variable
+
+* Igual varianza en todas las poblaciones
 
 ---
 
