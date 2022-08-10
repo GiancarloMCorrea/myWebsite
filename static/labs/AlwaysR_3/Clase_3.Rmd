@@ -251,6 +251,14 @@ summary(mod)
 
 ---
 
+# Error estándar
+
+```{r echo = FALSE, out.width=600, fig.align="center"}
+knitr::include_graphics("images/standarderror.jpg")
+```
+
+---
+
 # Correlación
 
 El coeficiente de correlación de la muestra $r_{XY}$ es una forma de medir la asociación lineal entre dos variables $X$ e $Y$ en una muestra de pares $(X_i,Y_i)$:
@@ -503,7 +511,7 @@ summary(mod)
 
 # ANOVA
 
-Usado para comparar dos modelos anidados:
+Usado para comparar dos modelos **anidados**:
 
 ```{r}
 mod1 = lm(Brain ~ 1, data=case0902)

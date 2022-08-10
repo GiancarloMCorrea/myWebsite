@@ -16,6 +16,10 @@ links:
   icon_pack: fas
   name: Clase 2
   url: /labs/AlwaysR_3/Clase_2.html
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Clase 3
+  url: /labs/AlwaysR_3/Clase_3.html
 - icon: laptop-code
   icon_pack: fas
   name: Lab 1
@@ -24,6 +28,10 @@ links:
   icon_pack: fas
   name: Lab 2
   url: /labs/AlwaysR_3/AlwaysR_III_Manual_2_website.html
+- icon: laptop-code
+  icon_pack: fas
+  name: Lab 3
+  url: /labs/AlwaysR_3/AlwaysR_III_Manual_3_website.html
 projects: []
 subtitle: Aplicaciones estadísticas utilizando el lenguaje de programación R.
 summary: Aplicaciones estadísticas utilizando el lenguaje de programación R.
@@ -59,5 +67,6 @@ Encuentra el silabo de este curso [aquí](https://cousteau-group.com/cursos/).
 
 * [Quiz 1](https://gmoroncorrea.shinyapps.io/AlwaysR-Modulo3-day1/)
 * [Quiz 2](https://gmoroncorrea.shinyapps.io/AlwaysR-Modulo3-day2/)
+* [Quiz 3](https://gmoroncorrea.shinyapps.io/AlwaysR-Modulo3-day3/)
 
 

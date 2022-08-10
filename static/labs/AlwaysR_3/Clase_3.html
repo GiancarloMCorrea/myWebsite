@@ -261,6 +261,12 @@ summary(mod)
 
 ---
 
+# Error estándar
+
+&lt;img src="images/standarderror.jpg" width="600" style="display: block; margin: auto;" /&gt;
+
+---
+
 # Correlación
 
 El coeficiente de correlación de la muestra `\(r_{XY}\)` es una forma de medir la asociación lineal entre dos variables `\(X\)` e `\(Y\)` en una muestra de pares `\((X_i,Y_i)\)`:
@@ -464,7 +470,7 @@ ggplot(newdf, aes(x=pHeight, y=cHeight )) +
   geom_line(aes(y=upr), color = "red", linetype = "dashed")
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-19-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-20-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -594,7 +600,7 @@ summary(mod)
 
 # ANOVA
 
-Usado para comparar dos modelos anidados:
+Usado para comparar dos modelos **anidados**:
 
 
 ```r
@@ -630,7 +636,7 @@ anova(mod1, mod2)
 plot(mod, which = 1)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-23-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-24-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -641,7 +647,7 @@ plot(mod, which = 1)
 plot(mod, which = 2)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-24-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-25-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -664,7 +670,7 @@ Existen tres tipos de observaciones *raras* que podemos mencionar:
 plot(mod, which = 5)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-25-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-26-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -675,7 +681,7 @@ plot(mod, which = 5)
 plot(mod, which = 3)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-26-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-27-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -687,7 +693,7 @@ plot(mod, which = 3)
 plot(mod, which = 4)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-27-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-28-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -781,7 +787,7 @@ summary(mod1)
 plot_model(mod1, type = "int")
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-32-1.png" width="500" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-33-1.png" width="500" style="display: block; margin: auto;" /&gt;
 
 ---
 
