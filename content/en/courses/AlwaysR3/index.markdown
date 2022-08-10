@@ -22,7 +22,7 @@ links:
   url: /labs/AlwaysR_3/AlwaysR_III_Manual_1_website.html
 - icon: laptop-code
   icon_pack: fas
-  name: Lab 1
+  name: Lab 2
   url: /labs/AlwaysR_3/AlwaysR_III_Manual_2_website.html
 projects: []
 subtitle: Aplicaciones estadísticas utilizando el lenguaje de programación R.
