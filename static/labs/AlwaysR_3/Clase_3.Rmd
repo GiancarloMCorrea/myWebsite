@@ -523,7 +523,7 @@ anova(mod1, mod2)
 --
 
 - $H_0$: $\beta_1=\beta_2 =\beta_3=0$
-- $H_1$: al menos uno de $\beta_1$ o $\beta_2$ o $\beta_3$ no es cero.
+- $H_A$: al menos uno de $\beta_1$ o $\beta_2$ o $\beta_3$ no es cero.
 
 ---
 
