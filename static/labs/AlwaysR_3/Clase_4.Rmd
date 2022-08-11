@@ -551,7 +551,7 @@ coef(lmod3)$Subject
 
 Efectos fijos:
 
-```{r}
+```{r out.width=400, fig.align="center"}
 sjPlot::plot_model(lmod1)
 ```
 
@@ -561,7 +561,7 @@ sjPlot::plot_model(lmod1)
 
 Efectos aleatorios (intercepto):
 
-```{r}
+```{r out.width=400, fig.align="center"}
 sjPlot::plot_model(lmod1, type = 're')
 ```
 
@@ -571,7 +571,7 @@ sjPlot::plot_model(lmod1, type = 're')
 
 Efectos aleatorios (pendiente):
 
-```{r}
+```{r out.width=400, fig.align="center"}
 sjPlot::plot_model(lmod2, type = 're')
 ```
 
@@ -581,7 +581,7 @@ sjPlot::plot_model(lmod2, type = 're')
 
 Asociación:
 
-```{r}
+```{r out.width=400, fig.align="center"}
 sjPlot::plot_model(lmod2, type = "eff", terms = "Days")
 ```
 
