@@ -4,6 +4,7 @@
     <title>AlwaysR, Módulo III: Estadística en R</title>
     <meta charset="utf-8" />
     <meta name="author" content="Giancarlo M. Correa" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
@@ -15,7 +16,7 @@ class: inverse, center, middle
 
 # AlwaysR, Módulo III: Estadística en R
 
-## Clase 5: Efectos aleatorios. Introducción a GLM.
+## Clase 5: Introducción a modelos lineales y aditivos generalizados (GLM y GAM)
 
 ### Giancarlo M. Correa
 
@@ -27,7 +28,7 @@ class: inverse, center, middle
 
 class: inverse, center, middle
 
-# Efectos aleatorios
+# Modelos lineales generalizados (GLM)
 
 <div>
 <style type="text/css">.xaringan-extra-logo {
@@ -65,382 +66,40 @@ bottom:-3em;left:0;
 
 ---
 
-# Efectos aleatorios
-
-
-
-Veamos los datos:
-
-
-
-
-```r
-head(dragons)
-```
-
-```
-##   testScore bodyLength mountainRange site bodyLength2
-## 1 16.147309   165.5485      Bavarian    a   -2.206233
-## 2 33.886183   167.5593      Bavarian    a   -2.082204
-## 3  6.038333   165.8830      Bavarian    a   -2.185605
-## 4 18.838821   167.6855      Bavarian    a   -2.074419
-## 5 33.862328   169.9597      Bavarian    a   -1.934145
-## 6 47.043246   168.6887      Bavarian    a   -2.012538
-```
-
-
-```r
-str(dragons)
-```
-
-```
-## 'data.frame':	480 obs. of  5 variables:
-##  $ testScore    : num  16.15 33.89 6.04 18.84 33.86 ...
-##  $ bodyLength   : num  166 168 166 168 170 ...
-##  $ mountainRange: Factor w/ 8 levels "Bavarian","Central",..: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ site         : Factor w/ 3 levels "a","b","c": 1 1 1 1 1 1 1 1 1 1 ...
-##  $ bodyLength2  : num  -2.21 -2.08 -2.19 -2.07 -1.93 ...
-```
-
----
-
-# Efectos aleatorios
-
-Podemos implementar un modelo lineal:
-
-
-```r
-basic_lm = lm(testScore ~ bodyLength2, data = dragons)
-summary(basic_lm)
-```
-
-```
-## 
-## Call:
-## lm(formula = testScore ~ bodyLength2, data = dragons)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -56.962 -16.411  -0.783  15.193  55.200 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  50.3860     0.9676  52.072   &lt;2e-16 ***
-## bodyLength2   8.9956     0.9686   9.287   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## Residual standard error: 21.2 on 478 degrees of freedom
-## Multiple R-squared:  0.1529,	Adjusted R-squared:  0.1511 
-## F-statistic: 86.25 on 1 and 478 DF,  p-value: &lt; 2.2e-16
-```
-
----
-
-# Efectos aleatorios
-
-Podemos graficar los resultados:
-
-
-```r
-plot_model(model = basic_lm, type = 'pred', show.data = TRUE)
-```
-
-```
-## $bodyLength2
-```
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-6-1.png" width="370" style="display: block; margin: auto;" /&gt;
-
----
-
-# Efectos aleatorios
-
-Podemos obtener mas figuras para revisar los supuestos. Ahora veamos:
-
-
-```r
-boxplot(testScore ~ mountainRange, data = dragons)
-```
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-7-1.png" width="400" style="display: block; margin: auto;" /&gt;
-
----
-
-# Efectos aleatorios
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-8-1.png" width="500" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Efectos aleatorios
-
-La variable `mountainRange` es una variable agrupadora! Este es un caso perfecto para incorporar un efecto aleatorio.
-
---
-
-En este caso, si incluimos `mountainRange` dentro del modelo, nosotros estaríamos controlando el efecto que esta variable pueda tener sobre la variable respuesta y explicativa. 
-
---
-
-Implementemos el modelo de efectos mixtos:
-
-
-```r
-mixed_lmer = lmer(testScore ~ bodyLength2 + (1 + bodyLength2|mountainRange), data = dragons)
-```
-
----
-
-
-```r
-summary(mixed_lmer)
-```
-
-```
-## Linear mixed model fit by REML ['lmerMod']
-## Formula: testScore ~ bodyLength2 + (1 + bodyLength2 | mountainRange)
-##    Data: dragons
-## 
-## REML criterion at convergence: 3980.5
-## 
-## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.5004 -0.6683  0.0207  0.6592  2.9449 
-## 
-## Random effects:
-##  Groups        Name        Variance Std.Dev. Corr 
-##  mountainRange (Intercept) 324.102  18.003        
-##                bodyLength2   9.905   3.147   -1.00
-##  Residual                  221.578  14.885        
-## Number of obs: 480, groups:  mountainRange, 8
-## 
-## Fixed effects:
-##             Estimate Std. Error t value
-## (Intercept) 51.75302    6.40349   8.082
-## bodyLength2 -0.03326    1.68317  -0.020
-## 
-## Correlation of Fixed Effects:
-##             (Intr)
-## bodyLength2 -0.674
-## optimizer (nloptwrap) convergence code: 0 (OK)
-## boundary (singular) fit: see ?isSingular
-```
-
----
-
-# Efectos aleatorios
-
-Revisar los supuestos: varianza constante
-
-
-```r
-plot(mixed_lmer)
-```
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-11-1.png" width="400" style="display: block; margin: auto;" /&gt;
-
----
-
-# Efectos aleatorios
-
-Revisar los supuestos: distribución normal
-
-
-```r
-qqnorm(resid(mixed_lmer))
-qqline(resid(mixed_lmer))
-```
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-12-1.png" width="400" style="display: block; margin: auto;" /&gt;
-
----
-
-# Efectos aleatorios
-
-Podemos plotear la línea estimada:
-
-
-```r
-plot_model(model = mixed_lmer, type = 'pred', show.data = TRUE)
-```
-
-```
-## $bodyLength2
-```
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-13-1.png" width="350" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Efectos aleatorios
-
-Pero también podemos hacerlo por categoría:
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-14-1.png" width="450" style="display: block; margin: auto;" /&gt;
-
----
-
-# Efectos aleatorios
-
-Otra gráfica para evaluar resultados:
-
-
-```r
-plot_model(mixed_lmer, type = 're')
-```
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-15-1.png" width="400" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Efectos aleatorios
-
-¿Qué otra variable puedo incluir en el modelo como efecto aleatorio?
-
-
-```r
-headTail(dragons)
-```
-
-```
-##     testScore bodyLength mountainRange site bodyLength2
-## 1       16.15     165.55      Bavarian    a       -2.21
-## 2       33.89     167.56      Bavarian    a       -2.08
-## 3        6.04     165.88      Bavarian    a       -2.19
-## 4       18.84     167.69      Bavarian    a       -2.07
-## ...       ...        ...          &lt;NA&gt; &lt;NA&gt;         ...
-## 477     59.37     213.58       Sarntal    c        0.76
-## 478     68.75     207.63       Sarntal    c        0.39
-## 479     74.89     198.25       Sarntal    c       -0.19
-## 480     65.95     208.06       Sarntal    c        0.42
-```
-
---
-
-**Site**: Se ha muestreado en 3 sitios de muestreo dentro de cada `montainRange`.
-
-
----
-
-# Efectos aleatorios
-
-Implementamos un segundo modelo:
-
-
-```r
-mixed_lmer2 = lmer(testScore ~ bodyLength2 + (1 + bodyLength2|mountainRange/site), data = dragons)
-```
-
----
-
-
-```r
-summary(mixed_lmer2)
-```
-
-```
-## Linear mixed model fit by REML ['lmerMod']
-## Formula: testScore ~ bodyLength2 + (1 + bodyLength2 | mountainRange/site)
-##    Data: dragons
-## 
-## REML criterion at convergence: 3968.4
-## 
-## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -3.2654 -0.6737 -0.0200  0.6931  2.8432 
-## 
-## Random effects:
-##  Groups             Name        Variance Std.Dev. Corr 
-##  site:mountainRange (Intercept)  19.8156  4.4515       
-##                     bodyLength2   0.7178  0.8472  1.00 
-##  mountainRange      (Intercept) 310.9691 17.6343       
-##                     bodyLength2   6.1119  2.4722  -1.00
-##  Residual                       208.5025 14.4396       
-## Number of obs: 480, groups:  site:mountainRange, 24; mountainRange, 8
-## 
-## Fixed effects:
-##             Estimate Std. Error t value
-## (Intercept)  51.4263     6.3408   8.110
-## bodyLength2   0.6691     1.8729   0.357
-## 
-## Correlation of Fixed Effects:
-##             (Intr)
-## bodyLength2 -0.461
-## optimizer (nloptwrap) convergence code: 0 (OK)
-## boundary (singular) fit: see ?isSingular
-```
-
----
-
-# Efectos aleatorios
-
-Podemos plotear la línea estimada:
-
-
-```r
-plot_model(model = mixed_lmer2, type = 'pred', show.data = TRUE)
-```
-
-```
-## $bodyLength2
-```
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-19-1.png" width="350" style="display: block; margin: auto;" /&gt;
-
----
-
-# Efectos aleatorios
-
-Pero también podemos hacerlo por categoría:
-
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-20-1.png" width="450" style="display: block; margin: auto;" /&gt;
-
----
-
-# Efectos aleatorios
-
-Ir a [sitio web](https://mfviz.com/hierarchical-models/).
-
----
-
-class: inverse, center, middle
-
-# Modelos lineales generalizados (GLM)
-
----
-
 # GLM
 
-Se emplea estos modelos cuando la varianza de la variable respuesta no es constante o no está normalmente distribuida.
+Un modelo lineal simple puede ser expresado como:
+
+`$$y \sim N(\mu , \sigma^2)$$`
+
+`$$\mu=\beta_0+\beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p$$`
 
 --
 
-GLM transforma la variable respuesta para que el método de estimación de parámetros siga *funcionando bien*.
+Un GLM es una opción cuando la varianza de la variable respuesta no es constante o no está normalmente distribuida.
 
 --
 
-Esta transformación hecha sobre la variable respuesta es definida por la función *link*.
+GLM transforma la variable respuesta para que el método de estimación de parámetros siga *funcionando bien* (mediante una función *link*).
 
 --
 
 Al momento de implementar un GLM, debemos decidir dos cosas:
 
 1. La distribución a utilizar
-2. La función *link*.
+2. La función *link* (esto normalmente está por defecto en R).
 
-`$$y_i \sim EDM(\mu_i, \phi/ \omega_i)$$`
+`$$y \sim EDM(\mu, etc)$$`
 
-`$$g(\mu_i) = o_i + \beta_0 + \sum_{j=1}^p \beta_j x_{ji}$$`
+`$$g(\mu) = \beta_0 + \sum_{j=1}^p \beta_j x_{j}$$`
 
 ---
 
 # GLM
 
 Por ejemplo, podemos tener:
+
+
 
 
 ```r
@@ -500,7 +159,7 @@ En R vamos a usar:
 
 ```r
 hsb$obj_var = ifelse(test = hsb$prog == 'academic', yes = 1, no = 0)
-mod1 = glm(obj_var ~ read, family = binomial(), data = hsb)
+mod1 = glm(obj_var ~ read, family = binomial, data = hsb)
 ```
 
 --
@@ -526,7 +185,7 @@ summary(mod1)
 ```
 ## 
 ## Call:
-## glm(formula = obj_var ~ read, family = binomial(), data = hsb)
+## glm(formula = obj_var ~ read, family = binomial, data = hsb)
 ## 
 ## Deviance Residuals: 
 ##     Min       1Q   Median       3Q      Max  
@@ -548,6 +207,17 @@ summary(mod1)
 ## Number of Fisher Scoring iterations: 4
 ```
 
+
+---
+
+# GLM: respuesta binaria
+
+Vemos un par de términos nuevos:
+
+* **Null deviance**: nos indica que tan bien la variable respuesta puede ser predicha por un modelo que solo contenga el intercepto. 
+
+* **Residual deviance**: nos indica que tan bien la variable respuesta es predicha por el modelo implementado. 
+
 ---
 
 # GLM: respuesta binaria
@@ -556,10 +226,10 @@ La revisión de supuestos en un GLM no es tan sencilla. Podemos revisar la indep
 
 
 ```r
-plot(qresid(mod1))
+plot(statmod::qresid(mod1))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-26-1.png" width="370" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-7-1.png" width="370" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -583,7 +253,7 @@ plot_model(model = mod1, type = 'pred', show.data = TRUE)
 ## $read
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-28-1.png" width="350" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-9-1.png" width="350" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -597,7 +267,7 @@ qqnorm(qresid(mod1))
 qqline(qresid(mod1))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-29-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-10-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -611,7 +281,7 @@ Revisar observaciones influyentes:
 plot(cooks.distance(mod1), type='h')
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-30-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-11-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -649,21 +319,21 @@ Exploremos la que será la variable respuesta en nuestro modelo:
 hist(cases$Students)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-33-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-14-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 
 ```r
-mod2 = glm(Students ~ Days, family = "poisson", data = cases)
+mod2 = glm(Students ~ Days, family = poisson, data = cases)
 summary(mod2)
 ```
 
 ```
 ## 
 ## Call:
-## glm(formula = Students ~ Days, family = "poisson", data = cases)
+## glm(formula = Students ~ Days, family = poisson, data = cases)
 ## 
 ## Deviance Residuals: 
 ##      Min        1Q    Median        3Q       Max  
@@ -696,7 +366,7 @@ Verificar independencia de residuos:
 plot(qresid(mod2))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-35-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-16-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -713,7 +383,7 @@ plot_model(model = mod2, type = 'pred', show.data = TRUE)
 ## $Days
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-36-1.png" width="350" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-17-1.png" width="350" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -727,7 +397,7 @@ qqnorm(qresid(mod2))
 qqline(qresid(mod2))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-37-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-18-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -740,7 +410,7 @@ Revisar observaciones influyentes:
 plot(cooks.distance(mod2), type='h')
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-38-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-19-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -778,11 +448,9 @@ Exploremos la que ahora será nuestra variable explicativa:
 hist(disc$count)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-41-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-22-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
-
-Implementemos un modelo Poisson
 
 
 ```r
@@ -818,8 +486,6 @@ summary(mod3)
 
 ---
 
-Implementemos un modelo quasi-Poisson
-
 
 ```r
 mod4 = glm(count ~ year + yearSqr, family = "quasipoisson", data = disc)
@@ -853,6 +519,13 @@ summary(mod4)
 ## Number of Fisher Scoring iterations: 5
 ```
 
+
+---
+
+# GLM: datos de conteo con sobredispersión
+
+El parámetro de overdispersion ( `\(\phi\)` ) nos indica si una distribución quasipoisson es adecuada. Si `\(\phi &gt; 1\)`, entonces nos sugiere usa una quasipoisson, si `\(\phi &lt; 1\)`, una quasipoisson no es necesaria.
+
 ---
 
 # GLM: datos de conteo con sobredispersión
@@ -865,24 +538,20 @@ qqnorm(qresid(mod4))
 qqline(qresid(mod4))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-44-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-25-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# GLM: datos de conteo con sobredispersión
-
-Para la misma base de datos `disc`, implementemos un modelo negativo binomial, usado también cuando tenemos casos de sobredispersión.
-
 
 ```r
-mod5 = glm.nb(count ~ year + yearSqr, data = disc)
+mod5 = MASS::glm.nb(count ~ year + yearSqr, data = disc)
 summary(mod5)
 ```
 
 ```
 ## 
 ## Call:
-## glm.nb(formula = count ~ year + yearSqr, data = disc, init.theta = 11.53157519, 
+## MASS::glm.nb(formula = count ~ year + yearSqr, data = disc, init.theta = 11.53157519, 
 ##     link = log)
 ## 
 ## Deviance Residuals: 
@@ -916,6 +585,10 @@ summary(mod5)
 
 # GLM: datos de conteo con sobredispersión
 
+Podemos decidir usar una distribución binomial negativa cuando, en un GLM Poisson, el ratio de Residual deviance/degrees of freedom es mayor a 1.
+
+--
+
 Revisamos los residuos:
 
 
@@ -924,7 +597,7 @@ qqnorm(qresid(mod5))
 qqline(qresid(mod5))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-46-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-27-1.png" width="350" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -995,7 +668,7 @@ plot_model(mod6, type = 'pred', show.data = TRUE)
 ## $Age
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-49-1.png" width="350" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-30-1.png" width="350" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1008,7 +681,7 @@ Exploremos la distribución de la variable respuesta:
 hist(case1202$Exper)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-50-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-31-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1071,7 +744,345 @@ plot_model(mod7, type = 'pred', show.data = TRUE)
 ## $Age
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-53-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-34-1.png" width="400" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, center, middle
+
+# Modelos aditivos generalizados (GAM)
+
+---
+
+# GAM
+
+
+Hay casos en donde la asociación lineal entre las variables no se cumple. Para casos donde no se tenga una relación lineal entre la variable respuesta y variables independientes, podemos utilizar un modelo aditivo generalizado:
+
+
+`$$y \sim EDM(\mu, etc)$$`
+
+`$$g(\mu) = \beta_0 + f(x_{1}) + f(x_{2}) + ... + f(x_{p})$$`
+
+`$$E(y) \sim \mu$$`
+--
+
+Variables independientes ahora incorporan una función de suavizamiento (basis function, `\(f\)` ), lo que permite relaciones no lineales entre las variables.
+
+---
+
+Por ejemplo:
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+¿Podríamos implementar un ANOVA o algún modelo lineal?
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+Una función como esta nos puede ayudar mucho:
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+&lt;img src="images/mcycleFigure-1.svg" width="700" style="display: block; margin: auto;" /&gt;
+
+---
+
+¿Qué es un nodo (knots)?
+
+&lt;img src="images/piecewisePoly-1.svg" width="700" style="display: block; margin: auto;" /&gt;
+
+--
+
+A mayor cantidad de nodos, mejor ajuste (cuidado con oversmoothing!).
+
+---
+
+De una forma general:
+
+`$$g(\mu) = \beta_0 + f(x_{1}) + f(x_{2}) + ... + f(x_{p})$$`
+
+--
+
+Luego:
+
+`$$f(x_1) = \beta_0 + \beta_1x^1 + ... + \beta_dx^d$$`
+--
+
+Podemos producir cualquier función polinomial!
+
+---
+
+# GAM en R
+
+
+```r
+library(mgcv)
+```
+
+```
+## This is mgcv 1.8-33. For overview type 'help("mgcv-package")'.
+```
+
+```r
+head(savings, n = 10)
+```
+
+```
+##               sr pop15 pop75     dpi ddpi
+## Australia  11.43 29.35  2.87 2329.68 2.87
+## Austria    12.07 23.32  4.41 1507.99 3.93
+## Belgium    13.17 23.80  4.43 2108.47 3.82
+## Bolivia     5.75 41.89  1.67  189.13 0.22
+## Brazil     12.88 42.19  0.83  728.47 4.56
+## Canada      8.79 31.72  2.85 2982.88 2.43
+## Chile       0.60 39.74  1.34  662.86 2.67
+## China      11.90 44.75  0.67  289.52 6.51
+## Colombia    4.98 46.64  1.06  276.65 3.08
+## Costa Rica 10.78 47.64  1.14  471.24 2.80
+```
+
+---
+
+
+```r
+fit_gam = gam(sr ~ s(pop15) + s(pop75) + s(dpi) + s(ddpi), data=savings)
+summary(fit_gam)
+```
+
+```
+## 
+## Family: gaussian 
+## Link function: identity 
+## 
+## Formula:
+## sr ~ s(pop15) + s(pop75) + s(dpi) + s(ddpi)
+## 
+## Parametric coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   9.6710     0.4816   20.08   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Approximate significance of smooth terms:
+##            edf Ref.df     F p-value   
+## s(pop15) 5.924  7.064 3.608 0.00406 **
+## s(pop75) 1.350  1.623 2.811 0.06586 . 
+## s(dpi)   1.000  1.000 0.168 0.68403   
+## s(ddpi)  1.000  1.000 4.789 0.03455 * 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## R-sq.(adj) =  0.422   Deviance explained = 53.2%
+## GCV = 14.593  Scale est. = 11.595    n = 50
+```
+
+---
+
+# GAM en R
+
+Aquí hay algunos términos nuevos:
+
+* **edf**: effective degrees of freedom. Es un resultados de la penalidad aplicada al grado de suavizamiento (detalles estadísticos en bibliografía!). Evita un over-suavizamiento o under-suavizamiento. Puede interpretarse como el nivel de suavizamiento aplicado a una variable.
+
+* **GCV**: generalized cross validation. Es un proxy del error de predicción cuadrático medio (mean square prediction error). Esto se basa en un método llamado *leave-one-out cross validation*. Utilizado para comparar modelos (similar a *AIC*), donde el modelo con menor *GCV* es el mejor.
+
+* **Deviance explained**: es una generalización del `\(R^2\)` (sin ajustar).
+
+* **Scale est.**: equivalente a la suma de cuadrado de los residuales.
+
+---
+
+
+```r
+plot(fit_gam, pages=1)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+También podemos observarlo en escala de las variable respuesta:
+
+
+```r
+plot(ggeffects::ggpredict(fit_gam), facets = TRUE)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GAM en R
+
+Existen diferentes formas de suavizar una variable (smooth term), los cuales pueden ser explorados [aquí](https://stat.ethz.ch/R-manual/R-devel/library/mgcv/html/smooth.terms.html). El método por defecto es: thin plate regression splines (funciona bien en la mayoría de los casos) `bs = "tp"`.
+
+---
+
+También debemos revisar los supuestos de un GAM. Distribución de residuales:
+
+
+```r
+par(mfrow = c(2,2))
+gam.check(fit_gam)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" /&gt;
+
+```
+## 
+## Method: GCV   Optimizer: magic
+## Smoothing parameter selection converged after 33 iterations.
+## The RMS GCV score gradient at convergence was 6.545033e-07 .
+## The Hessian was positive definite.
+## Model rank =  37 / 37 
+## 
+## Basis dimension (k) checking results. Low p-value (k-index&lt;1) may
+## indicate that k is too low, especially if edf is close to k'.
+## 
+##            k'  edf k-index p-value
+## s(pop15) 9.00 5.92    1.18    0.88
+## s(pop75) 9.00 1.35    1.11    0.69
+## s(dpi)   9.00 1.00    0.92    0.28
+## s(ddpi)  9.00 1.00    1.10    0.72
+```
+
+---
+
+# GAM en R: respuesta binomial
+
+Hasta el momento hemos visto una respuesta Gaussiana (normal) con una función link igual a la identidad (`identity`). En GAMs también podemos incorporar diferentes familias:
+
+--
+
+
+```r
+cricketer = read.csv('cricketr.csv')
+cricketer$hand = NA
+cricketer$hand = ifelse(test = cricketer$left == 'left', yes = 1, no = 0)
+head(cricketer)
+```
+
+```
+##    left year life dead acd kia inbed cause hand
+## 1 right 1890  102    0   0   0     0 alive    0
+## 2  left 1892  100    0   0   0     0 alive    1
+## 3 right 1893   99    0   0   0     0 alive    0
+## 4 right 1894   98    0   0   0     0 alive    0
+## 5 right 1896   96    0   0   0     0 alive    0
+## 6 right 1896   96    0   0   0     0 alive    0
+```
+
+---
+
+Para implementar el modelo:
+
+
+```r
+hand.gam = gam(hand ~ s(year), data=cricketer, family=binomial)
+summary(hand.gam)
+```
+
+```
+## 
+## Family: binomial 
+## Link function: logit 
+## 
+## Formula:
+## hand ~ s(year)
+## 
+## Parametric coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.49285    0.03361  -44.41   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Approximate significance of smooth terms:
+##           edf Ref.df Chi.sq p-value   
+## s(year) 7.873  8.664  23.87  0.0066 **
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## R-sq.(adj) =  0.00301   Deviance explained = 0.472%
+## UBRE = -0.044557  Scale est. = 1         n = 5960
+```
+
+---
+
+Revisamos los efectos:
+
+
+```r
+plot(ggeffects::ggpredict(hand.gam), facets = TRUE)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-47-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GAM en R: respuesta Poisson
+
+Podemos transformar los datos de la siguiente forma:
+
+
+```r
+rtlef = data.frame(with(cricketer, as(table(year, left),"matrix")))
+rtlef$year = as.numeric(rownames(rtlef))
+head(rtlef)
+```
+
+```
+##      left right year
+## 1840    1     6 1840
+## 1841    4    16 1841
+## 1842    5    16 1842
+## 1843    3    25 1843
+## 1844    4    25 1844
+## 1845    2    24 1845
+```
+
+--
+
+Luego:
+
+
+```r
+hand.gam2 = gam(left ~ s(year), data=rtlef, family=poisson)
+```
+
+---
+
+
+```r
+plot(ggeffects::ggpredict(hand.gam2), facets = TRUE)
+```
+
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-50-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+# GAM en R: respuesta Poisson
+
+Podemos también extraer los datos predichos por el modelo:
+
+
+```r
+predict(hand.gam2, type="response")[1:20]
+```
+
+```
+##     1840     1841     1842     1843     1844     1845     1846     1847 
+## 2.742999 2.893250 3.051389 3.217269 3.390486 3.570406 3.756216 3.946975 
+##     1848     1849     1850     1851     1852     1853     1854     1855 
+## 4.141688 4.339378 4.539171 4.740365 4.942502 5.145408 5.349228 5.554421 
+##     1856     1857     1858     1859 
+## 5.761740 5.972184 6.186925 6.407220
+```
 
 ---
 

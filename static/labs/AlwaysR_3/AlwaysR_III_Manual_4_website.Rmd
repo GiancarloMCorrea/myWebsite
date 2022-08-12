@@ -25,17 +25,110 @@ library(olsrr)
 library(lme4)
 library(sjPlot)
 library(sjmisc)
+library(ggeffects)
 ```
 
 Trabajemos con esta base de datos:
 
 ```{r}
 dragons = read.csv(file = 'dragons.csv')
-dragons$bodyLength2 = scale(dragons$bodyLength)
+dragons$bodyLength2 <- scale(dragons$bodyLength, center = TRUE, scale = TRUE)[,1]
 head(dragons)
 ```
 
-Implementamos un modelo lineal mixto:
+Esta base de datos ha sido obtenida de un muestreo de longitud del cuerpo y test score de unos dragones. Este muestreo vienen de un conjunto de montañas, y dentro de cada montaña se ha seleccionado tres sitios de muestreo, en cada uno de los cuales se han muestreado un número de dragones. 
+
+### Modelo lineal simple
+
+Con estos datos, podemos implementar un modelo lineal:
+
+```{r}
+basic_lm = lm(testScore ~ bodyLength2, data = dragons)
+summary(basic_lm)
+```
+
+Y graficar los resultados:
+
+```{r, out.width=370, fig.align="center"}
+plot_model(model = basic_lm, type = 'pred', show.data = TRUE)
+```
+
+También podemos verificar los supuestos :
+
+```{r, out.width=370, fig.align="center"}
+myDiag = plot_model(model = basic_lm, type = 'diag', show.data = TRUE)
+plot_grid(myDiag)
+```
+
+### Modelo con efectos aleatorios simple
+
+Podemos explorar el impacto de `mountainRange` sobre la relación de las variables:
+
+```{r, out.width=400, fig.align="center"}
+boxplot(testScore ~ mountainRange, data = dragons)
+```
+
+Y graficar esta relación por montaña:
+
+```{r, out.width=400, fig.align="center"}
+ggplot(aes(bodyLength, testScore), data = dragons) + 
+  geom_point() + 
+  facet_wrap(~ mountainRange) + 
+  xlab("bodyLength") + 
+  ylab("test score")
+```
+
+La variable `mountainRange` es una variable agrupadora! Este es un caso perfecto para incorporar un efecto aleatorio. Implementemos el modelo de efectos mixtos:
+
+```{r, warning=FALSE,message=FALSE}
+mixed_lmer = lmer(testScore ~ bodyLength2 + (1 + bodyLength2|mountainRange), data = dragons)
+```
+
+Como vemos, el intercepto y la pendiente varían. Exploramos los resultados:
+
+```{r}
+summary(mixed_lmer)
+```
+
+Revisar los supuestos: distribución normal
+
+```{r, out.width=400, fig.align="center"}
+qqnorm(resid(mixed_lmer))
+qqline(resid(mixed_lmer))
+```
+
+Podemos plotear la línea estimada (efecto fijo):
+
+```{r, out.width=350, fig.align="center"}
+plot_model(model = mixed_lmer, type = 'pred', show.data = TRUE)
+```
+
+Pero también podemos graficar el efecto por montaña:
+
+Pero también podemos hacerlo por categoría:
+
+```{r, out.width=450, fig.align="center", echo = FALSE}
+myPlot = ggpredict(mixed_lmer, terms = c("bodyLength2", "mountainRange"), type = "random")
+plot(myPlot, ci = FALSE)
+```
+
+Otra gráfica para evaluar resultados:
+
+```{r, out.width=400, fig.align="center", warning=FALSE, message=FALSE}
+plot_model(mixed_lmer, type = 're')
+```
+
+### Modelo jerárquico
+
+¿Qué otra variable puedo incluir en el modelo como efecto aleatorio?
+
+```{r}
+head(dragons, n = 10)
+```
+
+**Site**: Se ha muestreado en 3 sitios de muestreo dentro de cada `montainRange`.
+
+Implementamos un modelo lineal mixto jerárquico:
 
 ```{r, warning=FALSE, message=FALSE}
 myModelo = lmer(testScore ~ bodyLength2 + (1 + bodyLength2|mountainRange/site), data = dragons)
@@ -47,11 +140,8 @@ Este es un ejemplo de modelo jerárquico.
 Graficamos los resultados para cada grupo
 
 ```{r}
-ggplot(data = dragons, aes(x = bodyLength2, y = testScore, color = site)) +
-  geom_point(alpha=0.5) +
-  facet_wrap(~mountainRange) +
-  theme_bw() +
-  geom_line(data = cbind(dragons, pred = predict(myModelo)), aes(y = pred))
+myPlot2 = ggpredict(myModelo, terms = c("bodyLength2", "site", "mountainRange"), type = "random")
+plot(myPlot2, ci = FALSE)
 ```
 
 Graficamos el efecto fijo:
@@ -63,5 +153,6 @@ sjPlot::plot_model(myModelo)
 Efectos aleatorios:
 
 ```{r}
-sjPlot::plot_model(myModelo, type = 're')
+myPlot3 = sjPlot::plot_model(myModelo, type = 're')
+plot_grid(myPlot3)
 ```

@@ -17,7 +17,7 @@ class: inverse, center, middle
 
 # AlwaysR, Módulo III: Estadística en R
 
-## Clase 5: Efectos aleatorios. Introducción a GLM.
+## Clase 5: Introducción a modelos lineales y aditivos generalizados (GLM y GAM)
 
 ### Giancarlo M. Correa
 
@@ -31,7 +31,7 @@ options(htmltools.dir.version = FALSE)
 
 class: inverse, center, middle
 
-# Efectos aleatorios
+# Modelos lineales generalizados (GLM)
 
 ```{r xaringan-logo, echo=FALSE}
 xaringanExtra::use_logo(
@@ -42,9 +42,40 @@ xaringanExtra::use_logo(
 
 ---
 
-# Efectos aleatorios
+# GLM
 
-```{r, message=FALSE, warning=FALSE, echo=FALSE}
+Un modelo lineal simple puede ser expresado como:
+
+$$y \sim N(\mu , \sigma^2)$$
+
+$$\mu=\beta_0+\beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p$$
+
+--
+
+Un GLM es una opción cuando la varianza de la variable respuesta no es constante o no está normalmente distribuida.
+
+--
+
+GLM transforma la variable respuesta para que el método de estimación de parámetros siga *funcionando bien* (mediante una función *link*).
+
+--
+
+Al momento de implementar un GLM, debemos decidir dos cosas:
+
+1. La distribución a utilizar
+2. La función *link* (esto normalmente está por defecto en R).
+
+$$y \sim EDM(\mu, etc)$$
+
+$$g(\mu) = \beta_0 + \sum_{j=1}^p \beta_j x_{j}$$
+
+---
+
+# GLM
+
+Por ejemplo, podemos tener:
+
+```{r echo = FALSE, message=FALSE, warning=FALSE}
 library(sjPlot)
 library(sjmisc)
 library(ggplot2)
@@ -55,253 +86,10 @@ library(lme4)
 library(statmod)
 library(MASS)
 library(GLMsData)
+library(ggeffects)
 library(psych)
-data(hsb)
+require(visibly)
 ```
-
-Veamos los datos:
-
-```{r, echo = FALSE}
-load("dragons.RData")
-dragons$bodyLength2 <- scale(dragons$bodyLength, center = TRUE, scale = TRUE)[,1]
-```
-
-```{r}
-head(dragons)
-```
-
-```{r}
-str(dragons)
-```
-
----
-
-# Efectos aleatorios
-
-Podemos implementar un modelo lineal:
-
-```{r}
-basic_lm = lm(testScore ~ bodyLength2, data = dragons)
-summary(basic_lm)
-```
-
----
-
-# Efectos aleatorios
-
-Podemos graficar los resultados:
-
-```{r, out.width=370, fig.align="center"}
-plot_model(model = basic_lm, type = 'pred', show.data = TRUE)
-```
-
----
-
-# Efectos aleatorios
-
-Podemos obtener mas figuras para revisar los supuestos. Ahora veamos:
-
-```{r, out.width=400, fig.align="center"}
-boxplot(testScore ~ mountainRange, data = dragons)
-```
-
----
-
-# Efectos aleatorios
-
-```{r, out.width=500, fig.align="center", echo = FALSE}
-(split_plot <- ggplot(aes(bodyLength, testScore), data = dragons) + 
-  geom_point() + 
-  facet_wrap(~ mountainRange) + 
-  xlab("bodyLength") + 
-  ylab("test score"))
-```
-
-
----
-
-# Efectos aleatorios
-
-La variable `mountainRange` es una variable agrupadora! Este es un caso perfecto para incorporar un efecto aleatorio.
-
---
-
-En este caso, si incluimos `mountainRange` dentro del modelo, nosotros estaríamos controlando el efecto que esta variable pueda tener sobre la variable respuesta y explicativa. 
-
---
-
-Implementemos el modelo de efectos mixtos:
-
-```{r, warning=FALSE,message=FALSE}
-mixed_lmer = lmer(testScore ~ bodyLength2 + (1 + bodyLength2|mountainRange), data = dragons)
-```
-
----
-
-```{r}
-summary(mixed_lmer)
-```
-
----
-
-# Efectos aleatorios
-
-Revisar los supuestos: varianza constante
-
-```{r, out.width=400, fig.align="center"}
-plot(mixed_lmer)
-```
-
----
-
-# Efectos aleatorios
-
-Revisar los supuestos: distribución normal
-
-```{r, out.width=400, fig.align="center"}
-qqnorm(resid(mixed_lmer))
-qqline(resid(mixed_lmer))
-```
-
----
-
-# Efectos aleatorios
-
-Podemos plotear la línea estimada:
-
-```{r, out.width=350, fig.align="center"}
-plot_model(model = mixed_lmer, type = 'pred', show.data = TRUE)
-```
-
-
----
-
-# Efectos aleatorios
-
-Pero también podemos hacerlo por categoría:
-
-```{r, out.width=450, fig.align="center", echo = FALSE}
-(mm_plot = ggplot(dragons, aes(x = bodyLength, y = testScore, colour = site)) +
-      facet_wrap(~mountainRange, nrow=2) +  
-      geom_point(alpha = 0.5) +
-      theme_classic() +
-      geom_line(data = cbind(dragons, pred = predict(mixed_lmer)), aes(y = pred), size = 1) + 
-      theme(legend.position = "none",
-            panel.spacing = unit(2, "lines"))  
-)
-```
-
----
-
-# Efectos aleatorios
-
-Otra gráfica para evaluar resultados:
-
-```{r, out.width=400, fig.align="center", warning=FALSE, message=FALSE}
-plot_model(mixed_lmer, type = 're')
-```
-
-
----
-
-# Efectos aleatorios
-
-¿Qué otra variable puedo incluir en el modelo como efecto aleatorio?
-
-```{r}
-headTail(dragons)
-```
-
---
-
-**Site**: Se ha muestreado en 3 sitios de muestreo dentro de cada `montainRange`.
-
-
----
-
-# Efectos aleatorios
-
-Implementamos un segundo modelo:
-
-```{r, warning=FALSE,message=FALSE}
-mixed_lmer2 = lmer(testScore ~ bodyLength2 + (1 + bodyLength2|mountainRange/site), data = dragons)
-```
-
----
-
-```{r}
-summary(mixed_lmer2)
-```
-
----
-
-# Efectos aleatorios
-
-Podemos plotear la línea estimada:
-
-```{r, out.width=350, fig.align="center"}
-plot_model(model = mixed_lmer2, type = 'pred', show.data = TRUE)
-```
-
----
-
-# Efectos aleatorios
-
-Pero también podemos hacerlo por categoría:
-
-```{r, out.width=450, fig.align="center", echo = FALSE}
-(mm_plot = ggplot(dragons, aes(x = bodyLength, y = testScore, colour = site)) +
-      facet_wrap(~mountainRange, nrow=2) +  
-      geom_point(alpha = 0.5) +
-      theme_classic() +
-      geom_line(data = cbind(dragons, pred = predict(mixed_lmer2)), aes(y = pred), size = 1) + 
-      theme(legend.position = "none",
-            panel.spacing = unit(2, "lines"))  
-)
-```
-
----
-
-# Efectos aleatorios
-
-Ir a [sitio web](https://mfviz.com/hierarchical-models/).
-
----
-
-class: inverse, center, middle
-
-# Modelos lineales generalizados (GLM)
-
----
-
-# GLM
-
-Se emplea estos modelos cuando la varianza de la variable respuesta no es constante o no está normalmente distribuida.
-
---
-
-GLM transforma la variable respuesta para que el método de estimación de parámetros siga *funcionando bien*.
-
---
-
-Esta transformación hecha sobre la variable respuesta es definida por la función *link*.
-
---
-
-Al momento de implementar un GLM, debemos decidir dos cosas:
-
-1. La distribución a utilizar
-2. La función *link*.
-
-$$y_i \sim EDM(\mu_i, \phi/ \omega_i)$$
-
-$$g(\mu_i) = o_i + \beta_0 + \sum_{j=1}^p \beta_j x_{ji}$$
-
----
-
-# GLM
-
-Por ejemplo, podemos tener:
 
 ```{r}
 data(quilpie)
@@ -338,7 +126,7 @@ En R vamos a usar:
 
 ```{r}
 hsb$obj_var = ifelse(test = hsb$prog == 'academic', yes = 1, no = 0)
-mod1 = glm(obj_var ~ read, family = binomial(), data = hsb)
+mod1 = glm(obj_var ~ read, family = binomial, data = hsb)
 ```
 
 --
@@ -355,6 +143,17 @@ hsb$obj_var[1:20]
 summary(mod1)
 ```
 
+
+---
+
+# GLM: respuesta binaria
+
+Vemos un par de términos nuevos:
+
+* **Null deviance**: nos indica que tan bien la variable respuesta puede ser predicha por un modelo que solo contenga el intercepto. 
+
+* **Residual deviance**: nos indica que tan bien la variable respuesta es predicha por el modelo implementado. 
+
 ---
 
 # GLM: respuesta binaria
@@ -362,7 +161,7 @@ summary(mod1)
 La revisión de supuestos en un GLM no es tan sencilla. Podemos revisar la independencia de observaciones (especialmente importante cuando tenemos datos que vienen con posible dependencia temporal o espacial):
 
 ```{r, out.width=370, fig.align="center"}
-plot(qresid(mod1))
+plot(statmod::qresid(mod1))
 ```
 
 ---
@@ -380,7 +179,7 @@ knitr::include_graphics("images/fig27.png")
 
 Revisar los valores observados y ajustados:
 
-```{r, out.width=350, fig.align="center", warning=FALSE, message=FALSE}
+```{r, out.width=350, fig.align="center", warnings=FALSE, message=FALSE}
 plot_model(model = mod1, type = 'pred', show.data = TRUE)
 ```
 
@@ -454,7 +253,7 @@ hist(cases$Students)
 ---
 
 ```{r}
-mod2 = glm(Students ~ Days, family = "poisson", data = cases)
+mod2 = glm(Students ~ Days, family = poisson, data = cases)
 summary(mod2)
 ```
 
@@ -474,7 +273,7 @@ plot(qresid(mod2))
 
 Revisar los valores observados y ajustados:
 
-```{r, out.width=350, fig.align="center"}
+```{r, out.width=350, fig.align="center", warning=FALSE, message='hide'}
 plot_model(model = mod2, type = 'pred', show.data = TRUE)
 ```
 
@@ -530,8 +329,6 @@ hist(disc$count)
 
 ---
 
-Implementemos un modelo Poisson
-
 ```{r}
 mod3 = glm(count ~ year + yearSqr, family = "poisson", data = disc)
 summary(mod3)
@@ -539,12 +336,17 @@ summary(mod3)
 
 ---
 
-Implementemos un modelo quasi-Poisson
-
 ```{r}
 mod4 = glm(count ~ year + yearSqr, family = "quasipoisson", data = disc)
 summary(mod4)
 ```
+
+
+---
+
+# GLM: datos de conteo con sobredispersión
+
+El parámetro de overdispersion ( $\phi$ ) nos indica si una distribución quasipoisson es adecuada. Si $\phi > 1$, entonces nos sugiere usa una quasipoisson, si $\phi < 1$, una quasipoisson no es necesaria.
 
 ---
 
@@ -559,12 +361,8 @@ qqline(qresid(mod4))
 
 ---
 
-# GLM: datos de conteo con sobredispersión
-
-Para la misma base de datos `disc`, implementemos un modelo negativo binomial, usado también cuando tenemos casos de sobredispersión.
-
 ```{r}
-mod5 = glm.nb(count ~ year + yearSqr, data = disc)
+mod5 = MASS::glm.nb(count ~ year + yearSqr, data = disc)
 summary(mod5)
 ```
 
@@ -572,9 +370,13 @@ summary(mod5)
 
 # GLM: datos de conteo con sobredispersión
 
+Podemos decidir usar una distribución binomial negativa cuando, en un GLM Poisson, el ratio de Residual deviance/degrees of freedom es mayor a 1.
+
+--
+
 Revisamos los residuos:
 
-```{r, out.width=400, fig.align="center"}
+```{r, out.width=350, fig.align="center"}
 qqnorm(qresid(mod5))
 qqline(qresid(mod5))
 ```
@@ -646,6 +448,237 @@ summary(mod7)
 
 ```{r,  out.width=400, fig.align="center"}
 plot_model(mod7, type = 'pred', show.data = TRUE)
+```
+
+---
+
+class: inverse, center, middle
+
+# Modelos aditivos generalizados (GAM)
+
+---
+
+# GAM
+
+
+Hay casos en donde la asociación lineal entre las variables no se cumple. Para casos donde no se tenga una relación lineal entre la variable respuesta y variables independientes, podemos utilizar un modelo aditivo generalizado:
+
+
+$$y \sim EDM(\mu, etc)$$
+
+$$g(\mu) = \beta_0 + f(x_{1}) + f(x_{2}) + ... + f(x_{p})$$
+
+$$E(y) \sim \mu$$
+--
+
+Variables independientes ahora incorporan una función de suavizamiento (basis function, $f$ ), lo que permite relaciones no lineales entre las variables.
+
+---
+
+Por ejemplo:
+
+```{r echo = FALSE, fig.align='center'}
+set.seed(552)
+simfunc <- function(x) {sin(2*pi*x^3)^3+0.8}
+x <- seq(0, 1, by=0.01)
+y <- simfunc(x) + rnorm(n=length(x), sd=0.2)
+simdata <- data.frame(x, y)
+ggplot(simdata, aes(x=x, y=y)) + 
+  geom_point() + 
+  theme_bw()
+```
+
+---
+
+¿Podríamos implementar un ANOVA o algún modelo lineal?
+
+```{r echo = FALSE, fig.align='center'}
+set.seed(552)
+simfunc <- function(x) {sin(2*pi*x^3)^3+0.8}
+x <- seq(0, 1, by=0.01)
+y <- simfunc(x) + rnorm(n=length(x), sd=0.2)
+simdata <- data.frame(x, y)
+ggplot(simdata, aes(x=x, y=y)) + 
+  geom_point() + 
+  theme_bw() +
+geom_vline(xintercept=c(0.5, 0.85), color="red", linetype="dashed")
+```
+
+---
+
+Una función como esta nos puede ayudar mucho:
+
+```{r echo = FALSE, fig.align='center'}
+set.seed(552)
+simfunc <- function(x) {sin(2*pi*x^3)^3+0.8}
+x <- seq(0, 1, by=0.01)
+y <- simfunc(x) + rnorm(n=length(x), sd=0.2)
+simdata <- data.frame(x, y)
+ggplot(simdata, aes(x=x, y=y)) + 
+  geom_point() + 
+  theme_bw() +
+geom_vline(xintercept=c(0.5, 0.85), color="red", linetype="dashed") +
+stat_function(fun=simfunc, color="gray")
+```
+
+---
+
+```{r echo = FALSE, out.width=700, fig.align="center"}
+knitr::include_graphics("images/mcycleFigure-1.svg")
+```
+
+---
+
+¿Qué es un nodo (knots)?
+
+```{r echo = FALSE, out.width=700, fig.align="center"}
+knitr::include_graphics("images/piecewisePoly-1.svg")
+```
+
+--
+
+A mayor cantidad de nodos, mejor ajuste (cuidado con oversmoothing!).
+
+---
+
+De una forma general:
+
+$$g(\mu) = \beta_0 + f(x_{1}) + f(x_{2}) + ... + f(x_{p})$$
+
+--
+
+Luego:
+
+$$f(x_1) = \beta_0 + \beta_1x^1 + ... + \beta_dx^d$$
+--
+
+Podemos producir cualquier función polinomial!
+
+---
+
+# GAM en R
+
+```{r warnings=FALSE, messages='hide'}
+library(mgcv)
+head(savings, n = 10)
+```
+
+---
+
+```{r}
+fit_gam = gam(sr ~ s(pop15) + s(pop75) + s(dpi) + s(ddpi), data=savings)
+summary(fit_gam)
+```
+
+---
+
+# GAM en R
+
+Aquí hay algunos términos nuevos:
+
+* **edf**: effective degrees of freedom. Es un resultados de la penalidad aplicada al grado de suavizamiento (detalles estadísticos en bibliografía!). Evita un over-suavizamiento o under-suavizamiento. Puede interpretarse como el nivel de suavizamiento aplicado a una variable.
+
+* **GCV**: generalized cross validation. Es un proxy del error de predicción cuadrático medio (mean square prediction error). Esto se basa en un método llamado *leave-one-out cross validation*. Utilizado para comparar modelos (similar a *AIC*), donde el modelo con menor *GCV* es el mejor.
+
+* **Deviance explained**: es una generalización del $R^2$ (sin ajustar).
+
+* **Scale est.**: equivalente a la suma de cuadrado de los residuales.
+
+---
+
+```{r fig.align='center'}
+plot(fit_gam, pages=1)
+```
+
+---
+
+También podemos observarlo en escala de las variable respuesta:
+
+```{r fig.align='center'}
+plot(ggeffects::ggpredict(fit_gam), facets = TRUE)
+```
+
+---
+
+# GAM en R
+
+Existen diferentes formas de suavizar una variable (smooth term), los cuales pueden ser explorados [aquí](https://stat.ethz.ch/R-manual/R-devel/library/mgcv/html/smooth.terms.html). El método por defecto es: thin plate regression splines (funciona bien en la mayoría de los casos) `bs = "tp"`.
+
+---
+
+También debemos revisar los supuestos de un GAM. Distribución de residuales:
+
+```{r fig.align='center'}
+par(mfrow = c(2,2))
+gam.check(fit_gam)
+```
+
+---
+
+# GAM en R: respuesta binomial
+
+Hasta el momento hemos visto una respuesta Gaussiana (normal) con una función link igual a la identidad (`identity`). En GAMs también podemos incorporar diferentes familias:
+
+--
+
+```{r}
+cricketer = read.csv('cricketr.csv')
+cricketer$hand = NA
+cricketer$hand = ifelse(test = cricketer$left == 'left', yes = 1, no = 0)
+head(cricketer)
+```
+
+---
+
+Para implementar el modelo:
+
+```{r}
+hand.gam = gam(hand ~ s(year), data=cricketer, family=binomial)
+summary(hand.gam)
+```
+
+---
+
+Revisamos los efectos:
+
+```{r fig.align='center'}
+plot(ggeffects::ggpredict(hand.gam), facets = TRUE)
+```
+
+---
+
+# GAM en R: respuesta Poisson
+
+Podemos transformar los datos de la siguiente forma:
+
+```{r}
+rtlef = data.frame(with(cricketer, as(table(year, left),"matrix")))
+rtlef$year = as.numeric(rownames(rtlef))
+head(rtlef)
+```
+
+--
+
+Luego:
+
+```{r}
+hand.gam2 = gam(left ~ s(year), data=rtlef, family=poisson)
+```
+
+---
+
+```{r fig.align='center'}
+plot(ggeffects::ggpredict(hand.gam2), facets = TRUE)
+```
+
+---
+
+# GAM en R: respuesta Poisson
+
+Podemos también extraer los datos predichos por el modelo:
+
+```{r fig.align='center'}
+predict(hand.gam2, type="response")[1:20]
 ```
 
 ---
