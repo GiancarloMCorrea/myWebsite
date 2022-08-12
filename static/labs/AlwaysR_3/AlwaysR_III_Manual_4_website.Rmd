@@ -1,0 +1,28 @@
+---
+title: 'AlwaysR, Módulo III: Estadística en R.'
+subtitle: 'Lab 04'
+author: "Giancarlo M. Correa"
+output:
+  prettydoc::html_pretty:
+    theme: tactile
+    highlight: github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+En esta sección se resume los conceptos más importantes vistos en la parte práctica de cada clase.
+
+Cargamos librerías a utilizar
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(faraway)
+library(Sleuth3)
+library(nlme)
+library(olsrr)
+library(lme4)
+library(sjPlot)
+library(sjmisc)
+```
