@@ -1,0 +1,89 @@
+---
+title: 'AlwaysR, Módulo III: Estadística en R.'
+subtitle: 'Lab 05'
+author: "Giancarlo M. Correa"
+output:
+  prettydoc::html_pretty:
+    theme: tactile
+    highlight: github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+En esta sección se resume los conceptos más importantes vistos en la parte práctica de cada clase.
+
+Cargamos librerías a utilizar
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(datasets)
+library(MASS)
+library(statmod)
+library(mgcv)
+library(faraway)
+library(ggeffects)
+library(nlme)
+library(lme4)
+library(mlmRev)
+```
+
+## Caso de estudio: sobrevivencia del bacalao del mar de Barents
+
+Trabajemos con esta base de datos:
+
+```{r}
+BScod = read.csv(file = 'cod01.csv',header=T,sep=';')
+head(BScod)
+```
+
+Implementamos un primer modelo, donde la variable respuesta es `age1` (indice de sobrevivencia):
+
+```{r}
+age1.0 = gam(age1 ~ s(age0,k=5)+s(age4.6,k=5)+s(temp,k=5)+s(capelin,k=5)+factor(trawl.type), data=BScod)
+summary(age1.0)
+```
+
+Observemos que estamos especificando un número de nodos (`k`) por nuestra cuenta. Chequeamos nuestros resultados:
+
+```{r}
+par(mfrow  = c(2,2))
+gam.check(age1.0)
+```
+
+Al parece todo se ve bien. Vamos a graficar los efectos sobre la respuesta:
+
+```{r}
+plot(ggeffects::ggpredict(age1.0), facets = TRUE)
+```
+
+Como vemos, al parece la variable `capelin` es la menos importante en este modelo. Vamos a removerla y crear otro modelo:
+
+```{r}
+age1.1 = gam(age1~s(age0,k=5)+s(age4.6,k=5)+s(temp,k=5)+factor(trawl.type),data=BScod)
+summary(age1.1)
+```
+
+Vamos a graficar los efectos sobre la respuesta:
+
+```{r}
+plot(ggeffects::ggpredict(age1.1), facets = TRUE)
+```
+
+¿Qué modelo es el mejor? Podemos calcular el AIC de cada modelo:
+
+```{r}
+AIC(age1.0)
+AIC(age1.1)
+```
+
+Esto nos sugiere elegir el modelo con la variable `capelin`.
+
+Sin embargo, también podemos hacer un ANOVA para evaluar la importancia de la variable `capelin` en el modelo:
+
+```{r}
+anova(age1.1,age1.0,test='F')
+```
+
+El ANOVA nos sugiere que la variable `capelin` no es importante y debemos removerla. En casos como esto, se sugiere quedarnos con el modelo más simple.
