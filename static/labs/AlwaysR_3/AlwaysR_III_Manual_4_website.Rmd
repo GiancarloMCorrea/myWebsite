@@ -26,3 +26,42 @@ library(lme4)
 library(sjPlot)
 library(sjmisc)
 ```
+
+Trabajemos con esta base de datos:
+
+```{r}
+dragons = read.csv(file = 'dragons.csv')
+dragons$bodyLength2 = scale(dragons$bodyLength)
+head(dragons)
+```
+
+Implementamos un modelo lineal mixto:
+
+```{r, warning=FALSE, message=FALSE}
+myModelo = lmer(testScore ~ bodyLength2 + (1 + bodyLength2|mountainRange/site), data = dragons)
+summary(myModelo)
+```
+
+Este es un ejemplo de modelo jerárquico.
+
+Graficamos los resultados para cada grupo
+
+```{r}
+ggplot(data = dragons, aes(x = bodyLength2, y = testScore, color = site)) +
+  geom_point(alpha=0.5) +
+  facet_wrap(~mountainRange) +
+  theme_bw() +
+  geom_line(data = cbind(dragons, pred = predict(myModelo)), aes(y = pred))
+```
+
+Graficamos el efecto fijo:
+
+```{r}
+sjPlot::plot_model(myModelo)
+```
+
+Efectos aleatorios:
+
+```{r}
+sjPlot::plot_model(myModelo, type = 're')
+```
