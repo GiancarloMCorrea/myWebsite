@@ -16,21 +16,19 @@ tags: []
 title: Woods Hole Assessment Model
 ---
 
-In this tutorial, I present the extended features that my colleagues,
-Cole Monnahan and Jane Sullivan, and I have incorporated into the Woods
-Hole Assessment Model (WHAM). The base features of this model has been
-developed by Tim Miller and colleagues and are reported in Stock and
-Miller (2021) and references therein. Also, several vignettes can be
-found in the [WHAM
-website](https://timjmiller.github.io/wham/index.html) explaining how to
-run a model in WHAM. Before continuing exploring this tutorial, I highly
-advise taking a look at that website.
+In this tutorial, I present the extended features that my colleagues and
+I have incorporated into the Woods Hole Assessment Model (WHAM). The
+base features of this model has been developed by Tim Miller and
+collaborators and are reported in Stock and Miller (2021) and references
+therein. Also, several vignettes can be found in the [WHAM
+website](https://timjmiller.github.io/wham/index.html). Before
+continuing exploring this tutorial, I highly advise taking a look at
+that website.
 
-First of all, the features described here are available in the
-[**growth** branch](https://github.com/gmoroncorrea/wham/tree/growth)
-forked from the [**master** branch of the WHAM GitHub
-repository](https://github.com/timjmiller/wham/) and can be installed
-using this line:
+The features described here are available in the [**growth**
+branch](https://github.com/gmoroncorrea/wham/tree/growth) forked from
+the [**devel** branch](https://github.com/timjmiller/wham/tree/devel) of
+the WHAM GitHub repository and can be installed using this line:
 
 ``` r
 remotes::install_github(repo = 'gmoroncorrea/wham', ref='growth', INSTALL_opts = c("--no-docs", "--no-multiarch", "--no-demo"))
@@ -46,9 +44,7 @@ library(wham)
 
 New data inputs have been added. There are two main ways how WHAM can
 read the input data: reading an ASAP3 data file or creating an R object
-(list). The former option is not compatible with the new version of WHAM
-presented in this tutorial, therefore, we focus on creating an R list
-with the input data:
+(list). In this tutorial, we will explore the latter option:
 
 ``` r
 wham_data = list()
@@ -69,7 +65,11 @@ The new inputs are:
 
 -   `$lengths`: fish length bins
 -   `$catch_pal`: Length compositions for fisheries. Array (number of
-    fisheries $$ number of years $$ number of length bins).
+    fisheries
+    ×
+    number of years
+    ×
+    number of length bins).
 -   `$catch_NeffL`: Input sample size for length compositions
     (fisheries). Matrix (number of years $$ number of fisheries).
 -   `$use_catch_pal`: Use (1) or not use (0) length compositions
@@ -299,4 +299,3 @@ Model (WHAM): A General State-Space Assessment Framework That
 Incorporates Time- and Age-Varying Processes via Random Effects and
 Links to Environmental Covariates.” *Fisheries Research* 240 (August):
 105967. <https://doi.org/10.1016/j.fishres.2021.105967>.
-
