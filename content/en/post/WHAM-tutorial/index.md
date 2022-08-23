@@ -16,6 +16,9 @@ tags: []
 title: Woods Hole Assessment Model
 ---
 
+> :warning: **This tutorial is under development and some features could
+> be changed in future versions**
+
 In this tutorial, I present the extended features that my colleagues and
 I have incorporated into the Woods Hole Assessment Model (WHAM). The
 base features of this model has been developed by Tim Miller and
@@ -63,45 +66,78 @@ website](https://timjmiller.github.io/wham/index.html).
 
 The new inputs are:
 
--   `$lengths`: fish length bins
--   `$catch_pal`: Length compositions for fisheries. Array (number of
-    fisheries
+-   `wham_data$lengths`: fish length bins (cm)
+-   `wham_data$catch_pal`: Length compositions for fisheries. Array
+    (number of fisheries
     ×
     number of years
     ×
     number of length bins).
--   `$catch_NeffL`: Input sample size for length compositions
-    (fisheries). Matrix (number of years $$ number of fisheries).
--   `$use_catch_pal`: Use (1) or not use (0) length compositions
-    (fisheries). Matrix (number of years $$ number of fisheries).
--   `$catch_caal`: Conditional length-at-age (CAAL) for fisheries. Array
-    (number of fisheries $$ number of years $$ number of length bins $$
+-   `wham_data$catch_NeffL`: Input sample size for length compositions
+    (fisheries). Matrix (number of years
+    ×
+    number of fisheries).
+-   `wham_data$use_catch_pal`: Use (1) or not use (0) length
+    compositions (fisheries). Matrix (number of years
+    ×
+    number of fisheries).
+-   `wham_data$catch_caal`: Conditional length-at-age (CAAL) for
+    fisheries. Array (number of fisheries
+    ×
+    number of years
+    ×
+    number of length bins
+    ×
     number of ages).
--   `$catch_caal_Neff`: Input sample size for CAAL (fisheries). Matrix
-    (number of years $$ number of fisheries $$ number of length bins).
--   `$use_catch_caal`: Use (1) or not use (0) CAAL (fisheries). Matrix
-    (number of years $$ number of fisheries).
--   `$index_pal`: Length compositions for indices. Array (number of
-    indices $$ number of years $$ number of length bins).
--   `$index_NeffL`: Input sample size for length compositions (indices).
-    Matrix (number of years $$ number of indices).
--   `$use_index_pal`: Use (1) or not use (0) length compositions
-    (indices). Matrix (number of years $$ number of indices).
--   `$index_caal`: Conditional length-at-age (CAAL) for indices. Array
-    (number of indices $$ number of years $$ number of length bins $$
+-   `wham_data$catch_caal_Neff`: Input sample size for CAAL (fisheries).
+    Array (number of years
+    ×
+    number of fisheries
+    ×
+    number of length bins).
+-   `wham_data$use_catch_caal`: Use (1) or not use (0) CAAL (fisheries).
+    Matrix (number of years
+    ×
+    number of fisheries).
+-   `wham_data$index_pal`: Length compositions for indices. Array
+    (number of indices
+    ×
+    number of years
+    ×
+    number of length bins).
+-   `wham_data$index_NeffL`: Input sample size for length compositions
+    (indices). Matrix (number of years
+    ×
+    number of indices).
+-   `wham_data$use_index_pal`: Use (1) or not use (0) length
+    compositions (indices). Matrix (number of years
+    ×
+    number of indices).
+-   `wham_data$index_caal`: Conditional age-at-length (CAAL) for
+    indices. Array (number of indices
+    ×
+    number of years
+    ×
+    number of length bins
+    ×
     number of ages).
--   `$index_caal_Neff`: Input sample size for CAAL (indices). Matrix
-    (number of years $$ number of indices $$ number of length bins).
--   `$use_index_caal`: Use (1) or not use (0) CAAL (indices). Matrix
-    (number of years $$ number of indices).
+-   `wham_data$index_caal_Neff`: Input sample size for CAAL (indices).
+    Array (number of years
+    ×
+    number of indices
+    ×
+    number of length bins).
+-   `wham_data$use_index_caal`: Use (1) or not use (0) CAAL (indices).
+    Matrix (number of years
+    ×
+    number of indices).
 
 These data inputs are not mandatory (i.e. if length compositions for
-indices are not available, `$index_pal`, `$index_NeffL`, and
-`$use_index_pal` do not need to be created).
+indices are not available, `wham_data$index_pal`,
+`wham_data$index_NeffL`, and `wham_data$use_index_pal` do not need to be
+created).
 
-Finally, I want to point out that WHAM also requires to input the
-weight-at-age information for all fisheries and indices ( `$waa` ). This
-will be important to keep in mind in the following sections.
+There are some extra important data inputs as explained below.
 
 # Parameters
 
@@ -124,21 +160,37 @@ here](https://timjmiller.github.io/wham/articles/ex4_selectivity.html)
 ): `age-specific`, `logistic`, `double-logistic`, `decreasing-logistic`.
 
 For this new WHAM version, the selectivity can be at age or at length.
-Also, I replaced the `double-logistic` by the `double-normal`
-parametrization (see Privitera-Johnson, Methot, and Punt (2022) ).
-Therefore, the following options are available:
+Also, we added the `double-normal` parametrization (see
+Privitera-Johnson, Methot, and Punt (2022) ). Therefore, the following
+options are available:
 
 -   `age-specific`: selectivity by age (number of parameters is the
     number of ages)
--   `age-logistic`: increasing logistic at age (2 parameters)
--   `age-double-normal`: double normal at age (6 parameters)
--   `age-decreasing-logistic`: decreasing logistic at age (2 parameters)
+-   `logistic`: increasing logistic at age (2 parameters)
+-   `double-logistic`: double logistic at age (4 parameters)
+-   `decreasing-logistic`: decreasing logistic at age (2 parameters)
+-   `double-normal`: double normal at age (6 parameters)
 -   `len-logistic`: increasing logistic at length (2 parameters)
--   `len-double-normal`: double normal at length (6 parameters)
 -   `len-decreasing-logistic`: decreasing logistic at length (2
     parameters)
+-   `len-double-normal`: double normal at length (6 parameters)
 
-## Length-at-weight relationship
+The double normal equation can be found in Methot and Wetzel (2013).
+
+## Weight-at-age
+
+In this new version, there are three methods to get weight-at-age:
+
+### Empirical weight-at-age
+
+This is the only strategy available in the base WHAM version, the user
+should provide the empirical weight-at-age as input data
+(`wham_data$waa`), which will be used to calculate spawning biomass and
+reference points. However, an extra data input should be provided:
+
+-   `wham_data$waa_type`: 1 (use this method)
+
+### Length-weight relationship
 
 ``` r
 prepare_wham_input(...,
@@ -146,8 +198,8 @@ prepare_wham_input(...,
                    ...)
 ```
 
-In case weight-at-age information is not provided as data input ( `$waa`
-), the user can provide the parameters of the length-at-weight potential
+In case weight-at-age information is not provided ( `wham_data$waa` ),
+the user can specify the parameters of the length-at-weight potential
 relationship. The arguments are:
 
 -   `LW$re`: random effects (RE) on LW parameters (2). Five options are
@@ -164,21 +216,55 @@ relationship. The arguments are:
 -   `LW$init_vals`: LW parameters initial values (2).
 -   `LW$est_pars`: Which LW parameter to estimate.
 
+Also, here we use:
+
+-   `wham_data$waa_type`: 2 (use this method)
+
+### Fit empirical weight-at-age
+
+This strategy uses the empirical weight-at-age (`$waa`) to fit the
+predicted weight-at-age by the length-weight relationship through a
+likelihood function. For this case, the user should define:
+
+-   `wham_data$waa_type`: 3 (use this method)
+
 ## Somatic growth
 
-There are two main ways to model mean length-at-age: using the von
-Bertalanffy growth function or inputing a mean length-at-age.
+There are three main ways to model changes in the mean length-at-age:
+
+### Input an age-length transition matrix
+
+This is an optional data input:
+
+-   `wham_data$phi_matrix_input`: Array (number of fleets + 2
+    ×
+    number of length bins
+    ×
+    number of ages). Keep in mind that
+    `dim(waa)[1] == dim(wham_data$phi_matrix_input)[1]`, and that WAA
+    pointers are also used for this matrix (e.g.,
+    `wham_data$waa_pointer_jan1`, etc).
+-   `wham_data$phi_matrix_info`: 1 (use input matrix)
 
 ### von Bertalanffy growth function
 
 As parametrized by Schnute (1981). There are five parameters:
 
--   *k*: growth rate
--   *L*<sub>*i**n**f*</sub>: Asymptotic length
--   *L*<sub>1</sub>: length at age 1
--   *C**V*<sub>1</sub>: coefficient of variation of lengths at age 1
--   *C**V*<sub>*A*</sub>: coefficient of variation of lengths at age A
-    (age plus group)
+-   
+    *k*
+    : growth rate
+-   
+    *L*<sub>*i**n**f*</sub>
+    : Asymptotic length
+-   
+    *L*<sub>1</sub>
+    : length at age 1
+-   
+    *C**V*<sub>1</sub>
+    : coefficient of variation of lengths at age 1
+-   
+    *C**V*<sub>*A*</sub>
+    : coefficient of variation of lengths at age A (age plus group)
 
 ``` r
 prepare_wham_input(...,
@@ -201,6 +287,10 @@ The arguments are:
 
 -   `growth$init_vals`: growth parameters initial values (5).
 -   `growth$est_pars`: Which growth parameter to estimate.
+
+Also:
+
+-   `wham_data$phi_matrix_info`: 0
 
 ### Input mean length-at-age (LAA)
 
@@ -231,6 +321,10 @@ The arguments are:
 | `2dar1`  |  correlated by age and year (2D AR1)  | *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub> |
 
 -   `LAA$LAA_est`: Which LAA to estimate.
+
+Also:
+
+-   `wham_data$phi_matrix_info`: 0
 
 # Analysis of results
 
@@ -280,10 +374,12 @@ You can find several examples about how to use these new WHAM features
 [here](https://giancarlomcorrea.netlify.app/labs/postdoc-uw/mytutorial_testing).
 I will produce more examples in the future.
 
-**This tutorial is under development and some features could be changed
-in future versions**
-
 ### References
+
+Methot, Richard D., and Chantell R. Wetzel. 2013. “Stock Synthesis: A
+Biological and Statistical Framework for Fish Stock Assessment and
+Fishery Management.” *Fisheries Research* 142 (May): 86–99.
+<https://doi.org/10.1016/j.fishres.2012.10.012>.
 
 Privitera-Johnson, Kristin M., Richard D. Methot, and André E. Punt.
 2022. “Towards Best Practice for Specifying Selectivity in
