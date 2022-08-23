@@ -295,8 +295,10 @@ Also:
 ### Input mean length-at-age (LAA)
 
 The number of parameters is equal to the number of ages. Also, the
-*C**V*<sub>1</sub> and *C**V*<sub>*A*</sub> should be specified in
-`growth`.
+*C**V*<sub>1</sub>
+and
+*C**V*<sub>*A*</sub>
+should be specified in `growth`.
 
 ``` r
 prepare_wham_input(...,
