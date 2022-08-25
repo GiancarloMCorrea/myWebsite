@@ -17,7 +17,7 @@ title: Woods Hole Assessment Model
 ---
 
 > :warning: **This tutorial is under development and some features could
-> be changed in future versions**
+> be changed in future versions.**
 
 In this tutorial, I present the extended features that my colleagues and
 I have incorporated into the Woods Hole Assessment Model (WHAM). The
@@ -330,6 +330,12 @@ The arguments are:
 Also:
 
 -   `wham_data$phi_matrix_info`: 0
+
+> :heavy_check_mark: **Projections and OSA residuals are also
+> available**
+
+> :rotating_light: **Ecov for growth and length-weight parameters not
+> implemented yet**
 
 # Analysis of results
 
