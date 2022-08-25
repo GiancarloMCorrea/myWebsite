@@ -43,6 +43,9 @@ Then:
 library(wham)
 ```
 
+> :heavy_check_mark: **This new WHAM version produces the same results
+> of the base WHAM (devel branch) version (using the same input data)**
+
 # Data
 
 New data inputs have been added. There are two main ways how WHAM can
@@ -66,7 +69,8 @@ website](https://timjmiller.github.io/wham/index.html).
 
 The new inputs are:
 
--   `wham_data$lengths`: fish length bins (cm)
+-   `wham_data$lengths`: fish length bins (cm). Length bin width should
+    be uniform.
 -   `wham_data$catch_pal`: Length compositions for fisheries. Array
     (number of fisheries
     ×
@@ -222,11 +226,13 @@ Also, here we use:
 
 ### Fit empirical weight-at-age
 
-This strategy uses the empirical weight-at-age (`$waa`) to fit the
-predicted weight-at-age by the length-weight relationship through a
+This strategy uses the empirical weight-at-age (`wham_data$waa`) to fit
+the predicted weight-at-age by the length-weight relationship through a
 likelihood function. For this case, the user should define:
 
 -   `wham_data$waa_type`: 3 (use this method)
+-   `wham_data$waa_Neff`: Sampling effort. Array (same dimensions as
+    `wham_data$waa`)
 
 ## Somatic growth
 
@@ -265,7 +271,7 @@ As parametrized by Schnute (1981). There are five parameters:
 
 ``` r
 prepare_wham_input(...,
-                   growth = list(model = 1, re, init_vals, est_pars),
+                   growth = list(model = "vB_classic", re, init_vals, est_pars),
                    ...)
 ```
 
@@ -299,7 +305,7 @@ should be specified in `growth`.
 
 ``` r
 prepare_wham_input(...,
-                   growth = list(model = 2, re, init_vals, est_pars),
+                   growth = list(model = "LAA", re, init_vals, est_pars),
                    LAA = list(LAA_vals, re, LAA_est),
                    ...)
 ```
