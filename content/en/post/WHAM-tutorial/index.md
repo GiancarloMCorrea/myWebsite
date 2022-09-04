@@ -17,7 +17,7 @@ title: Woods Hole Assessment Model
 ---
 
 > :warning: **This tutorial is under development and some features could
-> be changed in future versions.**
+> be changed in future versions**
 
 In this tutorial, I present the extended features that my colleagues and
 I have incorporated into the Woods Hole Assessment Model (WHAM). The
@@ -150,6 +150,18 @@ also invite the readers to take a look at the help of that function
 (`?prepare_wham_input`) to find more details about the new features
 implemented here.
 
+The length composition model is specified in the `prepare_wham_input`
+function:
+
+``` r
+prepare_wham_input(...,
+                   len_comp = "multinomial",
+                   ...)
+```
+
+and the options available are the same as those for the age composition.
+For CAAL data, the model should be specified in the `age_comp` argument.
+
 ## Selectivity
 
 ``` r
@@ -203,8 +215,8 @@ prepare_wham_input(...,
 ```
 
 In case weight-at-age information is not provided ( `wham_data$waa` ),
-the user can specify the parameters of the length-at-weight potential
-relationship. The arguments are:
+the user can specify the parameters of the length-weight relationship.
+The arguments are:
 
 -   `LW$re`: random effects (RE) on LW parameters (2). Five options are
     available:
@@ -218,7 +230,7 @@ relationship. The arguments are:
 | `ar1_c` |   correlated by cohort (AR1)    | *σ*<sub>*W*</sub>, *ρ* |
 
 -   `LW$init_vals`: LW parameters initial values (2).
--   `LW$est_pars`: Which LW parameter to estimate.
+-   `LW$est_pars`: LW parameter to estimate.
 
 Also, here we use:
 
@@ -231,8 +243,9 @@ the predicted weight-at-age by the length-weight relationship through a
 likelihood function. For this case, the user should define:
 
 -   `wham_data$waa_type`: 3 (use this method)
--   `wham_data$waa_Neff`: Sampling effort. Array (same dimensions as
-    `wham_data$waa`)
+-   `wham_data$waa_cv`: Coefficient of variation. Array
+    (`dim(wham_data$waa)`). When `waa_cv == 0`, the cell will not be
+    taken into account in the likelihood calculation.
 
 ## Somatic growth
 
@@ -242,13 +255,11 @@ There are three main ways to model changes in the mean length-at-age:
 
 This is an optional data input:
 
--   `wham_data$phi_matrix_input`: Array (number of fleets + 2
+-   `wham_data$phi_matrix_input`: Array (`dim(wham_data$waa)[1]`
     ×
     number of length bins
     ×
-    number of ages). Keep in mind that
-    `dim(waa)[1] == dim(wham_data$phi_matrix_input)[1]`, and that WAA
-    pointers are also used for this matrix (e.g.,
+    number of ages). WAA pointers are also used for this matrix (e.g.,
     `wham_data$waa_pointer_jan1`, etc).
 -   `wham_data$phi_matrix_info`: 1 (use input matrix)
 
@@ -260,13 +271,13 @@ As parametrized by Schnute (1981). There are five parameters:
     *k*
     : growth rate
 -   
-    *L*<sub>*inf*</sub>
+    *L*<sub>*i**n**f*</sub>
     : Asymptotic length
 -   
     *L*<sub>1</sub>
     : length at age 1
--   *CV*<sub>1</sub>: coefficient of variation of lengths at age 1
--   *CV*<sub>*A*</sub>: coefficient of variation of lengths at age A
+-   *C**V*<sub>1</sub>: coefficient of variation of lengths at age 1
+-   *C**V*<sub>*A*</sub>: coefficient of variation of lengths at age A
     (age plus group)
 
 ``` r
@@ -295,12 +306,12 @@ Also:
 
 -   `wham_data$phi_matrix_info`: 0
 
-### Input mean length-at-age (LAA)
+### Mean length-at-age (LAA)
 
 The number of parameters is equal to the number of ages. Also, the
-*CV*<sub>1</sub>
+*C**V*<sub>1</sub>
 and
-*CV*<sub>*A*</sub>
+*C**V*<sub>*A*</sub>
 should be specified in `growth`.
 
 ``` r
@@ -331,11 +342,30 @@ Also:
 
 -   `wham_data$phi_matrix_info`: 0
 
+# Environmental covariates
+
+I assume that the user is familiar with the syntax to include
+environmental covariates in WHAM. In this version, new options are
+available:
+
+``` r
+prepare_wham_input(...,
+                   ecov = list(...,
+                               where = 'growth',
+                               where_subindex = 1,
+                               ....),
+                   ...)
+```
+
+`where` can be `growth` (either for the parametric von Bertalanffy model
+or the mean length-at-age) or `LW`. `where_subindex` is the parameter
+that will be linked to the environmental covariate, and the subindex
+number follows the order as mentioned in the previous section
+(e.g. `where = 'growth'` and `where_subindex = 2` will impact the
+asymptotic length).
+
 > :heavy_check_mark: **Projections and OSA residuals are also
 > available**
-
-> :rotating_light: **Ecov for growth and length-weight parameters not
-> implemented yet**
 
 # Analysis of results
 
@@ -367,7 +397,7 @@ or bubble plots of CAAL residuals:
 
 Some plots summarizing the variability in some parameters and biological
 aspects are also available. For example, the variability of mean
-length-at-age (when `growth$model = 2`):
+length-at-age (when `growth$model = 'LAA'`):
 
 ![](index_files/figure-markdown_github/LAA_tile.png)
 
@@ -381,9 +411,9 @@ function.
 
 # Examples
 
-You can find several examples about how to use these new WHAM features
-[here](https://giancarlomcorrea.netlify.app/labs/postdoc-uw/mytutorial_testing).
-I will produce more examples in the future.
+You can find three examples of the application of these new WHAM
+features
+[here](https://giancarlomcorrea.netlify.app/labs/WHAM/WHAM_examples).
 
 ### References
 
