@@ -1,6 +1,6 @@
 ---
-title: 'Testing changes in WHAM: length information and growth modeling'
-author: "Giancarlo Correa"
+title: 'Examples WHAM: growth modeling and length information'
+author: "Giancarlo M. Correa"
 date: "`r Sys.Date()`"
 output:
   rmdformats::downcute:
