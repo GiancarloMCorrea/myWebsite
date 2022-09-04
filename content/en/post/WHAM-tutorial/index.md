@@ -276,8 +276,8 @@ As parametrized by Schnute (1981). There are five parameters:
 -   
     *L*<sub>1</sub>
     : length at age 1
--   *C**V*<sub>1</sub>: coefficient of variation of lengths at age 1
--   *C**V*<sub>*A*</sub>: coefficient of variation of lengths at age A
+-   *CV*<sub>1</sub>: coefficient of variation of lengths at age 1
+-   *CV*<sub>*A*</sub>: coefficient of variation of lengths at age A
     (age plus group)
 
 ``` r
@@ -309,9 +309,9 @@ Also:
 ### Mean length-at-age (LAA)
 
 The number of parameters is equal to the number of ages. Also, the
-*C**V*<sub>1</sub>
+*CV*<sub>1</sub>
 and
-*C**V*<sub>*A*</sub>
+*CV*<sub>*A*</sub>
 should be specified in `growth`.
 
 ``` r
@@ -411,9 +411,8 @@ function.
 
 # Examples
 
-You can find three examples of the application of these new WHAM
-features
-[here](https://giancarlomcorrea.netlify.app/labs/WHAM/WHAM_examples).
+You can find examples about the use of the new WHAM features [in this
+link](https://giancarlomcorrea.netlify.app/labs/WHAM/WHAM_examples).
 
 ### References
 

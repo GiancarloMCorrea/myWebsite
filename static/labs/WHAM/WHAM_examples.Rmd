@@ -292,9 +292,7 @@ compare_wham_models(all_models, fdir = 'growth_models', do.table = FALSE)
 
 and check SSB:
 
-```{r echo = FALSE, fig.cap="Selectivity-at-length", out.width='100%'}
-knitr::include_graphics("growth_models/compare_png/compare_SSB_F_R.png")
-```
+![Compare time series.](growth_models/compare_png/compare_SSB_F_R.png){width=80%}
 
 We can also compare the estimated mean length-at-age between these models and the OM:
 
@@ -335,9 +333,8 @@ ggplot(data = plot_data, aes(x = year, y = LAA, color = factor(type))) +
   facet_wrap(. ~ factor(age), nrow = 5, scales = 'free_y')
 ```
 
-```{r echo = FALSE, fig.cap="Compare mean length-at-age", out.width='100%'}
-knitr::include_graphics("LAA_comparison.png")
-```
+![Compare mean length-at-age.](LAA_comparison.png){width=80%}
+
 
 # Example 2: CAAL data
 
@@ -502,9 +499,7 @@ plot_wham_output(mod = my_model_4, dir.main = 'my_model_4', res = 300, out.type 
 ```
 Now we can explore the results. Especially, we might be interested in the selectivity-at-length:
 
-```{r echo = FALSE, fig.cap="Selectivity-at-length", out.width='100%'}
-knitr::include_graphics("my_model_4/plots_png/results/selex_tile.png")
-```
+![Selectivity-at-length.](my_model_4/plots_png/results/selex_tile.png){width=80%}
 
 # Example 3: length-weight variability
 
@@ -658,9 +653,7 @@ ggplot(data = plot_data, aes(x = years, y = par_a, color = factor(type))) +
   geom_line() +
   theme_bw() +
   labs(color = 'Model') +
-  theme(legend.position = c(0.3, 0.15))
+  theme(legend.direction="horizontal", legend.position = 'bottom')
 ```
 
-```{r echo = FALSE, fig.cap="Trends in the a parameter between models", out.width='100%'}
-knitr::include_graphics("par_a_comparison.png")
-```
+![Trends in the a parameter between models.](par_a_comparison.png){width=80%}
