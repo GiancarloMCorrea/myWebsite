@@ -1,0 +1,300 @@
+---
+title: "Incorporating length information and growth estimation in the Woods Hole Assessment Model (WHAM)"
+author: 
+   - Giancarlo M. Correa$^1$, Cole Monnahan$^2$, Jane Sullivan$^3$, James T. Thorson$^2$, Andre E. Punt$^1$
+institute: 
+   - $^1$University of Washington, Seattle, WA
+   - $^2$Alaska Fisheries Science Center, NOAA, Seattle, WA
+   - $^3$Alaska Fisheries Science Center, NOAA, Juneau, AK
+format: 
+  revealjs:
+    theme: dark
+    css: myStyle.css
+from: markdown+emoji
+editor: visual
+execute:
+  echo: true
+---
+
+## Outline
+
+<br/>
+
+- State-space assessment models
+- Random effects
+- The Woods Hole Assessment Model (WHAM)
+  + Limitations
+- New features in WHAM
+- Examples
+
+---
+
+## State-space assessment models
+
+Allows to incorporate both measurement and process errors (Aeberhard et al., 2018).
+
+More used in recent years because better computational tools are available.
+
+In progress..
+
+---
+
+## Random effects
+
+In progress..
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
+<br>
+
+::: incremental
+- Developed from ASAP3
+- Age-structured model
+- Data: catch, indices of abundance, age compositions, empirical weight-at-age
+- Environmental covariates
+- Written in TMB and R (user friendly!)
+:::
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
+::: columns
+::: {.column width="50%"}
+<br>
+<br>
+Random effects in:
+
+- Selectivity parameters
+- Natural mortality
+- Abundance-at-age
+- Catchability
+:::
+:::
+
+::: {.column width="50%"}
+::: {.fragment}
+![](images/wham_1.png){.absolute top="150" left="530" width="600"}
+:::
+:::
+
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
+Yellowtail flounder in the East Coast:  
+
+![](images/wham_2.png){fig-align="center"}
+
+
+# WHAM expansion
+
+---
+
+### Data inputs
+
+<br/>
+
+::: incremental
+- (Marginal) length compositions
+- Conditional age-at-length
+- Input age-length transition matrix ($\phi_{f,l,a}$)
+:::
+
+---
+
+### Growth modeling
+
+1. Use input age-length transition matrix
+
+![](images/phi_mat_tile.png){fig-align="center"}
+
+---
+
+### Growth modeling
+
+2. Use von Bertalanffy growth equation:
+
+The mean length-at-age at the start of the year ($y=1$):
+
+$$\tilde{L}_{y,a} = L_{\infty}+(L_1 + L_{\infty})exp(-k(a-1))$$
+
+and when $y>1$:
+
+$$\tilde{L}_{y,a} = \begin{cases} L_1, & \mbox{if } a=1 \\ \tilde{L}_{y-1,a-1}+(\tilde{L}_{y-1,a-1}-L_{\infty})(exp(-k)-1) & \mbox{otherwise} \end{cases}$$
+
+
+---
+
+### Growth modeling
+
+2. Use von Bertalanffy growth equation:
+
+Then, to calculate the mean length-at-age at any fraction of the year:
+
+$$L_{y,a} = \tilde{L}_{y,a} + (\tilde{L}_{y,a} - L_{\infty})(exp(-kf_y)-1)$$
+
+---
+
+### Growth modeling
+
+<br/>
+
+3. Estimate mean length-at-age:
+
+For this case, mean length-at-age are assumed to be parameters and can be estimated.
+
+---
+
+### Length-weight relationship
+
+<br/>
+
+This is optional in case empirical weight-at-age information is not provided:
+
+$$w_l = \Omega_1 l^{\Omega_2}$$
+
+Then, we can calculate the population weight-at-age at any moment during the year:
+
+$$\hat{w}_{y,a} = \sum_l \varphi_{y,l,a}w_l$$
+
+---
+
+### Selectivity
+
+<br/>
+
+Originally, these *selectivity-at-age* functions were available:
+
+- `age-specific`: by age.
+- `logistic`: increasing logistic. 
+- `double-logistic`
+- `decreasing-logistic`
+
+---
+
+### Selectivity
+
+<br/>
+
+We incorporated one extra option:
+
+- `double-normal`: SS-like
+
+. . .
+
+But also some *selectivity-at-length* functions:
+
+- `len-logistic`: increasing logistic at length
+- `len-decreasing-logistic`
+- `len-double-normal`
+
+---
+
+## Environmental covariates
+
+<br/>
+
+$X_y$ can be linked to any parameter presented here. 
+
+. . .
+
+Two options for the process model:
+
+1. Random walk:
+
+$$X_{y+1}|X_{y}\sim N(X_y,\sigma_X^2)$$
+
+$\sigma_X^2$ is the process variance.
+
+---
+
+## Environmental covariates
+
+<br/>
+
+2. AR(1): 
+
+$$X_1 \sim N(\mu_X , \frac{\sigma_X^2}{1-\phi_X^2})$$
+
+$$X_y \sim N(\mu_X (1-\phi_X) + \phi_X X_{y-1}, \sigma_X^2)$$
+
+$\mu_X$, $\sigma_X^2$, and $\mid \phi_X \mid < 1$ are the marginal mean, conditional variance, and autocorrelation parameter.
+
+---
+
+## Environmental covariates
+
+<br/>
+
+Observations $x_y$ are assumed to be normally distributed with mean $X_y$ and variance $\sigma_{x_y}^2$:
+
+$$x_y \mid X_y \sim N(X_y, \sigma_{x_y}^2)$$
+
+---
+
+## Environmental covariates
+
+<br/>
+
+An environmental covariate can be linked to a parameter:
+
+$$P_y = P exp(\beta_1 X_y)$$
+
+$P$ is the base parameter value. Other links are also available (polynomials).
+
+# Examples
+
+---
+
+## Examples
+
+Using Stock Synthesis ( *ss3sim* ), we simulated data that was then included in WHAM.
+
+1. Growth variability
+2. Conditional age-at-length (CAAL) data 
+3. Length-weight variability
+
+---
+
+### Growth variability
+
+<br/>
+
+Simulate data:
+
+- catch (one fishery)
+- index of abundance (one survey)
+- length compositions (fishery and survey)
+- temporal variability in asymptotic length ( $L_\infty$ )
+
+---
+
+### CAAL data
+
+<br/>
+
+Simulate data:
+
+- catch (one fishery)
+- index of abundance (one survey)
+- length compositions (fishery)
+- conditional age-at-length (survey)
+- selectivity-at-length
+
+---
+
+### Length-weight variability
+
+<br/>
+
+Simulate data:
+
+- catch (one fishery)
+- index of abundance (one survey)
+- length compositions (fishery and survey)
+- temporal variability in the $\Omega_1$ parameter (L-W relationship)
+
