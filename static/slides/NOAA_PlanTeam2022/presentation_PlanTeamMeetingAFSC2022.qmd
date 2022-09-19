@@ -21,7 +21,6 @@ execute:
 <br/>
 
 - State-space assessment models
-- Random effects
 - The Woods Hole Assessment Model (WHAM)
   + Limitations
 - New features in WHAM
@@ -31,29 +30,48 @@ execute:
 
 ## State-space assessment models
 
-Allows to incorporate both measurement and process errors (Aeberhard et al., 2018).
+Allows to incorporate both observation and process errors.
 
-More used in recent years because better computational tools are available.
+. . .
 
-In progress..
+Observation equation: 
+
+$$E[Y_t \mid X_t]= g(X_t,\theta)$$
+
+Process equation: 
+
+$$E[X_t \mid X_{t-1}] = h(X_{t-1},\theta)$$
+
+$X_t$ is the unobserved state at time step $t$ and $Y_t$ are observations. $\theta$ is the vector of all unknown model parameters (fixed). $X_t$ treated as random effects.
 
 ---
 
-## Random effects
+## State-space assessment models
 
-In progress..
+Why to use them?
+
+::: incremental
+- handle structural breaks, time-varying parameters
+- handle missing observations
+- can be used to do forecasting
+- model complex and nonlinear relationships
+- less retrospective bias
+:::
+
+. . .
+
+Great [talk](https://www.youtube.com/watch?v=Ze0gs-uUoeU) by Emily M. Liljestrand on state-space models.
 
 ---
 
 ## The Woods Hole Assessment Model (WHAM)
 
-<br>
-
 ::: incremental
-- Developed from ASAP3
 - Age-structured model
+- Developed from ASAP3
+- $N_y \sim f(N_{y-1}, F_{y-1}, M_{y-1}, \epsilon)$
 - Data: catch, indices of abundance, age compositions, empirical weight-at-age
-- Environmental covariates
+- Environmental covariates (mechanistic approach)
 - Written in TMB and R (user friendly!)
 :::
 
@@ -61,9 +79,34 @@ In progress..
 
 ## The Woods Hole Assessment Model (WHAM)
 
+```{r}
+#| echo: false
+DiagrammeR::grViz("digraph {
+
+graph [layout = dot, rankdir = LB]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen]
+
+data1 [label = 'Step 1. Input data. \n ASAP3 file or a list', fillcolor = Beige]
+parm1 [label = 'Step 2. Parameters \n (and random effects). \n Several lists', fillcolor = Beige]
+func1 [label =  'Step 3. prepare_wham_input(...)', fillcolor = lightskyblue2]
+optional [label = 'Optional. Fix some parameters', fillcolor = lightskyblue2]
+func2 [label = 'Step 4. Run model \n fit_wham(...)', fillcolor = mediumaquamarine]
+results [label= 'Step 5. Analyze results \n plot_wham_output(...)', fillcolor = peachpuff]
+
+# edge definitions with the node IDs
+{data1 parm1}  -> func1 -> optional -> func2 -> results
+
+}")
+```
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
 ::: columns
 ::: {.column width="50%"}
-<br>
 <br>
 Random effects in:
 
@@ -85,10 +128,122 @@ Random effects in:
 
 ## The Woods Hole Assessment Model (WHAM)
 
+<br/>
+
+### Step 1: Input data
+
+```{r}
+#| eval: false
+input_data = list()
+input_data$ages = 1:15
+# and other entries
+# see ?prepare_wham_input
+```
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
+<br/>
+
+### Step 2: Parameters
+
+Selectivity: 
+
+```{r}
+#| eval: false
+selectivity_parameters = list(model = rep("age-specific",2), 
+                              re = rep("none",2), 
+                              initial_pars = list(c(rep(0, 4), rep(1, 11)),
+                                                  c(rep(0, 1), rep(1, 14))),
+                              fix_pars = list(1:15, 1:15),
+                              n_selblocks = 2)
+```
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
+<br/>
+
+### Step 3: prepare_wham_input()
+
+```{r}
+#| eval: false
+my_input = prepare_wham_input(model_name = "My_example",
+                              selectivity = selectivity_parameters,
+                              M = M_parameters,
+                              NAA_re = NAA_parameters,
+                              catchability = Q_parameters,
+                              basic_info = input_data)
+```
+
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
+<br/>
+
+### Optional: Fix parameters
+
+```{r}
+#| eval: false
+my_input$logit_q = factor(NA) # fix Q parameter
+```
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
+<br/>
+
+### Step 4: Run model
+
+```{r}
+#| eval: false
+my_model = fit_wham(input = my_input)
+```
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
+<br/>
+
+### Step 5: Analyze results
+
+```{r}
+#| eval: false
+plot_wham_output(mod = my_model)
+```
+
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
 Yellowtail flounder in the East Coast:  
 
 ![](images/wham_2.png){fig-align="center"}
 
+
+---
+
+## The Woods Hole Assessment Model (WHAM)
+
+Limitations:
+
+::: incremental
+- random effects use and meaning
+- length information cannot be incorporated
+- growth modeling not available
+- no applications in the US West Coast or Alaska region
+:::
+
+. . .
+
+Great [talk](https://www.youtube.com/watch?v=o8vJvbIaOdE&t=2452s) by Brian Stock and Tim Miller on WHAM.
 
 # WHAM expansion
 
@@ -141,11 +296,21 @@ $$L_{y,a} = \tilde{L}_{y,a} + (\tilde{L}_{y,a} - L_{\infty})(exp(-kf_y)-1)$$
 
 ### Growth modeling
 
+2. Use von Bertalanffy growth equation:
+
+Also, $L_{y,a}$ and variation of length-at-age ( $\sigma_a$ ) are used to calculate the age-length transition matrix (SS approach):
+
+$$\phi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) & \mbox{for } l=1 \\ \Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}}) - \Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}}) & \mbox{for } 1<l<n_L \\ 1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})  & \mbox{for } l = n_L \end{cases}$$
+
+---
+
+### Growth modeling
+
 <br/>
 
 3. Estimate mean length-at-age:
 
-For this case, mean length-at-age are assumed to be parameters and can be estimated.
+For this case, mean length-at-age ( $\tilde{L}_{y,a}$ ) are assumed to be parameters and can be estimated. $\sigma_a$ still needed.
 
 ---
 
@@ -252,6 +417,8 @@ $P$ is the base parameter value. Other links are also available (polynomials).
 
 ## Examples
 
+<br/>
+
 Using Stock Synthesis ( *ss3sim* ), we simulated data that was then included in WHAM.
 
 1. Growth variability
@@ -269,7 +436,69 @@ Simulate data:
 - catch (one fishery)
 - index of abundance (one survey)
 - length compositions (fishery and survey)
-- temporal variability in asymptotic length ( $L_\infty$ )
+- temporal variability in asymptotic length ( $L_\infty$ ) using PDO as the driver
+
+---
+
+### Growth variability
+
+<br/>
+
+We implemented three models in WHAM:
+
+<br>
+
+::: incremental
+1. Random effects (by year) on $L_\infty$
+2. Random effects on mean length-at-age (LAA)
+3. Included an environmental variable (PDO), linked to $L_\infty$
+:::
+
+---
+
+### Growth variability
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+<br>
+
+Models:
+
+- `m1`: random effects (by year) on $L_\infty$
+- `m2`: random effects on mean length-at-age (LAA)
+- `m3`: environmental variable (PDO), linked to $L_\infty$
+:::
+
+::: {.column width="50%"}
+![](images/compare_SSB_F_R.png){.absolute top="30"}
+:::
+
+::::
+
+---
+
+### Growth variability
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](images/LAA_comparison.png){fig-align="center"}
+:::
+
+::: {.column width="50%"}
+<br>
+<br>
+
+- LAA: mean length-at-age at the start of the year
+
+::: {.fragment}
+- Still exploring these differences
+:::
+:::
+
+::::
 
 ---
 
@@ -287,6 +516,22 @@ Simulate data:
 
 ---
 
+### CAAL data
+
+CAAL residuals:
+
+![](images/Index_CAAL_resids_index_1_Year_47.png){fig-align="center"}
+
+---
+
+### CAAL data
+
+Estimated selectivity-at-length:
+
+![](images/selex_tile.png){fig-align="center"}
+
+---
+
 ### Length-weight variability
 
 <br/>
@@ -296,5 +541,23 @@ Simulate data:
 - catch (one fishery)
 - index of abundance (one survey)
 - length compositions (fishery and survey)
+- empirical weight-at-age data fitted
 - temporal variability in the $\Omega_1$ parameter (L-W relationship)
 
+---
+
+### Length-weight variability
+
+![](images/par_a_comparison.png){fig-align="center"}
+
+# Thanks for listening
+
+::: {.absolute top="300" left="60%"}
+::: {.sectionhead}
+Contact:
+<br>
+[gcorrea@uw.edu](mailto:gcorrea@uw.edu)
+<br>
+[giancarlo.correa@noaa.gov](mailto:giancarlo.correa@noaa.gov)
+:::
+:::
