@@ -9,6 +9,7 @@ institute:
 format: 
   revealjs:
     theme: dark
+    slide-number: 'c/t'
     css: myStyle.css
 from: markdown+emoji
 editor: visual
@@ -30,7 +31,7 @@ execute:
 
 ## State-space assessment models
 
-Allows estimation of both observation and process errors.
+Allows separation of both observation and process errors.
 
 . . .
 
@@ -42,13 +43,13 @@ Process equation:
 
 $$E[X_t \mid X_{t-1}] = h(X_{t-1},\theta)$$
 
-$X_t$ is the unobserved state at time step $t$ and $Y_t$ are observations. $\theta$ is the vector of all unknown model parameters (fixed). $X_t$ treated as random effects.
+$X_t$ is the unobserved state at time step $t$ and $Y_t$ are observations. $\theta$ is the vector of all unknown model parameters (fixed effects). $X_t$ treated as random effects ([Aeberhard et al. 2018]{style="font-size:75%"}).
 
 ---
 
 ## State-space assessment models
 
-Why use them?
+Why use them? ([Aeberhard et al. 2018, Stock and Miller, 2021]{style="font-size:75%"})
 
 ::: incremental
 - handle structural breaks, time-varying parameters
@@ -67,12 +68,11 @@ Great [talk](https://www.youtube.com/watch?v=Ze0gs-uUoeU) by Emily M. Liljestran
 ## The Woods Hole Assessment Model (WHAM)
 
 ::: incremental
-- Age-structured model
+- Fully state-space age-structured model
 - Developed from ASAP3 (built in ADMB)
-- Fully state-space (e.g. $N_y \sim f(N_{y-1}, F_{y-1}, M_{y-1}, \epsilon)$ )
 - Data: catch, indices of abundance, age compositions, empirical weight-at-age
 - Environmental covariates (mechanistic approach)
-- Written in TMB and R (user friendly!)
+- Written in TMB and R (user friendly!) ( see [R package](https://timjmiller.github.io/wham/) ).
 :::
 
 ---
@@ -225,7 +225,7 @@ Random effects in:
 
 ## The Woods Hole Assessment Model (WHAM)
 
-Yellowtail flounder in the East Coast:  
+Yellowtail flounder on the US East Coast:  
 
 ![](images/wham_2.png){fig-align="center"}
 
@@ -304,7 +304,7 @@ $f_y$ is the year fraction.
 
 2. Use von Bertalanffy growth equation:
 
-Also, $L_{y,a}$ and variation of length-at-age ( $\sigma_a$ ) are used to calculate the age-length transition matrix (SS approach):
+Also, $L_{y,a}$ and variation of length-at-age ( $\sigma_a$ ) are used to calculate the age-length transition matrix (Stock Synthesis - SS - approach):
 
 $$\phi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) & \mbox{for } l=1 \\ \Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}}) - \Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}}) & \mbox{for } 1<l<n_L \\ 1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})  & \mbox{for } l = n_L \end{cases}$$
 
@@ -383,7 +383,7 @@ Originally, these *selectivity-at-age* functions were available:
 
 We incorporated one extra option:
 
-- `double-normal`: SS-like
+- `double-normal`: SS-like ([Methot and Wetzel, 2013]{style="font-size:75%"})
 
 . . .
 
@@ -399,7 +399,7 @@ But also some *selectivity-at-length* functions:
 
 <br/>
 
-$X_y$ can be linked to any parameter presented here. 
+$X_t$ (unobserved environmental variable at time $t$ ) can be linked to any parameter presented here [Stock and Miller, 2021]{style="font-size:75%"}. 
 
 . . .
 
@@ -407,7 +407,7 @@ Two options for the process model:
 
 1. Random walk:
 
-$$X_{y+1}|X_{y}\sim N(X_y,\sigma_X^2)$$
+$$X_{t+1}|X_{t}\sim N(X_t,\sigma_X^2)$$
 
 $\sigma_X^2$ is the process variance.
 
@@ -421,7 +421,7 @@ $\sigma_X^2$ is the process variance.
 
 $$X_1 \sim N(\mu_X , \frac{\sigma_X^2}{1-\phi_X^2})$$
 
-$$X_y \sim N(\mu_X (1-\phi_X) + \phi_X X_{y-1}, \sigma_X^2)$$
+$$X_t \sim N(\mu_X (1-\phi_X) + \phi_X X_{t-1}, \sigma_X^2)$$
 
 $\mu_X$, $\sigma_X^2$, and $\mid \phi_X \mid < 1$ are the marginal mean, conditional variance, and autocorrelation parameter.
 
@@ -431,9 +431,11 @@ $\mu_X$, $\sigma_X^2$, and $\mid \phi_X \mid < 1$ are the marginal mean, conditi
 
 <br/>
 
-Observations $x_y$ are assumed to be normally distributed with mean $X_y$ and variance $\sigma_{x_y}^2$:
+Observations $Y_t$ are assumed to be normally distributed with mean $X_t$ and variance $\sigma_{Y_t}^2$:
 
-$$x_y \mid X_y \sim N(X_y, \sigma_{x_y}^2)$$
+$$Y_t \mid X_t \sim N(X_t, \sigma_{Y_t}^2)$$
+
+$\sigma_{Y_t}^2$ treated as known or estimated.
 
 ---
 
@@ -441,11 +443,11 @@ $$x_y \mid X_y \sim N(X_y, \sigma_{x_y}^2)$$
 
 <br/>
 
-An environmental covariate can be linked to a parameter:
+An environmental covariate can be linked to a state (i.e. parameter):
 
-$$P_y = P exp(\beta_1 X_y)$$
+$$P_t = P exp(\beta_1 X_t)$$
 
-$P$ is the base parameter value. Other links are also available (polynomials).
+$P$ is the base state (parameter) value. Other links are also available (polynomials).
 
 # Examples
 
@@ -455,7 +457,7 @@ $P$ is the base parameter value. Other links are also available (polynomials).
 
 <br/>
 
-Using Stock Synthesis ( *ss3sim* ), we simulated data that was then incorporated in WHAM.
+Using SS ( *ss3sim*, [Anderson et al., 2014]{style="font-size:75%"} ), we simulated data that was then incorporated into WHAM.
 
 1. Growth variability
 2. Conditional age-at-length (CAAL) data 

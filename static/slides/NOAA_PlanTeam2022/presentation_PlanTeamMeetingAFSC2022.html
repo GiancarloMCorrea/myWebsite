@@ -346,18 +346,18 @@
 </section>
 <section id="state-space-assessment-models" class="slide level2">
 <h2>State-space assessment models</h2>
-<p>Allows estimation of both observation and process errors.</p>
+<p>Allows separation of both observation and process errors.</p>
 <div class="fragment">
 <p>Observation equation:</p>
 <p><span class="math display">\[E[Y_t \mid X_t]= g(X_t,\theta)\]</span></p>
 <p>Process equation:</p>
 <p><span class="math display">\[E[X_t \mid X_{t-1}] = h(X_{t-1},\theta)\]</span></p>
-<p><span class="math inline">\(X_t\)</span> is the unobserved state at time step <span class="math inline">\(t\)</span> and <span class="math inline">\(Y_t\)</span> are observations. <span class="math inline">\(\theta\)</span> is the vector of all unknown model parameters (fixed). <span class="math inline">\(X_t\)</span> treated as random effects.</p>
+<p><span class="math inline">\(X_t\)</span> is the unobserved state at time step <span class="math inline">\(t\)</span> and <span class="math inline">\(Y_t\)</span> are observations. <span class="math inline">\(\theta\)</span> is the vector of all unknown model parameters (fixed effects). <span class="math inline">\(X_t\)</span> treated as random effects (<span style="font-size:75%">Aeberhard et al.&nbsp;2018</span>).</p>
 </div>
 </section>
 <section id="state-space-assessment-models-1" class="slide level2">
 <h2>State-space assessment models</h2>
-<p>Why use them?</p>
+<p>Why use them? (<span style="font-size:75%">Aeberhard et al.&nbsp;2018, Stock and Miller, 2021</span>)</p>
 <div>
 <ul>
 <li class="fragment">handle structural breaks, time-varying parameters</li>
@@ -375,12 +375,11 @@
 <h2>The Woods Hole Assessment Model (WHAM)</h2>
 <div>
 <ul>
-<li class="fragment">Age-structured model</li>
+<li class="fragment">Fully state-space age-structured model</li>
 <li class="fragment">Developed from ASAP3 (built in ADMB)</li>
-<li class="fragment">Fully state-space (e.g.&nbsp;<span class="math inline">\(N_y \sim f(N_{y-1}, F_{y-1}, M_{y-1}, \epsilon)\)</span> )</li>
 <li class="fragment">Data: catch, indices of abundance, age compositions, empirical weight-at-age</li>
 <li class="fragment">Environmental covariates (mechanistic approach)</li>
-<li class="fragment">Written in TMB and R (user friendly!)</li>
+<li class="fragment">Written in TMB and R (user friendly!) ( see <a href="https://timjmiller.github.io/wham/">R package</a> ).</li>
 </ul>
 </div>
 </section>
@@ -388,8 +387,8 @@
 <h2>The Woods Hole Assessment Model (WHAM)</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-ce10ba680356ddf0e6a0" style="width:960px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ce10ba680356ddf0e6a0">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-7393b02c5d1d0d586530" style="width:960px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7393b02c5d1d0d586530">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -477,7 +476,7 @@
 </section>
 <section id="the-woods-hole-assessment-model-wham-3" class="slide level2">
 <h2>The Woods Hole Assessment Model (WHAM)</h2>
-<p>Yellowtail flounder in the East Coast:</p>
+<p>Yellowtail flounder on the US East Coast:</p>
 
 <img data-src="images/wham_2.png" class="r-stretch quarto-figure-center"></section>
 <section id="the-woods-hole-assessment-model-wham-4" class="slide level2">
@@ -549,7 +548,7 @@
 <ol start="2" type="1">
 <li>Use von Bertalanffy growth equation:</li>
 </ol>
-<p>Also, <span class="math inline">\(L_{y,a}\)</span> and variation of length-at-age ( <span class="math inline">\(\sigma_a\)</span> ) are used to calculate the age-length transition matrix (SS approach):</p>
+<p>Also, <span class="math inline">\(L_{y,a}\)</span> and variation of length-at-age ( <span class="math inline">\(\sigma_a\)</span> ) are used to calculate the age-length transition matrix (Stock Synthesis - SS - approach):</p>
 <p><span class="math display">\[\phi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } l=1 \\ \Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}}) - \Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } 1&lt;l&lt;n_L \\ 1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})  &amp; \mbox{for } l = n_L \end{cases}\]</span></p>
 </section>
 <section class="slide level2">
@@ -611,7 +610,7 @@
 <p><br></p>
 <p>We incorporated one extra option:</p>
 <ul>
-<li><code>double-normal</code>: SS-like</li>
+<li><code>double-normal</code>: SS-like (<span style="font-size:75%">Methot and Wetzel, 2013</span>)</li>
 </ul>
 <div class="fragment">
 <p>But also some <em>selectivity-at-length</em> functions:</p>
@@ -625,13 +624,13 @@
 <section id="environmental-covariates" class="slide level2">
 <h2>Environmental covariates</h2>
 <p><br></p>
-<p><span class="math inline">\(X_y\)</span> can be linked to any parameter presented here.</p>
+<p><span class="math inline">\(X_t\)</span> (unobserved environmental variable at time <span class="math inline">\(t\)</span> ) can be linked to any parameter presented here <span style="font-size:75%">Stock and Miller, 2021</span>.</p>
 <div class="fragment">
 <p>Two options for the process model:</p>
 <ol type="1">
 <li>Random walk:</li>
 </ol>
-<p><span class="math display">\[X_{y+1}|X_{y}\sim N(X_y,\sigma_X^2)\]</span></p>
+<p><span class="math display">\[X_{t+1}|X_{t}\sim N(X_t,\sigma_X^2)\]</span></p>
 <p><span class="math inline">\(\sigma_X^2\)</span> is the process variance.</p>
 </div>
 </section>
@@ -642,21 +641,22 @@
 <li>AR(1):</li>
 </ol>
 <p><span class="math display">\[X_1 \sim N(\mu_X , \frac{\sigma_X^2}{1-\phi_X^2})\]</span></p>
-<p><span class="math display">\[X_y \sim N(\mu_X (1-\phi_X) + \phi_X X_{y-1}, \sigma_X^2)\]</span></p>
+<p><span class="math display">\[X_t \sim N(\mu_X (1-\phi_X) + \phi_X X_{t-1}, \sigma_X^2)\]</span></p>
 <p><span class="math inline">\(\mu_X\)</span>, <span class="math inline">\(\sigma_X^2\)</span>, and <span class="math inline">\(\mid \phi_X \mid &lt; 1\)</span> are the marginal mean, conditional variance, and autocorrelation parameter.</p>
 </section>
 <section id="environmental-covariates-2" class="slide level2">
 <h2>Environmental covariates</h2>
 <p><br></p>
-<p>Observations <span class="math inline">\(x_y\)</span> are assumed to be normally distributed with mean <span class="math inline">\(X_y\)</span> and variance <span class="math inline">\(\sigma_{x_y}^2\)</span>:</p>
-<p><span class="math display">\[x_y \mid X_y \sim N(X_y, \sigma_{x_y}^2)\]</span></p>
+<p>Observations <span class="math inline">\(Y_t\)</span> are assumed to be normally distributed with mean <span class="math inline">\(X_t\)</span> and variance <span class="math inline">\(\sigma_{Y_t}^2\)</span>:</p>
+<p><span class="math display">\[Y_t \mid X_t \sim N(X_t, \sigma_{Y_t}^2)\]</span></p>
+<p><span class="math inline">\(\sigma_{Y_t}^2\)</span> treated as known or estimated.</p>
 </section>
 <section id="environmental-covariates-3" class="slide level2">
 <h2>Environmental covariates</h2>
 <p><br></p>
-<p>An environmental covariate can be linked to a parameter:</p>
-<p><span class="math display">\[P_y = P exp(\beta_1 X_y)\]</span></p>
-<p><span class="math inline">\(P\)</span> is the base parameter value. Other links are also available (polynomials).</p>
+<p>An environmental covariate can be linked to a state (i.e.&nbsp;parameter):</p>
+<p><span class="math display">\[P_t = P exp(\beta_1 X_t)\]</span></p>
+<p><span class="math inline">\(P\)</span> is the base state (parameter) value. Other links are also available (polynomials).</p>
 </section></section>
 <section>
 <section id="examples" class="title-slide slide level1 center">
@@ -666,7 +666,7 @@
 <section id="examples-1" class="slide level2">
 <h2>Examples</h2>
 <p><br></p>
-<p>Using Stock Synthesis ( <em>ss3sim</em> ), we simulated data that was then incorporated in WHAM.</p>
+<p>Using SS ( <em>ss3sim</em>, <span style="font-size:75%">Anderson et al., 2014</span> ), we simulated data that was then incorporated into WHAM.</p>
 <ol type="1">
 <li>Growth variability</li>
 <li>Conditional age-at-length (CAAL) data</li>
@@ -857,7 +857,7 @@
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
