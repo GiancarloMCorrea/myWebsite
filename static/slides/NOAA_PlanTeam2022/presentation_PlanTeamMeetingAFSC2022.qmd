@@ -120,6 +120,7 @@ Random effects in:
 ::: {.column width="50%"}
 ::: {.fragment}
 ![](images/wham_1.png){.absolute top="150" left="530" width="500"}
+[Stock and Miller et al., 2021]{style="font-size:75%"}
 :::
 :::
 
@@ -225,7 +226,7 @@ Random effects in:
 
 ## The Woods Hole Assessment Model (WHAM)
 
-Yellowtail flounder on the US East Coast:  
+Yellowtail flounder on the US East Coast ([Stock and Miller, 2021]{style="font-size:75%"}):  
 
 ![](images/wham_2.png){fig-align="center"}
 
