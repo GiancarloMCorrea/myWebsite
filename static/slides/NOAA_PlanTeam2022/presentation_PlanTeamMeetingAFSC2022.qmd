@@ -30,7 +30,7 @@ execute:
 
 ## State-space assessment models
 
-Allows to incorporate both observation and process errors.
+Allows estimation of both observation and process errors.
 
 . . .
 
@@ -48,7 +48,7 @@ $X_t$ is the unobserved state at time step $t$ and $Y_t$ are observations. $\the
 
 ## State-space assessment models
 
-Why to use them?
+Why use them?
 
 ::: incremental
 - handle structural breaks, time-varying parameters
@@ -68,8 +68,8 @@ Great [talk](https://www.youtube.com/watch?v=Ze0gs-uUoeU) by Emily M. Liljestran
 
 ::: incremental
 - Age-structured model
-- Developed from ASAP3
-- $N_y \sim f(N_{y-1}, F_{y-1}, M_{y-1}, \epsilon)$
+- Developed from ASAP3 (built in ADMB)
+- Fully state-space (e.g. $N_y \sim f(N_{y-1}, F_{y-1}, M_{y-1}, \epsilon)$ )
 - Data: catch, indices of abundance, age compositions, empirical weight-at-age
 - Environmental covariates (mechanistic approach)
 - Written in TMB and R (user friendly!)
@@ -119,104 +119,106 @@ Random effects in:
 
 ::: {.column width="50%"}
 ::: {.fragment}
-![](images/wham_1.png){.absolute top="150" left="530" width="600"}
+![](images/wham_1.png){.absolute top="150" left="530" width="500"}
 :::
 :::
 
 
----
+<!-- --- -->
 
-## The Woods Hole Assessment Model (WHAM)
+<!-- ## The Woods Hole Assessment Model (WHAM) -->
 
-<br/>
+<!-- <br/> -->
 
-### Step 1: Input data
+<!-- ### Step 1: Input data -->
 
-```{r}
-#| eval: false
-input_data = list()
-input_data$ages = 1:15
-# and other entries
-# see ?prepare_wham_input
-```
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- input_data = list() -->
+<!-- input_data$ages = 1:15 -->
+<!-- # and other entries -->
+<!-- # see ?prepare_wham_input -->
+<!-- ``` -->
 
----
+<!-- --- -->
 
-## The Woods Hole Assessment Model (WHAM)
+<!-- ## The Woods Hole Assessment Model (WHAM) -->
 
-<br/>
+<!-- <br/> -->
 
-### Step 2: Parameters
+<!-- ### Step 2: Parameters -->
 
-Selectivity: 
+<!-- Selectivity:  -->
 
-```{r}
-#| eval: false
-selectivity_parameters = list(model = rep("age-specific",2), 
-                              re = rep("none",2), 
-                              initial_pars = list(c(rep(0, 4), rep(1, 11)),
-                                                  c(rep(0, 1), rep(1, 14))),
-                              fix_pars = list(1:15, 1:15),
-                              n_selblocks = 2)
-```
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- selectivity_parameters = list(model = rep("age-specific",2),  -->
+<!--                               re = rep("none",2),  -->
+<!--                               initial_pars = list(c(rep(0, 4), rep(1, 11)), -->
+<!--                                                   c(rep(0, 1), rep(1, 14))), -->
+<!--                               fix_pars = list(1:15, 1:15), -->
+<!--                               n_selblocks = 2) -->
+<!-- ``` -->
 
----
+<!-- --- -->
 
-## The Woods Hole Assessment Model (WHAM)
+<!-- ## The Woods Hole Assessment Model (WHAM) -->
 
-<br/>
+<!-- <br/> -->
 
-### Step 3: prepare_wham_input()
+<!-- ### Step 3: prepare_wham_input() -->
 
-```{r}
-#| eval: false
-my_input = prepare_wham_input(model_name = "My_example",
-                              selectivity = selectivity_parameters,
-                              M = M_parameters,
-                              NAA_re = NAA_parameters,
-                              catchability = Q_parameters,
-                              basic_info = input_data)
-```
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- my_input = prepare_wham_input(model_name = "My_example", -->
+<!--                               selectivity = selectivity_parameters, -->
+<!--                               M = M_parameters, -->
+<!--                               NAA_re = NAA_parameters, -->
+<!--                               catchability = Q_parameters, -->
+<!--                               basic_info = input_data) -->
+<!-- ``` -->
 
 
----
+<!-- --- -->
 
-## The Woods Hole Assessment Model (WHAM)
+<!-- ## The Woods Hole Assessment Model (WHAM) -->
 
-<br/>
+<!-- <br/> -->
 
-### Optional: Fix parameters
+<!-- ### Optional: Fix parameters -->
 
-```{r}
-#| eval: false
-my_input$logit_q = factor(NA) # fix Q parameter
-```
+<!-- At their initial values. For example: -->
 
----
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- my_input$logit_q = factor(NA) # fix Q parameter -->
+<!-- ``` -->
 
-## The Woods Hole Assessment Model (WHAM)
+<!-- --- -->
 
-<br/>
+<!-- ## The Woods Hole Assessment Model (WHAM) -->
 
-### Step 4: Run model
+<!-- <br/> -->
 
-```{r}
-#| eval: false
-my_model = fit_wham(input = my_input)
-```
+<!-- ### Step 4: Run model -->
 
----
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- my_model = fit_wham(input = my_input) -->
+<!-- ``` -->
 
-## The Woods Hole Assessment Model (WHAM)
+<!-- --- -->
 
-<br/>
+<!-- ## The Woods Hole Assessment Model (WHAM) -->
 
-### Step 5: Analyze results
+<!-- <br/> -->
 
-```{r}
-#| eval: false
-plot_wham_output(mod = my_model)
-```
+<!-- ### Step 5: Analyze results -->
+
+<!-- ```{r} -->
+<!-- #| eval: false -->
+<!-- plot_wham_output(mod = my_model) -->
+<!-- ``` -->
 
 
 ---
@@ -235,10 +237,11 @@ Yellowtail flounder in the East Coast:
 Limitations:
 
 ::: incremental
-- random effects use and meaning
-- length information cannot be incorporated
-- growth modeling not available
-- no applications in the US West Coast or Alaska region
+- best practices for random effects use
+- length information and growth modeling not available
+- single sex, no spatial component, no aging error
+- only selectivity-at-age
+- only input empirical weight-at-age
 :::
 
 . . .
@@ -265,6 +268,8 @@ Great [talk](https://www.youtube.com/watch?v=o8vJvbIaOdE&t=2452s) by Brian Stock
 
 1. Use input age-length transition matrix
 
+To distribute abundance-at-age to abundance-at-age and length.
+
 ![](images/phi_mat_tile.png){fig-align="center"}
 
 ---
@@ -279,7 +284,7 @@ $$\tilde{L}_{y,a} = L_{\infty}+(L_1 + L_{\infty})exp(-k(a-1))$$
 
 and when $y>1$:
 
-$$\tilde{L}_{y,a} = \begin{cases} L_1, & \mbox{if } a=1 \\ \tilde{L}_{y-1,a-1}+(\tilde{L}_{y-1,a-1}-L_{\infty})(exp(-k)-1) & \mbox{otherwise} \end{cases}$$
+[$$\tilde{L}_{y,a} = \begin{cases} L_1, & \mbox{if } a=1 \\ \tilde{L}_{y-1,a-1}+(\tilde{L}_{y-1,a-1}-L_{\infty})(exp(-k)-1) & \mbox{otherwise} \end{cases}$$]{style="font-size:75%"}
 
 
 ---
@@ -291,6 +296,7 @@ $$\tilde{L}_{y,a} = \begin{cases} L_1, & \mbox{if } a=1 \\ \tilde{L}_{y-1,a-1}+(
 Then, to calculate the mean length-at-age at any fraction of the year:
 
 $$L_{y,a} = \tilde{L}_{y,a} + (\tilde{L}_{y,a} - L_{\infty})(exp(-kf_y)-1)$$
+$f_y$ is the year fraction.
 
 ---
 
@@ -306,21 +312,51 @@ $$\phi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) & \mb
 
 ### Growth modeling
 
+2. Use von Bertalanffy growth equation:
+
+Random effects on growth parameters can be modeled:
+
+. . .
+
+$$log(L_{\infty_t}) = \mu_{L_\infty} + \delta_{1,t}$$
+
+$$log(k_t) = \mu_{k} + \delta_{2,t}$$
+
+$$log(L_{1_t}) = \mu_{L_1} + \delta_{3,t}$$
+
+. . .
+
+$t$ reprents year or cohort effects and can be $iid$ or $AR1$. 
+
+---
+
+### Growth modeling
+
 <br/>
 
 3. Estimate mean length-at-age:
 
-For this case, mean length-at-age ( $\tilde{L}_{y,a}$ ) are assumed to be parameters and can be estimated. $\sigma_a$ still needed.
+For this case, mean length-at-age ( $\tilde{L}_{a}$ ) are assumed to be parameters and can be estimated. $\sigma_a$ still needed.
+
+. . .
+
+Time variability can be modeled by including random effects:
+
+$$log(\tilde{L}_{y,a}) = \mu_{\tilde{L}_{a}} + \delta_{a,y}$$
+
+$\delta_{a,y}$ can vary by year and age.
 
 ---
 
 ### Length-weight relationship
 
-<br/>
-
 This is optional in case empirical weight-at-age information is not provided:
 
 $$w_l = \Omega_1 l^{\Omega_2}$$
+
+Random effects on $\Omega_1$ and $\Omega_2$ can also be estimated, similarly to growth parameters. 
+
+. . .
 
 Then, we can calculate the population weight-at-age at any moment during the year:
 
@@ -419,7 +455,7 @@ $P$ is the base parameter value. Other links are also available (polynomials).
 
 <br/>
 
-Using Stock Synthesis ( *ss3sim* ), we simulated data that was then included in WHAM.
+Using Stock Synthesis ( *ss3sim* ), we simulated data that was then incorporated in WHAM.
 
 1. Growth variability
 2. Conditional age-at-length (CAAL) data 
@@ -550,9 +586,21 @@ Simulate data:
 
 ![](images/par_a_comparison.png){fig-align="center"}
 
+---
+
+## Summary
+
+::: incremental
+- more frequent with TMB (mostly in Europe and US East Coast)
+- coherent way to include climate indices into assessments (and projections!)
+- new tools developed in this project to apply them in the West Coast and Alaska region
+- future projects: sex and spatial structure
+- interest in organizing a workshop and applications (e.g. GOA pollock)
+:::
+
 # Thanks for listening
 
-::: {.absolute top="300" left="60%"}
+::: {.absolute top="300" left="50%"}
 ::: {.sectionhead}
 Contact:
 <br>
