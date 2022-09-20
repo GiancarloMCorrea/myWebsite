@@ -260,7 +260,7 @@ Great [talk](https://www.youtube.com/watch?v=o8vJvbIaOdE&t=2452s) by Brian Stock
 ::: incremental
 - (Marginal) length compositions
 - Conditional age-at-length
-- Input age-length transition matrix ($\phi_{f,l,a}$)
+- Input age-length transition matrix ($\varphi_{f,l,a}$)
 :::
 
 ---
@@ -307,7 +307,7 @@ $f_y$ is the year fraction.
 
 Also, $L_{y,a}$ and variation of length-at-age ( $\sigma_a$ ) are used to calculate the age-length transition matrix (Stock Synthesis - SS - approach):
 
-$$\phi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) & \mbox{for } l=1 \\ \Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}}) - \Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}}) & \mbox{for } 1<l<n_L \\ 1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})  & \mbox{for } l = n_L \end{cases}$$
+$$\varphi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) & \mbox{for } l=1 \\ \Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}}) - \Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}}) & \mbox{for } 1<l<n_L \\ 1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})  & \mbox{for } l = n_L \end{cases}$$
 
 ---
 

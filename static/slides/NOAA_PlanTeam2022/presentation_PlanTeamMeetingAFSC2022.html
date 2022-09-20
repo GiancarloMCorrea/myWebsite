@@ -387,8 +387,8 @@
 <h2>The Woods Hole Assessment Model (WHAM)</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-69a58f2b3fed9c89a935" style="width:960px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-69a58f2b3fed9c89a935">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4fd9ae7d8f03d7d67e23" style="width:960px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4fd9ae7d8f03d7d67e23">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -508,7 +508,7 @@
 <ul>
 <li class="fragment">(Marginal) length compositions</li>
 <li class="fragment">Conditional age-at-length</li>
-<li class="fragment">Input age-length transition matrix (<span class="math inline">\(\phi_{f,l,a}\)</span>)</li>
+<li class="fragment">Input age-length transition matrix (<span class="math inline">\(\varphi_{f,l,a}\)</span>)</li>
 </ul>
 </div>
 </section>
@@ -549,7 +549,7 @@
 <li>Use von Bertalanffy growth equation:</li>
 </ol>
 <p>Also, <span class="math inline">\(L_{y,a}\)</span> and variation of length-at-age ( <span class="math inline">\(\sigma_a\)</span> ) are used to calculate the age-length transition matrix (Stock Synthesis - SS - approach):</p>
-<p><span class="math display">\[\phi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } l=1 \\ \Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}}) - \Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } 1&lt;l&lt;n_L \\ 1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})  &amp; \mbox{for } l = n_L \end{cases}\]</span></p>
+<p><span class="math display">\[\varphi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } l=1 \\ \Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}}) - \Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } 1&lt;l&lt;n_L \\ 1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})  &amp; \mbox{for } l = n_L \end{cases}\]</span></p>
 </section>
 <section class="slide level2">
 
