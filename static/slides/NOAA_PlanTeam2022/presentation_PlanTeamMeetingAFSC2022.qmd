@@ -376,6 +376,10 @@ Originally, these *selectivity-at-age* functions were available:
 - `double-logistic`
 - `decreasing-logistic`
 
+. . .
+
+Variability by year and parameter autocorrelation.
+
 ---
 
 ### Selectivity
@@ -448,7 +452,11 @@ An environmental covariate can be linked to a state (i.e. parameter):
 
 $$P_t = P exp(\beta_1 X_t)$$
 
-$P$ is the base state (parameter) value. Other links are also available (polynomials).
+$P$ is the base state (parameter) value. 
+
+. . .
+
+Other links are also available (polynomials). Lags can be modeled.
 
 # Examples
 

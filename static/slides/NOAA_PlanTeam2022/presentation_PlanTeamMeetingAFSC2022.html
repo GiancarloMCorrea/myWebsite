@@ -387,8 +387,8 @@
 <h2>The Woods Hole Assessment Model (WHAM)</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-ae9e24d380f58dd8aff4" style="width:960px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ae9e24d380f58dd8aff4">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-69a58f2b3fed9c89a935" style="width:960px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-69a58f2b3fed9c89a935">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -603,6 +603,9 @@
 <li><code>double-logistic</code></li>
 <li><code>decreasing-logistic</code></li>
 </ul>
+<div class="fragment">
+<p>Variability by year and parameter autocorrelation.</p>
+</div>
 </section>
 <section class="slide level2">
 
@@ -656,7 +659,10 @@
 <p><br></p>
 <p>An environmental covariate can be linked to a state (i.e.&nbsp;parameter):</p>
 <p><span class="math display">\[P_t = P exp(\beta_1 X_t)\]</span></p>
-<p><span class="math inline">\(P\)</span> is the base state (parameter) value. Other links are also available (polynomials).</p>
+<p><span class="math inline">\(P\)</span> is the base state (parameter) value.</p>
+<div class="fragment">
+<p>Other links are also available (polynomials). Lags can be modeled.</p>
+</div>
 </section></section>
 <section>
 <section id="examples" class="title-slide slide level1 center">
