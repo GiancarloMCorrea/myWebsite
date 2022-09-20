@@ -387,8 +387,8 @@
 <h2>The Woods Hole Assessment Model (WHAM)</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-4fd9ae7d8f03d7d67e23" style="width:960px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4fd9ae7d8f03d7d67e23">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-128599608a0add4b0cb5" style="width:960px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-128599608a0add4b0cb5">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -528,7 +528,7 @@
 <li>Use von Bertalanffy growth equation:</li>
 </ol>
 <p>The mean length-at-age at the start of the year (<span class="math inline">\(y=1\)</span>):</p>
-<p><span class="math display">\[\tilde{L}_{y,a} = L_{\infty}+(L_1 + L_{\infty})exp(-k(a-1))\]</span></p>
+<p><span class="math display">\[\tilde{L}_{y,a} = L_{\infty}+(L_1 - L_{\infty})exp(-k(a-1))\]</span></p>
 <p>and when <span class="math inline">\(y&gt;1\)</span>:</p>
 <p><span style="font-size:75%"><span class="math display">\[\tilde{L}_{y,a} = \begin{cases} L_1, &amp; \mbox{if } a=1 \\ \tilde{L}_{y-1,a-1}+(\tilde{L}_{y-1,a-1}-L_{\infty})(exp(-k)-1) &amp; \mbox{otherwise} \end{cases}\]</span></span></p>
 </section>
@@ -564,7 +564,7 @@
 <p><span class="math display">\[log(L_{1_t}) = \mu_{L_1} + \delta_{3,t}\]</span></p>
 </div>
 <div class="fragment">
-<p><span class="math inline">\(t\)</span> reprents year or cohort effects and can be <span class="math inline">\(iid\)</span> or <span class="math inline">\(AR1\)</span>.</p>
+<p><span class="math inline">\(t\)</span> represents year or cohort effects and can be <span class="math inline">\(iid\)</span> or <span class="math inline">\(AR1\)</span>.</p>
 </div>
 </section>
 <section class="slide level2">
@@ -627,7 +627,7 @@
 <section id="environmental-covariates" class="slide level2">
 <h2>Environmental covariates</h2>
 <p><br></p>
-<p><span class="math inline">\(X_t\)</span> (unobserved environmental variable at time <span class="math inline">\(t\)</span> ) can be linked to any parameter presented here <span style="font-size:75%">Stock and Miller, 2021</span>.</p>
+<p><span class="math inline">\(X_t\)</span> (unobserved environmental variable at time <span class="math inline">\(t\)</span> ) can be linked to any parameter presented here (<span style="font-size:75%">Stock and Miller, 2021</span>).</p>
 <div class="fragment">
 <p>Two options for the process model:</p>
 <ol type="1">
@@ -700,8 +700,8 @@
 <div>
 <ol type="1">
 <li class="fragment">Random effects (by year) on <span class="math inline">\(L_\infty\)</span></li>
-<li class="fragment">Random effects on mean length-at-age (LAA)</li>
-<li class="fragment">Included an environmental variable (PDO), linked to <span class="math inline">\(L_\infty\)</span></li>
+<li class="fragment">Random effects (<code>iid</code>) on mean length-at-age (LAA)</li>
+<li class="fragment">Include an environmental variable (PDO), linked to <span class="math inline">\(L_\infty\)</span></li>
 </ol>
 </div>
 </section>
@@ -792,7 +792,7 @@
 <h2>Summary</h2>
 <div>
 <ul>
-<li class="fragment">more frequent with TMB (mostly in Europe and US East Coast)</li>
+<li class="fragment">state-space models more frequent with TMB (mostly in Europe and US East Coast)</li>
 <li class="fragment">coherent way to include climate indices into assessments (and projections!)</li>
 <li class="fragment">new tools developed in this project to apply them in the West Coast and Alaska region</li>
 <li class="fragment">future projects: sex and spatial structure</li>

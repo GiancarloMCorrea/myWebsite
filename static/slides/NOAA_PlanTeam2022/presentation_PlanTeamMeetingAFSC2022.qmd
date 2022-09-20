@@ -281,7 +281,7 @@ To distribute abundance-at-age to abundance-at-age and length.
 
 The mean length-at-age at the start of the year ($y=1$):
 
-$$\tilde{L}_{y,a} = L_{\infty}+(L_1 + L_{\infty})exp(-k(a-1))$$
+$$\tilde{L}_{y,a} = L_{\infty}+(L_1 - L_{\infty})exp(-k(a-1))$$
 
 and when $y>1$:
 
@@ -327,7 +327,7 @@ $$log(L_{1_t}) = \mu_{L_1} + \delta_{3,t}$$
 
 . . .
 
-$t$ reprents year or cohort effects and can be $iid$ or $AR1$. 
+$t$ represents year or cohort effects and can be $iid$ or $AR1$. 
 
 ---
 
@@ -404,7 +404,7 @@ But also some *selectivity-at-length* functions:
 
 <br/>
 
-$X_t$ (unobserved environmental variable at time $t$ ) can be linked to any parameter presented here [Stock and Miller, 2021]{style="font-size:75%"}. 
+$X_t$ (unobserved environmental variable at time $t$ ) can be linked to any parameter presented here ([Stock and Miller, 2021]{style="font-size:75%"}). 
 
 . . .
 
@@ -497,8 +497,8 @@ We implemented three models in WHAM:
 
 ::: incremental
 1. Random effects (by year) on $L_\infty$
-2. Random effects on mean length-at-age (LAA)
-3. Included an environmental variable (PDO), linked to $L_\infty$
+2. Random effects (`iid`) on mean length-at-age (LAA)
+3. Include an environmental variable (PDO), linked to $L_\infty$
 :::
 
 ---
@@ -602,7 +602,7 @@ Simulate data:
 ## Summary
 
 ::: incremental
-- more frequent with TMB (mostly in Europe and US East Coast)
+- state-space models more frequent with TMB (mostly in Europe and US East Coast)
 - coherent way to include climate indices into assessments (and projections!)
 - new tools developed in this project to apply them in the West Coast and Alaska region
 - future projects: sex and spatial structure
