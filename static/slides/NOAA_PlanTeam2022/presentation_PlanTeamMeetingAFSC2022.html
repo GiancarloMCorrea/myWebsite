@@ -367,9 +367,6 @@
 <li class="fragment">less retrospective bias</li>
 </ul>
 </div>
-<div class="fragment">
-<p>Great <a href="https://www.youtube.com/watch?v=Ze0gs-uUoeU">talk</a> by Emily M. Liljestrand on state-space models.</p>
-</div>
 </section>
 <section id="the-woods-hole-assessment-model-wham" class="slide level2">
 <h2>The Woods Hole Assessment Model (WHAM)</h2>
@@ -387,8 +384,8 @@
 <h2>The Woods Hole Assessment Model (WHAM)</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-128599608a0add4b0cb5" style="width:960px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-128599608a0add4b0cb5">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-eff7539d8087ecac7c0f" style="width:960px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-eff7539d8087ecac7c0f">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -539,8 +536,7 @@
 <li>Use von Bertalanffy growth equation:</li>
 </ol>
 <p>Then, to calculate the mean length-at-age at any fraction of the year:</p>
-<p><span class="math display">\[L_{y,a} = \tilde{L}_{y,a} + (\tilde{L}_{y,a} - L_{\infty})(exp(-kf_y)-1)\]</span></p>
-<p><span class="math inline">\(f_y\)</span> is the year fraction.</p>
+<p><span class="math display">\[L_{y,a} = \tilde{L}_{y,a} + (\tilde{L}_{y,a} - L_{\infty})(exp(-kf_y)-1)\]</span> <span class="math inline">\(f_y\)</span> is the year fraction.</p>
 </section>
 <section class="slide level2">
 
@@ -584,12 +580,15 @@
 <section class="slide level2">
 
 <h3 id="length-weight-relationship">Length-weight relationship</h3>
-<p>This is optional in case empirical weight-at-age information is not provided:</p>
+<p>Optional when empirical weight-at-age not provided:</p>
 <p><span class="math display">\[w_l = \Omega_1 l^{\Omega_2}\]</span></p>
-<p>Random effects on <span class="math inline">\(\Omega_1\)</span> and <span class="math inline">\(\Omega_2\)</span> can also be estimated, similarly to growth parameters.</p>
+<p>Random effects on <span class="math inline">\(\Omega_1\)</span> and <span class="math inline">\(\Omega_2\)</span> can also be estimated (like growth parameters).</p>
 <div class="fragment">
 <p>Then, we can calculate the population weight-at-age at any moment during the year:</p>
 <p><span class="math display">\[\hat{w}_{y,a} = \sum_l \varphi_{y,l,a}w_l\]</span></p>
+</div>
+<div class="fragment">
+<p><span class="math inline">\(\hat{w}_{y,a}\)</span> can also be fitted to <span class="math inline">\(w_{y,a}\)</span> (empirical weight-at-age)</p>
 </div>
 </section>
 <section class="slide level2">
