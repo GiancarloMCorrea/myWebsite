@@ -238,8 +238,8 @@ As parametrized by Schnute (1981). There are five parameters:
 -   
     *L*<sub>1</sub>
     : length at age 1
--   *C**V*<sub>1</sub>: coefficient of variation of lengths at age 1
--   *C**V*<sub>*A*</sub>: coefficient of variation of lengths at age A
+-   *CV*<sub>1</sub>: coefficient of variation of lengths at age 1
+-   *CV*<sub>*A*</sub>: coefficient of variation of lengths at age A
     (age plus group)
 
 ``` r
@@ -267,9 +267,9 @@ The arguments are:
 #### LAA random effects (non-parametric approach)
 
 The number of parameters is equal to the number of ages. Also, the
-*C**V*<sub>1</sub>
+*CV*<sub>1</sub>
 and
-*C**V*<sub>*A*</sub>
+*CV*<sub>*A*</sub>
 should be specified in `growth`.
 
 ``` r
