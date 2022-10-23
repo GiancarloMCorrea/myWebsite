@@ -17,7 +17,6 @@ title: Woods Hole Assessment Model
 ---
 
 
-
 -   <a href="#data" id="toc-data">Data</a>
 -   <a href="#parameters" id="toc-parameters">Parameters</a>
     -   <a href="#selectivity" id="toc-selectivity">Selectivity</a>
@@ -34,7 +33,7 @@ title: Woods Hole Assessment Model
     -   <a href="#diagnostics" id="toc-diagnostics">Diagnostics</a>
     -   <a href="#parameters-1" id="toc-parameters-1">Parameters</a>
 -   <a href="#examples" id="toc-examples">Examples</a>
-    -   <a href="#references" id="toc-references">References</a>
+-   <a href="#references" id="toc-references">References</a>
 
 > :warning: **This tutorial is under development and some features could
 > change in future versions**
@@ -479,7 +478,7 @@ function.
 You can find examples about the use of the new WHAM features
 [here](https://giancarlomcorrea.netlify.app/labs/WHAM/WHAM_examples).
 
-### References
+# References
 
 Methot, Richard D., and Chantell R. Wetzel. 2013. “Stock Synthesis: A
 Biological and Statistical Framework for Fish Stock Assessment and
