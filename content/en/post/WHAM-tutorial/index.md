@@ -16,22 +16,40 @@ tags: []
 title: Woods Hole Assessment Model
 ---
 
+-   <a href="#data" id="toc-data">Data</a>
+-   <a href="#parameters" id="toc-parameters">Parameters</a>
+    -   <a href="#selectivity" id="toc-selectivity">Selectivity</a>
+    -   <a href="#somatic-growth" id="toc-somatic-growth">Somatic growth</a>
+        -   <a href="#mean-length-at-age-laa" id="toc-mean-length-at-age-laa">Mean
+            length-at-age (LAA)</a>
+        -   <a href="#mean-weight-at-age-waa" id="toc-mean-weight-at-age-waa">Mean
+            weight-at-age (WAA)</a>
+-   <a href="#environmental-covariates"
+    id="toc-environmental-covariates">Environmental covariates</a>
+-   <a href="#analysis-of-results" id="toc-analysis-of-results">Analysis of
+    results</a>
+    -   <a href="#input-data" id="toc-input-data">Input data</a>
+    -   <a href="#diagnostics" id="toc-diagnostics">Diagnostics</a>
+    -   <a href="#parameters-1" id="toc-parameters-1">Parameters</a>
+-   <a href="#examples" id="toc-examples">Examples</a>
+    -   <a href="#references" id="toc-references">References</a>
+
 > :warning: **This tutorial is under development and some features could
-> be changed in future versions**
+> change in future versions**
 
-In this tutorial, I present the extended features that my colleagues and
-I have incorporated into the Woods Hole Assessment Model (WHAM). The
-base features of this model has been developed by Tim Miller and
+Here, I present the extended features that my colleagues and I have
+incorporated into the Woods Hole Assessment Model (WHAM). The base
+features of this model has been developed by Tim Miller and
 collaborators and are reported in Stock and Miller (2021) and references
-therein. Also, several vignettes can be found in the [WHAM
+therein. Also, several vignettes can be found on the [WHAM
 website](https://timjmiller.github.io/wham/index.html). Before
-continuing exploring this tutorial, I highly advise taking a look at
-that website.
+continuing reading this site, I highly advise taking a look at that
+website.
 
-The features described here are available in the [**growth**
+The features described here are available on the [**growth**
 branch](https://github.com/gmoroncorrea/wham/tree/growth) forked from
 the [**devel** branch](https://github.com/timjmiller/wham/tree/devel) of
-the WHAM GitHub repository and can be installed using this line:
+the WHAM GitHub repository and can be installed running:
 
 ``` r
 remotes::install_github(repo = 'gmoroncorrea/wham', ref='growth', INSTALL_opts = c("--no-docs", "--no-multiarch", "--no-demo"))
@@ -50,7 +68,7 @@ library(wham)
 
 New data inputs have been added. There are two main ways how WHAM can
 read the input data: reading an ASAP3 data file or creating an R object
-(list). In this tutorial, we will explore the latter option:
+(list). Here, we will explore the latter option:
 
 ``` r
 wham_data = list()
@@ -64,10 +82,10 @@ wham_data$ages = 1:21 # age bins
 wham_data$years = 1970:2020 # years
 ```
 
-To explore all the base inputs, see the [WHAM
+To explore all the basic inputs, see the [WHAM
 website](https://timjmiller.github.io/wham/index.html).
 
-The new inputs are:
+Some new inputs are:
 
 -   `wham_data$lengths`: fish length bins (cm). Length bin width should
     be uniform.
@@ -141,12 +159,12 @@ indices are not available, `wham_data$index_pal`,
 `wham_data$index_NeffL`, and `wham_data$use_index_pal` do not need to be
 created).
 
-There are some extra important data inputs as explained below.
+There are another important data inputs that will be explained below.
 
 # Parameters
 
-All parameters are specified in the `prepare_wham_input` function. I
-also invite the readers to take a look at the help of that function
+All parameters are specified using the `prepare_wham_input` function. I
+invite the readers to take a look at the help of that function
 (`?prepare_wham_input`) to find more details about the new features
 implemented here.
 
@@ -170,7 +188,7 @@ prepare_wham_input(...,
                    ...)
 ```
 
-The base WHAM version has three selectivity-at-age models (`model`) (
+The base WHAM version has four selectivity-at-age models (`model`) (
 [see
 here](https://timjmiller.github.io/wham/articles/ex4_selectivity.html)
 ): `age-specific`, `logistic`, `double-logistic`, `decreasing-logistic`.
@@ -193,77 +211,19 @@ options are available:
 
 The double normal equation can be found in Methot and Wetzel (2013).
 
-## Weight-at-age
-
-In this new version, there are three methods to get weight-at-age:
-
-### Empirical weight-at-age
-
-This is the only strategy available in the base WHAM version, the user
-should provide the empirical weight-at-age as input data
-(`wham_data$waa`), which will be used to calculate spawning biomass and
-reference points. However, an extra data input should be provided:
-
--   `wham_data$waa_type`: 1 (use this method)
-
-### Length-weight relationship
-
-``` r
-prepare_wham_input(...,
-                   LW = list(re, init_vals, est_pars),
-                   ...)
-```
-
-In case weight-at-age information is not provided ( `wham_data$waa` ),
-the user can specify the parameters of the length-weight relationship.
-The arguments are:
-
--   `LW$re`: random effects (RE) on LW parameters (2). Five options are
-    available:
-
-| `LW$re` |         Random effects          |  Estimated parameters  |
-|---------|:-------------------------------:|:----------------------:|
-| `none`  |        constant in time         |                        |
-| `iid_y` |  varies by year (uncorrelated)  |   *σ*<sub>*W*</sub>    |
-| `iid_c` | varies by cohort (uncorrelated) |   *σ*<sub>*W*</sub>    |
-| `ar1_y` |    correlated by year (AR1)     | *σ*<sub>*W*</sub>, *ρ* |
-| `ar1_c` |   correlated by cohort (AR1)    | *σ*<sub>*W*</sub>, *ρ* |
-
--   `LW$init_vals`: LW parameters initial values (2).
--   `LW$est_pars`: LW parameter to estimate.
-
-Also, here we use:
-
--   `wham_data$waa_type`: 2 (use this method)
-
-### Fit empirical weight-at-age
-
-This strategy uses the empirical weight-at-age (`wham_data$waa`) to fit
-the predicted weight-at-age by the length-weight relationship through a
-likelihood function. For this case, the user should define:
-
--   `wham_data$waa_type`: 3 (use this method)
--   `wham_data$waa_cv`: Coefficient of variation. Array
-    (`dim(wham_data$waa)`). When `waa_cv == 0`, the cell will not be
-    taken into account in the likelihood calculation.
-
 ## Somatic growth
 
-There are three main ways to model changes in the mean length-at-age:
+![Alt text](graph0.svg)
 
-### Input an age-length transition matrix
+When we talk about somatic growth, we could refer to changes in
+length-at-age or weight-at-age, therefore we will divide this section
+into two parts.
 
-This is an optional data input:
+### Mean length-at-age (LAA)
 
--   `wham_data$phi_matrix_input`: Array (`dim(wham_data$waa)[1]`
-    ×
-    number of length bins
-    ×
-    number of ages). WAA pointers are also used for this matrix (e.g.,
-    `wham_data$waa_pointer_jan1`, etc).
--   `wham_data$phi_matrix_info`: 1 (use input matrix)
+There are two main ways to model changes in LAA:
 
-### von Bertalanffy growth function
+1.  von Bertalanffy growth function (parametric approach)
 
 As parametrized by Schnute (1981). There are five parameters:
 
@@ -276,8 +236,8 @@ As parametrized by Schnute (1981). There are five parameters:
 -   
     *L*<sub>1</sub>
     : length at age 1
--   *CV*<sub>1</sub>: coefficient of variation of lengths at age 1
--   *CV*<sub>*A*</sub>: coefficient of variation of lengths at age A
+-   *C**V*<sub>1</sub>: coefficient of variation of lengths at age 1
+-   *C**V*<sub>*A*</sub>: coefficient of variation of lengths at age A
     (age plus group)
 
 ``` r
@@ -302,22 +262,18 @@ The arguments are:
 -   `growth$init_vals`: growth parameters initial values (5).
 -   `growth$est_pars`: Which growth parameter to estimate.
 
-Also:
-
--   `wham_data$phi_matrix_info`: 0
-
-### Mean length-at-age (LAA)
+1.  LAA random effects (non-parametric approach)
 
 The number of parameters is equal to the number of ages. Also, the
-*CV*<sub>1</sub>
+*C**V*<sub>1</sub>
 and
-*CV*<sub>*A*</sub>
+*C**V*<sub>*A*</sub>
 should be specified in `growth`.
 
 ``` r
 prepare_wham_input(...,
                    growth = list(model = "LAA", re, init_vals, est_pars),
-                   LAA = list(LAA_vals, re, LAA_est),
+                   LAA = list(LAA_vals, re, est_pars),
                    ...)
 ```
 
@@ -336,11 +292,118 @@ The arguments are:
 | `ar1_a`  |        correlated by age (AR1)        |          *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>           |
 | `2dar1`  |  correlated by age and year (2D AR1)  | *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub> |
 
--   `LAA$LAA_est`: Which LAA to estimate.
+-   `LAA$est_pars`: Which LAA to estimate.
 
-Also:
+Finally, the user could input a transition matrix (see equations) and
+not model growth internally.
 
--   `wham_data$phi_matrix_info`: 0
+1.  Input an age-length transition matrix
+
+This is an optional data input:
+
+-   `wham_data$phi_matrix_input`: Array (`dim(wham_data$waa)[1]`
+    ×
+    number of length bins
+    ×
+    number of ages). WAA pointers are also used for this matrix (e.g.,
+    `wham_data$waa_pointer_jan1`, etc).
+-   `wham_data$phi_matrix_info`: 1 (use input matrix)
+
+### Mean weight-at-age (WAA)
+
+In this new version, there are three ways to model changes in WAA:
+
+1.  Empirical weight-at-age
+
+This is the only strategy available in the base WHAM version, the user
+should provide the empirical weight-at-age as input data
+(`wham_data$waa`), which will be used to calculate spawning biomass and
+reference points. Make sure that:
+
+-   `wham_data$waa_type = 1` (use this method)
+
+1.  Length-weight relationship
+
+``` r
+prepare_wham_input(...,
+                   LW = list(re, init_vals, est_pars),
+                   ...)
+```
+
+The user could use a length-weight relationship to model changes in WAA
+based on LAA. The arguments are:
+
+-   `LW$re`: random effects (RE) on LW parameters (2). Five options are
+    available:
+
+| `LW$re` |         Random effects          |  Estimated parameters  |
+|---------|:-------------------------------:|:----------------------:|
+| `none`  |        constant in time         |                        |
+| `iid_y` |  varies by year (uncorrelated)  |   *σ*<sub>*W*</sub>    |
+| `iid_c` | varies by cohort (uncorrelated) |   *σ*<sub>*W*</sub>    |
+| `ar1_y` |    correlated by year (AR1)     | *σ*<sub>*W*</sub>, *ρ* |
+| `ar1_c` |   correlated by cohort (AR1)    | *σ*<sub>*W*</sub>, *ρ* |
+
+-   `LW$init_vals`: LW parameters initial values (2).
+-   `LW$est_pars`: LW parameter to estimate.
+
+Here we use:
+
+-   `wham_data$waa_type`: 2 (use this method)
+
+Also, the user could use observed mean weight-at-age data as source of
+information.
+
+-   `wham_data$use_catch_waa`: Use (1) or not use (0) waa (fisheries).
+    Matrix (number of years
+    ×
+    number of fisheries).
+-   `wham_data$use_index_waa`: Use (1) or not use (0) waa (indices).
+    Matrix (number of years
+    ×
+    number of indices).
+-   `wham_data$waa_cv`: Coefficient of variation for observations. Array
+    (`dim(wham_data$waa) == dim(wham_data$waa_cv)`).
+
+1.  WAA random effects
+
+Like the LAA random effects approach. The number of parameters is equal
+to the number of ages.
+
+``` r
+prepare_wham_input(...,
+                   WAA = list(WAA_vals, re, est_pars),
+                   ...)
+```
+
+The arguments are:
+
+-   `WAA$WAA_vals`: WAA initial values (length equal to the number of
+    ages).
+-   `WAA$re`: random effects (RE) on WAA (1). Five options are
+    available:
+
+| `WAA$re` |            Random effects             |                  Estimated parameters                   |
+|----------------------|:-----------------------:|:-----------------------:|
+| `none`   |       constant in time and ages       |                                                         |
+| `iid`    | varies by year and age (uncorrelated) |                    *σ*<sub>*L*</sub>                    |
+| `iid_a`  |     varies by age (uncorrelated)      |                    *σ*<sub>*L*</sub>                    |
+| `ar1_a`  |        correlated by age (AR1)        |          *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>           |
+| `2dar1`  |  correlated by age and year (2D AR1)  | *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub> |
+
+-   `WAA$est_pars`: Which WAA to estimate.
+
+Here we use:
+
+-   `wham_data$waa_type`: 3 (use this method)
+
+Also, the user could use observed mean weight-at-age data as source of
+information similar to the previous method.
+
+This is a general overview about growth modeling in this new WHAM
+version:
+
+![Alt text](graph1.svg)
 
 # Environmental covariates
 
@@ -411,8 +474,8 @@ function.
 
 # Examples
 
-You can find examples about the use of the new WHAM features [in this
-link](https://giancarlomcorrea.netlify.app/labs/WHAM/WHAM_examples).
+You can find examples about the use of the new WHAM features
+[here](https://giancarlomcorrea.netlify.app/labs/WHAM/WHAM_examples).
 
 ### References
 
