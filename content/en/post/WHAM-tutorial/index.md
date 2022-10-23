@@ -65,6 +65,9 @@ library(wham)
 > :heavy_check_mark: **This new WHAM version produces the same results
 > of the base WHAM (devel branch) version (using the same input data)**
 
+All the equations relevant for this site can be found {{< staticref "media/Growth in WHAM ver6.pdf" "newtab" >}}here{{< /staticref >}}. 
+Please, do not cite these equations.
+
 # Data
 
 New data inputs have been added. There are two main ways how WHAM can
