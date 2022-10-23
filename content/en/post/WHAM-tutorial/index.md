@@ -16,6 +16,8 @@ tags: []
 title: Woods Hole Assessment Model
 ---
 
+
+
 -   <a href="#data" id="toc-data">Data</a>
 -   <a href="#parameters" id="toc-parameters">Parameters</a>
     -   <a href="#selectivity" id="toc-selectivity">Selectivity</a>
@@ -223,7 +225,7 @@ into two parts.
 
 There are two main ways to model changes in LAA:
 
-1.  von Bertalanffy growth function (parametric approach)
+#### von Bertalanffy growth function (parametric approach)
 
 As parametrized by Schnute (1981). There are five parameters:
 
@@ -262,7 +264,7 @@ The arguments are:
 -   `growth$init_vals`: growth parameters initial values (5).
 -   `growth$est_pars`: Which growth parameter to estimate.
 
-1.  LAA random effects (non-parametric approach)
+#### LAA random effects (non-parametric approach)
 
 The number of parameters is equal to the number of ages. Also, the
 *C**V*<sub>1</sub>
@@ -297,7 +299,7 @@ The arguments are:
 Finally, the user could input a transition matrix (see equations) and
 not model growth internally.
 
-1.  Input an age-length transition matrix
+#### Input an age-length transition matrix
 
 This is an optional data input:
 
@@ -313,7 +315,7 @@ This is an optional data input:
 
 In this new version, there are three ways to model changes in WAA:
 
-1.  Empirical weight-at-age
+#### Empirical weight-at-age
 
 This is the only strategy available in the base WHAM version, the user
 should provide the empirical weight-at-age as input data
@@ -322,7 +324,7 @@ reference points. Make sure that:
 
 -   `wham_data$waa_type = 1` (use this method)
 
-1.  Length-weight relationship
+#### Length-weight relationship
 
 ``` r
 prepare_wham_input(...,
@@ -365,7 +367,7 @@ information.
 -   `wham_data$waa_cv`: Coefficient of variation for observations. Array
     (`dim(wham_data$waa) == dim(wham_data$waa_cv)`).
 
-1.  WAA random effects
+#### WAA random effects
 
 Like the LAA random effects approach. The number of parameters is equal
 to the number of ages.
@@ -436,7 +438,7 @@ The function `plot_wham_output` produces plots to summary the data
 inputs, outputs, parameters, and others. This function was also expanded
 in this new WHAM version.
 
-## Input data
+### Input data
 
 We can get a plot of the observed length compositions:
 
@@ -446,7 +448,7 @@ Or the input CAAL:
 
 ![](index_files/figure-markdown_github/CAAL_index_1_Year_26.png)
 
-## Diagnostics
+### Diagnostics
 
 We can compare the observed vs predicted length compositions:
 
@@ -456,7 +458,7 @@ or bubble plots of CAAL residuals:
 
 ![](index_files/figure-markdown_github/Index_CAAL_resids_index_1_Year_26.png)
 
-## Parameters
+### Parameters
 
 Some plots summarizing the variability in some parameters and biological
 aspects are also available. For example, the variability of mean
