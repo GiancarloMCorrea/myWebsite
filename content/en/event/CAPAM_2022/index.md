@@ -8,7 +8,7 @@ abstract: Temporal variability in somatic growth is one of the main drivers of b
   which limits its use in other regions and stocks. This study expanded the base WHAM features to incorporate length information 
   (i.e., marginal length compositions) and model somatic growth. We introduce these novel features and apply them to walleye 
   pollock in the Gulf of Alaska, USA, a species that has shown substantial annual variability in mean length-at-age. We explored 
-  two approaches to account for variability in somatic growth: 1) using a parametric growth equation and estimating random effects 
+  two approaches to account for variability in somatic growth 1) using a parametric growth equation and estimating random effects 
   on parameters, and2) estimating random effects on mean length-at-age. Moreover, we explored the incorporation of sea surface 
   temperature (SST) as an environmental covariate linked to growth parameters. This study presents a new tool that can be applied 
   to fish stocks worldwide, especially when length data and growth estimation are influential, or when linking climate variables 
