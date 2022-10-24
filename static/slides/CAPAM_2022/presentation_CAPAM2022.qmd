@@ -41,13 +41,11 @@ $X_t$ is the unobserved state at time step $t$ and $Y_t$ are observations. $\the
 
 Why use them? ([Aeberhard et al. 2018, Stock and Miller, 2021]{style="font-size:75%"})
 
-::: incremental
 -   handle structural breaks, time-varying parameters
 -   handle missing observations
 -   can be used to do forecasting
 -   model complex and nonlinear relationships
 -   less retrospective bias
-:::
 
 ------------------------------------------------------------------------
 
@@ -59,6 +57,12 @@ Why use them? ([Aeberhard et al. 2018, Stock and Miller, 2021]{style="font-size:
 -   Separability of total catch and proportions-at-age, as well as annual F and selectivity
 -   Random effects in selectivity, M, NAA, Q
 -   Written in TMB and R (user friendly!) ( see [R package](https://timjmiller.github.io/wham/) ).
+:::
+
+::: {.absolute top="650" left="750"}
+::: sectionhead
+[Stock and Miller (2021)]{style="font-size:75%"}
+:::
 :::
 
 ------------------------------------------------------------------------
@@ -130,6 +134,8 @@ GW -> {LAA WAA}
 
 ### Growth equation (von Bertalanffy)
 
+<br>
+
 The mean length-at-age at the start of the year ($y=1$):
 
 $$\tilde{L}_{y,a} = L_{\infty}+(L_1 - L_{\infty})exp(-k(a-1))$$
@@ -143,6 +149,8 @@ $a=1$ is first age in WHAM. Then, when $y>1$:
 ## Mean length-at-age (LAA)
 
 ### Growth equation (von Bertalanffy)
+
+<br>
 
 Then, to calculate the mean length-at-age at any fraction of the year:
 
@@ -253,7 +261,7 @@ node [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]
 
 LAA1 [label = 'LAA: \n Growth equation', fillcolor = Pink]
 LAA2 [label = 'LAA: \n LAA random effects', fillcolor = Pink]
-WAA1 [label =  'WAA: \n Empirical WAA', fillcolor = lightskyblue2]
+WAA1 [label =  'WAA: \n Empirical WAA \n (assumed to be known \n perfectly)', fillcolor = lightskyblue2]
 WAA2 [label =  'WAA: \n LAA and L-W relationship', fillcolor = lightskyblue2]
 WAA3 [label =  'WAA: \n WAA random effects', fillcolor = lightskyblue2]
 SSB [label= 'SSB and reference points \n calculation', fillcolor = Beige]
@@ -294,6 +302,8 @@ New functions added:
 
 ## Environmental covariates
 
+<br>
+
 Process model (random walk or AR) and observation model.
 
 . . .
@@ -318,17 +328,25 @@ Data:
 
 Parameters (penalized ML for time-varying quantities):
 
--   Selectivity and M-at-age
--   Some Qs vary over time
+-   Time-varying fishery age selectivity
+-   Two Qs vary over time
 -   Recruitment variability
 
 ------------------------------------------------------------------------
 
 ## Base model
 
-ADMB model vs (base) WHAM model
+ADMB model vs WHAM model
 
 ![](compare_SSB_0.png){fig-align="center"}
+
+------------------------------------------------------------------------
+
+## Growth variability
+
+Observed survey fish lengths:
+
+![](len_per_year_age.png){width="150%" fig-align="center"}
 
 ------------------------------------------------------------------------
 
@@ -345,7 +363,7 @@ graph [layout = dot, rankdir = LB]
 # define the global styles of the nodes. We can override these in box if we wish
 node [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]
 
-LAA1 [label = 'LAA: \n Growth equation \n (iid by year or cohort \n for L1 and k)', fillcolor = Pink]
+LAA1 [label = 'LAA: \n Growth equation \n (iid by year or cohort \n for L1, K, Linf)', fillcolor = Pink]
 LAA2 [label = 'LAA: \n LAA random effects \n (iid)', fillcolor = Pink]
 WAA1 [label =  'WAA: \n Empirical WAA', fillcolor = lightskyblue2]
 WAA2 [label =  'WAA: \n LAA and L-W \n relationship (fixed)', fillcolor = lightskyblue2]
@@ -399,13 +417,13 @@ edge [arrowhead = none]
 
 ![](len_per_year_age_fits.png){width="150%" fig-align="center"}
 
-------------------------------------------------------------------------
+<!-- ------------------------------------------------------------------------ -->
 
-## Model comparison
+<!-- ## Model comparison -->
 
-[Predicted mean weight-at-age vs survey observations (same fraction of the year):]{style="font-size:75%"}
+<!-- [Predicted mean weight-at-age vs survey observations (same fraction of the year):]{style="font-size:75%"} -->
 
-![](wgt_per_year_age_fits.png){width="150%" fig-align="center"}
+<!-- ![](wgt_per_year_age_fits.png){width="150%" fig-align="center"} -->
 
 ------------------------------------------------------------------------
 
@@ -415,12 +433,25 @@ AIC values for models with same input data:
 
 <br>
 
-| Model name | AIC |
-|:------:|:------:|
-| $LAA\_LW\_iid$      | 827.9   |
-| $vB\_LW\_iid(c)$     |  8138.5 |
-| $vB\_LW\_iid(y)$       | 7131    |
-| $WAA\_LW\_iid$       | 1188.5    |
+|    Model name    |  (Marginal) AIC   | $\Delta$ AIC   |
+|:----------------:|:------:|:------:|
+|  LAA random effects ($iid$)  | 827.9  | 0  |
+| vB equation ($iid_y$) | 2662.8 | 1834.9 |
+| vB equation ($iid_c$) |  3299.4  |  2471.5  |
+|  WAA random effects ($iid$)  | 1188.5 | 360.6 |
+
+------------------------------------------------------------------------
+
+## Final thoughts
+
+<br>
+
+::: incremental
+-   New tool to explore growth modeling in state-space assessment models
+-   Non parametric approach seems to outperform a parametric equation
+-   Non parametric approach is more flexible and deals with fish shrinkage
+:::
+
 
 ------------------------------------------------------------------------
 
@@ -429,9 +460,10 @@ AIC values for models with same input data:
 <br>
 
 ::: incremental
--   Include survey length information (e.g. marginal length compositions, conditional age-at-length data)
--   Add environmental covariate
--   Simulation experiment: compare strategies to account for growth variability using WHAM
+* Include survey length information (e.g. marginal length compositions, conditional age-at-length data)
+* Add environmental covariate
+* Simulation experiment: compare strategies to account for growth variability using WHAM
+  + Good practices for modeling growth in state-space models
 :::
 
 ------------------------------------------------------------------------
@@ -446,15 +478,25 @@ AIC values for models with same input data:
 -   Ecological research: meaning of all random effects options
 :::
 
-# Thanks for listening {background-color="white"}
+# Thanks {background-color="white"}
 
-![](images/University_of_Washington.png){.absolute top="200" left="40" height="90px"}
+![](images/LOGO_UW_2.png){.absolute top="200" left="40" height="90px"}
 
-![](images/NOAA_FISHERIES_logoH.png){.absolute top="175" left="540" height="160px"}
+![](images/uw-safs.png){.absolute top="180" left="230" height="450px"}
+
+![](images/NOAA_FISHERIES_logoH.png){.absolute top="175" left="350" height="160px"}
+
+![](images/cicoes.png){.absolute top="175" left="700" height="160px"}
+
+::: {.absolute top="-10" left="610"}
+::: sectionhead
+[Cole Monnahan, Jane Sullivan, Jim Thorson, Andre Punt, Tim Miller, Jim Ianelli, Brian Stock]{style="font-size:75%"}
+:::
+:::
 
 ::: {.absolute top="400" left="550"}
 ::: sectionhead
-Contact: <br> [gcorrea\@uw.edu](mailto:gcorrea@uw.edu) <br> [giancarlo.correa\@noaa.gov](mailto:giancarlo.correa@noaa.gov) 
+Contact: <br> [gcorrea\@uw.edu](mailto:gcorrea@uw.edu) <br> [giancarlo.correa\@noaa.gov](mailto:giancarlo.correa@noaa.gov)
 :::
 :::
 
