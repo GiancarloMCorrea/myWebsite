@@ -363,7 +363,7 @@ graph [layout = dot, rankdir = LB]
 # define the global styles of the nodes. We can override these in box if we wish
 node [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]
 
-LAA1 [label = 'LAA: \n Growth equation \n (iid by year or cohort \n for L1, K, Linf)', fillcolor = Pink]
+LAA1 [label = 'LAA: \n Growth equation \n (iid by year or cohort \n for K, Linf)', fillcolor = Pink]
 LAA2 [label = 'LAA: \n LAA random effects \n (iid)', fillcolor = Pink]
 WAA1 [label =  'WAA: \n Empirical WAA', fillcolor = lightskyblue2]
 WAA2 [label =  'WAA: \n LAA and L-W \n relationship (fixed)', fillcolor = lightskyblue2]
@@ -433,12 +433,12 @@ AIC values for models with same input data:
 
 <br>
 
-|    Model name    |  (Marginal) AIC   | $\Delta$ AIC   |
-|:----------------:|:------:|:------:|
-|  LAA random effects ($iid$)  | 827.9  | 0  |
-| vB equation ($iid_y$) | 2662.8 | 1834.9 |
-| vB equation ($iid_c$) |  3299.4  |  2471.5  |
-|  WAA random effects ($iid$)  | 1188.5 | 360.6 |
+|         Model name         | (Marginal) AIC | $\Delta$ AIC |
+|:--------------------------:|:--------------:|:------------:|
+| LAA random effects ($iid$) |     827.9      |      0       |
+|   vB equation ($iid_y$)    |     4047.2     |    3219.3    |
+|   vB equation ($iid_c$)    |     4773.2     |    3945.3    |
+| WAA random effects ($iid$) |     1188.5     |    360.6     |
 
 ------------------------------------------------------------------------
 
@@ -452,7 +452,6 @@ AIC values for models with same input data:
 -   Non parametric approach is more flexible and deals with fish shrinkage
 :::
 
-
 ------------------------------------------------------------------------
 
 ## Future directions (for this project)
@@ -460,10 +459,10 @@ AIC values for models with same input data:
 <br>
 
 ::: incremental
-* Include survey length information (e.g. marginal length compositions, conditional age-at-length data)
-* Add environmental covariate
-* Simulation experiment: compare strategies to account for growth variability using WHAM
-  + Good practices for modeling growth in state-space models
+-   Include survey length information (e.g. marginal length compositions, conditional age-at-length data)
+-   Add environmental covariate
+-   Simulation experiment: compare strategies to account for growth variability using WHAM
+    -   Good practices for modeling growth in state-space models
 :::
 
 ------------------------------------------------------------------------
