@@ -234,7 +234,7 @@ $\hat{w}_{y,a}$ can also be fitted to $w_{y,a}$ (observed mean weight-at-age)
 
 <br>
 
-Like the LAA random effects. Mean weight-at-age ( $\mu_{\tilde{W}_{a}}$, notice log scale ) are assumed to be parameters and can be predicted.
+Like the LAA random effects. Mean weight-at-age ( $\mu_{\tilde{W}_{a}}$, notice log scale ) are assumed to be parameters and can be estimated.
 
 . . .
 
