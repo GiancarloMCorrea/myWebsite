@@ -340,7 +340,7 @@ Parameters (penalized ML for time-varying quantities):
 
 ------------------------------------------------------------------------
 
-## Base model
+## Starting model
 
 ADMB model vs WHAM model
 
