@@ -17,27 +17,29 @@ execute:
   echo: true
 ---
 
+<!-- ## State-space assessment models -->
+
+<!-- Allows separation and estimation of both observation and process errors. -->
+
+<!-- . . . -->
+
+<!-- <br> -->
+
+<!-- Observation equation: $E[Y_t \mid X_t]= g(X_t,\theta)$ -->
+
+<!-- Process equation: $E[X_t \mid X_{t-1}] = h(X_{t-1},\theta)$ -->
+
+<!-- <br> -->
+
+<!-- $X_t$ is the unobserved state at time step $t$ and $Y_t$ are observations. $\theta$ is the vector of all unknown model parameters (fixed effects). $X_t$ treated as random effects ([Aeberhard et al. 2018]{style="font-size:75%"}). -->
+
+<!-- ------------------------------------------------------------------------ -->
+
 ## State-space assessment models
 
-Allows separation and estimation of both observation and process errors.
+Attend state-space models session
 
 . . .
-
-<br>
-
-Observation equation: $E[Y_t \mid X_t]= g(X_t,\theta)$
-
-Process equation: $E[X_t \mid X_{t-1}] = h(X_{t-1},\theta)$
-
-<br>
-
-$X_t$ is the unobserved state at time step $t$ and $Y_t$ are observations. $\theta$ is the vector of all unknown model parameters (fixed effects). $X_t$ treated as random effects ([Aeberhard et al. 2018]{style="font-size:75%"}).
-
-------------------------------------------------------------------------
-
-## State-space assessment models
-
-<br>
 
 Why use them? ([Aeberhard et al. 2018, Stock and Miller, 2021]{style="font-size:75%"})
 
