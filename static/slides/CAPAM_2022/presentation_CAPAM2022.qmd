@@ -37,7 +37,9 @@ execute:
 
 ## State-space assessment models
 
-Attend state-space models session
+Attend state-space models session (Wednesday afternoon)
+
+<br>
 
 . . .
 

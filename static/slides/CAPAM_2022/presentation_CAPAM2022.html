@@ -345,7 +345,8 @@
 </section>
 <section id="state-space-assessment-models" class="slide level2">
 <h2>State-space assessment models</h2>
-<p>Attend state-space models session</p>
+<p>Attend state-space models session (Wednesday afternoon)</p>
+<p><br></p>
 <div class="fragment">
 <p>Why use them? (<span style="font-size:75%">Aeberhard et al.&nbsp;2018, Stock and Miller, 2021</span>)</p>
 <ul>
@@ -407,8 +408,8 @@
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-d41c813aaf763b887b32" style="width:960px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d41c813aaf763b887b32">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\nGW [label = \"Growth variability\", fillcolor = Beige, fontsize = 25]\nLAA [label = \"Changes in \n mean length-at-age \n (LAA)\", fillcolor = Beige, fontsize = 25]\nWAA [label =  \"Changes in \n mean weight-at-age \n (WAA)\", fillcolor = Beige, fontsize = 25]\nLW [label =  \"Length-weight (LW) \n relationship\", fillcolor = Beige, fontsize = 25]\nCF [label =  \"Condition factor \n variability\", fillcolor = Beige, fontsize = 25]\n\n{rank = min; GW}\n{rank = same; LAA LW WAA}\n{rank = max; CF}\n\n# edge definitions with the node IDs\nLAA -> {LW}\nLW -> {WAA}\nCF -> {LW}\nedge [arrowhead = none]\nGW -> {LAA WAA}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-89e30303a20a5920a3b5" style="width:960px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-89e30303a20a5920a3b5">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\nGW [label = \"Growth variability\", fillcolor = Beige, fontsize = 25]\nLAA [label = \"Changes in \n mean length-at-age \n (LAA)\", fillcolor = Beige, fontsize = 25]\nWAA [label =  \"Changes in \n mean weight-at-age \n (WAA)\", fillcolor = Beige, fontsize = 25]\nLW [label =  \"Length-weight (LW) \n relationship\", fillcolor = Beige, fontsize = 25]\nCF [label =  \"Condition factor \n variability\", fillcolor = Beige, fontsize = 25]\n\n{rank = min; GW}\n{rank = same; LAA LW WAA}\n{rank = max; CF}\n\n# edge definitions with the node IDs\nLAA -> {LW}\nLW -> {WAA}\nCF -> {LW}\nedge [arrowhead = none]\nGW -> {LAA WAA}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -488,8 +489,8 @@
 <p>In the population:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-9820bb8557244dedfc62" style="width:960px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9820bb8557244dedfc62">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Growth equation\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n LAA random effects\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical WAA \n (assumed to be known \n perfectly)\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n LAA and L-W relationship\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n WAA random effects\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points \n calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Marginal length comps \n Conditional age-at-length\", fillcolor = White, style = rounded]\nDAT2 [label = \"Informative data: \n Observed mean \n weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1 DAT2}\n{rank = same; LAA1 LAA2}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {LAA1 LAA2}\nDAT2 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{WAA1 WAA2 WAA3}  -> SSB\n{LAA1 LAA2}  -> WAA2\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-b5f44c51f07a08e6cce6" style="width:960px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b5f44c51f07a08e6cce6">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Growth equation\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n LAA random effects\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical WAA \n (assumed to be known \n perfectly)\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n LAA and L-W relationship\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n WAA random effects\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points \n calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Marginal length comps \n Conditional age-at-length\", fillcolor = White, style = rounded]\nDAT2 [label = \"Informative data: \n Observed mean \n weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1 DAT2}\n{rank = same; LAA1 LAA2}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {LAA1 LAA2}\nDAT2 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{WAA1 WAA2 WAA3}  -> SSB\n{LAA1 LAA2}  -> WAA2\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -551,8 +552,8 @@
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-56303d579850da01dd6c" style="width:960px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-56303d579850da01dd6c">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Growth equation \n (iid by year or cohort \n for K, Linf)\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n LAA random effects \n (iid)\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical WAA\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n LAA and L-W \n relationship (fixed)\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n WAA random effects \n (iid)\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Observed mean weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1}\n{rank = same; LAA1 LAA2}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{LAA1 LAA2}  -> WAA2\n{WAA1 WAA2 WAA3}  -> SSB\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9720e7b1c7fb61dd00bd" style="width:960px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9720e7b1c7fb61dd00bd">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Growth equation \n (iid by year or cohort \n for K, Linf)\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n LAA random effects \n (iid)\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical WAA\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n LAA and L-W \n relationship (fixed)\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n WAA random effects \n (iid)\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Observed mean weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1}\n{rank = same; LAA1 LAA2}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{LAA1 LAA2}  -> WAA2\n{WAA1 WAA2 WAA3}  -> SSB\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>

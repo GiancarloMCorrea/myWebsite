@@ -20,7 +20,7 @@ address:
   region: Lazio
   street: FAO Building
 all_day: false
-authors: [admin, Andres Chipollini, Miguel Romero]
+authors: [admin, Cole Monnahan, Jane Sullivan, James Thorson, Andre Punt]
 date: "2022-10-24T00:00:00Z"
 date_end: "2022-10-28T00:00:00Z"
 event: Stock Assessment Good Practices Workshop
