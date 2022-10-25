@@ -35,23 +35,23 @@ execute:
 
 <!-- ------------------------------------------------------------------------ -->
 
-## State-space assessment models
+<!-- ## State-space assessment models -->
 
-Attend state-space models session (Wednesday afternoon)
+<!-- Attend state-space models session (Wednesday afternoon) -->
 
-<br>
+<!-- <br> -->
 
-. . .
+<!-- . . . -->
 
-Why use them? ([Aeberhard et al. 2018, Stock and Miller, 2021]{style="font-size:75%"})
+<!-- Why use them? ([Aeberhard et al. 2018, Stock and Miller, 2021]{style="font-size:75%"}) -->
 
--   handle structural breaks, time-varying parameters
--   handle missing observations
--   can be used to do forecasting
--   model complex and nonlinear relationships
--   less retrospective bias
+<!-- -   handle structural breaks, time-varying parameters -->
+<!-- -   handle missing observations -->
+<!-- -   can be used to do forecasting -->
+<!-- -   model complex and nonlinear relationships -->
+<!-- -   less retrospective bias -->
 
-------------------------------------------------------------------------
+<!-- ------------------------------------------------------------------------ -->
 
 ## The Woods Hole Assessment Model (WHAM)
 
