@@ -301,7 +301,7 @@ We can also compare the estimated mean length-at-age between these models and th
 LAA_SS = as.matrix(LAA_SS)
 rownames(LAA_SS) = min_year:(max_year-1)
 data_0 = setNames(reshape2::melt(LAA_SS), c('year', 'age', 'LAA'))
-data_0$age = data_0$age + 1
+data_0$age = data_0$age
 data_0$type = 'OM'
 
 LAA_data_1 = my_model_1$rep$LAA
