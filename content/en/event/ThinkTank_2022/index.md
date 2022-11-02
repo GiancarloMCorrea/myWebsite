@@ -34,6 +34,6 @@ tags: []
 title: Responding to climate-driven changes in growth in the modern stock assessment models
 url_code: ""
 url_pdf: ""
-url_slides: "https://giancarlomcorrea.netlify.app/slides/CAPAM_2022/presentation_ThinkTank2022.html"
+url_slides: "https://giancarlomcorrea.netlify.app/slides/ThinkTank_2022/presentation_ThinkTank2022.html"
 url_video: ""
 ---
