@@ -207,7 +207,7 @@ In this new version, there are three ways to model changes in WAA:
 
 This is the only strategy available in the base WHAM version, the user should provide the empirical weight-at-age as input data (`wham_data$waa`), which will be used to calculate spawning biomass and reference points. Make sure that:
 
-* `wham_data$waa_model = 1` (use this method)
+* `wham_data$weight_model = 1` (use this method)
 
 #### Length-weight relationship
 
@@ -234,7 +234,7 @@ The user could use a length-weight relationship to model changes in WAA based on
 
 Here we use:
 
-* `wham_data$waa_model`: 2 (use this method)
+* `wham_data$weight_model`: 2 (use this method)
 
 Also, the user could use observed mean weight-at-age data as source of information. 
 
@@ -269,7 +269,7 @@ The arguments are:
 
 Here we use:
 
-* `wham_data$waa_model`: 3 (use this method)
+* `wham_data$weight_model`: 3 (use this method)
 
 Also, the user could use observed mean weight-at-age data as source of information similar to the previous method.
 

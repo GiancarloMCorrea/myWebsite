@@ -8,7 +8,7 @@ featured: false
 image:
   caption: 'Mean length-at-age variability.'
   focal_point: ""
-lastMod: "2019-09-05T00:00:00Z"
+lastMod: "2023-01-30T00:00:00Z"
 projects: []
 subtitle: Growth estimation
 summary: Growth estimation
@@ -340,7 +340,7 @@ should provide the empirical weight-at-age as input data
 (`wham_data$waa`), which will be used to calculate spawning biomass and
 reference points. Make sure that:
 
--   `wham_data$waa_model = 1` (use this method)
+-   `wham_data$weight_model = 1` (use this method)
 
 #### Length-weight relationship
 
@@ -369,7 +369,7 @@ based on LAA. The arguments are:
 
 Here we use:
 
--   `wham_data$waa_model`: 2 (use this method)
+-   `wham_data$weight_model`: 2 (use this method)
 
 Also, the user could use observed mean weight-at-age data as source of
 information.
@@ -415,7 +415,7 @@ The arguments are:
 
 Here we use:
 
--   `wham_data$waa_model`: 3 (use this method)
+-   `wham_data$weight_model`: 3 (use this method)
 
 Also, the user could use observed mean weight-at-age data as source of
 information similar to the previous method.
