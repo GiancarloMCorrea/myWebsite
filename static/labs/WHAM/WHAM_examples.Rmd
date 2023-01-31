@@ -92,7 +92,7 @@ wham_data$index_cv = as.matrix(data_file$CPUE[,5])
 wham_data$units_indices = rep(0L, times = 1) # numbers
 wham_data$selblock_pointer_indices = matrix(2L, ncol = 1, nrow = (max_year - min_year + 1))
 wham_data$fracyr_indices = matrix(0.01, ncol = 1, nrow = (max_year - min_year + 1))
-wham_data$waa_type = 2 # use LW
+wham_data$weight_model = 2 # use LW
 wham_data$maturity = matrix(rep(SS_report$endgrowth[2:(n_ages+1),19], times = max_year - min_year + 1),
                             ncol = n_ages, nrow = max_year - min_year + 1, byrow = TRUE) 
 wham_data$fracyr_SSB = rep(0, times = max_year - min_year + 1)
@@ -128,8 +128,9 @@ my_input1 = prepare_wham_input(model_name="whamGrowth1",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])),
                                             recruit_pars = c(300000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'iid_y', 'none', 'none', 'none'),
-                                            init_vals = c(0.16, 117.9, 19.8, 0.1, 0.1)),
+                                            re = c('none', 'iid_y', 'none'),
+                                            init_vals = c(0.16, 117.9, 19.8),
+                                            SD_vals = c(0.1, 0.1)),
                               LW = list(init_vals = c(5.58883e-006, 3.18851)),
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -169,11 +170,8 @@ my_input2 = prepare_wham_input(model_name="whamGrowth2",
                                             recruit_model = 2,
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])),
                                             recruit_pars = c(300000)),
-                              growth = list(model = 'LAA',
-                                            re = c('none', 'none'), 
-                                            init_vals = c(0.1, 0.1)), #  CV1, CVA
                               LAA = list(LAA_vals = as.vector(as.matrix(LAA_SS[1,])),
-                                         re = c('iid')),
+                                         re = c('iid'), SD_vals = c(0.1, 0.1)),
                               LW = list(init_vals = c(5.58883e-006, 3.18851)),
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -237,8 +235,9 @@ my_input3 = prepare_wham_input(model_name="whamGrowth3",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])),
                                             recruit_pars = c(300000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none', 'none', 'none'),
-                                            init_vals = c(0.16, 117.9, 19.8, 0.1, 0.1)), 
+                                            re = c('none', 'none', 'none'),
+                                            init_vals = c(0.16, 117.9, 19.8),
+                                            SD_vals = c(0.1, 0.1)), 
                               LW = list(init_vals = c(5.58883e-006, 3.18851)),
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -448,9 +447,10 @@ my_input4 = prepare_wham_input(model_name="Ex_Selectivity_CAAL",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(300000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 19.8, 0.1, 0.1), 
-                                            est_pars = c(1)),  # estimate K 
+                                            re = c('none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 19.8), 
+                                            est_pars = 1, # estimate K 
+                                            SD_vals = c(0.1, 0.1)),  
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               basic_info = wham_data)
@@ -591,8 +591,9 @@ my_input5 = prepare_wham_input(model_name="Ex_LW",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
                                             recruit_pars = c(500000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 3, 0.1, 0.1)),
+                                            re = c('none', 'none', 'none'), 
+                                            init_vals = c(0.16, 117.9, 3),
+                                            SD_vals = c(0.1,0.1)),
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               LW = list(re = c('ar1_y', 'none'),
@@ -610,7 +611,7 @@ my_input5$par$mean_rec_pars = mean(log(NAA_SS[,1])) # mean recruitment as OM
 my_input5$map$log_N1_pars = factor(rep(NA, times = n_ages)) # fix N1
 my_input5$map$log_F1 = factor(c(NA)) # fix F1
 my_input5$map$logit_q = factor(NA) # fix q
-my_input5$data$waa_type = 2 # use observed WAA
+my_input5$data$weight_model = 2 # use observed WAA
 my_input5$data$waa_cv[1:2,,] = 0.1
 my_input5$data$use_catch_waa[,1] = 1
 my_input5$data$use_index_waa[,1] = 1
