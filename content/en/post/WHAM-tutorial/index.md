@@ -39,12 +39,11 @@ title: Woods Hole Assessment Model
 
 Here, I present the extended features that my colleagues and I have
 incorporated into the Woods Hole Assessment Model (WHAM). The base
-features of this model has been developed by Tim Miller and
-collaborators and are reported in Stock and Miller (2021) and references
-therein. Also, several vignettes can be found on the [WHAM
-website](https://timjmiller.github.io/wham/index.html). Before
-continuing reading this site, I highly advise taking a look at that
-website.
+features of this model has been developed by Brian Stock and Tim Miller,
+and are reported in Stock and Miller (2021) and references therein.
+Also, several vignettes can be found on the [WHAM
+website](https://timjmiller.github.io/wham/index.html). This tutorial
+has been built assuming that the reader is familiar with WHAM.
 
 The features described here are available on the [**growth**
 branch](https://github.com/gmoroncorrea/wham/tree/growth) forked from
@@ -62,10 +61,7 @@ library(wham)
 ```
 
 > :heavy_check_mark: **This new WHAM version produces the same results
-> of the base WHAM (devel branch) version (using the same input data)**
-
-All the equations relevant for this site can be found {{< staticref "media/Growth in WHAM ver6.pdf" "newtab" >}}here{{< /staticref >}}. 
-Please, do not cite these equations.
+> as the base WHAM (devel branch) version (using the same input data)**
 
 # Data
 
@@ -88,7 +84,7 @@ wham_data$years = 1970:2020 # years
 To explore all the basic inputs, see the [WHAM
 website](https://timjmiller.github.io/wham/index.html).
 
-Some new inputs are:
+Some new inputs available are:
 
 -   `wham_data$lengths`: fish length bins (cm). Length bin width should
     be uniform.
@@ -121,9 +117,11 @@ Some new inputs are:
     ×
     number of length bins).
 -   `wham_data$use_catch_caal`: Use (1) or not use (0) CAAL (fisheries).
-    Matrix (number of years
+    Array (number of years
     ×
-    number of fisheries).
+    number of fisheries
+    ×
+    number of length bins).
 -   `wham_data$index_pal`: Length compositions for indices. Array
     (number of indices
     ×
@@ -153,9 +151,11 @@ Some new inputs are:
     ×
     number of length bins).
 -   `wham_data$use_index_caal`: Use (1) or not use (0) CAAL (indices).
-    Matrix (number of years
+    Array (number of years
     ×
-    number of indices).
+    number of indices
+    ×
+    number of length bins).
 
 These data inputs are not mandatory (i.e. if length compositions for
 indices are not available, `wham_data$index_pal`,
@@ -180,7 +180,6 @@ prepare_wham_input(...,
                    ...)
 ```
 
-and the options available are the same as those for the age composition.
 For CAAL data, the model should be specified in the `age_comp` argument.
 
 ## Selectivity
@@ -196,23 +195,20 @@ The base WHAM version has four selectivity-at-age models (`model`) (
 here](https://timjmiller.github.io/wham/articles/ex4_selectivity.html)
 ): `age-specific`, `logistic`, `double-logistic`, `decreasing-logistic`.
 
-For this new WHAM version, the selectivity can be at age or at length.
-Also, we added the `double-normal` parametrization (see
-Privitera-Johnson, Methot, and Punt (2022) ). Therefore, the following
-options are available:
+For this new WHAM version, the selectivity can be at age or at length,
+and the following options are available:
 
 -   `age-specific`: selectivity by age (number of parameters is the
     number of ages)
 -   `logistic`: increasing logistic at age (2 parameters)
 -   `double-logistic`: double logistic at age (4 parameters)
 -   `decreasing-logistic`: decreasing logistic at age (2 parameters)
--   `double-normal`: double normal at age (6 parameters)
+-   `double-normal`: double normal at age (6 parameters) (see
+    Privitera-Johnson, Methot, and Punt (2022) )
 -   `len-logistic`: increasing logistic at length (2 parameters)
 -   `len-decreasing-logistic`: decreasing logistic at length (2
     parameters)
 -   `len-double-normal`: double normal at length (6 parameters)
-
-The double normal equation can be found in Methot and Wetzel (2013).
 
 ## Somatic growth
 
@@ -224,11 +220,13 @@ into two parts.
 
 ### Mean length-at-age (LAA)
 
-There are two main ways to model changes in LAA:
+There are two main ways to model changes in LAA: parametric and
+non-parametric approach. The parametric approach may be the von
+Bertalanffy growth function or the Richards equation.
 
-#### von Bertalanffy growth function (parametric approach)
+#### von Bertalanffy growth function
 
-As parametrized by Schnute (1981). There are five parameters:
+As parametrized by Schnute (1981). There are three main parameters:
 
 -   
     *k*
@@ -237,22 +235,20 @@ As parametrized by Schnute (1981). There are five parameters:
     *L*<sub>*i**n**f*</sub>
     : Asymptotic length
 -   
-    *L*<sub>1</sub>
-    : length at age 1
--   *CV*<sub>1</sub>: coefficient of variation of lengths at age 1
--   *CV*<sub>*A*</sub>: coefficient of variation of lengths at age A
-    (age plus group)
+    *L*<sub>*ã*</sub>
+    : length at age *ã* (reference age).
 
 ``` r
 prepare_wham_input(...,
-                   growth = list(model = "vB_classic", re, init_vals, est_pars),
+                   growth = list(model = "vB_classic", re, init_vals, est_pars, 
+                                 SD_vals, SD_est),
                    ...)
 ```
 
 The arguments are:
 
--   `growth$re`: random effects (RE) on growth parameters (5). Five
-    options are available:
+-   `growth$re`: random effects (RE) on growth parameters. Five options
+    are available:
 
 | `growth$re` |         Random effects          |  Estimated parameters  |
 |-------------|:-------------------------------:|:----------------------:|
@@ -262,21 +258,57 @@ The arguments are:
 | `ar1_y`     |    correlated by year (AR1)     | *σ*<sub>*G*</sub>, *ρ* |
 | `ar1_c`     |   correlated by cohort (AR1)    | *σ*<sub>*G*</sub>, *ρ* |
 
--   `growth$init_vals`: growth parameters initial values (5).
+-   `growth$init_vals`: growth parameters initial values.
 -   `growth$est_pars`: Which growth parameter to estimate.
 
-#### LAA random effects (non-parametric approach)
+We specify two parameters `growth$SD_vals` (and their estimation
+`growth$SD_est`) that describe the variability of length-at-age:
 
-The number of parameters is equal to the number of ages. Also, the
-*CV*<sub>1</sub>
-and
-*CV*<sub>*A*</sub>
-should be specified in `growth`.
+-   *S**D*<sub>*ã*</sub>: standard deviation of lengths at age *ã*. It
+    is a function of mean length-at-age.
+-   *S**D*<sub>*A*</sub>: standard deviation of lengths at age A (age
+    plus group). It is a function of mean length-at-age.
+
+Random effects cannot be predicted on these parameters.
+
+*ã* is specified in the data input object:
+
+-   `wham_data$age_L1`: Default value is 1
+
+#### Richards growth function
+
+In this option, we have four (4) main parameters:
+
+-   
+    *k*
+    : growth rate
+-   
+    *L*<sub>*i**n**f*</sub>
+    : Asymptotic length
+-   
+    *L*<sub>*ã*</sub>
+    : length at age *ã* (reference age)
+-   
+    *γ*
+    : shape parameter
 
 ``` r
 prepare_wham_input(...,
-                   growth = list(model = "LAA", re, init_vals, est_pars),
-                   LAA = list(LAA_vals, re, est_pars),
+                   growth = list(model = "Richards", re, init_vals, est_pars, 
+                                 SD_vals, SD_est),
+                   ...)
+```
+
+Options for the structure of random effects are the same as in the von
+Bertalanffy growth equation.
+
+#### LAA random effects (non-parametric approach)
+
+The number of parameters is equal to the number of ages.
+
+``` r
+prepare_wham_input(...,
+                   LAA = list(LAA_vals, re, est_pars, SD_vals, SD_est),
                    ...)
 ```
 
@@ -297,21 +329,6 @@ The arguments are:
 
 -   `LAA$est_pars`: Which LAA to estimate.
 
-Finally, the user could input a transition matrix (see equations) and
-not model growth internally.
-
-#### Input an age-length transition matrix
-
-This is an optional data input:
-
--   `wham_data$phi_matrix_input`: Array (`dim(wham_data$waa)[1]`
-    ×
-    number of length bins
-    ×
-    number of ages). WAA pointers are also used for this matrix (e.g.,
-    `wham_data$waa_pointer_jan1`, etc).
--   `wham_data$phi_matrix_info`: 1 (use input matrix)
-
 ### Mean weight-at-age (WAA)
 
 In this new version, there are three ways to model changes in WAA:
@@ -323,7 +340,7 @@ should provide the empirical weight-at-age as input data
 (`wham_data$waa`), which will be used to calculate spawning biomass and
 reference points. Make sure that:
 
--   `wham_data$waa_type = 1` (use this method)
+-   `wham_data$waa_model = 1` (use this method)
 
 #### Length-weight relationship
 
@@ -352,7 +369,7 @@ based on LAA. The arguments are:
 
 Here we use:
 
--   `wham_data$waa_type`: 2 (use this method)
+-   `wham_data$waa_model`: 2 (use this method)
 
 Also, the user could use observed mean weight-at-age data as source of
 information.
@@ -398,7 +415,7 @@ The arguments are:
 
 Here we use:
 
--   `wham_data$waa_type`: 3 (use this method)
+-   `wham_data$waa_model`: 3 (use this method)
 
 Also, the user could use observed mean weight-at-age data as source of
 information similar to the previous method.
@@ -423,12 +440,12 @@ prepare_wham_input(...,
                    ...)
 ```
 
-`where` can be `growth` (either for the parametric von Bertalanffy model
-or the mean length-at-age) or `LW`. `where_subindex` is the parameter
-that will be linked to the environmental covariate, and the subindex
-number follows the order as mentioned in the previous section
-(e.g. `where = 'growth'` and `where_subindex = 2` will impact the
-asymptotic length).
+`where` can be `growth` (parametric growth equation), `LAA`
+(non-parametric approach), `LW`, or `WAA`. `where_subindex` is the
+parameter that will be linked to the environmental covariate, and the
+subindex number follows the order as mentioned in the previous section
+(e.g. `where = 'growth'` and `where_subindex = 2` will link the
+environmental covariate to the asymptotic length).
 
 > :heavy_check_mark: **Projections and OSA residuals are also
 > available**
@@ -481,11 +498,6 @@ You can find examples about the use of the new WHAM features
 [here](https://giancarlomcorrea.netlify.app/labs/WHAM/WHAM_examples).
 
 # References
-
-Methot, Richard D., and Chantell R. Wetzel. 2013. “Stock Synthesis: A
-Biological and Statistical Framework for Fish Stock Assessment and
-Fishery Management.” *Fisheries Research* 142 (May): 86–99.
-<https://doi.org/10.1016/j.fishres.2012.10.012>.
 
 Privitera-Johnson, Kristin M., Richard D. Methot, and André E. Punt.
 2022. “Towards Best Practice for Specifying Selectivity in
