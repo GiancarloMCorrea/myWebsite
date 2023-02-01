@@ -77,7 +77,7 @@ wham_data = list()
 bins or years:
 
 ``` r
-wham_data$ages = 1:21 # age bins
+wham_data$ages = 1:20 # age bins
 wham_data$years = 1970:2020 # years
 ```
 
