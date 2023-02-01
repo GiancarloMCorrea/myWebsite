@@ -66,7 +66,14 @@ Some new inputs available are:
 * `wham_data$index_caal_Neff`: Input sample size for CAAL (indices). Array (number of years $$\times$$ number of indices $$\times$$ number of length bins). 
 * `wham_data$use_index_caal`: Use (1) or not use (0) CAAL (indices). Array (number of years $$\times$$ number of indices $$\times$$ number of length bins). 
 
-These data inputs are not mandatory (i.e. if length compositions for indices are not available, `wham_data$index_pal`, `wham_data$index_NeffL`, and `wham_data$use_index_pal` do not need to be created).
+Aging error information (fleet-specific) can also be incorporated:
+
+* `wham_data$index_aging_error`: Aging error for indices. Array (number of indices $$\times$$ number of ages $$\times$$ number of ages).
+* `wham_data$use_index_aging_error`: Use (1) or not use (0) aging error matrix (indices). Vector.
+* `wham_data$catch_aging_error`: Aging error for fisheries. Array (number of fisheries $$\times$$ number of ages $$\times$$ number of ages).
+* `wham_data$use_catch_aging_error`: Use (1) or not use (0) aging error matrix (fisheries). Vector.
+
+All of these data inputs are not mandatory (i.e. if length compositions for indices are not available, `wham_data$index_pal`, `wham_data$index_NeffL`, and `wham_data$use_index_pal` do not need to be created).
 
 There are another important data inputs that will be explained below.
 
