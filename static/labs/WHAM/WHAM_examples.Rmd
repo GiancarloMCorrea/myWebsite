@@ -103,8 +103,8 @@ wham_data$percentFMSY = 100
 wham_data$XSPR_R_avg_yrs = 1:n_years
 wham_data$XSPR_R_opt = 2
 wham_data$simulate_period = c(1,0)
-wham_data$bias_correct_process = 0
-wham_data$bias_correct_observation = 0
+wham_data$bias_correct_process = 1
+wham_data$bias_correct_observation = 1
 ```
 
 Now we are ready to create the input data object to run WHAM. Here, we will explore three strategies to account for the temporal variability in one of the growth parameters.
@@ -130,7 +130,7 @@ my_input1 = prepare_wham_input(model_name="whamGrowth1",
                               growth = list(model = 'vB_classic',
                                             re = c('none', 'iid_y', 'none'),
                                             init_vals = c(0.16, 117.9, 19.8),
-                                            SD_vals = c(0.1, 0.1)),
+                                            SD_vals = c(2, 11)),
                               LW = list(init_vals = c(5.58883e-006, 3.18851)),
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -171,7 +171,7 @@ my_input2 = prepare_wham_input(model_name="whamGrowth2",
                                             N1_pars = as.vector(as.matrix(NAA_SS[1,])),
                                             recruit_pars = c(300000)),
                               LAA = list(LAA_vals = as.vector(as.matrix(LAA_SS[1,])),
-                                         re = c('iid'), SD_vals = c(0.1, 0.1)),
+                                         re = c('iid'), SD_vals = c(2, 11)),
                               LW = list(init_vals = c(5.58883e-006, 3.18851)),
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -214,7 +214,7 @@ ecov <- list(
   process_model = 'ar1', 
   where = 'growth', 
   where_subindex = 2, # Linf
-  how = 1) 
+  how = 0) 
 ```
 
 Then:
@@ -237,7 +237,7 @@ my_input3 = prepare_wham_input(model_name="whamGrowth3",
                               growth = list(model = 'vB_classic',
                                             re = c('none', 'none', 'none'),
                                             init_vals = c(0.16, 117.9, 19.8),
-                                            SD_vals = c(0.1, 0.1)), 
+                                            SD_vals = c(2, 11)), 
                               LW = list(init_vals = c(5.58883e-006, 3.18851)),
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
@@ -323,6 +323,8 @@ ggplot(data = plot_data, aes(x = year, y = LAA, color = factor(type))) +
 
 # Example 2: CAAL data
 
+> :warning: **This example might not currently run**
+
 For this example we simulate length compositions for the fishery and conditional age-at-length information for the survey. Also, a length double-normal selectivity is specified for the fishery and length-logistic for the survey.
 
 Read simulated data and define some model information:
@@ -363,17 +365,7 @@ wham_data$use_catch_pal = matrix(1, nrow = length(wham_data$years), ncol = wham_
 wham_data$agg_indices = as.matrix(data_file$CPUE[,4])
 wham_data$index_cv = as.matrix(data_file$CPUE[,5])
 wham_data$units_indices = rep(0L, times = 1) # numbers
-wham_data$fracyr_indices = matrix(0.01, ncol = 1, nrow = (max_year - min_year + 1))
-# -------------------------------------------------------------------------
-# index CAAL information (use/not use):
-use_index_alk = array(0, dim = c(wham_data$n_fleets, length(wham_data$years), length(wham_data$lengths)))
-all_years_lengths = expand.grid(Lbin_lo = wham_data$lengths, Yr = wham_data$years)
-alk_info = data_file$agecomp[data_file$agecomp$FltSvy == 2, ] # for survey
-temp1 = dplyr::left_join(all_years_lengths, alk_info, c("Lbin_lo", 'Yr'))
-temp2 = reshape2::dcast(temp1, Yr ~ Lbin_lo, value.var = 'Ageerr')
-temp2[is.na(temp2)] = 0
-use_index_alk[1,,] = as.matrix(temp2[,-1])
-wham_data$use_index_caal = t(ifelse(test = apply(use_index_alk, c(1,2), sum) > 0, yes = 1, no = 0))
+wham_data$fracyr_indices = matrix(0, ncol = 1, nrow = (max_year - min_year + 1))
 # -------------------------------------------------------------------------
 # index CAAL information (Neff):
 index_alk_Neff = array(0, dim = c(length(wham_data$years), wham_data$n_fleets, length(wham_data$lengths)))
@@ -384,6 +376,11 @@ temp2 = reshape2::dcast(temp1, Yr ~ Lbin_lo, value.var = 'Nsamp')
 temp2[is.na(temp2)] = 0
 index_alk_Neff[,1,] = as.matrix(temp2[,-1])
 wham_data$index_caal_Neff = index_alk_Neff
+# -------------------------------------------------------------------------
+# index CAAL information (use/not use):
+useCAAL = array(0, dim = dim(wham_data$index_caal_Neff))
+useCAAL[which(wham_data$index_caal_Neff > 0)] = 1
+wham_data$use_index_caal = useCAAL
 # -------------------------------------------------------------------------
 # index CAAL:
 index_alk = array(0, dim = c(wham_data$n_indices, length(wham_data$years), length(wham_data$lengths), length(wham_data$ages)))
@@ -406,16 +403,6 @@ wham_data$F = matrix(apply(X = SS_report$fatage[SS_report$fatage$Yr >= min_year 
                                                   SS_report$fatage$Yr <= max_year,
                                                 9:ncol(SS_report$fatage)], MARGIN = 1, FUN = max),
                      ncol = 1)
-
-# Empirical weight-at-age:
-waa_matrix = as.matrix(SS_report$wtatage[SS_report$wtatage$Fleet == -1 & 
-                                           SS_report$wtatage$Yr <= max_year, 8:(7+n_ages)])
-waa_matrix_ini = as.matrix(SS_report$wtatage[SS_report$wtatage$Fleet == 0 & 
-                                               SS_report$wtatage$Yr <= max_year, 8:(7+n_ages)])
-waa_tot_matrix = rbind(waa_matrix, waa_matrix_ini, waa_matrix, waa_matrix_ini)
-dim(waa_tot_matrix) = c(max_year-min_year+1,4,n_ages)
-waa_tot_matrix2 = aperm(waa_tot_matrix, c(2,1,3))
-wham_data$waa = waa_tot_matrix2
 wham_data$maturity = matrix(rep(SS_report$endgrowth[2:(n_ages+1),19], times = max_year - min_year + 1),
                             ncol = n_ages, nrow = max_year - min_year + 1, byrow = TRUE) 
 wham_data$fracyr_SSB = rep(0, times = max_year - min_year + 1)
@@ -450,7 +437,7 @@ my_input4 = prepare_wham_input(model_name="Ex_Selectivity_CAAL",
                                             re = c('none', 'none', 'none'), 
                                             init_vals = c(0.16, 117.9, 19.8), 
                                             est_pars = 1, # estimate K 
-                                            SD_vals = c(0.1, 0.1)),  
+                                            SD_vals = c(2, 11)),  
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               basic_info = wham_data)
@@ -550,8 +537,8 @@ wham_data$units_indices = rep(0L, times = 1) # numbers
 wham_data$units_index_paa = rep(2L, times = 1) # numbers
 wham_data$use_index_paa = matrix(1, ncol = 1, nrow = (max_year - min_year + 1))
 wham_data$selblock_pointer_indices = matrix(2L, ncol = 1, nrow = (max_year - min_year + 1))
-wham_data$fracyr_indices = matrix(0.01, ncol = 1, nrow = (max_year - min_year + 1))
-# Empirical weight-at-age:
+wham_data$fracyr_indices = matrix(0, ncol = 1, nrow = (max_year - min_year + 1))
+# Observed weight-at-age:
 waa_matrix = as.matrix(SS_report$wtatage[SS_report$wtatage$Fleet == -1 & 
                                            SS_report$wtatage$Yr <= max_year, 8:(7+n_ages)])
 waa_matrix_ini = as.matrix(SS_report$wtatage[SS_report$wtatage$Fleet == 0 & 
@@ -560,10 +547,16 @@ waa_tot_matrix = rbind(waa_matrix, waa_matrix_ini, waa_matrix, waa_matrix_ini)
 dim(waa_tot_matrix) = c(max_year-min_year+1,4,n_ages)
 waa_tot_matrix2 = aperm(waa_tot_matrix, c(2,1,3))
 wham_data$waa = waa_tot_matrix2
+# Add CV and turn on likelihood for waa:
+wham_data$waa_cv = array(0, dim = dim(wham_data$waa))
+wham_data$waa_cv[1:2,,] = 0.1
+wham_data$use_index_waa = matrix(1L, ncol = wham_data$n_indices, nrow = n_years)
+wham_data$use_catch_waa = matrix(1L, ncol = wham_data$n_fleets, nrow = n_years)
+# Continue..
 wham_data$maturity = matrix(rep(SS_report$endgrowth[2:(n_ages+1),19], times = max_year - min_year + 1),
                             ncol = n_ages, nrow = max_year - min_year + 1, byrow = TRUE) 
 wham_data$fracyr_SSB = rep(0, times = max_year - min_year + 1)
-wham_data$Fbar_ages = c(5L,21L)
+wham_data$Fbar_ages = c(5L,20L)
 wham_data$percentSPR = 40
 wham_data$percentFXSPR = 100
 wham_data$percentFMSY = 100
@@ -578,28 +571,26 @@ Now we are ready to create the input data object to run WHAM. Here we estimate r
 
 ```{r eval = FALSE}
 my_input5 = prepare_wham_input(model_name="Ex_LW",
-                              selectivity=list(model=rep("age-specific",2), 
-                                               re=rep("none",2), 
-                                               initial_pars=list(c(rep(0, 4), rep(1, 17)),
-                                                                 c(rep(0, 1), rep(1, 20))),
-                                               fix_pars = list(1:21, 1:21),
+                              selectivity=list(model=rep("age-specific",2),
+                                               re=rep("none",2),
+                                               initial_pars=list(c(rep(0, 3), rep(1, 17)),
+                                                                 c(rep(1, 20))),
+                                               fix_pars = list(1:20, 1:20),
                                                n_selblocks = 2),
-                              M = list(model = 'constant', re = 'none', 
+                              M = list(model = 'constant', re = 'none',
                                        initial_means = 0.36),
                               NAA_re = list(sigma="rec", cor = 'iid', N1_model = 0,
                                             recruit_model = 2,
-                                            N1_pars = as.vector(as.matrix(NAA_SS[1,])), 
-                                            recruit_pars = c(500000)),
+                                            N1_pars = as.vector(as.matrix(NAA_SS[1,])),
+                                            recruit_pars = c(300000)),
                               growth = list(model = 'vB_classic',
-                                            re = c('none', 'none', 'none'), 
-                                            init_vals = c(0.16, 117.9, 3),
-                                            SD_vals = c(0.1,0.1)),
+                                            re = c('none', 'none', 'none'),
+                                            init_vals = c(0.16, 117.9, 19.8),
+                                            SD_vals = c(2,11)),
                               catchability = list(re = 'none', initial_q = 1, q_lower = 0,
                                                   q_upper = 1000, prior_sd = NA),
                               LW = list(re = c('ar1_y', 'none'),
                                         init_vals = c(5.58883e-06, 3.18851)),
-                              age_comp = 'multinomial',
-                              len_comp = 'multinomial',
                               basic_info = wham_data)
 ```
 
@@ -611,10 +602,6 @@ my_input5$par$mean_rec_pars = mean(log(NAA_SS[,1])) # mean recruitment as OM
 my_input5$map$log_N1_pars = factor(rep(NA, times = n_ages)) # fix N1
 my_input5$map$log_F1 = factor(c(NA)) # fix F1
 my_input5$map$logit_q = factor(NA) # fix q
-my_input5$data$weight_model = 2 # use observed WAA
-my_input5$data$waa_cv[1:2,,] = 0.1
-my_input5$data$use_catch_waa[,1] = 1
-my_input5$data$use_index_waa[,1] = 1
 ```
 
 Run WHAM model and check for convergence:
