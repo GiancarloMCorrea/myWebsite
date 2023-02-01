@@ -16,7 +16,6 @@ tags: []
 title: Woods Hole Assessment Model
 ---
 
-
 -   <a href="#data" id="toc-data">Data</a>
 -   <a href="#parameters" id="toc-parameters">Parameters</a>
     -   <a href="#selectivity" id="toc-selectivity">Selectivity</a>
@@ -158,8 +157,27 @@ Some new inputs available are:
     ×
     number of length bins).
 
-These data inputs are not mandatory (i.e. if length compositions for
-indices are not available, `wham_data$index_pal`,
+Aging error information (fleet-specific) can also be incorporated:
+
+-   `wham_data$index_aging_error`: Aging error for indices. Array
+    (number of indices
+    ×
+    number of ages
+    ×
+    number of ages).
+-   `wham_data$use_index_aging_error`: Use (1) or not use (0) aging
+    error matrix (indices). Vector.
+-   `wham_data$catch_aging_error`: Aging error for fisheries. Array
+    (number of fisheries
+    ×
+    number of ages
+    ×
+    number of ages).
+-   `wham_data$use_catch_aging_error`: Use (1) or not use (0) aging
+    error matrix (fisheries). Vector.
+
+All of these data inputs are not mandatory (i.e. if length compositions
+for indices are not available, `wham_data$index_pal`,
 `wham_data$index_NeffL`, and `wham_data$use_index_pal` do not need to be
 created).
 
@@ -265,9 +283,9 @@ The arguments are:
 We specify two parameters `growth$SD_vals` (and their estimation
 `growth$SD_est`) that describe the variability of length-at-age:
 
--   *SD*<sub>*ã*</sub>: standard deviation of lengths at age *ã*. It
+-   *S**D*<sub>*ã*</sub>: standard deviation of lengths at age *ã*. It
     is a function of mean length-at-age.
--   *SD*<sub>*A*</sub>: standard deviation of lengths at age A (age
+-   *S**D*<sub>*A*</sub>: standard deviation of lengths at age A (age
     plus group). It is a function of mean length-at-age.
 
 Random effects cannot be predicted on these parameters.
