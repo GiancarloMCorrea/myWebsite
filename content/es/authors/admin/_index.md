@@ -38,7 +38,7 @@ social:
   link: https://scholar.google.com/citations?user=jg4hcWEAAAAJ&hl=es
 - icon: github
   icon_pack: fab
-  link: https://github.com/gmoroncorrea
+  link: https://github.com/GiancarloMCorrea
 - icon: orcid
   icon_pack: fab
   link: https://orcid.org/0000-0003-0682-1152
