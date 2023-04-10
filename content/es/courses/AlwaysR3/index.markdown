@@ -34,7 +34,7 @@ Los siguientes temas son tratados:
 - **Día 4:** Modelos lineales múltiples. Efectos aleatorios.
 - **Día 5:** Introducción a los modelos lineales y aditivos generalizados (GLM y GAM).
 
-Encuentra el silabo de este curso [aquí](https://cousteau-group.com/cursos/).
+Encuentra el silabo de este curso [aquí](https://cousteau-group.com/cursos/alwasyr_modulo_3/).
 
 ## Objetivos
 

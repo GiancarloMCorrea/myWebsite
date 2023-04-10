@@ -17,6 +17,15 @@ class: inverse, center, middle
 
 # AlwaysR, Módulo III: Estadística en R
 
+```{css, echo=FALSE}
+.my-one-page-font {
+  font-size: 25px;
+}
+.scroll-output {
+  overflow-y: scroll;
+}
+```
+
 ## Clase 1: Introducción. Estadística descriptiva. Distribuciones de probabilidad. 
 
 ### Dr. Giancarlo M. Correa
@@ -25,7 +34,7 @@ class: inverse, center, middle
 
 ---
 
-```{r setup, include=FALSE}
+```{r setup1, include=FALSE}
 options(htmltools.dir.version = FALSE)
 ```
 
@@ -44,6 +53,12 @@ xaringanExtra::use_logo(
 
 # Presentaciones
 
+<br>
+
+<br>
+
+.my-one-page-font[
+
 * Mi nombre es:
 
 * Mi nacionalidad es y/o resido en:
@@ -52,11 +67,13 @@ xaringanExtra::use_logo(
 
 * Mi área de estudio es:
 
+]
+
 ---
 
 # Silabo
 
-Revisar silabo en [Cousteau Consultant Group](https://cousteau-group.com/cursos/).
+Revisar silabo en [Cousteau Consultant Group](https://cousteau-group.com/cursos/alwasyr_modulo_3/).
 
 También puede ser encontrado en el Google Drive.
 
@@ -68,19 +85,19 @@ También puede ser encontrado en el Google Drive.
 
 --
 
-* ***Material***: Presentaciones, códigos y videos en Google Drive. También puede ser encontrado en mi [sitio web](https://giancarlomcorrea.netlify.app/courses/alwaysr3/).
+* ***Material***: Presentaciones, códigos y videos en Google Drive. También puede ser encontrado en mi [sitio web](https://giancarlomcorrea.netlify.app/es/courses/alwaysr3/).
 
 --
 
-* ***Certificado***: De asistencia ó aprobación (cumplir con un proyecto final).
+* ***Certificado***: De asistencia ó aprobación (completar todos los quizzes al término de la semana).
 
 --
 
-* ***Horas de oficina***: Miércoles 17 de agosto a las 17:30 horas (GMT-5)
+* ***Horas de oficina***: Por definir
 
 --
 
-* ***Contacto***: Escribir a [*cursos@cousteau-group.com*](mailto:cursos@cousteau-group.com)
+* ***Contacto***: Escribir a [*cursos@cousteau-group.com*](mailto:cursos@cousteau-group.com) ó [*gcorrea@uw.edu*](mailto:gcorrea@uw.edu)
 
 
 ---
@@ -115,6 +132,8 @@ Es un atributo que describe un individuo, lugar, o cosa. Este atributo puede var
 
 # Muestra
 
+.scroll-output[
+
 Tomamos datos de la altura ( $m$ ) de 20 árboles ( $n = 20$ ) de un bosque que se quiere investigar y lo guardamos en un vector llamado `altura`:
 
 ```{r, echo = FALSE}
@@ -139,6 +158,7 @@ raices = rpois(n = 20, lambda = 2)
 print(raices)
 ```
 
+]
 ---
 
 # Media
