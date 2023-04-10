@@ -614,7 +614,7 @@ class: inverse, center, middle
 
 # Distribución normal
 
-Función de densidad:
+Variable continua. Función de densidad:
 
 `$$f(x) = \frac{1}{{\sigma \sqrt{2\pi}}} e^{{{ -(x - \mu)^2/2\sigma^2 }}}\hspace{1cm}-\infty &lt;x&lt; \infty$$`
 
@@ -752,7 +752,7 @@ Ejemplo 2:
 
 # Distribución lognormal
 
-Función de densidad:
+Variable continua. Función de densidad:
 
 `$$f(x) = \frac{1}{{x\sigma \sqrt{2\pi}}} e^{{{ -(ln(x) - \mu)^2/2\sigma^2 }}}\hspace{1cm} x\in (0,+\infty)$$`
 
@@ -827,7 +827,7 @@ qlnorm(p = 0.84, mean = 2, sd = 1)
 
 # Distribución poisson
 
-Función de densidad:
+Variable discreta. Función de densidad:
 
 `$$P(X=x) = \frac{{e^{ - \lambda } \lambda ^x }}{{x!}}\hspace{1cm}x=0,1,2,...$$`
 
@@ -856,7 +856,7 @@ rpois(n = 100, lambda = 10)
 
 ---
 
-# Distribución Poisson
+# Distribución poisson
 
 Similar al caso de la distribución normal, podemos calcular:
 
@@ -904,7 +904,7 @@ qpois(p = 0.33, lambda = 10)
 
 # Distribución binomial
 
-Función de probabilidad:
+Variable discreta. Función de probabilidad:
 
 `$$P(X=x) = \binom{n}{x}p^x(1-p)^{n-x}\hspace{1cm}x=0,1,2,...,n$$`
 
