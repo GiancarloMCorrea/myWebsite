@@ -58,11 +58,16 @@ skewness(x = iris$Petal.Width)
 
 Valores cercanos a cero significa una distribución simétrica. Valores positivos significa que la distribución es asimétrica y tirada hacia la izquierda. Valores negativos significa que la distribución es asimétrica y tirada hacia la derecha.
 
+![Simetria y sesgo.](images/skew.png)
+
+
 Calcular kurtosis de una variable, que nos indica que tan plano es el tope de una distribución:
 
 ```{r}
 kurtosis(x = iris$Sepal.Length)
 ```
+
+![Kurtosis.](images/Kurtosis1.jpg)
 
 Valores menores a 3 se les conoce como platicurtica, por ejemplo:
 
@@ -207,7 +212,7 @@ Ahora hagamos un gráfico donde añadimos barras de errores. Usemos la base de d
 head(ToothGrowth)
 ```
 
-Obtenemos la media, desviación estándar y error estándar utilizando la función `summarySE` implementada en [aquí](http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/#Helper%20functions):
+Obtenemos la media, desviación estándar y error estándar utilizando la función `summarySE` implementada [aquí](http://www.cookbook-r.com/Graphs/Plotting_means_and_error_bars_(ggplot2)/#Helper%20functions):
 
 ```{r echo  = FALSE}
 summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,

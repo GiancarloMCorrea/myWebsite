@@ -378,6 +378,8 @@ IQR(x = altura)
 
 # Datos faltantes
 
+.scroll-output[
+
 En el caso que tengamos datos faltantes, la variable puede ser:
 
 ```{r, echo = FALSE}
@@ -406,6 +408,7 @@ mean(altura, na.rm = TRUE)
 altura = altura_save
 ```
 
+]
 ---
 
 # Resumen de un conjunto de datos
