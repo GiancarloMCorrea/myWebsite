@@ -12,6 +12,9 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+<!-- To get the PDF -->
+<!-- rmarkdown::render("AlwaysR_III_Manual_1_website.Rmd", "pdf_document") -->
+
 En esta sección se resume los conceptos más importantes vistos en la parte práctica de cada clase.
 
 Cargamos librerías a utilizar
@@ -58,7 +61,7 @@ skewness(x = iris$Petal.Width)
 
 Valores cercanos a cero significa una distribución simétrica. Valores positivos significa que la distribución es asimétrica y tirada hacia la izquierda. Valores negativos significa que la distribución es asimétrica y tirada hacia la derecha.
 
-![Simetria y sesgo.](images/skew.png)
+![Simetria y sesgo.](images/skew.png){width=700px}
 
 
 Calcular kurtosis de una variable, que nos indica que tan plano es el tope de una distribución:
