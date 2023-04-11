@@ -249,7 +249,7 @@ Para:
 * $H_A: \mu \neq 0$
 * $\sigma = 0.4$
 
-En R podemos usar:
+En R podemos usar (librería `BSDA`):
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 library(BSDA)
@@ -270,7 +270,7 @@ Para:
 * $H_A: \mu < 0$
 * $\sigma = 0.4$
 
-En R podemos usar:
+En R podemos usar (librería `BSDA`):
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 library(BSDA)
@@ -291,7 +291,7 @@ Para:
 * $H_A: \mu > 0$
 * $\sigma = 0.4$
 
-En R podemos usar:
+En R podemos usar (librería `BSDA`):
 
 ```{r, echo = FALSE, message = FALSE, warning=FALSE}
 library(BSDA)

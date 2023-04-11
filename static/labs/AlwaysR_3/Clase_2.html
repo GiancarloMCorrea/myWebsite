@@ -120,7 +120,7 @@ Ejemplo: `\(H_0: \mu = 0\)`
 
 * **Hipótesis alternativa** ( `\(H_A\)` ): Un valor especificado diferente o rango de valores para el parámetro de interés. Normalmente representan los valores ‘interesantes’.
 
-Ejemplo: `\(H_A: \mu &gt; 0\)`
+Ejemplo: `\(H_A: \mu \neq 0\)`
 
 ---
 
@@ -259,7 +259,7 @@ Para:
 * `\(H_A: \mu \neq 0\)`
 * `\(\sigma = 0.4\)`
 
-En R podemos usar:
+En R podemos usar (librería `BSDA`):
 
 
 
@@ -293,7 +293,7 @@ Para:
 * `\(H_A: \mu &lt; 0\)`
 * `\(\sigma = 0.4\)`
 
-En R podemos usar:
+En R podemos usar (librería `BSDA`):
 
 
 
@@ -327,7 +327,7 @@ Para:
 * `\(H_A: \mu &gt; 0\)`
 * `\(\sigma = 0.4\)`
 
-En R podemos usar:
+En R podemos usar (librería `BSDA`):
 
 
 
@@ -559,7 +559,7 @@ ks.test(x = rVar, y = 'pnorm', mean = 3, sd = 0.4,
 ## 	Asymptotic one-sample Kolmogorov-Smirnov test
 ## 
 ## data:  rVar
-## D = 0.86946, p-value &lt; 2.2e-16
+## D = 0.87729, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided
 ```
 
