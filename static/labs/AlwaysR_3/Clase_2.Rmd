@@ -98,7 +98,7 @@ Ejemplo: $H_0: \mu = 0$
 
 * **Hipótesis alternativa** ( $H_A$ ): Un valor especificado diferente o rango de valores para el parámetro de interés. Normalmente representan los valores ‘interesantes’.
 
-Ejemplo: $H_A: \mu > 0$
+Ejemplo: $H_A: \mu \neq 0$
 
 ---
 
