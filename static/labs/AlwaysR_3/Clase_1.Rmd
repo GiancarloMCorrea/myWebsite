@@ -396,6 +396,8 @@ Si usamos las funciones anteriores tal cual, vemos que:
 mean(altura)
 ```
 
+]
+
 --
 
 En estos casos, tenemos que agregar el argumento `na.rm = TRUE` a las funciones exploradas:
@@ -408,7 +410,6 @@ mean(altura, na.rm = TRUE)
 altura = altura_save
 ```
 
-]
 ---
 
 # Resumen de un conjunto de datos
