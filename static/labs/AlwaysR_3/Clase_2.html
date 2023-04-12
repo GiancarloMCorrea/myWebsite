@@ -229,25 +229,11 @@ Ejemplo: Dado `\(H_0: \mu = 12\)` y `\(H_A: \mu \neq 12\)`. Obtenemos un `\(Z=2.
 
 ---
 
-# Intervalos de confianza
-
-El intervalo construido contendrá el valor verdadero de `\(\mu\)` (media de la población) el `\((1-\alpha)100\%\)` de las veces que repetimos el experimento.
-
---
-
-&lt;img src="images/fig6.png" width="500" style="display: block; margin: auto;" /&gt;
-
---
-
-* **NO** es correcto decir que hay `\((1-\alpha)100\%\)` de probabilidad que la media de la población este en este intervalo (de un experimento en específico).
-
----
-
 # Prueba Z (Z-test)
 
 Veamos la distribución de la variable `Sepal.Width` de la base de datos `iris`:
 
-&lt;img src="Clase_2_files/figure-html/unnamed-chunk-7-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_2_files/figure-html/unnamed-chunk-6-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -282,6 +268,20 @@ z.test(x = iris$Sepal.Width, alternative = 'two.sided',
 ## mean of x 
 ##  3.057333
 ```
+
+---
+
+# Intervalos de confianza
+
+El intervalo construido contendrá el valor verdadero de `\(\mu\)` (media de la población) el `\((1-\alpha)100\%\)` de las veces que repetimos el experimento.
+
+--
+
+&lt;img src="images/fig6.png" width="500" style="display: block; margin: auto;" /&gt;
+
+--
+
+* **NO** es correcto decir que hay `\((1-\alpha)100\%\)` de probabilidad que la media de la población este en este intervalo (de un experimento en específico).
 
 ---
 
@@ -559,7 +559,7 @@ ks.test(x = rVar, y = 'pnorm', mean = 3, sd = 0.4,
 ## 	Asymptotic one-sample Kolmogorov-Smirnov test
 ## 
 ## data:  rVar
-## D = 0.87729, p-value &lt; 2.2e-16
+## D = 0.89207, p-value &lt; 2.2e-16
 ## alternative hypothesis: two-sided
 ```
 

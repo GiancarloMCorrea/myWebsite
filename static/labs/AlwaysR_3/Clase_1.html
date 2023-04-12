@@ -154,6 +154,16 @@ Es un atributo que describe un individuo, lugar, o cosa. Este atributo puede var
 
 ---
 
+# Población vs Muestra
+
+&lt;img src="images/sample-size-definition.png" width="500" style="display: block; margin: auto;" /&gt;
+
+--
+
+&lt;img src="images/sample-pop-mean.png" width="300" style="display: block; margin: auto;" /&gt;
+
+---
+
 # Muestra
 
 .scroll-output[
@@ -550,7 +560,7 @@ summary(airquality)
 boxplot(x = altura, ylab = 'Altura (m)')
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-25-1.png" width="500" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-27-1.png" width="500" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -561,7 +571,7 @@ boxplot(x = altura, ylab = 'Altura (m)')
 hist(x = altura, xlab = 'Altura (m)', ylab = 'Frecuencia', main = '')
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-26-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-28-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -573,7 +583,7 @@ hist(x = altura, xlab = 'Altura (m)', ylab = 'Frecuencia', main = '')
 abline(v = mean(altura), col = 'red', lty = 2)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-27-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-29-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -586,7 +596,7 @@ abline(v = mean(altura), col = 'red', lty = 2)
 abline(v = median(altura), col = 'blue', lty = 2)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-28-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-30-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -597,7 +607,7 @@ abline(v = median(altura), col = 'blue', lty = 2)
 plot(density(altura))
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-29-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-31-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -642,7 +652,7 @@ Podemos generar 100 números aleatorios con distribución normal, con determinad
 rnorm(n = 100, mean = 20, sd = 3)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-32-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-34-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -650,7 +660,7 @@ rnorm(n = 100, mean = 20, sd = 3)
 
 Distribución normal estándar ( `\(\mu = 0\)` y `\(\sigma^2=1\)` ):
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-33-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-35-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -658,7 +668,7 @@ Distribución normal estándar ( `\(\mu = 0\)` y `\(\sigma^2=1\)` ):
 
 Probabilidad acumulada:
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-34-1.png" width="300" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-36-1.png" width="300" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -679,7 +689,7 @@ pnorm(q = -2, mean = 0, sd = 1)
 
 Probabilidad a un valor de variable dado:
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-36-1.png" width="300" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-38-1.png" width="300" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -700,7 +710,7 @@ dnorm(x = -2, mean = 0, sd = 1)
 
 Valor de variable dado una probabilidad acumulada:
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-38-1.png" width="300" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-40-1.png" width="300" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -780,7 +790,7 @@ Podemos generar 1000 números aleatorios con distribución lognormal, con determ
 rlnorm(n = 1000, mean = 2, sd = 1)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-43-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-45-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -855,7 +865,7 @@ Podemos generar 100 números aleatorios con distribución poisson, con determina
 rpois(n = 100, lambda = 10)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-48-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-50-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -932,7 +942,7 @@ Podemos generar 100 experimentos (`n=100`), cada uno con 20 intentos (`size=20`)
 rbinom(n = 100, size = 20, prob = 0.5)
 ```
 
-&lt;img src="Clase_1_files/figure-html/unnamed-chunk-53-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_1_files/figure-html/unnamed-chunk-55-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 El número de veces donde el evento de interés ha sido exitoso para los 100 experimentos
 

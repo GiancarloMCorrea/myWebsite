@@ -215,22 +215,6 @@ knitr::include_graphics("images/fig5.png")
 
 ---
 
-# Intervalos de confianza
-
-El intervalo construido contendrá el valor verdadero de $\mu$ (media de la población) el $(1-\alpha)100\%$ de las veces que repetimos el experimento.
-
---
-
-```{r echo = FALSE, out.width=500, fig.align="center"}
-knitr::include_graphics("images/fig6.png")
-```
-
---
-
-* **NO** es correcto decir que hay $(1-\alpha)100\%$ de probabilidad que la media de la población este en este intervalo (de un experimento en específico).
-
----
-
 # Prueba Z (Z-test)
 
 Veamos la distribución de la variable `Sepal.Width` de la base de datos `iris`:
@@ -259,6 +243,22 @@ library(BSDA)
 z.test(x = iris$Sepal.Width, alternative = 'two.sided', 
        mu = 0, sigma.x = 0.4)
 ```
+
+---
+
+# Intervalos de confianza
+
+El intervalo construido contendrá el valor verdadero de $\mu$ (media de la población) el $(1-\alpha)100\%$ de las veces que repetimos el experimento.
+
+--
+
+```{r echo = FALSE, out.width=500, fig.align="center"}
+knitr::include_graphics("images/fig6.png")
+```
+
+--
+
+* **NO** es correcto decir que hay $(1-\alpha)100\%$ de probabilidad que la media de la población este en este intervalo (de un experimento en específico).
 
 ---
 

@@ -130,6 +130,20 @@ Es un atributo que describe un individuo, lugar, o cosa. Este atributo puede var
 
 ---
 
+# Población vs Muestra
+
+```{r echo = FALSE, out.width=500, fig.align="center"}
+knitr::include_graphics("images/sample-size-definition.png")
+```
+
+--
+
+```{r echo = FALSE, out.width=300, fig.align="center"}
+knitr::include_graphics("images/sample-pop-mean.png")
+```
+
+---
+
 # Muestra
 
 .scroll-output[
