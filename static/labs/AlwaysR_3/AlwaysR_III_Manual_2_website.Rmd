@@ -85,13 +85,18 @@ Como vemos, el $p-value$ es grande, por lo que nos lleva a fallar en rechazar la
 
 Deseamos hacer una prueba para saber si las variables `Origen` y `Man.trans.avail` de la base de datos `Cars93` están asociadas.
 
+```{r}
+myTable = table(Cars93$Origin, Cars93$Man.trans.avail)
+print(myTable)
+```
+
+
 Para esto, podemos aplicar una prueba Chi-cuadrado de Pearson:
 
 * $H_0$: las variables son independientes entre ellas
 * $H_A$: las variables no son independientes entre ellas
 
 ```{r}
-myTable = table(Cars93$Origin, Cars93$Man.trans.avail)
 chisq.test(x = myTable)
 ```
 
