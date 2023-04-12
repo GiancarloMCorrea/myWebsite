@@ -16,6 +16,16 @@ class: inverse, center, middle
 
 # AlwaysR, Módulo III: Estadística en R
 
+&lt;style type="text/css"&gt;
+.my-one-page-font {
+  font-size: 25px;
+}
+.scroll-box-22 {
+  height:22em;
+  overflow-y: scroll;
+}
+&lt;/style&gt;
+
 ## Clase 3: Modelos lineales I
 
 ### Dr. Giancarlo M. Correa
@@ -74,42 +84,13 @@ bottom:-3em;left:0;
 
 
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-2-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-3-1.png" width="350" style="display: block; margin: auto;" /&gt;
 
----
-
-# Pregunta de investigación
+--
 
 Para este ejemplo, la pregunta es:
 
---
-
 * ¿El promedio de altura de niños varía con la altura de los padres?
-
---
-
-¿Si no supieramos usar un modelo lineal, que alternativas tendríamos para responder esta pregunta?
-
---
-
-Podríamos agrupar la altura de padres en variables categóricas y ejecutar un ANOVA.
-
----
-
-# Pregunta de investigación
-
-Diferentes medidas de agrupamiento:
-
-&lt;img src="images/FIG12.png" width="600" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Pregunta de investigación
-
-Diferentes medidas de agrupamiento:
-
-&lt;img src="images/fig13.png" width="600" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -128,10 +109,7 @@ Para este caso, no estamos agrupando la altura de padres, sino estimamos una alt
 Para esto usamos un modelo lineal, asumiendo que estas variables **varían linealmente**:
 
 `$$\mu(altura_{niños}\mid altura_{padres}) = \beta_0 +\beta_1altura_{padres}$$`
-
----
-
-# Regresión lineal simple
+--
 
 La ecuación anterior puede ser expresada más generalmente:
 
@@ -146,7 +124,7 @@ La ecuación anterior puede ser expresada más generalmente:
 
 Para este ejemplo, `\(\beta_0 = 19.8261\)` y `\(\beta_1=0.7139\)`.
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-5-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-4-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -156,7 +134,7 @@ Interpretación: A un valor dado de `\(X\)`, el estimado del modelo del valor me
 
 Por ejemplo:
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-6-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-5-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -230,7 +208,7 @@ Intercepto es 19.8261 y pendiente es 0.7139. Interpretación: A un valor dado de
 
 # Regresión lineal
 
-En R podemos usar:
+En R podemos usar (datos librería `Sleuth3`):
 
 
 ```r
@@ -470,7 +448,7 @@ ggplot(newdf, aes(x=pHeight, y=cHeight )) +
   geom_line(aes(y=upr), color = "red", linetype = "dashed")
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-20-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-19-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 
 
@@ -539,62 +517,66 @@ Para `\(i=1,...,n\)`.
 
 
 ```r
-library(Sleuth3)
-head(case0902)
+library(yarrr)
+head(diamonds)
 ```
 
 ```
-##            Species  Brain    Body Gestation Litter
-## 1         Aardvark    9.6    2.20        31    5.0
-## 2         Acouchis    9.9    0.78        98    1.2
-## 3 African elephant 4480.0 2800.00       655    1.0
-## 4          Agoutis   20.3    2.80       104    1.3
-## 5        Axis deer  219.0   89.00       218    1.0
-## 6           Badger   53.0    6.00        60    2.2
+##   weight clarity color value
+## 1   9.35    0.88     4 182.5
+## 2  11.10    1.05     5 191.2
+## 3   8.65    0.85     6 175.7
+## 4  10.43    1.15     5 195.2
+## 5  10.62    0.92     5 181.6
+## 6  12.35    0.44     4 182.9
 ```
 
 --
 
-- **Objetivo**: Encontrar una relación entre el peso del cerebro (respuesta) y otras variables explicativas (o independientes).
+- **Objetivo**: Encontrar una relación entre el valor de diamante (respuesta) y otras variables explicativas (o independientes).
 
-- **Unidades experimentales**: 96 especies de mamíferos
+- **Unidades experimentales**: 150 diamantes
 
-- **Respuesta**: Promedio de peso de cerebro `Brain` (gramos)
+- **Respuesta**: Valor de diamante `value` (dollars)
 
-- **Variables independientes**: `Body` (kilogramos), `Gestation` (days), `Litter` (número)
+- **Variables independientes**: `weight` (gramos), `clarity` (units), `color` (categórica)
 
 ---
 
 # Regresión múltiple
 
+.scroll-box-22[
+
 
 ```r
-mod &lt;- lm(Brain ~ Body + Gestation + Litter, data=case0902)
+mod &lt;- lm(formula = value ~ weight + clarity + color, data = diamonds)
 summary(mod)
 ```
 
 ```
 ## 
 ## Call:
-## lm(formula = Brain ~ Body + Gestation + Litter, data = case0902)
+## lm(formula = value ~ weight + clarity + color, data = diamonds)
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -1026.68   -62.08    17.29    51.73   988.76 
+## -10.4046  -3.5473  -0.1134   3.2552  11.0464 
 ## 
 ## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) -225.29213   83.05875  -2.712  0.00797 ** 
-## Body           0.98588    0.09428  10.457  &lt; 2e-16 ***
-## Gestation      1.80874    0.35445   5.103 1.79e-06 ***
-## Litter        27.64864   17.41429   1.588  0.11579    
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 148.3354     3.6253  40.917   &lt;2e-16 ***
+## weight        2.1894     0.2000  10.948   &lt;2e-16 ***
+## clarity      21.6922     2.1429  10.123   &lt;2e-16 ***
+## color        -0.4549     0.3646  -1.248    0.214    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 224.6 on 92 degrees of freedom
-## Multiple R-squared:   0.81,	Adjusted R-squared:  0.8038 
-## F-statistic: 130.7 on 3 and 92 DF,  p-value: &lt; 2.2e-16
+## Residual standard error: 4.672 on 146 degrees of freedom
+## Multiple R-squared:  0.6373,	Adjusted R-squared:  0.6298 
+## F-statistic: 85.49 on 3 and 146 DF,  p-value: &lt; 2.2e-16
 ```
+
+]
 
 ---
 
@@ -604,8 +586,8 @@ Usado para comparar dos modelos **anidados**:
 
 
 ```r
-mod1 = lm(Brain ~ 1, data=case0902)
-mod2 = lm(Brain ~ Body + Gestation + Litter, data=case0902)
+mod1 = lm(value ~ 1, data=diamonds)
+mod2 = lm(value ~ weight + clarity + color, data = diamonds)
 
 anova(mod1, mod2)
 ```
@@ -613,11 +595,11 @@ anova(mod1, mod2)
 ```
 ## Analysis of Variance Table
 ## 
-## Model 1: Brain ~ 1
-## Model 2: Brain ~ Body + Gestation + Litter
-##   Res.Df      RSS Df Sum of Sq      F    Pr(&gt;F)    
-## 1     95 24416574                                  
-## 2     92  4639348  3  19777226 130.73 &lt; 2.2e-16 ***
+## Model 1: value ~ 1
+## Model 2: value ~ weight + clarity + color
+##   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+## 1    149 8786.5                                  
+## 2    146 3187.3  3    5599.2 85.495 &lt; 2.2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
@@ -636,7 +618,7 @@ anova(mod1, mod2)
 plot(mod, which = 1)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-24-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-23-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -647,7 +629,7 @@ plot(mod, which = 1)
 plot(mod, which = 2)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-25-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-24-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -670,7 +652,7 @@ Existen tres tipos de observaciones *raras* que podemos mencionar:
 plot(mod, which = 5)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-26-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-25-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -681,7 +663,7 @@ plot(mod, which = 5)
 plot(mod, which = 3)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-27-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-26-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -693,7 +675,7 @@ plot(mod, which = 3)
 plot(mod, which = 4)
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-28-1.png" width="450" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-27-1.png" width="450" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -782,12 +764,14 @@ summary(mod1)
 
 ---
 
+Usando `plot_model` de la librería `sjPlot`:
+
 
 ```r
 plot_model(mod1, type = "int")
 ```
 
-&lt;img src="Clase_3_files/figure-html/unnamed-chunk-33-1.png" width="500" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_3_files/figure-html/unnamed-chunk-32-1.png" width="500" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -889,6 +873,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable

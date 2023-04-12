@@ -17,6 +17,16 @@ class: inverse, center, middle
 
 # AlwaysR, Módulo III: Estadística en R
 
+```{css, echo=FALSE}
+.my-one-page-font {
+  font-size: 25px;
+}
+.scroll-box-22 {
+  height:22em;
+  overflow-y: scroll;
+}
+```
+
 ## Clase 3: Modelos lineales I
 
 ### Dr. Giancarlo M. Correa
@@ -57,51 +67,18 @@ ex0726$cHeight <- ifelse(ex0726$Gender == "male", ex0726$Height,
 ex0726$pHeight <- (ex0726$Father + 1.08*ex0726$Mother)/2
 ```
 
-```{r, out.width=450, fig.align="center", echo = FALSE,message=FALSE, warning=FALSE}
+```{r, out.width=350, fig.align="center", echo = FALSE,message=FALSE, warning=FALSE}
 ggplot(ex0726, aes(y=cHeight, x=pHeight)) +
       geom_point() +
       geom_smooth(method="lm") +
       labs(x="Parent Height", y="Child Height")
 ```
 
----
-
-# Pregunta de investigación
+--
 
 Para este ejemplo, la pregunta es:
 
---
-
 * ¿El promedio de altura de niños varía con la altura de los padres?
-
---
-
-¿Si no supieramos usar un modelo lineal, que alternativas tendríamos para responder esta pregunta?
-
---
-
-Podríamos agrupar la altura de padres en variables categóricas y ejecutar un ANOVA.
-
----
-
-# Pregunta de investigación
-
-Diferentes medidas de agrupamiento:
-
-```{r echo = FALSE, out.width=600, fig.align="center"}
-knitr::include_graphics("images/FIG12.png")
-```
-
-
----
-
-# Pregunta de investigación
-
-Diferentes medidas de agrupamiento:
-
-```{r echo = FALSE, out.width=600, fig.align="center"}
-knitr::include_graphics("images/fig13.png")
-```
 
 ---
 
@@ -120,10 +97,7 @@ Para este caso, no estamos agrupando la altura de padres, sino estimamos una alt
 Para esto usamos un modelo lineal, asumiendo que estas variables **varían linealmente**:
 
 $$\mu(altura_{niños}\mid altura_{padres}) = \beta_0 +\beta_1altura_{padres}$$
-
----
-
-# Regresión lineal simple
+--
 
 La ecuación anterior puede ser expresada más generalmente:
 
@@ -242,7 +216,7 @@ Intercepto es 19.8261 y pendiente es 0.7139. Interpretación: A un valor dado de
 
 # Regresión lineal
 
-En R podemos usar:
+En R podemos usar (datos librería `Sleuth3`):
 
 ```{r}
 mod <- lm(cHeight ~ pHeight, data=ex0726)
@@ -483,29 +457,33 @@ Para $i=1,...,n$.
 
 # Regresión múltiple
 
-```{r}
-library(Sleuth3)
-head(case0902)
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
+library(yarrr)
+head(diamonds)
 ```
 
 --
 
-- **Objetivo**: Encontrar una relación entre el peso del cerebro (respuesta) y otras variables explicativas (o independientes).
+- **Objetivo**: Encontrar una relación entre el valor de diamante (respuesta) y otras variables explicativas (o independientes).
 
-- **Unidades experimentales**: 96 especies de mamíferos
+- **Unidades experimentales**: 150 diamantes
 
-- **Respuesta**: Promedio de peso de cerebro `Brain` (gramos)
+- **Respuesta**: Valor de diamante `value` (dollars)
 
-- **Variables independientes**: `Body` (kilogramos), `Gestation` (days), `Litter` (número)
+- **Variables independientes**: `weight` (gramos), `clarity` (units), `color` (categórica)
 
 ---
 
 # Regresión múltiple
 
+.scroll-box-22[
+
 ```{r}
-mod <- lm(Brain ~ Body + Gestation + Litter, data=case0902)
+mod <- lm(formula = value ~ weight + clarity + color, data = diamonds)
 summary(mod)
 ```
+
+]
 
 ---
 
@@ -514,8 +492,8 @@ summary(mod)
 Usado para comparar dos modelos **anidados**:
 
 ```{r}
-mod1 = lm(Brain ~ 1, data=case0902)
-mod2 = lm(Brain ~ Body + Gestation + Litter, data=case0902)
+mod1 = lm(value ~ 1, data=diamonds)
+mod2 = lm(value ~ weight + clarity + color, data = diamonds)
 
 anova(mod1, mod2)
 ```
@@ -654,6 +632,8 @@ summary(mod1)
 ```
 
 ---
+
+Usando `plot_model` de la librería `sjPlot`:
 
 ```{r, out.width=500, fig.align="center"}
 plot_model(mod1, type = "int")
