@@ -99,6 +99,8 @@ newData = data.frame(H2S = seq(from = 2.8, to = 10.2, by = 0.1))
 predict(object = mod1, newdata = newData, interval = 'prediction')
 ```
 
+> ADVERTENCIA: Si tenemos más de dos variables independientes ($X_1$ y $X_2$), y queremos hacer predicciones para nuevos valores de estas variables, tenemos que incluir cada combinación de estos nuevos valores. Utilizar la función `expand.grid` para hacer esto. Ver ejemplo [aquí](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/expand.grid).
+
 Ahora podemos revisar los supuestos del modelo gráficamente:
 ```{r}
 plot(mod1, which = 1) # varianza constante
