@@ -171,6 +171,8 @@ parte práctica de cada clase.</p>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjPlot)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sjmisc)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggeffects)</span></code></pre></div>
+<p>Para mayor información sobre el uso de la librería para crear
+gráficos de modelos lineales, ver <a href="https://www.sscc.wisc.edu/sscc/pubs/Rmisc/margins.html#setup">aquí</a>.</p>
 <p>Trabajemos con esta base de datos:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dragons <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">&#39;dragons.csv&#39;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dragons<span class="sc">$</span>bodyLength2 <span class="ot">&lt;-</span> <span class="fu">scale</span>(dragons<span class="sc">$</span>bodyLength, <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">TRUE</span>)[,<span class="dv">1</span>]</span>

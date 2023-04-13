@@ -28,6 +28,8 @@ library(sjmisc)
 library(ggeffects)
 ```
 
+Para mayor información sobre el uso de la librería para crear gráficos de modelos lineales, ver [aquí](https://www.sscc.wisc.edu/sscc/pubs/Rmisc/margins.html#setup).
+
 Trabajemos con esta base de datos:
 
 ```{r}
