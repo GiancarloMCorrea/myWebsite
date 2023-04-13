@@ -17,6 +17,17 @@ class: inverse, center, middle
 
 # AlwaysR, Módulo III: Estadística en R
 
+```{css, echo=FALSE}
+/* code without language names */
+.foobar code[class="remark-code"] {
+  max-height: 400px;
+}
+.scroll-box-26 {
+  height:26em;
+  overflow-y: scroll;
+}
+```
+
 ## Clase 4: Modelos lineales II. Efectos aleatorios.
 
 ### Dr. Giancarlo M. Correa
@@ -42,6 +53,27 @@ xaringanExtra::use_logo(
 
 ---
 
+# Librerías a utilizar
+
+A lo largo de esta clase, utilizaremos:
+
+```{r eval= FALSE}
+library(sjPlot)
+library(ggeffects)
+library(sjmisc)
+library(ggplot2)
+library(faraway)
+library(Sleuth3)
+library(nlme)
+library(effects)
+library(olsrr)
+library(glmmTMB)
+library(lme4)
+```
+
+
+---
+
 # Problemas con datos
 
 ### Multicolinealidad
@@ -52,26 +84,31 @@ xaringanExtra::use_logo(
 
 - No tiene sentido interpretar *el efecto de $X_1$ manteniendo otras variables independientes constante* porque nosotros hemos observado una relación entre $X_1$ y otras variables.
 
----
+--
 
 ```{r, message=FALSE, warning=FALSE, echo=FALSE}
 library(sjPlot)
+library(ggeffects)
 library(sjmisc)
 library(ggplot2)
 library(faraway)
 library(Sleuth3)
 library(nlme)
+library(effects)
 library(olsrr)
+library(glmmTMB)
 library(lme4)
 mtcars$am = factor(mtcars$am)
 ```
 
-```{css, echo=FALSE}
-/* code without language names */
-.foobar code[class="remark-code"] {
-  max-height: 500px;
-}
+Ejemplo:
+
+```{r}
+head(seatpos)
 ```
+
+
+---
 
 .foobar[
 ```{r}
@@ -303,7 +340,6 @@ BIC(mod5)
 ### Linealidad de la asociación
 
 - Consecuencia depende en el grado de no-linealidad.
-
 - Buscar alternativas (e.g. modelos aditivos generalizados, splines, etc.)
 
 --
@@ -311,66 +347,14 @@ BIC(mod5)
 ### Independencia
 
 - Un modelo lineal no es robusto a la no independencia de observaciones.
-
 - Alternativa, usar la función `gls` en caso de dependencia temporal (siempre y cuando se conozca la estructura del error).
 
----
-
-### Ejemplo: Dependencia temporal
-
-```{r}
-head(globwarm)
-```
-
----
-
-### Ejemplo: Dependencia temporal
-
-```{r, out.width=400, fig.align="center"}
-lmod = lm(nhtemp ~ wusa + jasper + westgreen + chesapeake + tornetrask + urals + mongolia + tasman, data=globwarm)
-plot(lmod$residuals)
-```
-
----
-
-```{r}
-glmod = gls(nhtemp ~ wusa + jasper + westgreen + chesapeake +
-                tornetrask + urals + mongolia + tasman,
-                correlation=corAR1(form=~year),
-                data=na.omit(globwarm),
-                method="ML")
-print(glmod)
-```
-
----
-
-# Problemas con supuestos
+--
 
 ### Normalidad
 
 - Si se tiene un muestreo grande $n$, este supuesto no causa problemas importantes.
-
 - Se recomienda usar ejercicios de simulación para saber los efectos de la no-normalidad de residuos sobre los parámetros estimados.
-
----
-
-# Problemas con supuestos
-
-### Normalidad
-
-```{r echo = FALSE, out.width=600, fig.align="center"}
-knitr::include_graphics("images/fig24.png")
-```
-
----
-
-# Problemas con supuestos
-
-### Normalidad
-
-```{r echo = FALSE, out.width=600, fig.align="center"}
-knitr::include_graphics("images/fig25.png")
-```
 
 ---
 
@@ -431,31 +415,12 @@ class: inverse, center, middle
 
 --
 
-- **Efecto fijo**: Se asume que no hay relación entre los diferentes niveles de una variable. Ejemplo: un efecto para hembras y un efecto para machos, pero estos efectos no interactúan uno con el otro.
+- **Efecto fijo**: Son variables que esperamos tengan un efecto sobre la variable respuesta ( $Y$ ). Es decir, es el $X$ como lo hemos visto hasta el momento. Puede ser *continua* o *categórica*. Se asume que no hay relación entre los diferentes niveles de una variable. Ejemplo: un efecto para hembras y un efecto para machos, pero estos efectos no interactúan uno con el otro.
 
 --
 
-- **Efecto aleatorio**: Nos da información acerca de niveles específicos (similar a un efecto fijo), pero también a nivel poblacional. Los niveles o grupos en un efecto aleatorio puede ser pensado como una muestra de niveles de una población más grande de niveles.
+- **Efecto aleatorio**: Son factores de agrupación que tratamos de controlar. Siempre son variables *categóricas*. Normalmente no estamos interesados en el efecto de esta variable sobre nuestra variable respuesta $Y$, pero sabemos que puede influir en nuestros resultados. Los niveles o grupos en un efecto aleatorio puede ser pensado como una muestra de niveles de una población más grande de niveles. Se recomienda un mínimo de 5 niveles en nuestros datos.
 
----
-
-# Efectos aleatorios
-
-Ejemplo: Investigar el efecto de temperatura sobre la abundancia de peces que viven en un lago. En nuestra muestra, nosotros podemos tener 3 especies de peces, y vemos que el efecto de la temperatura es diferente para cada especie. Además, queremos hacer inferencia acerca de todos los peces (i.e. todas las especies) que viven en el lago.
-
-```{r echo = FALSE, out.width=550, fig.align="center"}
-knitr::include_graphics("images/randomeffects.png")
-```
-
-**Ejemplo con asociación no lineal**.
-
----
-
-# Efectos aleatorios
-
-```{r echo = FALSE, out.width=480, fig.align="center"}
-knitr::include_graphics("images/randomeffects2.png")
-```
 
 ---
 
@@ -464,6 +429,7 @@ knitr::include_graphics("images/randomeffects2.png")
 ```{r echo = FALSE, out.width=600, fig.align="center"}
 knitr::include_graphics("images/fig26.png")
 ```
+
 
 ---
 
@@ -489,18 +455,22 @@ Tomar en cuenta:
 
 # Efectos aleatorios
 
+.scroll-box-26[
 ```{r}
-head(sleepstudy, n = 15)
+head(sleepstudy, n = 25)
 ```
+]
 
 ---
 
 Un modelo con efecto aleatorio en el intercepto:
 
+.scroll-box-26[
 ```{r}
 lmod1 = lmer ( Reaction ~ Days + ( 1 | Subject ) , data= sleepstudy )
 summary(lmod1)
 ```
+]
 
 ---
 
@@ -515,10 +485,12 @@ coef(lmod1)$Subject
 
 Un modelo con efecto aleatorio en la pendiente:
 
+.scroll-box-26[
 ```{r}
 lmod2 = lmer ( Reaction ~ Days + ( 0 + Days | Subject ) , data= sleepstudy )
 summary(lmod2)
 ```
+]
 
 ---
 
@@ -532,10 +504,12 @@ coef(lmod2)$Subject
 
 Un modelo con efecto aleatorio en el intercepto y la pendiente:
 
+.scroll-box-26[
 ```{r}
 lmod3 = lmer ( Reaction ~ Days + ( Days | Subject ) , data= sleepstudy )
 summary(lmod3)
 ```
+]
 
 ---
 
@@ -549,17 +523,7 @@ coef(lmod3)$Subject
 
 # Resultados
 
-Efectos fijos:
-
-```{r out.width=400, fig.align="center"}
-sjPlot::plot_model(lmod1)
-```
-
----
-
-# Resultados
-
-Efectos aleatorios (intercepto):
+Efectos aleatorios (intercepto en modelo 1):
 
 ```{r out.width=400, fig.align="center"}
 sjPlot::plot_model(lmod1, type = 're')
@@ -569,7 +533,7 @@ sjPlot::plot_model(lmod1, type = 're')
 
 # Resultados
 
-Efectos aleatorios (pendiente):
+Efectos aleatorios (pendiente en modelo 2):
 
 ```{r out.width=400, fig.align="center"}
 sjPlot::plot_model(lmod2, type = 're')
@@ -579,10 +543,33 @@ sjPlot::plot_model(lmod2, type = 're')
 
 # Resultados
 
-Asociación:
+Para cinco niveles del efecto aleatorio (variable `Subject`):
 
-```{r out.width=400, fig.align="center"}
-sjPlot::plot_model(lmod2, type = "eff", terms = "Days")
+```{r out.width=380, fig.align="center"}
+myRandom1 = ggpredict(model = lmod1, type = 're', terms = c('Days', 'Subject [308,309,310,311,312]'))
+plot(myRandom1)
+```
+
+---
+
+# Resultados
+
+Para cinco niveles del efecto aleatorio (variable `Subject`):
+
+```{r out.width=380, fig.align="center"}
+myRandom2 = ggpredict(model = lmod2, type = 're', terms = c('Days', 'Subject [308,309,310,311,312]'))
+plot(myRandom2)
+```
+
+---
+
+# Resultados
+
+Para cinco niveles del efecto aleatorio (variable `Subject`):
+
+```{r out.width=380, fig.align="center"}
+myRandom3 = ggpredict(model = lmod3, type = 're', terms = c('Days', 'Subject [308,309,310,311,312]'))
+plot(myRandom3)
 ```
 
 ---

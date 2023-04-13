@@ -107,7 +107,7 @@ Pero también podemos graficar el efecto por montaña:
 
 Pero también podemos hacerlo por categoría:
 
-```{r, out.width=450, fig.align="center", echo = FALSE}
+```{r, out.width=450, fig.align="center"}
 myPlot = ggpredict(mixed_lmer, terms = c("bodyLength2", "mountainRange"), type = "random")
 plot(myPlot, ci = FALSE)
 ```
