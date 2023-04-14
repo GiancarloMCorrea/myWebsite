@@ -19,7 +19,7 @@ class: inverse, center, middle
 
 ## Clase 5: Introducción a modelos lineales y aditivos generalizados (GLM y GAM)
 
-### Giancarlo M. Correa
+### Dr. Giancarlo M. Correa
 
 <img src="LOGO05.png" width="350px"/>
 
@@ -38,6 +38,28 @@ xaringanExtra::use_logo(
   image_url = "LOGO06.png", position = xaringanExtra::css_position(bottom = '-3em', left = 0),
   link_url = 'https://cousteau-group.com/', width = "70px"
 )
+```
+
+---
+
+# Librerías a utilizar
+
+A lo largo de esta clase, utilizaremos:
+
+```{r eval= FALSE}
+library(sjPlot)
+library(sjmisc)
+library(ggplot2)
+library(faraway)
+library(Sleuth3)
+library(nlme)
+library(lme4)
+library(statmod)
+library(MASS)
+library(GLMsData)
+library(ggeffects)
+library(psych)
+require(visibly)
 ```
 
 ---
@@ -154,6 +176,10 @@ Vemos un par de términos nuevos:
 
 * **Residual deviance**: nos indica que tan bien la variable respuesta es predicha por el modelo implementado. 
 
+--
+
+Se recomienda explorar `?family` para conocer las funciones link de cada distribución.
+
 ---
 
 # GLM: respuesta binaria
@@ -179,7 +205,7 @@ knitr::include_graphics("images/fig27.png")
 
 Revisar los valores observados y ajustados:
 
-```{r, out.width=350, fig.align="center", warnings=FALSE, message=FALSE}
+```{r, out.width=350, fig.align="center", message=FALSE, warning=FALSE}
 plot_model(model = mod1, type = 'pred', show.data = TRUE)
 ```
 
@@ -446,7 +472,7 @@ summary(mod7)
 
 # GLM: respuesta gamma
 
-```{r,  out.width=400, fig.align="center"}
+```{r,  out.width=400, fig.align="center", message=FALSE, warning=FALSE}
 plot_model(mod7, type = 'pred', show.data = TRUE)
 ```
 
@@ -560,13 +586,15 @@ Podemos producir cualquier función polinomial!
 
 ```{r warnings=FALSE, messages='hide'}
 library(mgcv)
-head(savings, n = 10)
+isit = read.csv('ISIT.csv')
+isit$Season <- as.factor(isit$Season)
+head(isit)
 ```
 
 ---
 
 ```{r}
-fit_gam = gam(sr ~ s(pop15) + s(pop75) + s(dpi) + s(ddpi), data=savings)
+fit_gam = gam(Sources ~ Season + s(SampleDepth), data = isit)
 summary(fit_gam)
 ```
 
@@ -595,7 +623,16 @@ plot(fit_gam, pages=1)
 También podemos observarlo en escala de las variable respuesta:
 
 ```{r fig.align='center'}
-plot(ggeffects::ggpredict(fit_gam), facets = TRUE)
+myEffect = ggeffects::ggpredict(fit_gam, terms = "Season")
+plot(myEffect)
+```
+---
+
+También podemos observarlo en escala de las variable respuesta:
+
+```{r fig.align='center'}
+myEffect = ggeffects::ggpredict(fit_gam, terms = "SampleDepth")
+plot(myEffect)
 ```
 
 ---
@@ -606,12 +643,24 @@ Existen diferentes formas de suavizar una variable (smooth term), los cuales pue
 
 ---
 
-También debemos revisar los supuestos de un GAM. Distribución de residuales:
+También debemos revisar los supuestos de un GAM:
 
 ```{r fig.align='center'}
 par(mfrow = c(2,2))
 gam.check(fit_gam)
 ```
+
+---
+
+También revisamos el nivel de suavizamiento que hemos usado usando `gam.check()`. Es decir, el número de nodos (`k`) en la función `s()`. Recuerden que el valor por defecto es `s(..., k = 10)`. 
+
+```{r echo = FALSE}
+k.check(b = fit_gam)
+```
+
+--
+
+Lo mas importante es ver el $p-value$. Un valor $p-value$ muy pequeño nos dice que no hemos usado un `k` suficientemente alto. 
 
 ---
 
@@ -671,15 +720,9 @@ hand.gam2 = gam(left ~ s(year), data=rtlef, family=poisson)
 plot(ggeffects::ggpredict(hand.gam2), facets = TRUE)
 ```
 
----
+--
 
-# GAM en R: respuesta Poisson
-
-Podemos también extraer los datos predichos por el modelo:
-
-```{r fig.align='center'}
-predict(hand.gam2, type="response")[1:20]
-```
+Hay mucha información sobre GAMs. Se recomienda [esta fuente](http://r.qcbs.ca/workshop08/book-en/introduction-to-gams.html).
 
 ---
 
