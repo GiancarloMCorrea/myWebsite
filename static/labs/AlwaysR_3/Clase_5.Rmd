@@ -15,6 +15,13 @@ output:
 
 class: inverse, center, middle
 
+```{css, echo=FALSE}
+.scroll-box-26 {
+  height:26em;
+  overflow-y: scroll;
+}
+```
+
 # AlwaysR, Módulo III: Estadística en R
 
 ## Clase 5: Introducción a modelos lineales y aditivos generalizados (GLM y GAM)
@@ -172,9 +179,9 @@ summary(mod1)
 
 Vemos un par de términos nuevos:
 
-* **Null deviance**: nos indica que tan bien la variable respuesta puede ser predicha por un modelo que solo contenga el intercepto. 
+* **Null deviance**: nos indica que tan bien la variable respuesta puede ser predicha por un modelo que solo contenga el intercepto. Un valor pequeño nos indica que el modelo explica muy bien la variable respuesta.
 
-* **Residual deviance**: nos indica que tan bien la variable respuesta es predicha por el modelo implementado. 
+* **Residual deviance**: nos indica que tan bien la variable respuesta es predicha por el modelo implementado. Un valor pequeño nos indica que el modelo explica muy bien la variable respuesta.
 
 --
 
@@ -192,7 +199,7 @@ plot(statmod::qresid(mod1))
 
 ---
 
-# GLM: respuesta binaria
+# GLM: residuos 
 
 ```{r echo = FALSE, out.width=600, fig.align="center"}
 knitr::include_graphics("images/fig27.png")
@@ -387,10 +394,14 @@ qqline(qresid(mod4))
 
 ---
 
+# GLM: binomial negativa
+
+.scroll-box-26[
 ```{r}
 mod5 = MASS::glm.nb(count ~ year + yearSqr, data = disc)
 summary(mod5)
 ```
+]
 
 ---
 
@@ -421,7 +432,7 @@ head(case1202)
 
 # GLM: respuesta gamma
 
-Modelo lineal para modelar `units` como la variable respuesta:
+Modelo lineal simple:
 
 ```{r}
 mod6 = lm(Exper ~ Age, data=case1202)

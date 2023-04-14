@@ -14,6 +14,13 @@
 
 class: inverse, center, middle
 
+&lt;style type="text/css"&gt;
+.scroll-box-26 {
+  height:26em;
+  overflow-y: scroll;
+}
+&lt;/style&gt;
+
 # AlwaysR, Módulo III: Estadística en R
 
 ## Clase 5: Introducción a modelos lineales y aditivos generalizados (GLM y GAM)
@@ -237,9 +244,9 @@ summary(mod1)
 
 Vemos un par de términos nuevos:
 
-* **Null deviance**: nos indica que tan bien la variable respuesta puede ser predicha por un modelo que solo contenga el intercepto. 
+* **Null deviance**: nos indica que tan bien la variable respuesta puede ser predicha por un modelo que solo contenga el intercepto. Un valor pequeño nos indica que el modelo explica muy bien la variable respuesta.
 
-* **Residual deviance**: nos indica que tan bien la variable respuesta es predicha por el modelo implementado. 
+* **Residual deviance**: nos indica que tan bien la variable respuesta es predicha por el modelo implementado. Un valor pequeño nos indica que el modelo explica muy bien la variable respuesta.
 
 --
 
@@ -256,11 +263,11 @@ La revisión de supuestos en un GLM no es tan sencilla. Podemos revisar la indep
 plot(statmod::qresid(mod1))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-8-1.png" width="370" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-9-1.png" width="370" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# GLM: respuesta binaria
+# GLM: residuos 
 
 &lt;img src="images/fig27.png" width="600" style="display: block; margin: auto;" /&gt;
 
@@ -280,7 +287,7 @@ plot_model(model = mod1, type = 'pred', show.data = TRUE)
 ## $read
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-10-1.png" width="350" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-11-1.png" width="350" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -294,7 +301,7 @@ qqnorm(qresid(mod1))
 qqline(qresid(mod1))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-11-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-12-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -308,7 +315,7 @@ Revisar observaciones influyentes:
 plot(cooks.distance(mod1), type='h')
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-12-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-13-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -346,7 +353,7 @@ Exploremos la que será la variable respuesta en nuestro modelo:
 hist(cases$Students)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-15-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-16-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -393,7 +400,7 @@ Verificar independencia de residuos:
 plot(qresid(mod2))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-17-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-18-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -410,7 +417,7 @@ plot_model(model = mod2, type = 'pred', show.data = TRUE)
 ## $Days
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-18-1.png" width="350" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-19-1.png" width="350" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -424,7 +431,7 @@ qqnorm(qresid(mod2))
 qqline(qresid(mod2))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-19-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-20-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -437,7 +444,7 @@ Revisar observaciones influyentes:
 plot(cooks.distance(mod2), type='h')
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-20-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-21-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -475,7 +482,7 @@ Exploremos la que ahora será nuestra variable explicativa:
 hist(disc$count)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-23-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-24-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -565,10 +572,13 @@ qqnorm(qresid(mod4))
 qqline(qresid(mod4))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-26-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-27-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
+# GLM: binomial negativa
+
+.scroll-box-26[
 
 ```r
 mod5 = MASS::glm.nb(count ~ year + yearSqr, data = disc)
@@ -607,6 +617,7 @@ summary(mod5)
 ## 
 ##  2 x log-likelihood:  -398.214
 ```
+]
 
 ---
 
@@ -624,7 +635,7 @@ qqnorm(qresid(mod5))
 qqline(qresid(mod5))
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-28-1.png" width="350" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-29-1.png" width="350" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -695,7 +706,7 @@ plot_model(mod6, type = 'pred', show.data = TRUE)
 ## $Age
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-31-1.png" width="350" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-32-1.png" width="350" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -708,7 +719,7 @@ Exploremos la distribución de la variable respuesta:
 hist(case1202$Exper)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-32-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-33-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -771,7 +782,7 @@ plot_model(mod7, type = 'pred', show.data = TRUE)
 ## $Age
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-35-1.png" width="400" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-36-1.png" width="400" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -800,19 +811,19 @@ Variables independientes ahora incorporan una función de suavizamiento (basis f
 
 Por ejemplo:
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 ¿Podríamos implementar un ANOVA o algún modelo lineal?
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
 Una función como esta nos puede ayudar mucho:
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -933,7 +944,7 @@ Aquí hay algunos términos nuevos:
 plot(fit_gam, pages=1)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -945,7 +956,7 @@ myEffect = ggeffects::ggpredict(fit_gam, terms = "Season")
 plot(myEffect)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-45-1.png" style="display: block; margin: auto;" /&gt;
 ---
 
 También podemos observarlo en escala de las variable respuesta:
@@ -956,7 +967,7 @@ myEffect = ggeffects::ggpredict(fit_gam, terms = "SampleDepth")
 plot(myEffect)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-45-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-46-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -974,7 +985,7 @@ par(mfrow = c(2,2))
 gam.check(fit_gam)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-46-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-47-1.png" style="display: block; margin: auto;" /&gt;
 
 ```
 ## 
@@ -1074,7 +1085,7 @@ Revisamos los efectos:
 plot(ggeffects::ggpredict(hand.gam), facets = TRUE)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-50-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -1115,7 +1126,7 @@ hand.gam2 = gam(left ~ s(year), data=rtlef, family=poisson)
 plot(ggeffects::ggpredict(hand.gam2), facets = TRUE)
 ```
 
-&lt;img src="Clase_5_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="Clase_5_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" /&gt;
 
 --
 
