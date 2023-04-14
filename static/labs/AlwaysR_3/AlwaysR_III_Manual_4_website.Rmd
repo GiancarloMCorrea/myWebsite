@@ -51,13 +51,13 @@ summary(basic_lm)
 
 Y graficar los resultados:
 
-```{r, out.width=370, fig.align="center"}
+```{r, out.width=500, fig.align="center"}
 plot_model(model = basic_lm, type = 'pred', show.data = TRUE)
 ```
 
 También podemos verificar los supuestos :
 
-```{r, out.width=370, fig.align="center"}
+```{r, out.width=500, fig.align="center", warning=FALSE,message=FALSE}
 myDiag = plot_model(model = basic_lm, type = 'diag', show.data = TRUE)
 plot_grid(myDiag)
 ```
@@ -66,13 +66,13 @@ plot_grid(myDiag)
 
 Podemos explorar el impacto de `mountainRange` sobre la relación de las variables:
 
-```{r, out.width=400, fig.align="center"}
+```{r, out.width=600, fig.align="center"}
 boxplot(testScore ~ mountainRange, data = dragons)
 ```
 
 Y graficar esta relación por montaña:
 
-```{r, out.width=400, fig.align="center"}
+```{r, out.width=600, fig.align="center"}
 ggplot(aes(bodyLength, testScore), data = dragons) + 
   geom_point() + 
   facet_wrap(~ mountainRange) + 
@@ -94,14 +94,14 @@ summary(mixed_lmer)
 
 Revisar los supuestos: distribución normal
 
-```{r, out.width=400, fig.align="center"}
+```{r, out.width=500, fig.align="center"}
 qqnorm(resid(mixed_lmer))
 qqline(resid(mixed_lmer))
 ```
 
 Podemos plotear la línea estimada (efecto fijo):
 
-```{r, out.width=350, fig.align="center"}
+```{r, out.width=500, fig.align="center"}
 plot_model(model = mixed_lmer, type = 'pred', show.data = TRUE)
 ```
 
@@ -109,14 +109,14 @@ Pero también podemos graficar el efecto por montaña:
 
 Pero también podemos hacerlo por categoría:
 
-```{r, out.width=450, fig.align="center"}
+```{r, out.width=500, fig.align="center"}
 myPlot = ggpredict(mixed_lmer, terms = c("bodyLength2", "mountainRange"), type = "random")
 plot(myPlot, ci = FALSE)
 ```
 
 Otra gráfica para evaluar resultados:
 
-```{r, out.width=400, fig.align="center", warning=FALSE, message=FALSE}
+```{r, out.width=500, fig.align="center", warning=FALSE, message=FALSE}
 plot_model(mixed_lmer, type = 're')
 ```
 
@@ -129,6 +129,12 @@ head(dragons, n = 10)
 ```
 
 **Site**: Se ha muestreado en 3 sitios de muestreo dentro de cada `montainRange`.
+
+Presten atención al número de observaciones dentro de cada **Site**:
+
+```{r}
+table(dragons$site, dragons$mountainRange)
+```
 
 Implementamos un modelo lineal mixto jerárquico:
 
@@ -154,7 +160,7 @@ sjPlot::plot_model(myModelo)
 
 Efectos aleatorios:
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 myPlot3 = sjPlot::plot_model(myModelo, type = 're')
 plot_grid(myPlot3)
 ```
