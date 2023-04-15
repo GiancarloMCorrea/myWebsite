@@ -30,7 +30,7 @@ qqline(qresid(mod2))
 
 # Modelos aditivos generalizados Pregunta 1
 
-mod1 = gam(O3 ~ s(temp) + s(ibh), data = ozone)
+mod1 = gam(O3 ~ temp + s(ibh), data = ozone)
 summary(mod1)
 
 # Modelos aditivos generalizados Pregunta 2
@@ -39,7 +39,7 @@ plot(ggpredict(mod1), facets = TRUE)
 
 # Modelos aditivos generalizados Pregunta 3
 
-mod1 = gam(O3 ~ s(temp) + s(ibh), data = ozone)
-mod2 = gam(O3 ~ s(temp) + ibh, data = ozone)
+mod1 = gam(O3 ~ temp + s(ibh), data = ozone)
+mod2 = gam(O3 ~ temp + ibh, data = ozone)
 summary(mod1)
 summary(mod2)
