@@ -283,9 +283,9 @@ The arguments are:
 We specify two parameters `growth$SD_vals` (and their estimation
 `growth$SD_est`) that describe the variability of length-at-age:
 
--   *S**D*<sub>*ã*</sub>: standard deviation of lengths at age *ã*. It
+-   *SD*<sub>*ã*</sub>: standard deviation of lengths at age *ã*. It
     is a function of mean length-at-age.
--   *S**D*<sub>*A*</sub>: standard deviation of lengths at age A (age
+-   *SD*<sub>*A*</sub>: standard deviation of lengths at age A (age
     plus group). It is a function of mean length-at-age.
 
 Random effects cannot be predicted on *S**D*<sub>*ã*</sub> and
