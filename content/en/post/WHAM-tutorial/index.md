@@ -51,7 +51,7 @@ the [**devel** branch](https://github.com/timjmiller/wham/tree/devel) of
 the WHAM GitHub repository and can be installed running:
 
 ``` r
-remotes::install_github(repo = 'gmoroncorrea/wham', ref='growth', INSTALL_opts = c("--no-docs", "--no-multiarch", "--no-demo"))
+remotes::install_github(repo = 'GiancarloMCorrea/wham', ref='growth', INSTALL_opts = c("--no-docs", "--no-multiarch", "--no-demo"))
 ```
 
 Then:
@@ -77,7 +77,7 @@ wham_data = list()
 bins or years:
 
 ``` r
-wham_data$ages = 1:20 # age bins
+wham_data$ages = 1:21 # age bins
 wham_data$years = 1970:2020 # years
 ```
 
@@ -288,7 +288,8 @@ We specify two parameters `growth$SD_vals` (and their estimation
 -   *S**D*<sub>*A*</sub>: standard deviation of lengths at age A (age
     plus group). It is a function of mean length-at-age.
 
-Random effects cannot be predicted on these parameters.
+Random effects cannot be predicted on *S**D*<sub>*ã*</sub> and
+*S**D*<sub>*A*</sub>.
 
 *ã* is specified in the data input object:
 
@@ -338,15 +339,33 @@ The arguments are:
 -   `LAA$re`: random effects (RE) on LAA (1). Five options are
     available:
 
-| `LAA$re` |            Random effects             |                  Estimated parameters                   |
+| `LAA$re` |            Random effects             |                            Estimated parameters                            |
 |----------------------|:-----------------------:|:-----------------------:|
-| `none`   |       constant in time and ages       |                                                         |
-| `iid`    | varies by year and age (uncorrelated) |                    *σ*<sub>*L*</sub>                    |
-| `iid_a`  |     varies by age (uncorrelated)      |                    *σ*<sub>*L*</sub>                    |
-| `ar1_a`  |        correlated by age (AR1)        |          *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>           |
-| `2dar1`  |  correlated by age and year (2D AR1)  | *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub> |
+| `none`   |       constant in time and ages       |                                                                            |
+| `iid`    | varies by year and age (uncorrelated) |                             *σ*<sub>*L*</sub>                              |
+| `iid_a`  |     varies by age (uncorrelated)      |                             *σ*<sub>*L*</sub>                              |
+| `ar1_a`  |        correlated by age (AR1)        |                    *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>                    |
+| `2dar1`  |  correlated by age and year (2D AR1)  |          *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub>           |
+| `3dgmrf` |    3D GMRF (years, ages, cohorts)     | *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub>, *ρ*<sub>*c*</sub> |
 
 -   `LAA$est_pars`: Which LAA to estimate.
+
+#### Semi-parametric approach
+
+For this approach, mean length-at-age are calculated using any of the
+parametric equations (von Bertalanffy or Richards), and then random
+effects can be predicted on these. Random effect’s structure same as
+shown in the non-parametric approach.
+
+The following arguments need to be specified:
+
+``` r
+prepare_wham_input(...,
+                   growth = list(model, init_vals, est_pars, 
+                                 SD_vals, SD_est),
+                   LAA = list(re),
+                   ...)
+```
 
 ### Mean weight-at-age (WAA)
 
@@ -358,8 +377,6 @@ This is the only strategy available in the base WHAM version, the user
 should provide the empirical weight-at-age as input data
 (`wham_data$waa`), which will be used to calculate spawning biomass and
 reference points. Make sure that:
-
--   `wham_data$weight_model = 1` (use this method)
 
 #### Length-weight relationship
 
@@ -386,12 +403,8 @@ based on LAA. The arguments are:
 -   `LW$init_vals`: LW parameters initial values (2).
 -   `LW$est_pars`: LW parameter to estimate.
 
-Here we use:
-
--   `wham_data$weight_model`: 2 (use this method)
-
 Also, the user could use observed mean weight-at-age data as source of
-information.
+information:
 
 -   `wham_data$use_catch_waa`: Use (1) or not use (0) waa (fisheries).
     Matrix (number of years
@@ -404,7 +417,7 @@ information.
 -   `wham_data$waa_cv`: Coefficient of variation for observations. Array
     (`dim(wham_data$waa) == dim(wham_data$waa_cv)`).
 
-#### WAA random effects
+#### WAA random effects (non-parametric approach)
 
 Like the LAA random effects approach. The number of parameters is equal
 to the number of ages.
@@ -422,22 +435,22 @@ The arguments are:
 -   `WAA$re`: random effects (RE) on WAA (1). Five options are
     available:
 
-| `WAA$re` |            Random effects             |                  Estimated parameters                   |
+| `WAA$re` |            Random effects             |                            Estimated parameters                            |
 |----------------------|:-----------------------:|:-----------------------:|
-| `none`   |       constant in time and ages       |                                                         |
-| `iid`    | varies by year and age (uncorrelated) |                    *σ*<sub>*L*</sub>                    |
-| `iid_a`  |     varies by age (uncorrelated)      |                    *σ*<sub>*L*</sub>                    |
-| `ar1_a`  |        correlated by age (AR1)        |          *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>           |
-| `2dar1`  |  correlated by age and year (2D AR1)  | *σ*<sub>*L*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub> |
+| `none`   |       constant in time and ages       |                                                                            |
+| `iid`    | varies by year and age (uncorrelated) |                             *σ*<sub>*W*</sub>                              |
+| `iid_a`  |     varies by age (uncorrelated)      |                             *σ*<sub>*W*</sub>                              |
+| `ar1_a`  |        correlated by age (AR1)        |                    *σ*<sub>*W*</sub>, *ρ*<sub>*a*</sub>                    |
+| `2dar1`  |  correlated by age and year (2D AR1)  |          *σ*<sub>*W*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub>           |
+| `3dgmrf` |    3D GMRF (years, ages, cohorts)     | *σ*<sub>*W*</sub>, *ρ*<sub>*a*</sub>, *ρ*<sub>*y*</sub>, *ρ*<sub>*c*</sub> |
 
--   `WAA$est_pars`: Which WAA to estimate.
-
-Here we use:
-
--   `wham_data$weight_model`: 3 (use this method)
+-   `WAA$est_pars`: WAA to estimate.
 
 Also, the user could use observed mean weight-at-age data as source of
 information similar to the previous method.
+
+The semi-parametric approach for mean weight-at-age is not yet
+implemented.
 
 This is a general overview about growth modeling in this new WHAM
 version:
@@ -460,11 +473,12 @@ prepare_wham_input(...,
 ```
 
 `where` can be `growth` (parametric growth equation), `LAA`
-(non-parametric approach), `LW`, or `WAA`. `where_subindex` is the
-parameter that will be linked to the environmental covariate, and the
-subindex number follows the order as mentioned in the previous section
-(e.g. `where = 'growth'` and `where_subindex = 2` will link the
-environmental covariate to the asymptotic length).
+(non-parametric approach), `LW`, or `WAA` (non-parametric approach).
+`where_subindex` is the parameter that will be linked to the
+environmental covariate, and the subindex number follows the order as
+mentioned in the previous section (e.g. `where = 'growth'` and
+`where_subindex = 2` will link the environmental covariate to the
+asymptotic length).
 
 > :heavy_check_mark: **Projections and OSA residuals are also
 > available**
