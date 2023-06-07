@@ -20,9 +20,9 @@ interests:
 - Modelos basados en individuos
 - Ecología de comunidades marinas
 organizations:
-- name: University of Washington
-  url: https://fish.uw.edu/
-role: Investigador postdoctoral
+- name: AZTI
+  url: https://www.azti.es/
+role: Investigador
 social:
 - icon: envelope
   icon_pack: fas
@@ -46,6 +46,6 @@ superuser: true
 title: Giancarlo M. Correa, Ph.D.
 ---
 
-Nací en Lima, Perú, donde pasé casi toda mi vida. Obtuve el título profesional en Ciencias Biológicas con énfasis en ciencias pesqueras en la Universidad Nacional Mayor de San Marcos (UNMSM, la universidad más antigua de América). Antes de comenzar mi educación de posgrado, trabajé durante más de cuatro años como científico pesquero en el Instituto del Mar del Perú (IMARPE), donde estudié la dinámica poblacional y ecología espacial de pequeños peces pelágicos en la zona norte del ecosistema de Humboldt. Durante ese tiempo, también realicé estudios de maestría en Matemática Aplicada en la UNMSM. En septiembre del 2018 inicié mis estudios doctorales en Oregon State University, en donde estudié los impactos de la variabilidad climática sobre el crecimiento somático de peces usando modelos de dinámica poblacional. Me uní al [Punt Lab](http://puntlab.washington.edu/) en Abril del 2022 como un investigador postdoctoral. Mis intereses de investigación incluyen la dinámica espacio-temporal de especies marinas, ecología de comunidades acuáticas, modelos de evaluación de poblaciones de peces y modelos basados en individuos. Hablo español, inglés e italiano. Me encanta jugar al fútbol, cocinar y bailar salsa.
+Nací en Lima, Perú. Obtuve el título profesional en Ciencias Biológicas con énfasis en ciencias pesqueras en la Universidad Nacional Mayor de San Marcos (UNMSM, la universidad más antigua de América). Antes de comenzar mi educación de posgrado, trabajé durante más de cuatro años como científico pesquero en el Instituto del Mar del Perú (IMARPE), donde estudié la dinámica poblacional y ecología espacial de pequeños peces pelágicos en la zona norte del ecosistema de Humboldt. Durante ese tiempo, también realicé estudios de maestría en Matemática Aplicada en la UNMSM. En septiembre del 2018 me mudé al estado de Oregon, EEUU para iniciar mis estudios doctorales en Oregon State University, en donde estudié los impactos de la variabilidad climática sobre el crecimiento somático de peces usando modelos de dinámica poblacional. Comencé como investigador postdoctoral en la Escuela de Ciencias Acuáticas y Pesqueras de la Universidad de Washington en Abril del 2022. En junio del 2023 me uní a AZTI como investigador. Mis intereses de investigación incluyen la dinámica espacio-temporal de especies marinas, ecología de comunidades acuáticas, modelos de evaluación de poblaciones de peces y modelos basados en individuos. Hablo español, inglés y un poco de italiano. Me encanta jugar al fútbol, cocinar y bailar salsa.
 
 {{< icon name="download" pack="fas" >}} Descarga mi {{< staticref "media/demo_resume_spanish.pdf" "newtab" >}}CV{{< /staticref >}}.

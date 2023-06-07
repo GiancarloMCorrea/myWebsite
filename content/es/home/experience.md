@@ -22,14 +22,13 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
-  - title: Investigador Postdoctoral
-    company: University of Washington
-    company_url: 'https://fish.uw.edu/'
-    location: Seattle, WA, USA
-    date_start: '2022-04-01'
+  - title: Investigador
+    company: AZTI
+    company_url: 'https://www.azti.es/'
+    location: Sukarrieta, País Vasco, España
+    date_start: '2023-06-01'
     date_end: ''
-    description: Investigación en modelos de evaluación de stock de peces (Woods Hole Assessment Model-WHAM)
-
+    description: Investigación en modelos de evaluación para stocks de atunes en el Atlántico Norte y Océano Indico.
   - title: Miembro científico
     company: Cousteau Consultant Group
     company_url: 'https://cousteau-group.com/'
@@ -37,15 +36,20 @@ experience:
     date_start: '2020-09-01'
     date_end: ''
     description: Investigación en ecología y pesquerías. Instructor de cursos en ecología, estadística y pesquerías.
- 
+  - title: Investigador Postdoctoral
+    company: Universidad de Washington
+    company_url: 'https://fish.uw.edu/'
+    location: Seattle, WA, USA
+    date_start: '2022-04-01'
+    date_end: '2023-05-31'
+    description: Investigación en modelos de evaluación de stock estado-espacio de peces (Woods Hole Assessment Model-WHAM)
   - title: Asistente de investigación de posgrado
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'
     location: Corvallis, OR, USA
     date_start: '2018-09-15'
     date_end: '2018-03-15'
-    description: Investigación aplicada al bacalao del Pacífico en la zona este del mar de Bering.
-               
+    description: Investigación aplicada al bacalao del Pacífico en la zona este del mar de Bering.        
   - title: Asistente de enseñanza de posgrado
     company: Oregon State University
     company_url: 'https://oregonstate.edu/'
@@ -53,7 +57,6 @@ experience:
     date_start: '2020-03-25'
     date_end: '2020-06-15'
     description: Curso de análisis de datos provenientes de pesquerías y muestreos en el ámbito marino.
-
   - title: Investigador
     company: Instituto del Mar del Perú
     company_url: 'https://www.gob.pe/imarpe'
