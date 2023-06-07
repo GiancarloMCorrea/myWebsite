@@ -21,7 +21,7 @@ interests:
 - Community ecology
 organizations:
 - name: AZTI
-  url: https://www.azti.es/
+  url: https://www.azti.es/en/
 role: Researcher
 social:
 - icon: envelope

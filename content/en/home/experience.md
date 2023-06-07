@@ -25,7 +25,7 @@ experience:
 
   - title: Researcher
     company: AZTI
-    company_url: 'https://www.azti.es/'
+    company_url: 'https://www.azti.es/en/'
     location: Sukarrieta, Basque Country, Spain
     date_start: '2023-06-01'
     date_end: ''
