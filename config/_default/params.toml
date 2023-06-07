@@ -88,19 +88,19 @@ show_related = {docs = true, page = false, post = true, project = true, publicat
 ############################
 
 # Enter contact details (optional). To hide a field, clear it to "".
-email = "gcorrea@uw.edu"
-phone = ""
+email = "gmoron@azti.es"
+phone = "+34671750079"
 
 # Address
 # For country_code, use the 2-letter ISO code (see https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 )
-address = {street = "1122 NE Boat St", city = "Seattle", region = "WA", postcode = "98195-5020", country = "United States", country_code = "US"}
+address = {street = "Txatxarramendi ugartea z/g", city = "Sukarrieta", region = "Bizkaia", postcode = "48395", country = "Spain", country_code = "ES"}
 
 # Geographic coordinates
 # To get your coordinates, right-click on Google Maps and choose "What's here?". The coords will show up at the bottom.
-coordinates = {latitude = "47.652799", longitude = "-122.316613"}
+coordinates = {latitude = "43.394765", longitude = "-2.692312"}
 
 # Directions for visitors to locate you.
-directions = "School of Aquatic and Fisheries Sciences - UW"
+directions = "AZTI"
 
 # Office hours
 # A list of your office hours. To remove, set to an empty list `[]`.
