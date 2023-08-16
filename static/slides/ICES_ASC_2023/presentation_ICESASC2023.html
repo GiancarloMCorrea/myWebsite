@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="presentation_PlanTeamMeetingAFSC2022_files/libs/clipboard/clipboard.min.js"></script>
-<script src="presentation_PlanTeamMeetingAFSC2022_files/libs/quarto-html/tabby.min.js"></script>
-<script src="presentation_PlanTeamMeetingAFSC2022_files/libs/quarto-html/popper.min.js"></script>
-<script src="presentation_PlanTeamMeetingAFSC2022_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="presentation_PlanTeamMeetingAFSC2022_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="presentation_PlanTeamMeetingAFSC2022_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="presentation_PlanTeamMeetingAFSC2022_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="presentation_PlanTeamMeetingAFSC2022_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="presentation_ICESASC2023_files/libs/clipboard/clipboard.min.js"></script>
+<script src="presentation_ICESASC2023_files/libs/quarto-html/tabby.min.js"></script>
+<script src="presentation_ICESASC2023_files/libs/quarto-html/popper.min.js"></script>
+<script src="presentation_ICESASC2023_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="presentation_ICESASC2023_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="presentation_ICESASC2023_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="presentation_ICESASC2023_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="presentation_ICESASC2023_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.353">
 
-  <meta name="author" content="Giancarlo M. Correa^1, Cole Monnahan^2, Jane Sullivan^3, James T. Thorson^2, Andre E. Punt^1">
-  <title>Incorporating length information and growth estimation in the Woods Hole Assessment Model (WHAM)</title>
+  <meta name="author" content=" Giancarlo M. Correa^{1,2}, Cole Monnahan^3, Jane Sullivan^4, James T. Thorson^3, Andre E. Punt^2">
+  <title>Best practices for modeling time-varying growth in state-space stock assessments</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="presentation_ICESASC2023_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="presentation_ICESASC2023_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -30,12 +30,12 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="presentation_ICESASC2023_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="myStyle.css">
-  <link href="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link href="presentation_ICESASC2023_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="presentation_ICESASC2023_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="presentation_ICESASC2023_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="presentation_ICESASC2023_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -320,359 +320,230 @@
       margin-right: 0; 
     }
   </style>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/viz-1.8.2/viz.js"></script>
-  <link href="presentation_PlanTeamMeetingAFSC2022_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/grViz-binding-1.0.10/grViz.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/viz-1.8.2/viz.js"></script>
+  <link href="presentation_ICESASC2023_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+  <script src="presentation_ICESASC2023_files/libs/grViz-binding-1.0.10/grViz.js"></script>
 </head>
-<body class="quarto-dark">
+<body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Incorporating length information and growth estimation in the Woods Hole Assessment Model (WHAM)</h1>
+  <h1 class="title">Best practices for modeling time-varying growth in state-space stock assessments</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Giancarlo M. Correa<span class="math inline">\(^1\)</span>, Cole Monnahan<span class="math inline">\(^2\)</span>, Jane Sullivan<span class="math inline">\(^3\)</span>, James T. Thorson<span class="math inline">\(^2\)</span>, Andre E. Punt<span class="math inline">\(^1\)</span> 
+<br>Giancarlo M. Correa<span class="math inline">\(^{1,2}\)</span>, Cole Monnahan<span class="math inline">\(^3\)</span>, Jane Sullivan<span class="math inline">\(^4\)</span>, James T. Thorson<span class="math inline">\(^3\)</span>, Andre E. Punt<span class="math inline">\(^2\)</span> 
 </div>
         <p class="quarto-title-affiliation">
-            <span class="math inline">\(^1\)</span>University of Washington, Seattle, WA
-          </p>
-        <p class="quarto-title-affiliation">
-            <span class="math inline">\(^2\)</span>Alaska Fisheries Science Center, NOAA, Seattle, WA
-          </p>
-        <p class="quarto-title-affiliation">
-            <span class="math inline">\(^3\)</span>Alaska Fisheries Science Center, NOAA, Juneau, AK
+            <br><span class="math inline">\(^1\)</span>AZTI, Sukarrieta, Basque Country, Spain. <span class="math inline">\(^2\)</span>University of Washington, Seattle, WA, USA. <span class="math inline">\(^3\)</span>Alaska Fisheries Science Center, NOAA, Seattle, WA, USA. <span class="math inline">\(^4\)</span>Alaska Fisheries Science Center, NOAA, Juneau, AK, USA
           </p>
     </div>
 </div>
 
 </section>
-<section id="outline" class="slide level2">
-<h2>Outline</h2>
+<section>
+<section id="somatic-growth" class="title-slide slide level1 center">
+<h1>Somatic growth</h1>
+<!-- Install this version of knitr or update RStudio-->
+<!-- remotes::install_version("knitr", "1.42") -->
+</section>
+<section id="somatic-growth-1" class="slide level2">
+<h2>Somatic growth</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <p><br></p>
-<ul>
-<li>State-space assessment models</li>
-<li>The Woods Hole Assessment Model (WHAM)
-<ul>
-<li>Limitations</li>
-</ul></li>
-<li>New features in WHAM</li>
-<li>Examples</li>
-</ul>
-</section>
-<section id="state-space-assessment-models" class="slide level2">
-<h2>State-space assessment models</h2>
-<p>Allows separation of both observation and process errors.</p>
-<div class="fragment">
-<p>Observation equation:</p>
-<p><span class="math display">\[E[Y_t \mid X_t]= g(X_t,\theta)\]</span></p>
-<p>Process equation:</p>
-<p><span class="math display">\[E[X_t \mid X_{t-1}] = h(X_{t-1},\theta)\]</span></p>
-<p><span class="math inline">\(X_t\)</span> is the unobserved state at time step <span class="math inline">\(t\)</span> and <span class="math inline">\(Y_t\)</span> are observations. <span class="math inline">\(\theta\)</span> is the vector of all unknown model parameters (fixed effects). <span class="math inline">\(X_t\)</span> treated as random effects (<span style="font-size:75%">Aeberhard et al.&nbsp;2018</span>).</p>
-</div>
-</section>
-<section id="state-space-assessment-models-1" class="slide level2">
-<h2>State-space assessment models</h2>
-<p>Why use them? (<span style="font-size:75%">Aeberhard et al.&nbsp;2018, Stock and Miller, 2021</span>)</p>
 <div>
 <ul>
-<li class="fragment">handle structural breaks, time-varying parameters</li>
-<li class="fragment">handle missing observations</li>
-<li class="fragment">can be used to do forecasting</li>
-<li class="fragment">model complex and nonlinear relationships</li>
-<li class="fragment">less retrospective bias</li>
+<li class="fragment">Definition: the increase in size or weight of a fish.</li>
+<li class="fragment">Contributes to the stock biomass.</li>
+<li class="fragment">Time-variable:
+<ul>
+<li class="fragment">By year, cohort, or age.</li>
+<li class="fragment">Affected by internal and external factors.</li>
+</ul></li>
 </ul>
 </div>
+</div>
+</div>
+<div class="column" style="width:50%;">
+<p><img data-src="images/growth_a.png" class="absolute" style="top: 30px; left: 530px; height: 1500px; "></p>
+<div class="absolute" style="top: 20px; left: 730px; ">
+<div class="sectionhead">
+<p><span style="font-size:45%">Stockholm University Baltic Sea Centre</span></p>
+</div>
+</div>
+</div>
 </section>
-<section id="the-woods-hole-assessment-model-wham" class="slide level2">
-<h2>The Woods Hole Assessment Model (WHAM)</h2>
+<section id="somatic-growth-in-assessment-models" class="slide level2">
+<h2>Somatic growth in assessment models</h2>
+<p><br></p>
+<div>
+<ul>
+<li class="fragment">Not explicitly modeled in surplus production models.</li>
+<li class="fragment">Accounted for in VPA and SCAA using empirical weight-at-age.</li>
+<li class="fragment">Explicitly modeled in some integrated models (commonly assumed to be time-invariant).</li>
+<li class="fragment">Ignoring temporal variability may lead to biased results.</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="state-space-models" class="title-slide slide level1 center">
+<h1>State-space models</h1>
+
+</section>
+<section id="state-space-models-1" class="slide level2">
+<h2>State-space models</h2>
+<p><br></p>
+<p>Process equation: <span class="math inline">\(E[z_t \mid z_{t-1}] = h(z_{t-1},\theta)\)</span></p>
+<p>Observation equation: <span class="math inline">\(E[y_t \mid z_t]= g(z_t,\theta)\)</span></p>
+<p><span class="math inline">\(\theta\)</span>: vector of all unknown model parameters (fixed effects).</p>
+
+<img data-src="images/statespace1.png" style="width:100.0%" class="r-stretch quarto-figure-center"><div class="absolute" style="top: 300px; left: 770px; ">
+<div class="sectionhead">
+<p><span style="font-size:50%">Auger-Méthé et al.&nbsp;(2021)</span></p>
+</div>
+</div>
+</section>
+<section id="the-woods-hole-assessment-model-wham-stock-and-miller-et-al.-2021" class="slide level2">
+<h2>The Woods Hole Assessment Model (WHAM, Stock and Miller et al.&nbsp;2021)</h2>
 <div>
 <ul>
 <li class="fragment">Fully state-space age-structured model</li>
-<li class="fragment">Developed from ASAP3 (built in ADMB)</li>
-<li class="fragment">Data: catch, indices of abundance, age compositions, empirical weight-at-age</li>
-<li class="fragment">Environmental covariates (mechanistic approach)</li>
+<li class="fragment">Data: catch, indices of abundance, age compositions, <span style="color:red;">empirical weight-at-age</span>, environmental covariates</li>
+<li class="fragment">Separability of total catch and proportions-at-age, as well as annual F and selectivity</li>
+<li class="fragment">Random effects in selectivity, M, NAA, Q</li>
 <li class="fragment">Written in TMB and R (user friendly!) ( see <a href="https://timjmiller.github.io/wham/">R package</a> ).</li>
 </ul>
 </div>
+</section></section>
+<section>
+<section id="growth-in-state-space-models" class="title-slide slide level1 center">
+<h1>Growth in state-space models</h1>
+
 </section>
-<section id="the-woods-hole-assessment-model-wham-1" class="slide level2">
-<h2>The Woods Hole Assessment Model (WHAM)</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-2563a0bbd96626c50cca" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-2563a0bbd96626c50cca">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\ndata1 [label = \"Step 1. Input data. \n ASAP3 file or a list\", fillcolor = Beige]\nparm1 [label = \"Step 2. Parameters \n (and random effects). \n Several lists\", fillcolor = Beige]\nfunc1 [label =  \"Step 3. prepare_wham_input(...)\", fillcolor = lightskyblue2]\noptional [label = \"Optional. Fix some parameters\", fillcolor = lightskyblue2]\nfunc2 [label = \"Step 4. Run model \n fit_wham(...)\", fillcolor = mediumaquamarine]\nresults [label= \"Step 5. Analyze results \n plot_wham_output(...)\", fillcolor = peachpuff]\n\n# edge definitions with the node IDs\n{data1 parm1}  -> func1 -> optional -> func2 -> results\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-</section>
-<section id="the-woods-hole-assessment-model-wham-2" class="slide level2">
-<h2>The Woods Hole Assessment Model (WHAM)</h2>
+<section id="growth-in-state-space-models-1" class="slide level2">
+<h2>Growth in state-space models</h2>
+<div>
+<ul>
+<li class="fragment">Goal: implement a flexible framework to model population mean length or weight at age in WHAM.</li>
+</ul>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><br> Random effects in:</p>
 <ul>
-<li>Selectivity parameters</li>
-<li>Natural mortality</li>
-<li>Abundance-at-age</li>
-<li>Catchability</li>
+<li class="fragment">Data:
+<ul>
+<li class="fragment">Length compositions</li>
+<li class="fragment">Conditional age-at-length (CAAL)</li>
+<li class="fragment">Ageing error</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li class="fragment">Parameters:
+<ul>
+<li class="fragment">Population mean length at age (LAA)</li>
+<li class="fragment">Length-weight relationship (LW)</li>
+<li class="fragment">Population mean weight at age (WAA)</li>
+</ul></li>
 </ul>
 </div>
 </div>
-<div class="column" style="width:50%;">
-<div class="fragment">
-<p><img data-src="images/wham_1.png" class="absolute" style="top: 150px; left: 530px; width: 500px; "> <span style="font-size:75%">Stock and Miller et al., 2021</span></p>
-</div>
-</div>
-<!-- --- -->
-<!-- ## The Woods Hole Assessment Model (WHAM) -->
-<!-- <br/> -->
-<!-- ### Step 1: Input data -->
-<!-- ```{r} -->
-<!-- #| eval: false -->
-<!-- input_data = list() -->
-<!-- input_data$ages = 1:15 -->
-<!-- # and other entries -->
-<!-- # see ?prepare_wham_input -->
-<!-- ``` -->
-<!-- --- -->
-<!-- ## The Woods Hole Assessment Model (WHAM) -->
-<!-- <br/> -->
-<!-- ### Step 2: Parameters -->
-<!-- Selectivity:  -->
-<!-- ```{r} -->
-<!-- #| eval: false -->
-<!-- selectivity_parameters = list(model = rep("age-specific",2),  -->
-<!--                               re = rep("none",2),  -->
-<!--                               initial_pars = list(c(rep(0, 4), rep(1, 11)), -->
-<!--                                                   c(rep(0, 1), rep(1, 14))), -->
-<!--                               fix_pars = list(1:15, 1:15), -->
-<!--                               n_selblocks = 2) -->
-<!-- ``` -->
-<!-- --- -->
-<!-- ## The Woods Hole Assessment Model (WHAM) -->
-<!-- <br/> -->
-<!-- ### Step 3: prepare_wham_input() -->
-<!-- ```{r} -->
-<!-- #| eval: false -->
-<!-- my_input = prepare_wham_input(model_name = "My_example", -->
-<!--                               selectivity = selectivity_parameters, -->
-<!--                               M = M_parameters, -->
-<!--                               NAA_re = NAA_parameters, -->
-<!--                               catchability = Q_parameters, -->
-<!--                               basic_info = input_data) -->
-<!-- ``` -->
-<!-- --- -->
-<!-- ## The Woods Hole Assessment Model (WHAM) -->
-<!-- <br/> -->
-<!-- ### Optional: Fix parameters -->
-<!-- At their initial values. For example: -->
-<!-- ```{r} -->
-<!-- #| eval: false -->
-<!-- my_input$logit_q = factor(NA) # fix Q parameter -->
-<!-- ``` -->
-<!-- --- -->
-<!-- ## The Woods Hole Assessment Model (WHAM) -->
-<!-- <br/> -->
-<!-- ### Step 4: Run model -->
-<!-- ```{r} -->
-<!-- #| eval: false -->
-<!-- my_model = fit_wham(input = my_input) -->
-<!-- ``` -->
-<!-- --- -->
-<!-- ## The Woods Hole Assessment Model (WHAM) -->
-<!-- <br/> -->
-<!-- ### Step 5: Analyze results -->
-<!-- ```{r} -->
-<!-- #| eval: false -->
-<!-- plot_wham_output(mod = my_model) -->
-<!-- ``` -->
-</section>
-<section id="the-woods-hole-assessment-model-wham-3" class="slide level2">
-<h2>The Woods Hole Assessment Model (WHAM)</h2>
-<p>Yellowtail flounder on the US East Coast (<span style="font-size:75%">Stock and Miller, 2021</span>):</p>
-
-<img data-src="images/wham_2.png" class="r-stretch quarto-figure-center"></section>
-<section id="the-woods-hole-assessment-model-wham-4" class="slide level2">
-<h2>The Woods Hole Assessment Model (WHAM)</h2>
-<p>Limitations:</p>
-<div>
-<ul>
-<li class="fragment">best practices for random effects use</li>
-<li class="fragment">length information and growth modeling not available</li>
-<li class="fragment">single sex, no spatial component, no aging error</li>
-<li class="fragment">only selectivity-at-age</li>
-<li class="fragment">only input empirical weight-at-age</li>
-</ul>
-</div>
-<div class="fragment">
-<p>Great <a href="https://www.youtube.com/watch?v=o8vJvbIaOdE&amp;t=2452s">talk</a> by Brian Stock and Tim Miller on WHAM.</p>
 </div>
 </section>
-<section>
-<section id="wham-expansion" class="title-slide slide level1 center">
-<h1>WHAM expansion</h1>
-
-</section>
-<section class="slide level2">
-
-<h3 id="data-inputs">Data inputs</h3>
+<section id="growth-modeling-overview" class="slide level2">
+<h2>Growth modeling overview</h2>
 <p><br></p>
-<div>
-<ul>
-<li class="fragment">(Marginal) length compositions</li>
-<li class="fragment">Conditional age-at-length</li>
-<li class="fragment">Input age-length transition matrix (<span class="math inline">\(\varphi_{f,l,a}\)</span>)</li>
-</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-2d3fcbef7264fb27c38d" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-2d3fcbef7264fb27c38d">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Parametric\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n Nonparametric\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical WAA \n (assumed to be known \n perfectly)\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n LAA and LW relationship\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n WAA random effects\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points \n calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Marginal length comps \n Conditional age-at-length\", fillcolor = White, style = rounded]\nDAT2 [label = \"Informative data: \n Observed mean \n weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1 DAT2}\n{rank = same; LAA1 LAA2}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {LAA1 LAA2}\nDAT2 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{WAA1 WAA2 WAA3}  -> SSB\n{LAA1 LAA2}  -> WAA2\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="absolute" style="top: 80px; left: 10px; ">
+<div class="sectionhead">
+<p><span style="font-size:50%">Correa et al.&nbsp;(2023)</span></p>
+</div>
 </div>
 </section>
-<section class="slide level2">
-
-<h3 id="growth-modeling">Growth modeling</h3>
+<section id="laa-parametric-approach" class="slide level2">
+<h2>LAA parametric approach:</h2>
 <ol type="1">
-<li>Use input age-length transition matrix</li>
+<li>von Bertalanffy (<span class="math inline">\(k\)</span>, <span class="math inline">\(L_{\infty}\)</span>, <span class="math inline">\(L_{\tilde{a}}\)</span>)</li>
+<li>Richards (<span class="math inline">\(k\)</span>, <span class="math inline">\(L_{\infty}\)</span>, <span class="math inline">\(L_{\tilde{a}}\)</span>, <span class="math inline">\(\gamma\)</span>)</li>
 </ol>
-<p>To distribute abundance-at-age to abundance-at-age and length.</p>
-
-<img data-src="images/phi_mat_tile.png" class="r-stretch quarto-figure-center"></section>
-<section class="slide level2">
-
-<h3 id="growth-modeling-1">Growth modeling</h3>
-<ol start="2" type="1">
-<li>Use von Bertalanffy growth equation:</li>
-</ol>
-<p>The mean length-at-age at the start of the year (<span class="math inline">\(y=1\)</span>):</p>
-<p><span class="math display">\[\tilde{L}_{y,a} = L_{\infty}+(L_1 - L_{\infty})exp(-k(a-1))\]</span></p>
-<p>and when <span class="math inline">\(y&gt;1\)</span>:</p>
-<p><span style="font-size:75%"><span class="math display">\[\tilde{L}_{y,a} = \begin{cases} L_1, &amp; \mbox{if } a=1 \\ \tilde{L}_{y-1,a-1}+(\tilde{L}_{y-1,a-1}-L_{\infty})(exp(-k)-1) &amp; \mbox{otherwise} \end{cases}\]</span></span></p>
+<p>Length-at-age variability incorporated through two parameters: <span class="math inline">\(SD_\tilde{a}\)</span> and <span class="math inline">\(SD_A\)</span>.</p>
+<div class="fragment">
+<p>Predicting random effects:</p>
+<p><span class="math display">\[log(G_{t}) = \mu_{G} + \delta_{t}\]</span></p>
+<p><span class="math inline">\(G\)</span> is a growth parameter, <span class="math inline">\(t\)</span> represents year or cohort, <span class="math inline">\(\delta\)</span> are random effects (<span class="math inline">\(iid\)</span> or <span class="math inline">\(AR1\)</span> structure).</p>
+</div>
 </section>
-<section class="slide level2">
-
-<h3 id="growth-modeling-2">Growth modeling</h3>
-<ol start="2" type="1">
-<li>Use von Bertalanffy growth equation:</li>
-</ol>
-<p>Then, to calculate the mean length-at-age at any fraction of the year:</p>
-<p><span class="math display">\[L_{y,a} = \tilde{L}_{y,a} + (\tilde{L}_{y,a} - L_{\infty})(exp(-kf_y)-1)\]</span> <span class="math inline">\(f_y\)</span> is the year fraction.</p>
+<section id="laa-nonparametric-approach" class="slide level2">
+<h2>LAA nonparametric approach</h2>
+<p>Population mean length at age (<span class="math inline">\(L_{a}\)</span>) assumed to be fixed effects. <span class="math inline">\(\sigma_{y,a}\)</span> still needed.</p>
+<div class="fragment">
+<p>Time variability can be modeled by predicting random effects:</p>
+<p><span class="math display">\[log(L_{y,a}) = \mu_{L_{a}} + \delta_{y,a}\]</span></p>
+<p><span class="math inline">\(\delta_{y,a}\)</span> can be <span class="math inline">\(iid\)</span> or <span class="math inline">\(2dAR1\)</span> (full variance-covariance matrix).</p>
+</div>
 </section>
-<section class="slide level2">
-
-<h3 id="growth-modeling-3">Growth modeling</h3>
-<ol start="2" type="1">
-<li>Use von Bertalanffy growth equation:</li>
-</ol>
-<p>Also, <span class="math inline">\(L_{y,a}\)</span> and variation of length-at-age ( <span class="math inline">\(\sigma_a\)</span> ) are used to calculate the age-length transition matrix (Stock Synthesis - SS - approach):</p>
-<p><span class="math display">\[\varphi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } l=1 \\ \Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}}) - \Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } 1&lt;l&lt;n_L \\ 1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})  &amp; \mbox{for } l = n_L \end{cases}\]</span></p>
-</section>
-<section class="slide level2">
-
-<h3 id="growth-modeling-4">Growth modeling</h3>
-<ol start="2" type="1">
-<li>Use von Bertalanffy growth equation:</li>
-</ol>
-<p>Random effects on growth parameters can be modeled:</p>
-<p>. . .</p>
-<p><span class="math display">\[log(L_{\infty_t}) = \mu_{L_\infty} + \delta_{1,t}\]</span></p>
-<p><span class="math display">\[log(k_t) = \mu_{k} + \delta_{2,t}\]</span></p>
-<p><span class="math display">\[log(L_{1_t}) = \mu_{L_1} + \delta_{3,t}\]</span></p>
-<p>. . .</p>
-<p><span class="math inline">\(t\)</span> represents year or cohort effects and can be <span class="math inline">\(iid\)</span> or <span class="math inline">\(AR1\)</span>.</p>
-</section>
-<section class="slide level2">
-
-<h3 id="growth-modeling-5">Growth modeling</h3>
+<section id="age-length-transition-matrix" class="slide level2">
+<h2>Age-length transition matrix</h2>
 <p><br></p>
-<ol start="3" type="1">
-<li>Estimate mean length-at-age:</li>
-</ol>
-<p>For this case, mean length-at-age ( <span class="math inline">\(\tilde{L}_{a}\)</span> ) are assumed to be parameters and can be estimated. <span class="math inline">\(\sigma_a\)</span> still needed.</p>
-<p>. . .</p>
-<p>Time variability can be modeled by including random effects:</p>
-<p><span class="math display">\[log(\tilde{L}_{y,a}) = \mu_{\tilde{L}_{a}} + \delta_{a,y}\]</span></p>
-<p><span class="math inline">\(\delta_{a,y}\)</span> can vary by year and age.</p>
+<p><span style="font-size:80%">Also, <span class="math inline">\(L_{y,a}\)</span> and variation of length-at-age ( <span class="math inline">\(\sigma_{y,a}\)</span> ) are used to calculate the age-length transition matrix (Stock Synthesis - SS - approach):</span></p>
+<p><span style="font-size:80%"><span class="math display">\[\varphi_{y,l,a} = \begin{cases} \Phi(\frac{L'_{min}-L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } l=1 \\ \Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}}) - \Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}}) &amp; \mbox{for } 1&lt;l&lt;n_L \\ 1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})  &amp; \mbox{for } l = n_L \end{cases}\]</span></span></p>
+<p><span style="font-size:80%">Where <span class="math inline">\(\Phi\)</span> is standard normal cumulative density function, <span class="math inline">\(L'_{l}\)</span> is the lower limit of length bin <span class="math inline">\(l\)</span>, <span class="math inline">\(L'_{min}\)</span> is the upper limit of the smallest length bin, <span class="math inline">\(L'_{max}\)</span> is the lower limit of the largest length bin, and <span class="math inline">\(n_L\)</span> is the largest length bin index.</span></p>
 </section>
-<section class="slide level2">
-
+<section id="age-length-transition-matrix-1" class="slide level2">
+<h2>Age-length transition matrix</h2>
+<p><img data-src="images/phi_mat_tile.png" class="absolute" style="left: 50px; height: 600px; "></p>
+</section>
+<section id="mean-weight-at-age-waa" class="slide level2">
+<h2>Mean weight-at-age (WAA)</h2>
 <h3 id="length-weight-relationship">Length-weight relationship</h3>
 <p>Optional when empirical weight-at-age not provided:</p>
 <p><span class="math display">\[w_l = \Omega_1 l^{\Omega_2}\]</span></p>
-<p>Random effects on <span class="math inline">\(\Omega_1\)</span> and <span class="math inline">\(\Omega_2\)</span> can also be estimated (like growth parameters).</p>
+<p>Random effects on <span class="math inline">\(\Omega_1\)</span> and <span class="math inline">\(\Omega_2\)</span> can also be predicted.</p>
 <p>. . .</p>
-<p>Then, we can calculate the population weight-at-age at any moment during the year:</p>
+<p>Then:</p>
 <p><span class="math display">\[\hat{w}_{y,a} = \sum_l \varphi_{y,l,a}w_l\]</span></p>
 <p>. . .</p>
-<p><span class="math inline">\(\hat{w}_{y,a}\)</span> can also be fitted to <span class="math inline">\(w_{y,a}\)</span> (empirical weight-at-age)</p>
+<p><span class="math inline">\(\hat{w}_{y,a}\)</span> can also be fitted to <span class="math inline">\(w_{y,a}\)</span> (observed mean weight-at-age)</p>
 </section>
-<section class="slide level2">
-
-<h3 id="selectivity">Selectivity</h3>
+<section id="mean-weight-at-age-waa-1" class="slide level2">
+<h2>Mean weight-at-age (WAA)</h2>
+<h3 id="waa-random-effects">WAA random effects</h3>
 <p><br></p>
-<p>Originally, these <em>selectivity-at-age</em> functions were available:</p>
-<ul>
-<li><code>age-specific</code>: by age.</li>
-<li><code>logistic</code>: increasing logistic.</li>
-<li><code>double-logistic</code></li>
-<li><code>decreasing-logistic</code></li>
-</ul>
+<p>Like the LAA random effects. Mean weight-at-age ( <span class="math inline">\(\mu_{\tilde{W}_{a}}\)</span>, notice log scale ) are assumed to be parameters and can be estimated.</p>
 <p>. . .</p>
-<p>Variability by year and parameter autocorrelation.</p>
+<p>Time variability can be modeled by predicting random effects:</p>
+<p><span class="math display">\[log(\tilde{W}_{y,a}) = \mu_{\tilde{W}_{a}} + \delta_{y,a}\]</span></p>
+<p><span class="math inline">\(\delta_{y,a}\)</span> can be <span class="math inline">\(iid\)</span> or <span class="math inline">\(2dAR1\)</span> (full variance-covariance matrix).</p>
 </section>
-<section class="slide level2">
-
-<h3 id="selectivity-1">Selectivity</h3>
-<p><br></p>
-<p>We incorporated one extra option:</p>
+<section id="selectivity" class="slide level2">
+<h2>Selectivity</h2>
+<p>Originally, only <em>selectivity-at-age</em> functions were available (<code>age-specific</code>, <code>logistic</code>, <code>double-logistic</code>, <code>decreasing-logistic</code>)</p>
+<div class="fragment">
+<p>New functions added:</p>
 <ul>
-<li><code>double-normal</code>: SS-like (<span style="font-size:75%">Methot and Wetzel, 2013</span>)</li>
+<li><p><code>double-normal</code>: by age. SS-like (<span style="font-size:75%">Methot and Wetzel, 2013</span>)</p></li>
+<li><p><code>len-logistic</code>: increasing logistic at length</p></li>
+<li><p><code>len-decreasing-logistic</code>: by length</p></li>
+<li><p><code>len-double-normal</code>: by length</p></li>
 </ul>
-<p>. . .</p>
-<p>But also some <em>selectivity-at-length</em> functions:</p>
-<ul>
-<li><code>len-logistic</code>: increasing logistic at length</li>
-<li><code>len-decreasing-logistic</code></li>
-<li><code>len-double-normal</code></li>
-</ul>
+</div>
 </section>
 <section id="environmental-covariates" class="slide level2">
 <h2>Environmental covariates</h2>
 <p><br></p>
-<p><span class="math inline">\(X_t\)</span> (unobserved environmental variable at time <span class="math inline">\(t\)</span> ) can be linked to any parameter presented here (<span style="font-size:75%">Stock and Miller, 2021</span>).</p>
+<p>WHAM separates process (random walk or AR) and observation error for environmental covariates.</p>
 <div class="fragment">
-<p>Two options for the process model:</p>
-<ol type="1">
-<li>Random walk:</li>
-</ol>
-<p><span class="math display">\[X_{t+1}|X_{t}\sim N(X_t,\sigma_X^2)\]</span></p>
-<p><span class="math inline">\(\sigma_X^2\)</span> is the process variance.</p>
-</div>
-</section>
-<section id="environmental-covariates-1" class="slide level2">
-<h2>Environmental covariates</h2>
-<p><br></p>
-<ol start="2" type="1">
-<li>AR(1):</li>
-</ol>
-<p><span class="math display">\[X_1 \sim N(\mu_X , \frac{\sigma_X^2}{1-\phi_X^2})\]</span></p>
-<p><span class="math display">\[X_t \sim N(\mu_X (1-\phi_X) + \phi_X X_{t-1}, \sigma_X^2)\]</span></p>
-<p><span class="math inline">\(\mu_X\)</span>, <span class="math inline">\(\sigma_X^2\)</span>, and <span class="math inline">\(\mid \phi_X \mid &lt; 1\)</span> are the marginal mean, conditional variance, and autocorrelation parameter.</p>
-</section>
-<section id="environmental-covariates-2" class="slide level2">
-<h2>Environmental covariates</h2>
-<p><br></p>
-<p>Observations <span class="math inline">\(Y_t\)</span> are assumed to be normally distributed with mean <span class="math inline">\(X_t\)</span> and variance <span class="math inline">\(\sigma_{Y_t}^2\)</span>:</p>
-<p><span class="math display">\[Y_t \mid X_t \sim N(X_t, \sigma_{Y_t}^2)\]</span></p>
-<p><span class="math inline">\(\sigma_{Y_t}^2\)</span> treated as known or estimated.</p>
-</section>
-<section id="environmental-covariates-3" class="slide level2">
-<h2>Environmental covariates</h2>
-<p><br></p>
 <p>An environmental covariate can be linked to a state (i.e.&nbsp;parameter):</p>
 <p><span class="math display">\[P_t = P exp(\beta_1 X_t)\]</span></p>
-<p><span class="math inline">\(P\)</span> is the base state (parameter) value.</p>
-<div class="fragment">
-<p>Other links are also available (polynomials). Lags can be modeled.</p>
+<p><span class="math inline">\(P\)</span> is the base state (parameter) value. Other links are also available (polynomials). Lags can be modeled.</p>
 </div>
 </section></section>
 <section>
@@ -687,105 +558,63 @@ Giancarlo M. Correa<span class="math inline">\(^1\)</span>, Cole Monnahan<span c
 <ol type="1">
 <li>Growth variability</li>
 <li>Conditional age-at-length (CAAL) data</li>
-<li>Length-weight variability</li>
+<li>Length-weight variability (condition factor)</li>
 </ol>
 </section>
-<section class="slide level2">
-
-<h3 id="growth-variability">Growth variability</h3>
+<section id="example-1-growth-variability" class="slide level2">
+<h2>Example 1: Growth variability</h2>
 <p><br></p>
-<p>Simulate data:</p>
+<p>Simulated data:</p>
 <ul>
 <li>catch (one fishery)</li>
 <li>index of abundance (one survey)</li>
-<li>length compositions (fishery and survey)</li>
+<li>marginal length compositions (fishery and survey)</li>
 <li>temporal variability in asymptotic length ( <span class="math inline">\(L_\infty\)</span> ) using PDO as the driver</li>
 </ul>
 </section>
-<section class="slide level2">
-
-<h3 id="growth-variability-1">Growth variability</h3>
+<section id="example-1-growth-variability-1" class="slide level2">
+<h2>Example 1: Growth variability</h2>
 <p><br></p>
 <p>We implemented three models in WHAM:</p>
 <p><br></p>
 <div>
 <ol type="1">
-<li class="fragment">Random effects (by year) on <span class="math inline">\(L_\infty\)</span></li>
+<li class="fragment">Random effects (<code>iid_y</code>) on <span class="math inline">\(L_\infty\)</span></li>
 <li class="fragment">Random effects (<code>iid</code>) on mean length-at-age (LAA)</li>
 <li class="fragment">Include an environmental variable (PDO), linked to <span class="math inline">\(L_\infty\)</span></li>
 </ol>
 </div>
 </section>
-<section class="slide level2">
+<section id="example-1-growth-variability-2" class="slide level2">
+<h2>Example 1: Growth variability</h2>
 
-<h3 id="growth-variability-2">Growth variability</h3>
-<div class="columns">
-<div class="column" style="width:50%;">
+<img data-src="images/compare_LAA_Ex1.png" class="r-stretch quarto-figure-center"></section>
+<section id="example-2-caal-data" class="slide level2">
+<h2>Example 2: CAAL data</h2>
 <p><br></p>
-<p>Models:</p>
-<ul>
-<li><code>m1</code>: random effects (by year) on <span class="math inline">\(L_\infty\)</span></li>
-<li><code>m2</code>: random effects on mean length-at-age (LAA)</li>
-<li><code>m3</code>: environmental variable (PDO), linked to <span class="math inline">\(L_\infty\)</span></li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><img data-src="images/compare_SSB_F_R.png" class="absolute" style="top: 30px; "></p>
-</div>
-</div>
-</section>
-<section class="slide level2">
-
-<h3 id="growth-variability-3">Growth variability</h3>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/LAA_comparison.png"></p>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<p><br> <br></p>
-<ul>
-<li>LAA: mean length-at-age at the start of the year</li>
-</ul>
-<div class="fragment">
-<ul>
-<li>Still exploring these differences</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section class="slide level2">
-
-<h3 id="caal-data">CAAL data</h3>
-<p><br></p>
-<p>Simulate data:</p>
+<p>Simulated data:</p>
 <ul>
 <li>catch (one fishery)</li>
 <li>index of abundance (one survey)</li>
 <li>length compositions (fishery)</li>
 <li>conditional age-at-length (survey)</li>
-<li>selectivity-at-length</li>
+<li>selectivity-at-length (double-normal)</li>
 </ul>
 </section>
-<section class="slide level2">
-
-<h3 id="caal-data-1">CAAL data</h3>
+<section id="example-2-caal-data-1" class="slide level2">
+<h2>Example 2: CAAL data</h2>
 <p>CAAL residuals:</p>
 
 <img data-src="images/Index_CAAL_resids_index_1_Year_47.png" class="r-stretch quarto-figure-center"></section>
-<section class="slide level2">
-
-<h3 id="caal-data-2">CAAL data</h3>
+<section id="example-2-caal-data-2" class="slide level2">
+<h2>Example 2: CAAL data</h2>
 <p>Estimated selectivity-at-length:</p>
 
 <img data-src="images/selex_tile.png" class="r-stretch quarto-figure-center"></section>
-<section class="slide level2">
-
-<h3 id="length-weight-variability">Length-weight variability</h3>
+<section id="example-3-length-weight-variability" class="slide level2">
+<h2>Example 3: Length-weight variability</h2>
 <p><br></p>
-<p>Simulate data:</p>
+<p>Simulated data:</p>
 <ul>
 <li>catch (one fishery)</li>
 <li>index of abundance (one survey)</li>
@@ -794,51 +623,189 @@ Giancarlo M. Correa<span class="math inline">\(^1\)</span>, Cole Monnahan<span c
 <li>temporal variability in the <span class="math inline">\(\Omega_1\)</span> parameter (L-W relationship)</li>
 </ul>
 </section>
-<section class="slide level2">
+<section id="example-3-length-weight-variability-1" class="slide level2">
+<h2>Example 3: Length-weight variability</h2>
 
-<h3 id="length-weight-variability-1">Length-weight variability</h3>
+<img data-src="images/compare_parA_Ex3.png" class="r-stretch quarto-figure-center"></section></section>
+<section>
+<section id="walleye-pollock-in-the-gulf-of-alaska-goa" class="title-slide slide level1 center">
+<h1>Walleye pollock in the Gulf of Alaska (GOA)</h1>
 
-<img data-src="images/par_a_comparison.png" class="r-stretch quarto-figure-center"></section>
-<section id="summary" class="slide level2">
-<h2>Summary</h2>
+</section>
+<section id="model-overview" class="slide level2">
+<h2>Model overview</h2>
+<p>Data:</p>
+<ul>
+<li>One fishery (1970 to 2021) and six <em>surveys</em></li>
+<li>Age compositions for fishery and <em>surveys</em></li>
+<li>Mean weight-at-age for fishery and <em>surveys</em></li>
+</ul>
+<p>Parameters (penalized ML for time-varying quantities):</p>
+<ul>
+<li>Time-varying fishery age selectivity</li>
+<li>Two Qs vary over time</li>
+<li>Recruitment variability</li>
+</ul>
+</section>
+<section id="starting-model" class="slide level2">
+<h2>Starting model</h2>
+<p>ADMB model vs WHAM model</p>
+
+<img data-src="images/compare_SSB_0.png" class="r-stretch quarto-figure-center"></section>
+<section id="growth-variability" class="slide level2">
+<h2>Growth variability</h2>
+<p>Observed survey fish lengths:</p>
+
+<img data-src="images/len_per_year_age.png" style="width:150.0%" class="r-stretch quarto-figure-center"></section>
+<section id="growth-modeling-strategies" class="slide level2">
+<h2>Growth modeling strategies</h2>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-cedf8aa858f7ee64bcbc" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-cedf8aa858f7ee64bcbc">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Growth equation \n (iid by year or cohort \n for K, Linf)\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n LAA random effects \n (iid)\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical WAA\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n LAA and L-W \n relationship (fixed)\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n WAA random effects \n (iid)\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Observed mean weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1}\n{rank = same; LAA1 LAA2}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{LAA1 LAA2}  -> WAA2\n{WAA1 WAA2 WAA3}  -> SSB\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="model-comparison" class="slide level2">
+<h2>Model comparison</h2>
+<p><span style="font-size:75%">Mean SSB estimates:</span></p>
+
+<img data-src="images/compare_SSB_4_a.png" style="width:150.0%" class="r-stretch quarto-figure-center"></section>
+<section id="model-comparison-1" class="slide level2">
+<h2>Model comparison</h2>
+<p><span style="font-size:75%">SSB coefficient of variation:</span></p>
+
+<img data-src="images/compare_SSB_4_b.png" style="width:150.0%" class="r-stretch quarto-figure-center"></section>
+<section id="model-comparison-2" class="slide level2">
+<h2>Model comparison</h2>
+<p><span style="font-size:75%">Growth parameters (only for growth parametric approach):</span></p>
+
+<img data-src="images/compare_GW_parameters.png" style="width:150.0%" class="r-stretch quarto-figure-center"></section>
+<section id="model-comparison-3" class="slide level2">
+<h2>Model comparison</h2>
+<p><span style="font-size:75%">Predicted mean length-at-age (Jan 1st) vs survey observations (<span class="math inline">\(\sim\)</span> March 1st, not included in the model):</span></p>
+
+<!-- ------------------------------------------------------------------------ -->
+<!-- ## Model comparison -->
+<!-- [Predicted mean weight-at-age vs survey observations (same fraction of the year):]{style="font-size:75%"} -->
+<!-- ![](wgt_per_year_age_fits.png){width="150%" fig-align="center"} -->
+<img data-src="images/len_per_year_age_fits.png" style="width:150.0%" class="r-stretch quarto-figure-center"></section>
+<section id="model-comparison-4" class="slide level2">
+<h2>Model comparison</h2>
+<p>AIC values for models with same input data:</p>
+<p><br></p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Model name</th>
+<th style="text-align: center;">(Marginal) AIC</th>
+<th style="text-align: center;"><span class="math inline">\(\Delta\)</span> AIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">LAA random effects (<span class="math inline">\(iid\)</span>)</td>
+<td style="text-align: center;">816.7</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">vB equation (<span class="math inline">\(iid_y\)</span>)</td>
+<td style="text-align: center;">4036.6</td>
+<td style="text-align: center;">3219.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">vB equation (<span class="math inline">\(iid_c\)</span>)</td>
+<td style="text-align: center;">4761.9</td>
+<td style="text-align: center;">3945.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">WAA random effects (<span class="math inline">\(iid\)</span>)</td>
+<td style="text-align: center;">1177.2</td>
+<td style="text-align: center;">360.5</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="final-thoughts" class="slide level2">
+<h2>Final thoughts</h2>
+<p><br></p>
 <div>
 <ul>
-<li class="fragment">state-space models more frequent with TMB (mostly in Europe and US East Coast)</li>
-<li class="fragment">coherent way to include climate indices into assessments (and projections!)</li>
-<li class="fragment">new tools developed in this project to apply them in the West Coast and Alaska region</li>
-<li class="fragment">future projects: sex and spatial structure</li>
-<li class="fragment">interest in organizing a workshop and applications (e.g.&nbsp;GOA pollock)</li>
+<li class="fragment">New tool to explore growth modeling in state-space assessment models</li>
+<li class="fragment">Non parametric approach seems to outperform a parametric equation</li>
+<li class="fragment">Non parametric approach is more flexible and deals with fish shrinkage</li>
+</ul>
+</div>
+</section>
+<section id="future-directions-for-this-project" class="slide level2">
+<h2>Future directions (for this project)</h2>
+<p><br></p>
+<div>
+<ul>
+<li class="fragment">Include survey length information (e.g.&nbsp;marginal length compositions, conditional age-at-length data)</li>
+<li class="fragment">Add environmental covariate</li>
+<li class="fragment">Simulation experiment: compare strategies to account for growth variability using WHAM
+<ul>
+<li class="fragment">Good practices for modeling growth in state-space models</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="future-directions-in-general" class="slide level2">
+<h2>Future directions (in general)</h2>
+<p><br></p>
+<div>
+<ul>
+<li class="fragment">Software development: include sex, intraannual variability, tagging data, spatial structure</li>
+<li class="fragment">Comparison among platforms: e.g.&nbsp;SS vs WHAM?</li>
+<li class="fragment">Ecological research: meaning of all random effects options</li>
 </ul>
 </div>
 </section></section>
-<section id="thanks-for-listening" class="title-slide slide level1 center">
-<h1>Thanks for listening</h1>
-<div class="absolute" style="top: 300px; left: 50%; ">
+<section id="thanks" class="title-slide slide level1 center" data-background-color="white">
+<h1>Thanks</h1>
+<p><img data-src="images/LOGO_UW_2.png" class="absolute" style="top: 200px; left: 10px; height: 90px; "></p>
+<p><img data-src="images/NOAA_FISHERIES_logoH.png" class="absolute" style="top: 180px; left: 140px; height: 160px; "></p>
+<p><img data-src="images/cicoes.png" class="absolute" style="top: 180px; left: 450px; height: 160px; "></p>
+<p><img data-src="images/azti.png" class="absolute" style="top: 180px; left: 780px; height: 450px; "></p>
+<div class="absolute" style="top: -10px; left: 610px; ">
 <div class="sectionhead">
-<p>Contact: <br> <a href="mailto:gcorrea@uw.edu">gcorrea@uw.edu</a> <br> <a href="mailto:giancarlo.correa@noaa.gov">giancarlo.correa@noaa.gov</a></p>
+<p><span style="font-size:75%">Tim Miller, Brian Stock, Jim Ianelli, Steve Barbeaux, Peter Hulson</span></p>
 </div>
 </div>
+<div class="absolute" style="top: 400px; left: 650px; ">
+<div class="sectionhead">
+<p>Contact: <br> <a href="mailto:gmoron@azti.es">gmoron@azti.es</a></p>
+</div>
+</div>
+<div class="absolute" style="top: 400px; left: 10px; ">
+<div class="sectionhead">
+<p>Find more information: <br> <a href="https://tinyurl.com/wham-growth">tinyurl.com/wham-growth</a></p>
+</div>
+</div>
+<p><img src="images/azti2.png" class="slide-logo"></p>
 <div class="footer footer-default">
-
+<p>ICES Annual Sciences Conference 2023</p>
 </div>
 </section>
     </div>
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="presentation_PlanTeamMeetingAFSC2022_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="presentation_ICESASC2023_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
