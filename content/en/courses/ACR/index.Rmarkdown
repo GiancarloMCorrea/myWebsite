@@ -1,0 +1,75 @@
+---
+title: 'Community analysis in R'
+subtitle: 'Common statistical techniques used in community ecology.'
+summary: Statistical basis of common techniques used in community ecology.
+date: "2018-04-02T00:00:00Z"
+featured: false
+draft: false
+
+# Featured image
+# To use, add an image named `featured.jpg/png` to your page's folder.
+# Placement options: 1 = Full column width, 2 = Out-set, 3 = Screen-width
+# Focal point options: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight
+image:
+  placement: 2
+  caption: 'Image credit: [**Shitota Yuri on Unsplash**](https://unsplash.com/photos/p0hDztR46cw)'
+  focal_point: ""
+  preview_only: true
+
+# Projects (optional).
+#   Associate this post with one or more of your projects.
+#   Simply enter your project's folder or file name without extension.
+#   E.g. `projects = ["internal-project"]` references `content/project/deep-learning/index.md`.
+#   Otherwise, set `projects = []`.
+projects: []
+
+links:
+- icon: laptop-code
+  icon_pack: fas
+  name: Lab 1
+  url: /labs/ACR/ACR_Manual_1.html
+- icon: laptop-code
+  icon_pack: fas
+  name: Lab 2
+  url: /labs/ACR/ACR_Manual_2.html
+- icon: laptop-code
+  icon_pack: fas
+  name: Lab 3
+  url: /labs/ACR/ACR_Manual_3.html
+- icon: laptop-code
+  icon_pack: fas
+  name: Lab 4
+  url: /labs/ACR/ACR_Manual_4.html
+- icon: laptop-code
+  icon_pack: fas
+  name: Lab 5
+  url: /labs/ACR/ACR_Manual_5.html
+- icon: laptop-code
+  icon_pack: fas
+  name: Lab 6
+  url: /labs/ACR/ACR_Manual_6.html
+---
+
+This course explores the statistical methods commonly used in community ecology using the R programming language. There is an important theoretical component since the basis of multivariate methods are introduced and analized carefully. It is organized by **Cousteau Consultant Group** and taught in six days, three hours per day. In this page you can find a brief summary of the topics and R codes discussed during this course. *Paola Galloso* is an important contributor to the material presented in this course. *Information presented here only available in Spanish. I hope to translate this material to English soon.*
+
+## Course programme
+
+The following topics are discussed:
+
+- **Day 1:** Concepts in community ecology. Data exploration. Diversity indices.
+- **Day 2:** Diversity types. Rarefaction. Species-abundance plots. Data transformation.
+- **Day 3:** Distance measures. Cluster analysis. Species indicators.
+- **Day 4:** Eigenvalues and eigenvectors. Unconstrained ordination: PCA.
+- **Day 5:** Unconstrained ordination: CA and NMDS.
+- **Day 6:** Canonical ordination: RDA and CCA. Beta diversity.
+
+## Objectives
+
+- Introduce concepts in community ecology
+- Introduce statistical methods used in community analysis
+- Familiarize with R libraries used in community analysis
+
+## Prerequisite
+
+* Basic statistic concepts
+* Basic programming in the R language
