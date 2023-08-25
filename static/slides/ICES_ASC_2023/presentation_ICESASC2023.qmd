@@ -3,7 +3,7 @@ title: "Best practices for modeling time-varying growth in state-space stock ass
 author: 
    <br>Giancarlo M. Correa$^{1,2}$, Cole Monnahan$^3$, Jane Sullivan$^4$, James T. Thorson$^3$, Andre E. Punt$^2$
 institute:
-   <br>$^1$AZTI, Sukarrieta, Basque Country, Spain. $^2$University of Washington, Seattle, WA, USA. $^3$Alaska Fisheries Science Center, NOAA, Seattle, WA, USA. $^4$Alaska Fisheries Science Center, NOAA, Juneau, AK, USA
+   <br>$^1$AZTI, Marine Research, Sukarrieta, Spain. $^2$School of Aquatic and Fishery Sciences, University of Washington, Seattle, WA, USA. $^3$Alaska Fisheries Science Center, NOAA, Seattle, WA, USA. $^4$Alaska Fisheries Science Center, NOAA, Juneau, AK, USA
 format: 
   revealjs:
     theme: simple
@@ -35,11 +35,13 @@ execute:
 -   Time-variable:
     -   By year, cohort, or age.
     -   Affected by internal and external factors.
+    
 :::
 :::
 :::
 
 ::: {.column width="50%"}
+
 ![](images/growth_a.png){.absolute top="30" left="530" height="1500px"}
 
 ::: {.absolute top="20" left="730"}
@@ -47,6 +49,7 @@ execute:
 [Stockholm University Baltic Sea Centre]{style="font-size:45%"}
 :::
 :::
+
 :::
 
 ------------------------------------------------------------------------
@@ -103,36 +106,25 @@ $\theta$: vector of all unknown model parameters (fixed effects).
 -   Goal: implement a flexible framework to model population mean length or weight at age in WHAM.
 
 ::: columns
-
 ::: {.column width="50%"}
-
 ::: fragment
-
 -   Data:
     -   Length compositions
     -   Conditional age at length (CAAL)
     -   Ageing error
     -   Observed mean weight at age
-    
 :::
-    
 :::
 
 ::: {.column width="50%"}
-
 ::: fragment
-
 -   Parameters:
     -   Population mean length at age (LAA)
     -   Length-weight (LW) relationship
     -   Population mean weight at age (WAA)
-
 :::
-
 :::
-
 :::
-
 
 ------------------------------------------------------------------------
 
@@ -190,13 +182,11 @@ edge [arrowhead = none]
 Length-at-age variability incorporated through two parameters ($SD_\tilde{a}$ and $SD_A$) and a transition matrix ($\varphi_{y,l,a}$).
 
 ::: fragment
-
 Predicting random effects:
 
 $$log(G_{t}) = \mu_{G} + \delta_{t}$$
 
 $G$ is a growth parameter, $t$ represents year or cohort, $\delta$ are random effects ($iid$ or $AR1$ structure).
-
 :::
 
 ------------------------------------------------------------------------
@@ -208,13 +198,11 @@ $G$ is a growth parameter, $t$ represents year or cohort, $\delta$ are random ef
 Population mean length at age ($L_{a}$) assumed to be fixed effects. $SD_\tilde{a}$ and $SD_A$ still needed.
 
 ::: fragment
-
 Time variability can be modeled by predicting random effects:
 
 $$log(\hat{L}_{y,a}) = \mu_{L_{a}} + \delta_{y,a}$$
 
 $\delta_{y,a}$ can be $iid$, $2dAR1$, or $3dGMRF$.
-
 :::
 
 ------------------------------------------------------------------------
@@ -223,16 +211,14 @@ $\delta_{y,a}$ can be $iid$, $2dAR1$, or $3dGMRF$.
 
 <br>
 
-1. Use parametric approach (without random effects) to calculate $L_{y,a}$.
+1.  Use parametric approach (without random effects) to calculate $L_{y,a}$.
 
 ::: fragment
-
-2. Predict random effects on $L_{y,a}$:
+2.  Predict random effects on $L_{y,a}$:
 
 $$log(\hat{L}_{y,a}) = \mu_{L_{y,a}} + \delta_{y,a}$$
 
 $\delta_{y,a}$ can be $iid$, $2dAR1$, or $3dGMRF$.
-
 :::
 
 ------------------------------------------------------------------------
@@ -246,17 +232,13 @@ $$w_l = \Omega_1 l^{\Omega_2}$$
 Random effects on $\Omega_1$ and $\Omega_2$ can also be predicted.
 
 ::: fragment
-
 Use transition matrix to calculate population mean weight at age:
 
 $$\hat{w}_{y,a} = \sum_l \varphi_{y,l,a}w_l$$
-
 :::
 
 ::: fragment
-
 $\hat{w}_{y,a}$ can also be fitted to $\bar{w}_{y,a}$ (observed mean weight at age)
-
 :::
 
 ------------------------------------------------------------------------
@@ -268,13 +250,11 @@ $\hat{w}_{y,a}$ can also be fitted to $\bar{w}_{y,a}$ (observed mean weight at a
 Like the LAA nonparametric. Population mean length at age ($w_{a}$) assumed to be fixed effects.
 
 ::: fragment
-
 Time variability can be modeled by predicting random effects:
 
 $$log(\hat{w}_{y,a}) = \mu_{w_{a}} + \delta_{y,a}$$
 
 $\delta_{y,a}$ can be $iid$, $2dAR1$, or $3dGMRF$.
-
 :::
 
 ------------------------------------------------------------------------
@@ -283,10 +263,9 @@ $\delta_{y,a}$ can be $iid$, $2dAR1$, or $3dGMRF$.
 
 ### Selectivity
 
-Originally, only *selectivity-at-age* functions were available. 
+Originally, only *selectivity-at-age* functions were available.
 
 ::: fragment
-
 New functions added:
 
 -   Age double normal (6 parameters).
@@ -296,7 +275,6 @@ New functions added:
 -   Length decreasing logistic (2 parameters).
 
 -   Length double normal (6 parameters).
-
 :::
 
 ------------------------------------------------------------------------
@@ -320,16 +298,18 @@ $P$ is the base state (parameter) value. Other links are also available (polynom
 Methods applied to three stocks in Alaska:
 
 1.  Gulf of Alaska Walleye pollock: age data, observed mean weight at age, WAA nonparametric.
-2.  Gulf of Alaska Pacific cod: length and CAAL data, LAA parametric. 
+2.  Gulf of Alaska Pacific cod: length and CAAL data, LAA parametric.
 3.  Eastern Bering Sea Pacific cod: length data, LAA parametric with time-varying $L_\tilde{a}$.
 
 ::: fragment
-
-See *Correa et al. (2023) Modeling time-varying growth in state-space stock assessments. ICES Journal of Marine Sciences*. 
-
+See *Correa et al. (2023) Modeling time-varying growth in state-space stock assessments. ICES Journal of Marine Sciences*.
 :::
 
 # Good practices
+
+<br>
+
+Strategies that have been shown through research and evaluation to be effective and/or efficient, and to reliably lead to a desired result.
 
 ------------------------------------------------------------------------
 
@@ -338,13 +318,11 @@ See *Correa et al. (2023) Modeling time-varying growth in state-space stock asse
 Goal: provide guidelines for growth modeling in state-space assessment models under diverse scenarios.
 
 ::: fragment
-
-* ***Data type***: age compositions vs length compositions vs CAAL.
-* ***Data source***: fishery vs survey.
-* ***Data quality***: data rich vs data poor.
-* ***Modeling approach***: parametric vs nonparametric vs semiparametric vs Ecov.
-* ***Time-varying parameter***: changes in $k$, $L_{\infty}$ or $L_{\tilde{a}}$. 
-
+-   ***Data type***: age compositions vs length compositions vs CAAL (***random vs stratified sampling***).
+-   ***Data source***: fishery vs survey.
+-   ***Data quality***: data rich vs data poor.
+-   ***Modeling approach***: parametric vs nonparametric vs semiparametric vs Ecov.
+-   ***Time-varying parameter***: changes in $k$, $L_{\infty}$ or $L_{\tilde{a}}$.
 :::
 
 ------------------------------------------------------------------------
@@ -356,13 +334,11 @@ Goal: provide guidelines for growth modeling in state-space assessment models un
 Methodology:
 
 ::: incremental
+1.  Operating model: simulates the true population dynamics. Changes in growth by varying $k$, $L_{\infty}$ or $L_{\tilde{a}}$.
 
-1. Operating model: simulates the true population dynamics. Changes in growth by varying $k$, $L_{\infty}$ or $L_{\tilde{a}}$.
+2.  Sample data from operating model.
 
-2. Sample data from operating model.
-
-3. Estimation model uses sampled data with assumptions on the population dynamics. 
-
+3.  Estimation model uses sampled data with assumptions on the population dynamics.
 :::
 
 ------------------------------------------------------------------------
@@ -388,7 +364,7 @@ R4 [label = 'Poor', fillcolor = lightskyblue2]
 R5 [label = 'Rich', fillcolor = lightskyblue2]
 A2 [label =  'Use Ecov LAA parametric \n - Projections \n - Need of previous \n research', fillcolor = Beige]
 A3 [label =  'Use LAA parametric \n - Projections \n - No need of previous \n research', fillcolor = Beige]
-A4 [label =  'Use CAAL \n - More informative \n - Prioritize survey data', fillcolor = Beige]
+A4 [label =  'Use CAAL \n - More informative \n - Prioritize survey data \n - Length-stratified sampling', fillcolor = Beige]
 
 {rank = min; Q1}
 {rank = same; R1 R2 R3}
@@ -413,12 +389,10 @@ A4 -> {Q2}
 
 <br>
 
-::: incremental 
-
+::: incremental
 -   Expansion of the applicability of state-space assessment models.
 -   Implementation of a flexible framework to model time-varying growth in state-space assessment models.
 -   Recommendations to model time-varying growth under diverse scenarios.
-
 :::
 
 # Thanks {background-color="white"}
