@@ -7,40 +7,33 @@ image:
   focal_point: ""
   placement: 2
   preview_only: true
-links:
-- icon: file-powerpoint
-  icon_pack: fas
-  name: Clase 1
-  url: /labs/ModAvanII/Slides_1.html
 projects: []
-subtitle: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque a modelos espacio de estados.
-summary: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque a modelos espacio de estados.
-title: Modelos avanzados en evaluación de recursos pesqueros II
+subtitle: Fundaments of state-space age-structured models.
+summary: Fundaments of state-space age-structured models.
+title: Advanced fish stock assessment models II
 ---
 
-Este curso aborda las bases estadísticas y biológicas de los modelos de evaluación de stocks de espacio de estados utilizando la plataforma de modelado Woods Hole Assessment Model (WHAM). WHAM es un modelo de evaluación de espacio de estados estructurado por edades desarrollado recientemente y aplicado a stocks de peces principalmente en la costa este de Norteamérica. WHAM esta codificada en Template Model Builder (TMB), y recibe diferentes fuentes de información (p.ej. capturas, índices de abundancia, composición por edades y tallas, índices ambientales, entre otros), convirtiéndola en una de las plataformas de evaluación más flexibles bajo el enfoque espacio de estados para evaluar stocks actualmente. Se emplea R y MS Excel como herramientas de análisis de resultados y otros fines complementarios.
+We focus on the statistical and biological basis of stock assessment models using the Woods Hole Assessment Model (WHAM) platform. WHAM is a state-space age-structured assessment model recently developed and applied to several stocks on the US east coast. WHAM is coded in Template Model Builder (TMB), and receives several data types (e.g., catch, indices of abundance, age compositions, length compositions, etc.), making WHAM a flexible platform to assess fish stocks using the state-space approach. We use MS Excel and R in this course.
 
-## Programa 
+## Topics 
 
-Los siguientes temas son tratados:
+- **Day 1:** Introduction to state-space models and age-structured models.
+- **Day 2:** Random effects. Input data to WHAM.
+- **Day 3:** Biological aspects. Input data to WHAM.
+- **Day 4:** Biological aspects. Output data to WHAM.
+- **Day 5:** Statistical aspects. Diagnostic of results.
+- **Day 6:** Statistical aspects. Laplace transform. Simulations.
 
-- **Día 1:** Introducción a modelos espacio de estados. Modelos estructurado por edades.
-- **Día 2:** Efectos aleatorios. Formato de entrada a WHAM.
-- **Día 3:** Aspectos biológicos. Formato de entrada a WHAM.
-- **Día 4:** Aspectos biológicos. Formato de salida de WHAM.
-- **Día 5:** Aspectos estadísticos. Diagnostico de resultados.
-- **Día 6:** Aspectos estadísticos. Transformada de Laplace. Simulaciones.
+Find the syllabus [here](https://cousteau-group.com/cursos/modelos_avanzados_evaluacion_ii/).
 
-Encuentra el silabo de este curso [aquí](https://cousteau-group.com/cursos/modelos_avanzados_evaluacion_ii/).
+## Goals
 
-## Objetivos
+- Introduce state-space assessment models.
+- Introduce the WHAM platform.
+- Run stocks assessment model in WHAM.
 
-- Introducir conceptos de modelos espacio de estados.
-- Presentar la plataforma WHAM y su uso.
-- Interpretación de resultados y parámetros obtenidos.
+## Requirement
 
-## Prerrequisitos
-
-* Conceptos básicos de estadística
-* Conceptos intermedios de programación en R
-* Conceptos básicos de biología pesquera
+* Basic knowledge of statistics
+* Intermediate programming in R
+* knowledge in fisheries biology
