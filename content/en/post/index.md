@@ -2,13 +2,13 @@
 authors:
 - admin
 categories: []
-date: "2023-08-25T00:00:00Z"
+date: "2022-07-25T00:00:00Z"
 draft: false
 featured: false
 image:
   caption: 'Mean length-at-age variability.'
   focal_point: ""
-lastMod: "2023-08-25T00:00:00Z"
+lastMod: "2023-01-30T00:00:00Z"
 projects: []
 subtitle: Growth estimation
 summary: Growth estimation
@@ -16,38 +16,39 @@ tags: []
 title: Woods Hole Assessment Model
 ---
 
-
--   [Data](#data)
--   [Parameters](#parameters)
-    -   [Selectivity](#selectivity)
-    -   [Somatic growth](#somatic-growth)
-        -   [Mean length-at-age (LAA)](#mean-length-at-age-laa)
-        -   [Mean weight-at-age (WAA)](#mean-weight-at-age-waa)
--   [Environmental covariates](#environmental-covariates)
--   [Analysis of results](#analysis-of-results)
-    -   [Input data](#input-data)
-    -   [Diagnostics](#diagnostics)
-    -   [Parameters](#parameters-1)
--   [Examples](#examples)
--   [References](#references)
+-   <a href="#data" id="toc-data">Data</a>
+-   <a href="#parameters" id="toc-parameters">Parameters</a>
+    -   <a href="#selectivity" id="toc-selectivity">Selectivity</a>
+    -   <a href="#somatic-growth" id="toc-somatic-growth">Somatic growth</a>
+        -   <a href="#mean-length-at-age-laa" id="toc-mean-length-at-age-laa">Mean
+            length-at-age (LAA)</a>
+        -   <a href="#mean-weight-at-age-waa" id="toc-mean-weight-at-age-waa">Mean
+            weight-at-age (WAA)</a>
+-   <a href="#environmental-covariates"
+    id="toc-environmental-covariates">Environmental covariates</a>
+-   <a href="#analysis-of-results" id="toc-analysis-of-results">Analysis of
+    results</a>
+    -   <a href="#input-data" id="toc-input-data">Input data</a>
+    -   <a href="#diagnostics" id="toc-diagnostics">Diagnostics</a>
+    -   <a href="#parameters-1" id="toc-parameters-1">Parameters</a>
+-   <a href="#examples" id="toc-examples">Examples</a>
+-   <a href="#references" id="toc-references">References</a>
 
 > :warning: **This tutorial is under development and some features could
 > change in future versions**
 
 Here, I present the extended features that my colleagues and I have
-incorporated into the Woods Hole Assessment Model (WHAM). These new
-feautres can be found in Correa et al. (2023). The base features of this
-model has been developed by Brian Stock and Tim Miller, and are reported
-in Stock and Miller (2021) and references therein. Also, several
-vignettes can be found on the [WHAM
+incorporated into the Woods Hole Assessment Model (WHAM). The base
+features of this model has been developed by Brian Stock and Tim Miller,
+and are reported in Stock and Miller (2021) and references therein.
+Also, several vignettes can be found on the [WHAM
 website](https://timjmiller.github.io/wham/index.html). This tutorial
 has been built assuming that the reader is familiar with WHAM.
 
 The features described here are available on the [**growth**
-branch](https://github.com/GiancarloMCorrea/wham/tree/growth) forked
-from the [**devel**
-branch](https://github.com/timjmiller/wham/tree/devel) of the WHAM
-GitHub repository and can be installed running:
+branch](https://github.com/gmoroncorrea/wham/tree/growth) forked from
+the [**devel** branch](https://github.com/timjmiller/wham/tree/devel) of
+the WHAM GitHub repository and can be installed running:
 
 ``` r
 remotes::install_github(repo = 'GiancarloMCorrea/wham', ref='growth', INSTALL_opts = c("--no-docs", "--no-multiarch", "--no-demo"))
@@ -60,8 +61,7 @@ library(wham)
 ```
 
 > :heavy_check_mark: **This new WHAM version produces the same results
-> as the base WHAM (devel branch) version (when using the same input
-> data)**
+> as the base WHAM (devel branch) version (using the same input data)**
 
 # Data
 
@@ -231,10 +231,7 @@ and the following options are available:
 
 ## Somatic growth
 
-<figure>
-<img src="graph0.svg" alt="Alt text" />
-<figcaption aria-hidden="true">Alt text</figcaption>
-</figure>
+![Alt text](graph0.svg)
 
 When we talk about somatic growth, we could refer to changes in
 length-at-age or weight-at-age, therefore we will divide this section
@@ -286,9 +283,9 @@ The arguments are:
 We specify two parameters `growth$SD_vals` (and their estimation
 `growth$SD_est`) that describe the variability of length-at-age:
 
--   *S**D*<sub>*ã*</sub>: standard deviation of lengths at age *ã*. It
+-   *SD*<sub>*ã*</sub>: standard deviation of lengths at age *ã*. It
     is a function of mean length-at-age.
--   *S**D*<sub>*A*</sub>: standard deviation of lengths at age A (age
+-   *SD*<sub>*A*</sub>: standard deviation of lengths at age A (age
     plus group). It is a function of mean length-at-age.
 
 Random effects cannot be predicted on *S**D*<sub>*ã*</sub> and
@@ -458,10 +455,7 @@ implemented.
 This is a general overview about growth modeling in this new WHAM
 version:
 
-<figure>
-<img src="graph1.svg" alt="Alt text" />
-<figcaption aria-hidden="true">Alt text</figcaption>
-</figure>
+![Alt text](graph1.svg)
 
 # Environmental covariates
 
@@ -537,10 +531,6 @@ You can find examples about the use of the new WHAM features
 [here](https://giancarlomcorrea.netlify.app/labs/WHAM/WHAM_examples).
 
 # References
-
-Correa, GM., C. Monnahan, J. Sullivan, J. Thorson, and A. Punt. 2023.
-“Modelling Time-Varying Growth in State-Space Stock Assessments.” *ICES
-Journal of Marine Sciences*. <https://doi.org/10.1093/icesjms/fsad133>.
 
 Privitera-Johnson, Kristin M., Richard D. Methot, and André E. Punt.
 2022. “Towards Best Practice for Specifying Selectivity in
