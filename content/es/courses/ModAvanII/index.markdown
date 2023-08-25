@@ -7,11 +7,6 @@ image:
   focal_point: ""
   placement: 2
   preview_only: true
-links:
-- icon: file-powerpoint
-  icon_pack: fas
-  name: Clase 1
-  url: /labs/ModAvanII/Slides_1.html
 projects: []
 subtitle: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque a modelos espacio de estados.
 summary: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque a modelos espacio de estados.

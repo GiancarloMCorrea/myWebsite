@@ -9,8 +9,8 @@
 <link href="Slides_1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.2.269">
 
-  <meta name="author" content=" Giancarlo M. Correa^{1,2}, Cole Monnahan^3, Jane Sullivan^4, James T. Thorson^3, Andre E. Punt^2">
-  <title>Best practices for modeling time-varying growth in state-space stock assessments</title>
+  <meta name="author" content=" Dr.&nbsp;Giancarlo M. Correa">
+  <title>Modelos avanzados en evaluación de recursos pesqueros: Día 1</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -319,325 +319,39 @@
       margin-right: 0; 
     }
   </style>
-  <script src="Slides_1_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
-  <script src="Slides_1_files/libs/viz-1.8.2/viz.js"></script>
-  <link href="Slides_1_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
-  <script src="Slides_1_files/libs/grViz-binding-1.0.10/grViz.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Best practices for modeling time-varying growth in state-space stock assessments</h1>
+  <h1 class="title">Modelos avanzados en evaluación de recursos pesqueros: Día 1</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-<br>Giancarlo M. Correa<span class="math inline">\(^{1,2}\)</span>, Cole Monnahan<span class="math inline">\(^3\)</span>, Jane Sullivan<span class="math inline">\(^4\)</span>, James T. Thorson<span class="math inline">\(^3\)</span>, Andre E. Punt<span class="math inline">\(^2\)</span> 
+<br>Dr.&nbsp;Giancarlo M. Correa 
 </div>
         <p class="quarto-title-affiliation">
-            <br><span class="math inline">\(^1\)</span>AZTI, Sukarrieta, Basque Country, Spain. <span class="math inline">\(^2\)</span>University of Washington, Seattle, WA, USA. <span class="math inline">\(^3\)</span>Alaska Fisheries Science Center, NOAA, Seattle, WA, USA. <span class="math inline">\(^4\)</span>Alaska Fisheries Science Center, NOAA, Juneau, AK, USA
+            <br>Cousteau Consultant Group
           </p>
     </div>
 </div>
 
 </section>
 <section>
-<section id="somatic-growth" class="title-slide slide level1 center">
-<h1>Somatic growth</h1>
+<section id="introducción-a-modelos-espacio-de-estados" class="title-slide slide level1 center">
+<h1>Introducción a modelos espacio de estados</h1>
 <!-- Install this version of knitr or update RStudio-->
 <!-- remotes::install_version("knitr", "1.42") -->
 </section>
-<section id="somatic-growth-1" class="slide level2">
-<h2>Somatic growth</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><br></p>
-<div>
-<ul>
-<li class="fragment">Definition: the increase in size or weight of a fish.</li>
-<li class="fragment">Contributes to the stock biomass.</li>
-<li class="fragment">Time-variable:
-<ul>
-<li class="fragment">By year, cohort, or age.</li>
-<li class="fragment">Affected by internal and external factors.</li>
-</ul></li>
-</ul>
-</div>
-</div>
-</div>
-<div class="column" style="width:50%;">
-<p><img data-src="images/growth_a.png" class="absolute" style="top: 30px; left: 530px; height: 1500px; "></p>
-<div class="absolute" style="top: 20px; left: 730px; ">
-<div class="sectionhead">
-<p><span style="font-size:45%">Stockholm University Baltic Sea Centre</span></p>
-</div>
-</div>
-</div>
-</section>
-<section id="somatic-growth-in-assessment-models" class="slide level2">
-<h2>Somatic growth in assessment models</h2>
-<p><br></p>
-<div>
-<ul>
-<li class="fragment">Not explicitly modeled in surplus production models.</li>
-<li class="fragment">Accounted for in VPA and SCAA using empirical weight-at-age.</li>
-<li class="fragment">Explicitly modeled in some integrated models (commonly assumed to be time-invariant).</li>
-<li class="fragment">Ignoring temporal variability may lead to biased results.</li>
-</ul>
+<section id="modelos-espacio-de-estados" class="slide level2">
+<h2>Modelos espacio de estados</h2>
+
+<img src="images/CGlogo1.png" class="slide-logo r-stretch"><div class="footer footer-default">
+
 </div>
 </section></section>
-<section>
-<section id="state-space-models" class="title-slide slide level1 center">
-<h1>State-space models</h1>
-
-</section>
-<section id="state-space-models-1" class="slide level2">
-<h2>State-space models</h2>
-<p><br></p>
-<p>Process equation: <span class="math inline">\(E[z_t \mid z_{t-1}] = h(z_{t-1},\theta)\)</span></p>
-<p>Observation equation: <span class="math inline">\(E[y_t \mid z_t]= g(z_t,\theta)\)</span></p>
-<p><span class="math inline">\(\theta\)</span>: vector of all unknown model parameters (fixed effects).</p>
-
-<img data-src="images/statespace1.png" style="width:100.0%" class="r-stretch quarto-figure-center"><div class="absolute" style="top: 300px; left: 770px; ">
-<div class="sectionhead">
-<p><span style="font-size:50%">Auger-Méthé et al.&nbsp;(2021)</span></p>
-</div>
-</div>
-</section>
-<section id="the-woods-hole-assessment-model-wham-stock-and-miller-et-al.-2021" class="slide level2">
-<h2>The Woods Hole Assessment Model (WHAM, Stock and Miller et al.&nbsp;2021)</h2>
-<ul>
-<li>Fully state-space age-structured model</li>
-<li>Data: catch, indices of abundance, age compositions, <span style="color:red;">empirical weight-at-age</span>, environmental covariates (Ecov)</li>
-<li>Separability of total catch and proportions-at-age, as well as annual F and selectivity</li>
-<li>Random effects in selectivity, M, NAA, Q, Ecov</li>
-<li>Written in TMB and R (user friendly!) ( see <a href="https://timjmiller.github.io/wham/">R package</a> ).</li>
-</ul>
-</section></section>
-<section>
-<section id="growth-in-state-space-models" class="title-slide slide level1 center">
-<h1>Growth in state-space models</h1>
-
-</section>
-<section id="growth-in-state-space-models-1" class="slide level2">
-<h2>Growth in state-space models</h2>
-<ul>
-<li>Goal: implement a flexible framework to model population mean length or weight at age in WHAM.</li>
-</ul>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="fragment">
-<ul>
-<li>Data:
-<ul>
-<li>Length compositions</li>
-<li>Conditional age at length (CAAL)</li>
-<li>Ageing error</li>
-<li>Observed mean weight at age</li>
-</ul></li>
-</ul>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="fragment">
-<ul>
-<li>Parameters:
-<ul>
-<li>Population mean length at age (LAA)</li>
-<li>Length-weight (LW) relationship</li>
-<li>Population mean weight at age (WAA)</li>
-</ul></li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section id="growth-modeling-overview" class="slide level2">
-<h2>Growth modeling overview</h2>
-<p><br></p>
-<div class="cell">
-<div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-7c7cc855f02379418c17" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-7c7cc855f02379418c17">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Parametric\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n Nonparametric\", fillcolor = Pink]\nLAA3 [label = \"LAA: \n Semiparametric\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n Parametric (LW relationship)\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n Nonparametric\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points \n calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Marginal length comps \n Conditional age-at-length\", fillcolor = White, style = rounded]\nDAT2 [label = \"Informative data: \n Observed mean \n weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1 DAT2}\n{rank = same; LAA1 LAA2 LAA3}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {LAA1 LAA2 LAA3}\nDAT2 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{WAA1 WAA2 WAA3}  -> SSB\n{LAA1 LAA2 LAA3}  -> WAA2\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-<div class="absolute" style="top: 80px; left: 10px; ">
-<div class="sectionhead">
-<p><span style="font-size:50%">Correa et al.&nbsp;(2023)</span></p>
-</div>
-</div>
-</section>
-<section id="laa-parametric-approach" class="slide level2">
-<h2>LAA parametric approach</h2>
-<ol type="1">
-<li>von Bertalanffy (<span class="math inline">\(k\)</span>, <span class="math inline">\(L_{\infty}\)</span>, <span class="math inline">\(L_{\tilde{a}}\)</span>)</li>
-<li>Richards (<span class="math inline">\(k\)</span>, <span class="math inline">\(L_{\infty}\)</span>, <span class="math inline">\(L_{\tilde{a}}\)</span>, <span class="math inline">\(\gamma\)</span>)</li>
-</ol>
-<p>Length-at-age variability incorporated through two parameters (<span class="math inline">\(SD_\tilde{a}\)</span> and <span class="math inline">\(SD_A\)</span>) and a transition matrix (<span class="math inline">\(\varphi_{y,l,a}\)</span>).</p>
-<div class="fragment">
-<p>Predicting random effects:</p>
-<p><span class="math display">\[log(G_{t}) = \mu_{G} + \delta_{t}\]</span></p>
-<p><span class="math inline">\(G\)</span> is a growth parameter, <span class="math inline">\(t\)</span> represents year or cohort, <span class="math inline">\(\delta\)</span> are random effects (<span class="math inline">\(iid\)</span> or <span class="math inline">\(AR1\)</span> structure).</p>
-</div>
-</section>
-<section id="laa-nonparametric-approach" class="slide level2">
-<h2>LAA nonparametric approach</h2>
-<p><br></p>
-<p>Population mean length at age (<span class="math inline">\(L_{a}\)</span>) assumed to be fixed effects. <span class="math inline">\(SD_\tilde{a}\)</span> and <span class="math inline">\(SD_A\)</span> still needed.</p>
-<div class="fragment">
-<p>Time variability can be modeled by predicting random effects:</p>
-<p><span class="math display">\[log(\hat{L}_{y,a}) = \mu_{L_{a}} + \delta_{y,a}\]</span></p>
-<p><span class="math inline">\(\delta_{y,a}\)</span> can be <span class="math inline">\(iid\)</span>, <span class="math inline">\(2dAR1\)</span>, or <span class="math inline">\(3dGMRF\)</span>.</p>
-</div>
-</section>
-<section id="laa-semiparametric-approach" class="slide level2">
-<h2>LAA semiparametric approach</h2>
-<p><br></p>
-<ol type="1">
-<li>Use parametric approach (without random effects) to calculate <span class="math inline">\(L_{y,a}\)</span>.</li>
-</ol>
-<div class="fragment">
-<ol start="2" type="1">
-<li>Predict random effects on <span class="math inline">\(L_{y,a}\)</span>:</li>
-</ol>
-<p><span class="math display">\[log(\hat{L}_{y,a}) = \mu_{L_{y,a}} + \delta_{y,a}\]</span></p>
-<p><span class="math inline">\(\delta_{y,a}\)</span> can be <span class="math inline">\(iid\)</span>, <span class="math inline">\(2dAR1\)</span>, or <span class="math inline">\(3dGMRF\)</span>.</p>
-</div>
-</section>
-<section id="waa-parametric" class="slide level2">
-<h2>WAA parametric</h2>
-<p>Use the LW relationship:</p>
-<p><span class="math display">\[w_l = \Omega_1 l^{\Omega_2}\]</span></p>
-<p>Random effects on <span class="math inline">\(\Omega_1\)</span> and <span class="math inline">\(\Omega_2\)</span> can also be predicted.</p>
-<div class="fragment">
-<p>Use transition matrix to calculate population mean weight at age:</p>
-<p><span class="math display">\[\hat{w}_{y,a} = \sum_l \varphi_{y,l,a}w_l\]</span></p>
-</div>
-<div class="fragment">
-<p><span class="math inline">\(\hat{w}_{y,a}\)</span> can also be fitted to <span class="math inline">\(\bar{w}_{y,a}\)</span> (observed mean weight at age)</p>
-</div>
-</section>
-<section id="waa-nonparametric" class="slide level2">
-<h2>WAA nonparametric</h2>
-<p><br></p>
-<p>Like the LAA nonparametric. Population mean length at age (<span class="math inline">\(w_{a}\)</span>) assumed to be fixed effects.</p>
-<div class="fragment">
-<p>Time variability can be modeled by predicting random effects:</p>
-<p><span class="math display">\[log(\hat{w}_{y,a}) = \mu_{w_{a}} + \delta_{y,a}\]</span></p>
-<p><span class="math inline">\(\delta_{y,a}\)</span> can be <span class="math inline">\(iid\)</span>, <span class="math inline">\(2dAR1\)</span>, or <span class="math inline">\(3dGMRF\)</span>.</p>
-</div>
-</section>
-<section id="more-new-features" class="slide level2">
-<h2>More new features</h2>
-<h3 id="selectivity">Selectivity</h3>
-<p>Originally, only <em>selectivity-at-age</em> functions were available.</p>
-<div class="fragment">
-<p>New functions added:</p>
-<ul>
-<li><p>Age double normal (6 parameters).</p></li>
-<li><p>Length logistic (2 parameters).</p></li>
-<li><p>Length decreasing logistic (2 parameters).</p></li>
-<li><p>Length double normal (6 parameters).</p></li>
-</ul>
-</div>
-</section>
-<section id="more-new-features-1" class="slide level2">
-<h2>More new features</h2>
-<h3 id="environmental-covariates">Environmental covariates</h3>
-<p><br></p>
-<p>New growth-related parameters can be linked to an environmental covariate. For example:</p>
-<p><span class="math display">\[P_t = P exp(\beta_1 X_t)\]</span></p>
-<p><span class="math inline">\(P\)</span> is the base state (parameter) value. Other links are also available (polynomials). Lags can be modeled.</p>
-</section>
-<section id="applications" class="slide level2">
-<h2>Applications</h2>
-<p>Methods applied to three stocks in Alaska:</p>
-<ol type="1">
-<li>Gulf of Alaska Walleye pollock: age data, observed mean weight at age, WAA nonparametric.</li>
-<li>Gulf of Alaska Pacific cod: length and CAAL data, LAA parametric.</li>
-<li>Eastern Bering Sea Pacific cod: length data, LAA parametric with time-varying <span class="math inline">\(L_\tilde{a}\)</span>.</li>
-</ol>
-<div class="fragment">
-<p>See <em>Correa et al.&nbsp;(2023) Modeling time-varying growth in state-space stock assessments. ICES Journal of Marine Sciences</em>.</p>
-</div>
-</section></section>
-<section>
-<section id="good-practices" class="title-slide slide level1 center">
-<h1>Good practices</h1>
-
-</section>
-<section id="simulation-experiment" class="slide level2">
-<h2>Simulation experiment</h2>
-<p>Goal: provide guidelines for growth modeling in state-space assessment models under diverse scenarios.</p>
-<div class="fragment">
-<ul>
-<li><strong><em>Data type</em></strong>: age compositions vs length compositions vs CAAL.</li>
-<li><strong><em>Data source</em></strong>: fishery vs survey.</li>
-<li><strong><em>Data quality</em></strong>: data rich vs data poor.</li>
-<li><strong><em>Modeling approach</em></strong>: parametric vs nonparametric vs semiparametric vs Ecov.</li>
-<li><strong><em>Time-varying parameter</em></strong>: changes in <span class="math inline">\(k\)</span>, <span class="math inline">\(L_{\infty}\)</span> or <span class="math inline">\(L_{\tilde{a}}\)</span>.</li>
-</ul>
-</div>
-</section>
-<section id="simulation-experiment-1" class="slide level2">
-<h2>Simulation experiment</h2>
-<p><br></p>
-<p>Methodology:</p>
-<div>
-<ol type="1">
-<li class="fragment"><p>Operating model: simulates the true population dynamics. Changes in growth by varying <span class="math inline">\(k\)</span>, <span class="math inline">\(L_{\infty}\)</span> or <span class="math inline">\(L_{\tilde{a}}\)</span>.</p></li>
-<li class="fragment"><p>Sample data from operating model.</p></li>
-<li class="fragment"><p>Estimation model uses sampled data with assumptions on the population dynamics.</p></li>
-</ol>
-</div>
-</section>
-<section id="preliminary-results" class="slide level2">
-<h2>Preliminary results</h2>
-<div class="cell">
-<div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-8d2a133d3eebf1efdb69" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-8d2a133d3eebf1efdb69">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=35]\n\nQ1 [label = \"What data type do you have or intend to use?\", fillcolor = Pink]\nR1 [label = \"Age compositions\", fillcolor = lightskyblue2]\nR2 [label = \"Length compositions\", fillcolor = lightskyblue2]\nR3 [label = \"Age and length information\", fillcolor = lightskyblue2]\nA1 [label =  \"Use WAA nonparametric \n - Better quantification \n of uncertainty \n - Projections \n - No imputation methods \n required\", fillcolor = Beige]\nQ2 [label =  \"What is the data quality?\", fillcolor = Pink]\nR4 [label = \"Poor\", fillcolor = lightskyblue2]\nR5 [label = \"Rich\", fillcolor = lightskyblue2]\nA2 [label =  \"Use Ecov LAA parametric \n - Projections \n - Need of previous \n research\", fillcolor = Beige]\nA3 [label =  \"Use LAA parametric \n - Projections \n - No need of previous \n research\", fillcolor = Beige]\nA4 [label =  \"Use CAAL \n - More informative \n - Prioritize survey data\", fillcolor = Beige]\n\n{rank = min; Q1}\n{rank = same; R1 R2 R3}\n{rank = same; A4}\n{rank = max; A1 A2 A3}\n\n# edge definitions with the node IDs\nQ1 -> {R1 R2 R3}\nR1 -> {A1}\nR2 -> {Q2}\nQ2 -> {R4 R5}\nR4 -> {A2}\nR5 -> {A3}\nR3 -> {A4}\nA4 -> {Q2}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-</section>
-<section id="conclusions" class="slide level2">
-<h2>Conclusions</h2>
-<p><br></p>
-<div>
-<ul>
-<li class="fragment">Expansion of the applicability of state-space assessment models.</li>
-<li class="fragment">Implementation of a flexible framework to model time-varying growth in state-space assessment models.</li>
-<li class="fragment">Recommendations to model time-varying growth under diverse scenarios.</li>
-</ul>
-</div>
-</section></section>
-<section id="thanks" class="title-slide slide level1 center" data-background-color="white">
-<h1>Thanks</h1>
-<p><img data-src="images/LOGO_UW_2.png" class="absolute" style="top: 200px; left: 10px; height: 90px; "></p>
-<p><img data-src="images/NOAA_FISHERIES_logoH.png" class="absolute" style="top: 180px; left: 140px; height: 160px; "></p>
-<p><img data-src="images/cicoes.png" class="absolute" style="top: 180px; left: 450px; height: 160px; "></p>
-<p><img data-src="images/azti.png" class="absolute" style="top: 180px; left: 780px; height: 450px; "></p>
-<div class="absolute" style="top: -10px; left: 610px; ">
-<div class="sectionhead">
-<p><span style="font-size:75%">Tim Miller, Brian Stock, Jim Ianelli, Steve Barbeaux, Peter Hulson</span></p>
-</div>
-</div>
-<div class="absolute" style="top: 400px; left: 650px; ">
-<div class="sectionhead">
-<p>Contact: <br> <a href="mailto:gmoron@azti.es">gmoron@azti.es</a></p>
-</div>
-</div>
-<div class="absolute" style="top: 400px; left: 10px; ">
-<div class="sectionhead">
-<p>Find more information: <br> <a href="https://tinyurl.com/wham-growth">tinyurl.com/wham-growth</a></p>
-</div>
-</div>
-<p><img src="images/azti2.png" class="slide-logo"></p>
-<div class="footer footer-default">
-<p>ICES Annual Sciences Conference 2023</p>
-</div>
-</section>
     </div>
   </div>
 
@@ -849,44 +563,6 @@
         ]
       });
     </script>
-    
-    <script>
-      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-      // slide changes (different for each slide format).
-      (function () {
-        // dispatch for htmlwidgets
-        function fireSlideEnter() {
-          const event = window.document.createEvent("Event");
-          event.initEvent("slideenter", true, true);
-          window.document.dispatchEvent(event);
-        }
-
-        function fireSlideChanged(previousSlide, currentSlide) {
-          fireSlideEnter();
-
-          // dispatch for shiny
-          if (window.jQuery) {
-            if (previousSlide) {
-              window.jQuery(previousSlide).trigger("hidden");
-            }
-            if (currentSlide) {
-              window.jQuery(currentSlide).trigger("shown");
-            }
-          }
-        }
-
-        // hookup for slidy
-        if (window.w3c_slidy) {
-          window.w3c_slidy.add_observer(function (slide_num) {
-            // slide_num starts at position 1
-            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-          });
-        }
-
-      })();
-    </script>
-
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
