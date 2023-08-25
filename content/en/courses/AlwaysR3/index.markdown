@@ -56,6 +56,8 @@ title: AlwaysR, Módulo III Estadística en R
 
 Este curso explora los métodos estadísticos más utilizados usando el lenguaje de programación R. Es un curso netamente aplicado, donde el principal objetivo es la parte de programación. Está organizado por **Cousteau Consultant Group** y se imparte en cinco días, tres horas al día. En esta página puede encontrar las presentaciones y un breve resumen de los códigos R discutidos durante este curso.
 
+**This course is offered in Spanish.**
+
 ## Programa 
 
 Los siguientes temas son tratados:
