@@ -15,6 +15,8 @@ title: Advanced fish stock assessment models II
 
 We focus on the statistical and biological basis of stock assessment models using the Woods Hole Assessment Model (WHAM) platform. WHAM is a state-space age-structured assessment model recently developed and applied to several stocks on the US east coast. WHAM is coded in Template Model Builder (TMB), and receives several data types (e.g., catch, indices of abundance, age compositions, length compositions, etc.), making WHAM a flexible platform to assess fish stocks using the state-space approach. We use MS Excel and R in this course.
 
+**This course is offered in Spanish.**
+
 ## Topics 
 
 - **Day 1:** Introduction to state-space models and age-structured models.
