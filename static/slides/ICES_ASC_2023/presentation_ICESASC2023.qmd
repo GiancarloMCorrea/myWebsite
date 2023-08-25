@@ -25,31 +25,17 @@ execute:
 
 ## Somatic growth
 
-::: columns
-::: {.column width="50%"}
 <br>
 
 ::: incremental
+
 -   Definition: the increase in size or weight of a fish.
--   Contributes to the stock biomass.
+-   In stock assessments: at the stock level.
+-   *Growth* and recruitment are contributors to the stock biomass.
 -   Time-variable:
     -   By year, cohort, or age.
     -   Affected by internal and external factors.
     
-:::
-:::
-:::
-
-::: {.column width="50%"}
-
-![](images/growth_a.png){.absolute top="30" left="530" height="1500px"}
-
-::: {.absolute top="20" left="730"}
-::: sectionhead
-[Stockholm University Baltic Sea Centre]{style="font-size:45%"}
-:::
-:::
-
 :::
 
 ------------------------------------------------------------------------
