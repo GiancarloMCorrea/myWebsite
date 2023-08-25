@@ -1,0 +1,417 @@
+---
+title: "Best practices for modeling time-varying growth in state-space stock assessments"
+author: 
+   <br>Giancarlo M. Correa$^{1,2}$, Cole Monnahan$^3$, Jane Sullivan$^4$, James T. Thorson$^3$, Andre E. Punt$^2$
+institute:
+   <br>$^1$AZTI, Sukarrieta, Basque Country, Spain. $^2$University of Washington, Seattle, WA, USA. $^3$Alaska Fisheries Science Center, NOAA, Seattle, WA, USA. $^4$Alaska Fisheries Science Center, NOAA, Juneau, AK, USA
+format: 
+  revealjs:
+    theme: simple
+    footer: "ICES Annual Sciences Conference 2023"
+    logo: images/azti2.png
+    slide-number: 'c/t'
+    css: myStyle.css
+from: markdown+emoji
+editor: visual
+execute:
+  echo: true
+---
+
+# Somatic growth
+
+<!-- Install this version of knitr or update RStudio-->
+
+<!-- remotes::install_version("knitr", "1.42") -->
+
+## Somatic growth
+
+::: columns
+::: {.column width="50%"}
+<br>
+
+::: incremental
+-   Definition: the increase in size or weight of a fish.
+-   Contributes to the stock biomass.
+-   Time-variable:
+    -   By year, cohort, or age.
+    -   Affected by internal and external factors.
+:::
+:::
+:::
+
+::: {.column width="50%"}
+![](images/growth_a.png){.absolute top="30" left="530" height="1500px"}
+
+::: {.absolute top="20" left="730"}
+::: sectionhead
+[Stockholm University Baltic Sea Centre]{style="font-size:45%"}
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Somatic growth in assessment models
+
+<br>
+
+::: incremental
+-   Not explicitly modeled in surplus production models.
+-   Accounted for in VPA and SCAA using empirical weight-at-age.
+-   Explicitly modeled in some integrated models (commonly assumed to be time-invariant).
+-   Ignoring temporal variability may lead to biased results.
+:::
+
+# State-space models
+
+------------------------------------------------------------------------
+
+## State-space models
+
+<br>
+
+Process equation: $E[z_t \mid z_{t-1}] = h(z_{t-1},\theta)$
+
+Observation equation: $E[y_t \mid z_t]= g(z_t,\theta)$
+
+$\theta$: vector of all unknown model parameters (fixed effects).
+
+![](images/statespace1.png){fig-align="center" width="100%"}
+
+::: {.absolute top="300" left="770"}
+::: sectionhead
+[Auger-Méthé et al. (2021)]{style="font-size:50%"}
+:::
+:::
+
+------------------------------------------------------------------------
+
+## The Woods Hole Assessment Model (WHAM, Stock and Miller et al. 2021)
+
+-   Fully state-space age-structured model
+-   Data: catch, indices of abundance, age compositions, [empirical weight-at-age]{style="color:red;"}, environmental covariates (Ecov)
+-   Separability of total catch and proportions-at-age, as well as annual F and selectivity
+-   Random effects in selectivity, M, NAA, Q, Ecov
+-   Written in TMB and R (user friendly!) ( see [R package](https://timjmiller.github.io/wham/) ).
+
+# Growth in state-space models
+
+------------------------------------------------------------------------
+
+## Growth in state-space models
+
+-   Goal: implement a flexible framework to model population mean length or weight at age in WHAM.
+
+::: columns
+::: {.column width="50%"}
+::: fragment
+-   Data:
+    -   Length compositions
+    -   Conditional age at length (CAAL)
+    -   Ageing error
+    -   Observed mean weight at age
+:::
+:::
+
+::: {.column width="50%"}
+::: fragment
+-   Parameters:
+    -   Population mean length at age (LAA)
+    -   Length-weight (LW) relationship
+    -   Population mean weight at age (WAA)
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+## Growth modeling overview
+
+<br>
+
+```{r}
+#| echo: false
+DiagrammeR::grViz("digraph {
+
+graph [layout = dot, rankdir = LB]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]
+
+LAA1 [label = 'LAA: \n Parametric', fillcolor = Pink]
+LAA2 [label = 'LAA: \n Nonparametric', fillcolor = Pink]
+LAA3 [label = 'LAA: \n Semiparametric', fillcolor = Pink]
+WAA1 [label =  'WAA: \n Empirical', fillcolor = lightskyblue2]
+WAA2 [label =  'WAA: \n Parametric (LW relationship)', fillcolor = lightskyblue2]
+WAA3 [label =  'WAA: \n Nonparametric', fillcolor = lightskyblue2]
+SSB [label= 'SSB and reference points \n calculation', fillcolor = Beige]
+DAT1 [label = 'Informative data: \n Marginal length comps \n Conditional age-at-length', fillcolor = White, style = rounded]
+DAT2 [label = 'Informative data: \n Observed mean \n weight-at-age', fillcolor = White, style = rounded]
+
+{rank = min; DAT1 DAT2}
+{rank = same; LAA1 LAA2 LAA3}
+{rank = same; WAA1 WAA2 WAA3}
+{rank = max; SSB}
+
+# edge definitions with the node IDs
+DAT1 -> {LAA1 LAA2 LAA3}
+DAT2 -> {WAA2 WAA3}
+edge [arrowhead = none]
+{WAA1 WAA2 WAA3}  -> SSB
+{LAA1 LAA2 LAA3}  -> WAA2
+
+}")
+```
+
+::: {.absolute top="80" left="10"}
+::: sectionhead
+[Correa et al. (2023)]{style="font-size:50%"}
+:::
+:::
+
+------------------------------------------------------------------------
+
+## LAA parametric approach
+
+1.  von Bertalanffy ($k$, $L_{\infty}$, $L_{\tilde{a}}$)
+2.  Richards ($k$, $L_{\infty}$, $L_{\tilde{a}}$, $\gamma$)
+
+Length-at-age variability incorporated through two parameters ($SD_\tilde{a}$ and $SD_A$) and a transition matrix ($\varphi_{y,l,a}$).
+
+::: fragment
+Predicting random effects:
+
+$$log(G_{t}) = \mu_{G} + \delta_{t}$$
+
+$G$ is a growth parameter, $t$ represents year or cohort, $\delta$ are random effects ($iid$ or $AR1$ structure).
+:::
+
+------------------------------------------------------------------------
+
+## LAA nonparametric approach
+
+<br>
+
+Population mean length at age ($L_{a}$) assumed to be fixed effects. $SD_\tilde{a}$ and $SD_A$ still needed.
+
+::: fragment
+Time variability can be modeled by predicting random effects:
+
+$$log(\hat{L}_{y,a}) = \mu_{L_{a}} + \delta_{y,a}$$
+
+$\delta_{y,a}$ can be $iid$, $2dAR1$, or $3dGMRF$.
+:::
+
+------------------------------------------------------------------------
+
+## LAA semiparametric approach
+
+<br>
+
+1.  Use parametric approach (without random effects) to calculate $L_{y,a}$.
+
+::: fragment
+2.  Predict random effects on $L_{y,a}$:
+
+$$log(\hat{L}_{y,a}) = \mu_{L_{y,a}} + \delta_{y,a}$$
+
+$\delta_{y,a}$ can be $iid$, $2dAR1$, or $3dGMRF$.
+:::
+
+------------------------------------------------------------------------
+
+## WAA parametric
+
+Use the LW relationship:
+
+$$w_l = \Omega_1 l^{\Omega_2}$$
+
+Random effects on $\Omega_1$ and $\Omega_2$ can also be predicted.
+
+::: fragment
+Use transition matrix to calculate population mean weight at age:
+
+$$\hat{w}_{y,a} = \sum_l \varphi_{y,l,a}w_l$$
+:::
+
+::: fragment
+$\hat{w}_{y,a}$ can also be fitted to $\bar{w}_{y,a}$ (observed mean weight at age)
+:::
+
+------------------------------------------------------------------------
+
+## WAA nonparametric
+
+<br>
+
+Like the LAA nonparametric. Population mean length at age ($w_{a}$) assumed to be fixed effects.
+
+::: fragment
+Time variability can be modeled by predicting random effects:
+
+$$log(\hat{w}_{y,a}) = \mu_{w_{a}} + \delta_{y,a}$$
+
+$\delta_{y,a}$ can be $iid$, $2dAR1$, or $3dGMRF$.
+:::
+
+------------------------------------------------------------------------
+
+## More new features
+
+### Selectivity
+
+Originally, only *selectivity-at-age* functions were available.
+
+::: fragment
+New functions added:
+
+-   Age double normal (6 parameters).
+
+-   Length logistic (2 parameters).
+
+-   Length decreasing logistic (2 parameters).
+
+-   Length double normal (6 parameters).
+:::
+
+------------------------------------------------------------------------
+
+## More new features
+
+### Environmental covariates
+
+<br>
+
+New growth-related parameters can be linked to an environmental covariate. For example:
+
+$$P_t = P exp(\beta_1 X_t)$$
+
+$P$ is the base state (parameter) value. Other links are also available (polynomials). Lags can be modeled.
+
+------------------------------------------------------------------------
+
+## Applications
+
+Methods applied to three stocks in Alaska:
+
+1.  Gulf of Alaska Walleye pollock: age data, observed mean weight at age, WAA nonparametric.
+2.  Gulf of Alaska Pacific cod: length and CAAL data, LAA parametric.
+3.  Eastern Bering Sea Pacific cod: length data, LAA parametric with time-varying $L_\tilde{a}$.
+
+::: fragment
+See *Correa et al. (2023) Modeling time-varying growth in state-space stock assessments. ICES Journal of Marine Sciences*.
+:::
+
+# Good practices
+
+------------------------------------------------------------------------
+
+## Simulation experiment
+
+Goal: provide guidelines for growth modeling in state-space assessment models under diverse scenarios.
+
+::: fragment
+-   ***Data type***: age compositions vs length compositions vs CAAL.
+-   ***Data source***: fishery vs survey.
+-   ***Data quality***: data rich vs data poor.
+-   ***Modeling approach***: parametric vs nonparametric vs semiparametric vs Ecov.
+-   ***Time-varying parameter***: changes in $k$, $L_{\infty}$ or $L_{\tilde{a}}$.
+:::
+
+------------------------------------------------------------------------
+
+## Simulation experiment
+
+<br>
+
+Methodology:
+
+::: incremental
+1.  Operating model: simulates the true population dynamics. Changes in growth by varying $k$, $L_{\infty}$ or $L_{\tilde{a}}$.
+
+2.  Sample data from operating model.
+
+3.  Estimation model uses sampled data with assumptions on the population dynamics.
+:::
+
+------------------------------------------------------------------------
+
+## Preliminary results
+
+```{r}
+#| echo: false
+DiagrammeR::grViz("digraph {
+
+graph [layout = dot, rankdir = LB]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen, fontsize=35]
+
+Q1 [label = 'What data type do you have or intend to use?', fillcolor = Pink]
+R1 [label = 'Age compositions', fillcolor = lightskyblue2]
+R2 [label = 'Length compositions', fillcolor = lightskyblue2]
+R3 [label = 'Age and length information', fillcolor = lightskyblue2]
+A1 [label =  'Use WAA nonparametric \n - Better quantification \n of uncertainty \n - Projections \n - No imputation methods \n required', fillcolor = Beige]
+Q2 [label =  'What is the data quality?', fillcolor = Pink]
+R4 [label = 'Poor', fillcolor = lightskyblue2]
+R5 [label = 'Rich', fillcolor = lightskyblue2]
+A2 [label =  'Use Ecov LAA parametric \n - Projections \n - Need of previous \n research', fillcolor = Beige]
+A3 [label =  'Use LAA parametric \n - Projections \n - No need of previous \n research', fillcolor = Beige]
+A4 [label =  'Use CAAL \n - More informative \n - Prioritize survey data', fillcolor = Beige]
+
+{rank = min; Q1}
+{rank = same; R1 R2 R3}
+{rank = same; A4}
+{rank = max; A1 A2 A3}
+
+# edge definitions with the node IDs
+Q1 -> {R1 R2 R3}
+R1 -> {A1}
+R2 -> {Q2}
+Q2 -> {R4 R5}
+R4 -> {A2}
+R5 -> {A3}
+R3 -> {A4}
+A4 -> {Q2}
+}")
+```
+
+------------------------------------------------------------------------
+
+## Conclusions
+
+<br>
+
+::: incremental
+-   Expansion of the applicability of state-space assessment models.
+-   Implementation of a flexible framework to model time-varying growth in state-space assessment models.
+-   Recommendations to model time-varying growth under diverse scenarios.
+:::
+
+# Thanks {background-color="white"}
+
+![](images/LOGO_UW_2.png){.absolute top="200" left="10" height="90px"}
+
+![](images/NOAA_FISHERIES_logoH.png){.absolute top="180" left="140" height="160px"}
+
+![](images/cicoes.png){.absolute top="180" left="450" height="160px"}
+
+![](images/azti.png){.absolute top="180" left="780" height="450px"}
+
+::: {.absolute top="-10" left="610"}
+::: sectionhead
+[Tim Miller, Brian Stock, Jim Ianelli, Steve Barbeaux, Peter Hulson]{style="font-size:75%"}
+:::
+:::
+
+::: {.absolute top="400" left="650"}
+::: sectionhead
+Contact: <br> [gmoron\@azti.es](mailto:gmoron@azti.es)
+:::
+:::
+
+::: {.absolute top="400" left="10"}
+::: sectionhead
+Find more information: <br> [tinyurl.com/wham-growth](https://tinyurl.com/wham-growth)
+:::
+:::
