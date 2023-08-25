@@ -7,79 +7,36 @@ image:
   focal_point: ""
   placement: 2
   preview_only: true
-links:
-- icon: file-powerpoint
-  icon_pack: fas
-  name: Clase 1
-  url: /labs/AlwaysR_3/Clase_1.html
-- icon: file-powerpoint
-  icon_pack: fas
-  name: Clase 2
-  url: /labs/AlwaysR_3/Clase_2.html
-- icon: file-powerpoint
-  icon_pack: fas
-  name: Clase 3
-  url: /labs/AlwaysR_3/Clase_3.html
-- icon: file-powerpoint
-  icon_pack: fas
-  name: Clase 4
-  url: /labs/AlwaysR_3/Clase_4.html
-- icon: file-powerpoint
-  icon_pack: fas
-  name: Clase 5
-  url: /labs/AlwaysR_3/Clase_5.html
-- icon: laptop-code
-  icon_pack: fas
-  name: Lab 1
-  url: /labs/AlwaysR_3/AlwaysR_III_Manual_1_website.html
-- icon: laptop-code
-  icon_pack: fas
-  name: Lab 2
-  url: /labs/AlwaysR_3/AlwaysR_III_Manual_2_website.html
-- icon: laptop-code
-  icon_pack: fas
-  name: Lab 3
-  url: /labs/AlwaysR_3/AlwaysR_III_Manual_3_website.html
-- icon: laptop-code
-  icon_pack: fas
-  name: Lab 4
-  url: /labs/AlwaysR_3/AlwaysR_III_Manual_4_website.html
-- icon: laptop-code
-  icon_pack: fas
-  name: Lab 5
-  url: /labs/AlwaysR_3/AlwaysR_III_Manual_5_website.html
 projects: []
-subtitle: Aplicaciones estadísticas utilizando el lenguaje de programación R.
-summary: Aplicaciones estadísticas utilizando el lenguaje de programación R.
-title: AlwaysR, Módulo III Estadística en R
+subtitle: Statistical applications using the R programming language.
+summary: Statistical applications using the R programming language.
+title: AlwaysR, Module III Statistics in R
 ---
 
-Este curso explora los métodos estadísticos más utilizados usando el lenguaje de programación R. Es un curso netamente aplicado, donde el principal objetivo es la parte de programación. Está organizado por **Cousteau Consultant Group** y se imparte en cinco días, tres horas al día. En esta página puede encontrar las presentaciones y un breve resumen de los códigos R discutidos durante este curso.
+This course explores the most common statistical methods using the R programming language. This is an applied course, and the main goal is to implement code in R. The course is organized by **Cousteau Consultant Group** and offered in five days (3 hours per day). 
 
 **This course is offered in Spanish.**
 
-## Programa 
+## Program 
 
-Los siguientes temas son tratados:
+- **Day 1:** Introduction. Descriptive statistics. 
+- **Day 2:** Hypothesis testing. ANOVA.
+- **Day 3:** Simple linear models.
+- **Day 4:** Multiple linear models. Diagnostics.
+- **Day 5:** Introduction to generalized linear models (GLM) and generalized additive models (GAM).
 
-- **Día 1:** Introducción. Estadísticos descriptivos. Distribuciones de probabilidad.
-- **Día 2:** Prueba de hipótesis: una y dos muestras. ANOVA. 
-- **Día 3:** Modelos lineales simples.
-- **Día 4:** Modelos lineales múltiples. Efectos aleatorios.
-- **Día 5:** Introducción a los modelos lineales y aditivos generalizados (GLM y GAM).
+Find the syllabus [here](https://cousteau-group.com/cursos/alwasyr_modulo_3/).
 
-Encuentra el silabo de este curso [aquí](https://cousteau-group.com/cursos/).
+## Goals
 
-## Objetivos
+- Introduce basic concepts in statistics.
+- Use R to implement statistical models and hypotheses testing.
+- Interpret results.
 
-- Introducir conceptos estadísticos más utilizados.
-- Aplicación de métodos estadísticos utilizando el lenguaje de programación R.
-- Interpretación de resultados.
+## Requirements
 
-## Prerrequisitos
-
-* Conceptos básicos de estadística
-* Conceptos básicos de programación en R
+* Basic statistics
+* Basic knowledge in R programming
 
 ## Quizzes
 
