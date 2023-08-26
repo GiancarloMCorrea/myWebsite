@@ -4,7 +4,7 @@ author:
    <br>Dr. Giancarlo M. Correa
 institute:
    <br>Cousteau Consultant Group
-format: 
+format:
   revealjs:
     theme: simple
     logo: images/CGlogo1.png
@@ -16,16 +16,110 @@ execute:
   echo: true
 ---
 
-# Presentación del curso
+# Presentación
+
+<!-- Install this version of knitr or update RStudio-->
+<!-- remotes::install_version("knitr", "1.42") -->
 
 ## Estructura
 
+<br>
 
+Serie de cursos orientado a análisis cuantitativo de pesquerías:
 
-# Introducción a modelos espacio de estados
+::: incremental
 
-<!-- Install this version of knitr or update RStudio-->
+1. Dinámica de poblaciones de peces en R
+2. Introducción a modelos de evaluación de stocks
+3. Modelos avanzados de evaluación de recursos pesqueros
+4. **Modelos avanzados de evaluación de recursos pesqueros II**
 
-<!-- remotes::install_version("knitr", "1.42") -->
+:::
+
+## Objetivos
+
+<br>
+
+::: incremental
+
+- Fundamentos de modelos de evaluación estructurados por edad.
+- Introducción de modelos *state-space*.
+- Estructura del modelo *Woods Hole Assessment Model* (WHAM).
+- Implementación de modelos de evaluación en WHAM.
+
+:::
+
+## Proyecto
+
+<br>
+
+Para obtención de la certificación de aprobación. 
+
+::: incremental
+
+* Se crearán dos grupos de trabajo.
+* Objetivos: 
+  - Discutir enfoques de análisis de datos pesqueros.
+  - Implementar un modelo de evaluación en WHAM.
+* Se invertirá 25% de horas de clase (no habrán actividades fuera de clase).
+* Presentación de resultados el último día de clases.
+
+:::
+
+## Participantes
+
+<br>
+
+Presentación de participantes:
+
+::: fragment
+
+- Nombre
+- Ocupación
+- Afiliación
+- Área de experiencia ó interés
+- Nivel de experiencia con modelos de evaluación
+
+:::
+
+# Modelos estructurados por edad
+
+## Conceptos básicos
+
+![](images/D1_img1.png){fig-align="center" width="100%"}
+
+::: {.absolute top="650" left="70"}
+::: sectionhead
+[Stockholm University Baltic Sea Centre]{style="font-size:50%"}
+:::
+:::
+
+## Conceptos básicos
+
+<br>
+
+Diferencias claves en enfoques para estudiar poblaciones:
+
+![](images/D1_img2.png){fig-align="center" width="70%"}
+
+::: {.absolute top="650" left="70"}
+::: sectionhead
+[Haddon (2011)]{style="font-size:50%"}
+:::
+:::
+
+## Enfoque integrado
+
+<br>
+
+![](images/D1_img3.png){fig-align="center" width="60%"}
+
+::: {.absolute top="650" left="70"}
+::: sectionhead
+[Haddon (2011)]{style="font-size:50%"}
+:::
+:::
+
+# Introducción a modelos *state-space*
 
 ## Modelos espacio de estados
