@@ -28,6 +28,89 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
   </style>
   <link rel="stylesheet" href="Slides_1_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link rel="stylesheet" href="myStyle.css">
@@ -406,6 +489,11 @@
 <h1>Modelos estructurados por edad</h1>
 
 </section>
+<section id="sistema-pesquero" class="slide level2">
+<h2>Sistema pesquero</h2>
+<p>¿Para qué nos sirven los modelos de evaluación?</p>
+
+<img data-src="images/D1_img0.jpg" style="width:70.0%" class="r-stretch quarto-figure-center"></section>
 <section id="conceptos-básicos" class="slide level2">
 <h2>Conceptos básicos</h2>
 
@@ -422,30 +510,533 @@
 
 <img data-src="images/D1_img2.png" style="width:70.0%" class="r-stretch quarto-figure-center"><div class="absolute" style="top: 650px; left: 70px; ">
 <div class="sectionhead">
-<p><span style="font-size:50%">Haddon (2011)</span></p>
+<p><span style="font-size:50%"><span class="citation" data-cites="Haddon_2011">Haddon (<a href="#/referencias" role="doc-biblioref" onclick="">2011</a>)</span></span></p>
 </div>
 </div>
 </section>
 <section id="enfoque-integrado" class="slide level2">
 <h2>Enfoque integrado</h2>
+<p>Combina diferentes tipos de datos en un único análisis. El ajuste a los datos se realiza por medio de una rutina de minimización de alguna función objetivo <span class="citation" data-cites="Fournier_1982">(<a href="#/referencias" role="doc-biblioref" onclick="">D. Fournier and Archibald 1982</a>)</span>.</p>
+<div class="fragment">
+<p>Tipos de datos más comunes:</p>
+<ul>
+<li>Capturas</li>
+<li>Índices de abundancia</li>
+<li>Composición por tallas o edades</li>
+<li>Marcaje y recaptura</li>
+</ul>
+</div>
+</section>
+<section id="enfoque-integrado-1" class="slide level2">
+<h2>Enfoque integrado</h2>
 <p><br></p>
 
 <img data-src="images/D1_img3.png" style="width:60.0%" class="r-stretch quarto-figure-center"><div class="absolute" style="top: 650px; left: 70px; ">
 <div class="sectionhead">
-<p><span style="font-size:50%">Haddon (2011)</span></p>
+<p><span style="font-size:50%"><span class="citation" data-cites="Haddon_2011">Haddon (<a href="#/referencias" role="doc-biblioref" onclick="">2011</a>)</span></span></p>
 </div>
 </div>
+</section>
+<section id="conceptos-básicos-2" class="slide level2">
+<h2>Conceptos básicos</h2>
+<p><br></p>
+<p>En un modelo de evaluación estructurado por edades tenemos los siguientes componentes principalmente:</p>
+<ul>
+<li>Reclutamiento</li>
+<li>Mortalidad (natural y por pesca)</li>
+<li>Selectividad</li>
+<li>Crecimiento somático</li>
+</ul>
+</section>
+<section id="plataforma-de-evaluación" class="slide level2">
+<h2>Plataforma de evaluación</h2>
+<p>Software o librería orientado a la implementación de modelos de evaluación de stocks (en general).</p>
+<div class="fragment">
+<div class="callout callout-note no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong>Ventajas</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>No hay necesidad de codificar</li>
+<li>Comunicación más sencilla</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="callout callout-warning no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong>Desventajas</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>No pueden ser aplicables a todos los stocks</li>
+<li>Efecto de <em>caja negra</em></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="plataforma-de-evaluación-1" class="slide level2">
+<h2>Plataforma de evaluación</h2>
+<p><br></p>
+<p>Ejemplos:</p>
+<ul>
+<li>Stock Synthesis <span class="citation" data-cites="Methot_2013">(<a href="#/referencias" role="doc-biblioref" onclick="">Methot and Wetzel 2013</a>)</span></li>
+<li>MULTIFAN-CL <span class="citation" data-cites="fournier1998multifan">(<a href="#/referencias" role="doc-biblioref" onclick="">Daid A. Fournier, Hampton, and Sibert 1998</a>)</span></li>
+<li>SAM <span class="citation" data-cites="Nielsen_2014">(<a href="#/referencias" role="doc-biblioref" onclick="">Nielsen and Berg 2014</a>)</span></li>
+<li><strong>WHAM</strong> <span class="citation" data-cites="Stock_2021">(<a href="#/referencias" role="doc-biblioref" onclick="">Stock and Miller 2021</a>)</span></li>
+</ul>
 </section></section>
 <section>
 <section id="introducción-a-modelos-state-space" class="title-slide slide level1 center">
 <h1>Introducción a modelos <em>state-space</em></h1>
 
 </section>
-<section id="modelos-espacio-de-estados" class="slide level2">
-<h2>Modelos espacio de estados</h2>
+<section id="modelos-state-space" class="slide level2">
+<h2>Modelos <em>state-space</em></h2>
+<div class="callout callout-tip no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong>Definición</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>SSM permiten diferenciar y separar variaciones en procesos de un sistema de los errores de observación.</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Podemos tener dos series temporales:</p>
+<ol type="1">
+<li>Serie de procesos, o estados, que representan los cambios verdaderos en el sistema.</li>
+<li>Serie de observaciones que realizamos del sistema.</li>
+</ol>
+<p>Los procesos cambian en el tiempo estocásticamente, lo que se conoce como variaciones en procesos (<em>process variation</em>).</p>
+</div>
+</section>
+<section id="modelos-state-space-1" class="slide level2">
+<h2>Modelos <em>state-space</em></h2>
+<ul>
+<li><span class="math inline">\(z_{t}\)</span>: estado en tiempo <span class="math inline">\(t\)</span> (e.g., abundancia de la población)</li>
+<li><span class="math inline">\(y_{t}\)</span>: observaciones</li>
+</ul>
+
+<img data-src="images/D1_img4.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p><span style="font-size:50%"><span class="citation" data-cites="Auger_M_th__2021">Auger-Méthé et al. (<a href="#/referencias" role="doc-biblioref" onclick="">2021</a>)</span></span></p>
+</section>
+<section id="modelos-state-space-2" class="slide level2">
+<h2>Modelos <em>state-space</em></h2>
+<p>Normalmente se asume un proceso Markov (de primer orden) para modelar los estados:</p>
+<p><span class="math display">\[z_t = \beta z_{t-1}+\epsilon_t\]</span></p>
+<ul>
+<li><span class="math inline">\(\beta\)</span>: autocorrelación de estados en el tiempo</li>
+<li><span class="math inline">\(\epsilon\)</span>: variación de procesos, donde:</li>
+</ul>
+<p><span class="math display">\[\epsilon_t \sim N(0,\sigma_p^2)\]</span></p>
+<p><span class="math inline">\(z_0\)</span> puede ser tratado como un parámetro adicional.</p>
+</section>
+<section id="modelos-state-space-3" class="slide level2">
+<h2>Modelos <em>state-space</em></h2>
+<p>Para el caso de las observaciones, se asumen que estas son independientes, y se relacionan con los estados:</p>
+<p><span class="math display">\[y_t = \alpha z_{t}+\eta_t\]</span></p>
+<ul>
+<li><span class="math inline">\(\alpha\)</span>: parámetro que regula el sesgo entre observación y estado</li>
+<li><span class="math inline">\(\eta\)</span>: error de observación, donde:</li>
+</ul>
+<p><span class="math display">\[\eta_t \sim N(0,\sigma_o^2)\]</span></p>
+</section>
+<section id="modelos-state-space-4" class="slide level2">
+<h2>Modelos <em>state-space</em></h2>
+<p>Podemos caracterizar este modelo en términos de distribuciones de probabilidad:</p>
+<p><span class="math display">\[g(y_t \mid z_{t}, \boldsymbol{\theta}_o)\]</span></p>
+<p><span class="math display">\[f(z_t \mid z_{t-1}, \boldsymbol{\theta}_p)\]</span></p>
+<p>para <span class="math inline">\(t=1,...,T\)</span>, donde <span class="math inline">\(f\)</span> y <span class="math inline">\(g\)</span> son dos funciones de densidad de probabilidad normales, <span class="math inline">\(\boldsymbol{\theta}_p\)</span> y <span class="math inline">\(\boldsymbol{\theta}_o\)</span> son vectores de parámetros asociados con cada ecuación:</p>
+<p><span class="math display">\[\boldsymbol{\theta}_p = (\beta, \sigma_p^2), \boldsymbol{\theta}_o = (\alpha,\sigma_o^2)\]</span></p>
+</section>
+<section id="modelos-state-space-5" class="slide level2">
+<h2>Modelos <em>state-space</em></h2>
+<p>Los <span style="color:red;">efectos fijos</span> vienen a ser:</p>
+<p><span class="math display">\[\boldsymbol{\theta} = (\boldsymbol{\theta}_p, \boldsymbol{\theta}_o, z_0)\]</span></p>
+<div class="fragment">
+<p>Y los estados <span class="math inline">\(z_t\)</span> son tratados como <span style="color:red;">variables aleatorias</span>.</p>
+<p>Por lo tanto, los SSM se consideran estos modelos jerárquicos:</p>
+<ol type="1">
+<li>Primer nivel: ecuación de observación</li>
+<li>Segundo nivel: ecuación de proceso</li>
+</ol>
+</div>
+</section>
+<section id="modelos-state-space-6" class="slide level2">
+<h2>Modelos <em>state-space</em></h2>
+<ul>
+<li>Aplicaciones a una gran variedad de campos de investigación.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Enfoque utilizado para analizar series de tiempo en ecología:
+<ul>
+<li>movimiento de animales</li>
+<li>biologging</li>
+<li>datos de captura-recaptura</li>
+<li>epidemiología</li>
+<li>evaluación de stocks</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="ssm-en-evaluación-de-stocks" class="slide level2">
+<h2>SSM en evaluación de stocks</h2>
+<p>Enfoque presentado por <span class="citation" data-cites="Sullivan_1992">Sullivan (<a href="#/referencias" role="doc-biblioref" onclick="">1992</a>)</span> y <span class="citation" data-cites="Gudmundsson_1994">Gudmundsson (<a href="#/referencias" role="doc-biblioref" onclick="">1994</a>)</span>.</p>
+<div class="fragment">
+<p>Usualmente los estados <span class="math inline">\(z_t\)</span> vienen a ser variables como <span class="citation" data-cites="Aeberhard_2018">(<a href="#/referencias" role="doc-biblioref" onclick="">Aeberhard, Flemming, and Nielsen 2018</a>)</span>:</p>
+<ul>
+<li>Abundancia a la edad</li>
+<li>Reclutamiento</li>
+<li>Mortalidad por pesca</li>
+<li>Mortalidad natural</li>
+<li>Selectividad</li>
+</ul>
+</div>
+</section>
+<section id="ssm-en-evaluación-de-stocks-1" class="slide level2">
+<h2>SSM en evaluación de stocks</h2>
+<p>En modelos de evaluación tradicionales se emplea el enfoque de <em>máxima verosimilitud penalizada</em> (PML) para modelar variaciones temporales en algún estado.</p>
+<div class="callout callout-important no-icon callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<p><strong>Ejemplo</strong></p>
+</div>
+<div class="callout-content">
+<p>Para modelar mortalidad por pesca, se separa la mortalidad por pesca anual y la selectividad a la edad:</p>
+<p><span class="math display">\[F_{a,t} = f_t S_a \exp(\delta_{a,t})\]</span></p>
+<p>Asumiendo que <span class="math inline">\(\delta_{a,t} \sim N(0,\sigma_\delta^2)\)</span>. El enfoque PML <strong>fija</strong> <span class="math inline">\(\sigma_\delta^2\)</span> (penalty term) en el modelo a un valor subjetivo.</p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>Principal ventaja de SSM: estimación de <span class="math inline">\(\sigma_\delta^2\)</span>.</p>
+</div>
+</section>
+<section id="ssm-en-evaluación-de-stocks-2" class="slide level2">
+<h2>SSM en evaluación de stocks</h2>
+<p><br></p>
+<p>En la actualidad, TMB <span class="citation" data-cites="Kristensen_2016">(<a href="#/referencias" role="doc-biblioref" onclick="">Kristensen et al. 2016</a>)</span> es la principal plataforma para implementar SSM debido a su eficiencia para modelar efectos aleatorios.</p>
+<div class="fragment">
+<ul>
+<li>Desarrollado a partir de <em>ADMB</em> <span class="citation" data-cites="Fournier_2012">(<a href="#/referencias" role="doc-biblioref" onclick="">David A. Fournier et al. 2012</a>)</span></li>
+<li>Usa la maquinaria de C++</li>
+<li>Sencilla manipulación desde R</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="laboratorio" class="title-slide slide level1 center">
+<h1>Laboratorio</h1>
+
+</section>
+<section id="software-requerido" class="slide level2">
+<h2>Software requerido</h2>
+<p><br></p>
+<ul>
+<li>MS Excel</li>
+<li>R <a href="https://cran.r-project.org/">instalar</a></li>
+<li>RStudio <a href="https://posit.co/download/rstudio-desktop/">instalar</a></li>
+<li>Rtools <a href="https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html">instalar</a></li>
+</ul>
+</section>
+<section id="instalación-de-librerías" class="slide level2">
+<h2>Instalación de librerías</h2>
+<p><br></p>
+<p>Instalar <code>TMB</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">install.packages</span>(<span class="st">'TMB'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="fragment">
+<p>Para instalar WHAM, utilizaremos la versión que permite incluir datos de tallas:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="at">repo =</span> <span class="st">'GiancarloMCorrea/wham'</span>, <span class="at">ref=</span><span class="st">'growth'</span>, </span>
+<span id="cb2-2"><a href="#cb2-2"></a>                        <span class="at">INSTALL_opts =</span> <span class="fu">c</span>(<span class="st">"--no-docs"</span>, <span class="st">"--no-multiarch"</span>, <span class="st">"--no-demo"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>También les sugiero explorar la <a href="https://timjmiller.github.io/wham/">versión base de WHAM</a>.</p>
+</div>
+</section>
+<section id="modelo-sencillo-en-tmb" class="slide level2">
+<h2>Modelo sencillo en TMB</h2>
+<p><br></p>
+<p>Objetivo: Conocer los pasos para implementar un modelo en TMB</p>
+<p>Ejemplo obtenido de <a href="https://seananderson.ca/2014/10/17/tmb/">Sean Anderson</a> (Gompertz SSM).</p>
+</section>
+<section id="modelo-sencillo-en-tmb-1" class="slide level2">
+<h2>Modelo sencillo en TMB</h2>
+<ol type="1">
+<li>Tener en claro el sistema a modelar:</li>
+</ol>
+<p><span class="math display">\[u_t = a + b u_{t-1} + \epsilon_t\]</span> <span class="math display">\[y_t = ln(u_t)\]</span></p>
+<p><span class="math display">\[\epsilon_t \sim N(0,\sigma_p^2)\]</span> <span class="math display">\[y_t \sim N(ln(u_t),\sigma_o^2)\]</span></p>
+<p>Donde <span class="math inline">\(u_t\)</span> es el estado (abundancia) en la población.</p>
+</section>
+<section id="modelo-sencillo-en-tmb-2" class="slide level2">
+<h2>Modelo sencillo en TMB</h2>
+<ol start="2" type="1">
+<li>Implementar tu modelo en TMB (ver <code>Ejercicio_1.cpp</code>)</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="1-5"><pre class="sourceCode numberSource rcpp number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a href="#cb3-1"></a>// Header</span>
+<span id="cb3-2"><a href="#cb3-2"></a>#include &lt;TMB.hpp&gt;</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a>template&lt;class Type&gt;</span>
+<span id="cb3-5"><a href="#cb3-5"></a>Type objective_function&lt;Type&gt;::operator() () {</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a>// Input data:</span>
+<span id="cb3-8"><a href="#cb3-8"></a>DATA_VECTOR(y);</span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a>// Parameters (fixed and random variables):</span>
+<span id="cb3-11"><a href="#cb3-11"></a>PARAMETER(a); </span>
+<span id="cb3-12"><a href="#cb3-12"></a>PARAMETER(b); </span>
+<span id="cb3-13"><a href="#cb3-13"></a>PARAMETER(log_sigma_proc); </span>
+<span id="cb3-14"><a href="#cb3-14"></a>PARAMETER(log_sigma_obs); </span>
+<span id="cb3-15"><a href="#cb3-15"></a>PARAMETER_VECTOR(u); </span>
+<span id="cb3-16"><a href="#cb3-16"></a></span>
+<span id="cb3-17"><a href="#cb3-17"></a>// Transformed parameters if required</span>
+<span id="cb3-18"><a href="#cb3-18"></a>Type sigma_proc = exp(log_sigma_proc);</span>
+<span id="cb3-19"><a href="#cb3-19"></a>Type sigma_obs = exp(log_sigma_obs);</span>
+<span id="cb3-20"><a href="#cb3-20"></a></span>
+<span id="cb3-21"><a href="#cb3-21"></a>// Reports on transformed parameters:</span>
+<span id="cb3-22"><a href="#cb3-22"></a>ADREPORT(sigma_proc)</span>
+<span id="cb3-23"><a href="#cb3-23"></a>ADREPORT(sigma_obs)</span>
+<span id="cb3-24"><a href="#cb3-24"></a></span>
+<span id="cb3-25"><a href="#cb3-25"></a>int n = y.size(); // get time series length</span>
+<span id="cb3-26"><a href="#cb3-26"></a></span>
+<span id="cb3-27"><a href="#cb3-27"></a>Type nll = 0.0; // initialize negative log likelihood</span>
+<span id="cb3-28"><a href="#cb3-28"></a></span>
+<span id="cb3-29"><a href="#cb3-29"></a>// process model:</span>
+<span id="cb3-30"><a href="#cb3-30"></a>for(int i = 1; i &lt; n; i++){</span>
+<span id="cb3-31"><a href="#cb3-31"></a>  Type m = a + b * u[i - 1]; // Gompertz</span>
+<span id="cb3-32"><a href="#cb3-32"></a>  nll -= dnorm(u[i], m, sigma_proc, true); // nll function</span>
+<span id="cb3-33"><a href="#cb3-33"></a>}</span>
+<span id="cb3-34"><a href="#cb3-34"></a></span>
+<span id="cb3-35"><a href="#cb3-35"></a>// observation model:</span>
+<span id="cb3-36"><a href="#cb3-36"></a>for(int i = 0; i &lt; n; i++){</span>
+<span id="cb3-37"><a href="#cb3-37"></a>  nll -= dnorm(y[i], u[i], sigma_obs, true); // nll function</span>
+<span id="cb3-38"><a href="#cb3-38"></a>}</span>
+<span id="cb3-39"><a href="#cb3-39"></a></span>
+<span id="cb3-40"><a href="#cb3-40"></a>return nll;</span>
+<span id="cb3-41"><a href="#cb3-41"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="modelo-sencillo-en-tmb-3" class="slide level2">
+<h2>Modelo sencillo en TMB</h2>
+<ol start="2" type="1">
+<li>Implementar tu modelo en TMB (ver <code>Ejercicio_1.cpp</code>)</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" data-code-line-numbers="7-15"><pre class="sourceCode numberSource rcpp number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a href="#cb4-1"></a>// Header</span>
+<span id="cb4-2"><a href="#cb4-2"></a>#include &lt;TMB.hpp&gt;</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a>template&lt;class Type&gt;</span>
+<span id="cb4-5"><a href="#cb4-5"></a>Type objective_function&lt;Type&gt;::operator() () {</span>
+<span id="cb4-6"><a href="#cb4-6"></a></span>
+<span id="cb4-7"><a href="#cb4-7"></a>// Input data:</span>
+<span id="cb4-8"><a href="#cb4-8"></a>DATA_VECTOR(y);</span>
+<span id="cb4-9"><a href="#cb4-9"></a></span>
+<span id="cb4-10"><a href="#cb4-10"></a>// Parameters (fixed and random variables):</span>
+<span id="cb4-11"><a href="#cb4-11"></a>PARAMETER(a); </span>
+<span id="cb4-12"><a href="#cb4-12"></a>PARAMETER(b); </span>
+<span id="cb4-13"><a href="#cb4-13"></a>PARAMETER(log_sigma_proc); </span>
+<span id="cb4-14"><a href="#cb4-14"></a>PARAMETER(log_sigma_obs); </span>
+<span id="cb4-15"><a href="#cb4-15"></a>PARAMETER_VECTOR(u); </span>
+<span id="cb4-16"><a href="#cb4-16"></a></span>
+<span id="cb4-17"><a href="#cb4-17"></a>// Transformed parameters if required</span>
+<span id="cb4-18"><a href="#cb4-18"></a>Type sigma_proc = exp(log_sigma_proc);</span>
+<span id="cb4-19"><a href="#cb4-19"></a>Type sigma_obs = exp(log_sigma_obs);</span>
+<span id="cb4-20"><a href="#cb4-20"></a></span>
+<span id="cb4-21"><a href="#cb4-21"></a>// Reports on transformed parameters:</span>
+<span id="cb4-22"><a href="#cb4-22"></a>ADREPORT(sigma_proc)</span>
+<span id="cb4-23"><a href="#cb4-23"></a>ADREPORT(sigma_obs)</span>
+<span id="cb4-24"><a href="#cb4-24"></a></span>
+<span id="cb4-25"><a href="#cb4-25"></a>int n = y.size(); // get time series length</span>
+<span id="cb4-26"><a href="#cb4-26"></a></span>
+<span id="cb4-27"><a href="#cb4-27"></a>Type nll = 0.0; // initialize negative log likelihood</span>
+<span id="cb4-28"><a href="#cb4-28"></a></span>
+<span id="cb4-29"><a href="#cb4-29"></a>// process model:</span>
+<span id="cb4-30"><a href="#cb4-30"></a>for(int i = 1; i &lt; n; i++){</span>
+<span id="cb4-31"><a href="#cb4-31"></a>  Type m = a + b * u[i - 1]; // Gompertz</span>
+<span id="cb4-32"><a href="#cb4-32"></a>  nll -= dnorm(u[i], m, sigma_proc, true); // nll function</span>
+<span id="cb4-33"><a href="#cb4-33"></a>}</span>
+<span id="cb4-34"><a href="#cb4-34"></a></span>
+<span id="cb4-35"><a href="#cb4-35"></a>// observation model:</span>
+<span id="cb4-36"><a href="#cb4-36"></a>for(int i = 0; i &lt; n; i++){</span>
+<span id="cb4-37"><a href="#cb4-37"></a>  nll -= dnorm(y[i], u[i], sigma_obs, true); // nll function</span>
+<span id="cb4-38"><a href="#cb4-38"></a>}</span>
+<span id="cb4-39"><a href="#cb4-39"></a></span>
+<span id="cb4-40"><a href="#cb4-40"></a>return nll;</span>
+<span id="cb4-41"><a href="#cb4-41"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="modelo-sencillo-en-tmb-4" class="slide level2">
+<h2>Modelo sencillo en TMB</h2>
+<ol start="2" type="1">
+<li>Implementar tu modelo en TMB (ver <code>Ejercicio_1.cpp</code>)</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource rcpp number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href="#cb5-1"></a>// Header</span>
+<span id="cb5-2"><a href="#cb5-2"></a>#include &lt;TMB.hpp&gt;</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a>template&lt;class Type&gt;</span>
+<span id="cb5-5"><a href="#cb5-5"></a>Type objective_function&lt;Type&gt;::operator() () {</span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a>// Input data:</span>
+<span id="cb5-8"><a href="#cb5-8"></a>DATA_VECTOR(y);</span>
+<span id="cb5-9"><a href="#cb5-9"></a></span>
+<span id="cb5-10"><a href="#cb5-10"></a>// Parameters (fixed and random variables):</span>
+<span id="cb5-11"><a href="#cb5-11"></a>PARAMETER(a); </span>
+<span id="cb5-12"><a href="#cb5-12"></a>PARAMETER(b); </span>
+<span id="cb5-13"><a href="#cb5-13"></a>PARAMETER(log_sigma_proc); </span>
+<span id="cb5-14"><a href="#cb5-14"></a>PARAMETER(log_sigma_obs); </span>
+<span id="cb5-15"><a href="#cb5-15"></a>PARAMETER_VECTOR(u); </span>
+<span id="cb5-16"><a href="#cb5-16"></a></span>
+<span id="cb5-17"><a href="#cb5-17"></a>// Transformed parameters if required</span>
+<span id="cb5-18"><a href="#cb5-18"></a>Type sigma_proc = exp(log_sigma_proc);</span>
+<span id="cb5-19"><a href="#cb5-19"></a>Type sigma_obs = exp(log_sigma_obs);</span>
+<span id="cb5-20"><a href="#cb5-20"></a></span>
+<span id="cb5-21"><a href="#cb5-21"></a>// Reports on transformed parameters:</span>
+<span id="cb5-22"><a href="#cb5-22"></a>ADREPORT(sigma_proc)</span>
+<span id="cb5-23"><a href="#cb5-23"></a>ADREPORT(sigma_obs)</span>
+<span id="cb5-24"><a href="#cb5-24"></a></span>
+<span id="cb5-25"><a href="#cb5-25"></a>int n = y.size(); // get time series length</span>
+<span id="cb5-26"><a href="#cb5-26"></a></span>
+<span id="cb5-27"><a href="#cb5-27"></a>Type nll = 0.0; // initialize negative log likelihood</span>
+<span id="cb5-28"><a href="#cb5-28"></a></span>
+<span id="cb5-29"><a href="#cb5-29"></a>// process model:</span>
+<span id="cb5-30"><a href="#cb5-30"></a>for(int i = 1; i &lt; n; i++){</span>
+<span id="cb5-31"><a href="#cb5-31"></a>  Type m = a + b * u[i - 1]; // Gompertz</span>
+<span id="cb5-32"><a href="#cb5-32"></a>  nll -= dnorm(u[i], m, sigma_proc, true); // nll function</span>
+<span id="cb5-33"><a href="#cb5-33"></a>}</span>
+<span id="cb5-34"><a href="#cb5-34"></a></span>
+<span id="cb5-35"><a href="#cb5-35"></a>// observation model:</span>
+<span id="cb5-36"><a href="#cb5-36"></a>for(int i = 0; i &lt; n; i++){</span>
+<span id="cb5-37"><a href="#cb5-37"></a>  nll -= dnorm(y[i], u[i], sigma_obs, true); // nll function</span>
+<span id="cb5-38"><a href="#cb5-38"></a>}</span>
+<span id="cb5-39"><a href="#cb5-39"></a></span>
+<span id="cb5-40"><a href="#cb5-40"></a>return nll;</span>
+<span id="cb5-41"><a href="#cb5-41"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="modelo-sencillo-en-tmb-5" class="slide level2">
+<h2>Modelo sencillo en TMB</h2>
+<p><br></p>
+<ol start="3" type="1">
+<li>Compilar el modelo (en R):</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">require</span>(TMB)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">compile</span>(<span class="st">"Ejercicio_1.cpp"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="fu">dyn.load</span>(<span class="fu">dynlib</span>(<span class="st">"Ejercicio_1"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="modelo-sencillo-en-tmb-6" class="slide level2">
+<h2>Modelo sencillo en TMB</h2>
+<p><br></p>
+<ol start="4" type="1">
+<li>En R, leer tus datos. Imaginemos que <code>y</code> son tus observaciones:</li>
+</ol>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">print</span>(y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 3.857919 4.139282 4.166160 4.593082 4.487591 4.691392 4.876311 4.681899
+  [9] 4.581784 4.706909 4.361975 4.900340 4.493509 4.841002 4.922498 4.722094
+ [17] 5.041822 4.885910 4.346571 4.497004 4.620252 4.214646 4.341192 4.251093
+ [25] 4.634612 4.130690 4.092495 4.414942 4.317848 4.315265 4.970341 4.852596
+ [33] 4.682839 4.766740 4.560845 5.270630 4.776654 5.206920 5.310690 4.500237
+ [41] 4.816574 4.481971 4.218075 4.016740 4.537255 4.935705 4.412348 4.750295
+ [49] 4.955589 4.473484 4.852497 4.890937 4.776721 4.486947 4.931865 4.767796
+ [57] 5.192605 4.571766 4.964695 4.688365 4.988027 4.610332 4.421622 5.253123
+ [65] 4.336354 4.339095 4.583634 4.512310 4.740320 4.904109 5.148162 4.948719
+ [73] 4.386315 5.102028 4.383329 4.215316 4.716833 4.701634 4.490838 4.427061
+ [81] 4.322670 4.828525 4.610247 4.428890 4.703014 4.641656 4.965105 4.956500
+ [89] 5.095534 4.696261 5.029934 5.024695 5.091339 4.819369 4.511168 5.412903
+ [97] 4.909512 4.939771 5.217307 4.853442</code></pre>
+</div>
+</div>
+</section>
+<section id="modelo-sencillo-en-tmb-7" class="slide level2">
+<h2>Modelo sencillo en TMB</h2>
+<p><br></p>
+<ol start="5" type="1">
+<li>Preparar los objetos y correr el modelo:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Data input (list)</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y =</span> y) </span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co"># fixed effects and random variables (list):</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>parameters <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="fl">0.5</span>, <span class="at">log_sigma_proc =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb9-5"><a href="#cb9-5"></a>                   <span class="at">log_sigma_obs =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">u =</span> <span class="fu">rep</span>(<span class="fu">mean</span>(y), <span class="dv">100</span>))</span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co"># Construct objective function (define random variable):</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>obj <span class="ot">&lt;-</span> <span class="fu">MakeADFun</span>(data, parameters, <span class="at">random =</span> <span class="st">"u"</span>, <span class="at">DLL =</span> <span class="st">"Ejercicio_1"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8"></a>obj<span class="sc">$</span>hessian <span class="ot">&lt;-</span> <span class="cn">FALSE</span> <span class="co"># no calculate hessian</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co"># Optimization:</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>opt <span class="ot">&lt;-</span> <span class="fu">nlminb</span>(<span class="at">start =</span> obj<span class="sc">$</span>par, <span class="at">obj =</span> obj<span class="sc">$</span>fn, <span class="at">gr =</span> obj<span class="sc">$</span>gr)</span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co"># Calculate SD of model parameters</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a>rep <span class="ot">&lt;-</span> <span class="fu">sdreport</span>(obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="modelo-básico-de-evaluación-de-stocks" class="slide level2">
+<h2>Modelo básico de evaluación de stocks</h2>
+<p><br></p>
+<p><br></p>
+<p>Abrir archivo <code>Ejercicio_2.xlsx</code></p>
+</section>
+<section id="referencias" class="slide level2 smaller scrollable">
+<h2>Referencias</h2>
 
 <img src="images/CGlogo1.png" class="slide-logo r-stretch"><div class="footer footer-default">
 
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Aeberhard_2018" class="csl-entry" role="doc-biblioentry">
+Aeberhard, William H., Joanna Mills Flemming, and Anders Nielsen. 2018. <span>“Review of State-Space Models for Fisheries Science.”</span> <em>Annual Review of Statistics and Its Application</em> 5 (1): 215–35. <a href="https://doi.org/10.1146/annurev-statistics-031017-100427">https://doi.org/10.1146/annurev-statistics-031017-100427</a>.
+</div>
+<div id="ref-Auger_M_th__2021" class="csl-entry" role="doc-biblioentry">
+Auger-Méthé, Marie, Ken Newman, Diana Cole, Fanny Empacher, Rowenna Gryba, Aaron A. King, Vianey Leos-Barajas, et al. 2021. <span>“A Guide to State<span></span>space Modeling of Ecological Time Series.”</span> <em>Ecological Monographs</em> 91 (4). <a href="https://doi.org/10.1002/ecm.1470">https://doi.org/10.1002/ecm.1470</a>.
+</div>
+<div id="ref-fournier1998multifan" class="csl-entry" role="doc-biblioentry">
+Fournier, Daid A, John Hampton, and John R Sibert. 1998. <span>“MULTIFAN-CL: A Length-Based, Age-Structured Model for Fisheries Stock Assessment, with Application to South Pacific Albacore, Thunnus Alalunga.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 55 (9): 2105–16.
+</div>
+<div id="ref-Fournier_2012" class="csl-entry" role="doc-biblioentry">
+Fournier, David A., Hans J. Skaug, Johnoel Ancheta, James Ianelli, Arni Magnusson, Mark N. Maunder, Anders Nielsen, and John Sibert. 2012. <span>“<span>AD</span> Model Builder: Using Automatic Differentiation for Statistical Inference of Highly Parameterized Complex Nonlinear Models.”</span> <em>Optimization Methods and Software</em> 27 (2): 233–49. <a href="https://doi.org/10.1080/10556788.2011.597854">https://doi.org/10.1080/10556788.2011.597854</a>.
+</div>
+<div id="ref-Fournier_1982" class="csl-entry" role="doc-biblioentry">
+Fournier, David, and Chris P. Archibald. 1982. <span>“A General Theory for Analyzing Catch at Age Data.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 39 (8): 1195–1207. <a href="https://doi.org/10.1139/f82-157">https://doi.org/10.1139/f82-157</a>.
+</div>
+<div id="ref-Gudmundsson_1994" class="csl-entry" role="doc-biblioentry">
+Gudmundsson, Gudmundur. 1994. <span>“Time Series Analysis of Catch-at-Age Observations.”</span> <em>Applied Statistics</em> 43 (1): 117. <a href="https://doi.org/10.2307/2986116">https://doi.org/10.2307/2986116</a>.
+</div>
+<div id="ref-Haddon_2011" class="csl-entry" role="doc-biblioentry">
+Haddon, Malcolm. 2011. <em>Modelling and Quantitative Methods in Fisheries</em>. Chapman; Hall/<span>CRC</span>. <a href="https://doi.org/10.1201/9781439894170">https://doi.org/10.1201/9781439894170</a>.
+</div>
+<div id="ref-Kristensen_2016" class="csl-entry" role="doc-biblioentry">
+Kristensen, Kasper, Anders Nielsen, Casper W. Berg, Hans Skaug, and Bradley M. Bell. 2016. <span>“TMB: Automatic Differentiation and Laplace Approximation.”</span> <em>Journal of Statistical Software</em> 70 (5). <a href="https://doi.org/10.18637/jss.v070.i05">https://doi.org/10.18637/jss.v070.i05</a>.
+</div>
+<div id="ref-Methot_2013" class="csl-entry" role="doc-biblioentry">
+Methot, Richard D., and Chantell R. Wetzel. 2013. <span>“Stock Synthesis: A Biological and Statistical Framework for Fish Stock Assessment and Fishery Management.”</span> <em>Fisheries Research</em> 142 (May): 86–99. <a href="https://doi.org/10.1016/j.fishres.2012.10.012">https://doi.org/10.1016/j.fishres.2012.10.012</a>.
+</div>
+<div id="ref-Nielsen_2014" class="csl-entry" role="doc-biblioentry">
+Nielsen, Anders, and Casper W. Berg. 2014. <span>“Estimation of Time-Varying Selectivity in Stock Assessments Using State-Space Models.”</span> <em>Fisheries Research</em> 158 (October): 96–101. <a href="https://doi.org/10.1016/j.fishres.2014.01.014">https://doi.org/10.1016/j.fishres.2014.01.014</a>.
+</div>
+<div id="ref-Stock_2021" class="csl-entry" role="doc-biblioentry">
+Stock, Brian C., and Timothy J. Miller. 2021. <span>“The Woods Hole Assessment Model (<span>WHAM</span>): A General State-Space Assessment Framework That Incorporates Time- and Age-Varying Processes via Random Effects and Links to Environmental Covariates.”</span> <em>Fisheries Research</em> 240 (August): 105967. <a href="https://doi.org/10.1016/j.fishres.2021.105967">https://doi.org/10.1016/j.fishres.2021.105967</a>.
+</div>
+<div id="ref-Sullivan_1992" class="csl-entry" role="doc-biblioentry">
+Sullivan, Patrick J. 1992. <span>“A Kalman Filter Approach to Catch-at-Length Analysis.”</span> <em>Biometrics</em> 48 (1): 237. <a href="https://doi.org/10.2307/2532752">https://doi.org/10.2307/2532752</a>.
+</div>
 </div>
 </section></section>
     </div>
@@ -659,6 +1250,44 @@
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
