@@ -617,7 +617,7 @@ obj$hessian <- FALSE # no calculate hessian
 # Optimization:
 opt <- nlminb(start = obj$par, obj = obj$fn, gr = obj$gr)
 # Calculate SD of model parameters
-rep <- sdreport(obj)
+est_pars <- sdreport(obj)
 ```
 
 

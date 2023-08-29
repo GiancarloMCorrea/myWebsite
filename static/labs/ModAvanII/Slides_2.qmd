@@ -1,0 +1,267 @@
+---
+title: "Modelos avanzados en evaluación de recursos pesqueros: Día 2"
+author: 
+   <br>Dr. Giancarlo M. Correa
+institute:
+   <br>Cousteau Consultant Group
+format:
+  revealjs:
+    theme: simple
+    logo: images/CGlogo1.png
+    slide-number: 'c/t'
+    css: myStyle.css
+from: markdown+emoji
+editor: visual
+execute:
+  echo: true
+bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b0/references.bib?x=eyJpZCI6ICJiNjNhYzI0Mi1hNzdjLTQ4MTYtOWMyNy1mY2RmYjMxODc1YjAiLCAidXNlciI6ICI1NDQwIiwgInNpZ25hdHVyZSI6ICIyMTMxYjVhZDk1NGYxNDUzYjk3YjZiNjk3ZDIxZWEwODIwZjA4MTBiZTk3YWIxOTNiMGVkMzI1YzI0YTRjZWNkIn0=/bibliography.bib"
+---
+
+# The Woods Hole Assessment Model (WHAM)
+
+<!-- Install this version of knitr or update RStudio-->
+<!-- remotes::install_version("knitr", "1.42") -->
+
+## WHAM: Introducción
+
+<br>
+
+::: incremental
+- Modelo de evaluación estructurado por edades con enfoque SSM [@Stock_2021].
+- Implementado en TMB y R, sencillo aprendizaje para R-users.
+- Desarrollado a partir de [ASAP3](https://noaa-fisheries-integrated-toolbox.github.io/ASAP).
+- [Website](https://timjmiller.github.io/wham/).
+- [WHAM Github repository](https://github.com/timjmiller/wham) (ver *branches*).
+- Versión para este curso: [WHAM *growth* branch](https://github.com/GiancarloMCorrea/wham/tree/growth).
+:::
+
+## WHAM: Introducción
+
+<br>
+
+- Antes de @Stock_2021, varios estudios ya habían ido publicando los inicios de WHAM: 
+  * @Stock_2021b
+  * @Miller_2018b
+  * @Miller_2018
+  * @Miller_2016 
+
+## WHAM: Requerimientos
+
+<br>
+
+Se require lo siguiente:
+
+::: incremental
+
+* Disponibilidad de datos y conocimiento del stock.
+* Solo se usa R para la implementación de un modelo.
+* Se recomienda conocimiento básico en TMB.
+* Conocimiento de las ecuaciones de dinámica poblacional en WHAM.
+
+:::
+
+## WHAM: Datos
+
+Con la nueva extensión de WHAM [@Correa_2023], podemos incluir los siguientes tipos de datos por año y flota (pesquerías e índices):
+
+- Captura total (solo para pesquerías)
+- Índices de abundancia (solo para índices)
+- Composición por edades y tallas
+- Conditional age-at-length (CAAL)
+- Variables ambientales
+- Peso medio a la edad
+
+## WHAM: Secciones
+
+Modelamiento de las siguientes secciones de la dinámica poblacional del stock:
+
+- Reclutamiento (abundancia a la edad)
+- Selectividad
+- Mortalidad natural
+- Capturabilidad
+- Variables ambientales
+- Crecimiento somático
+
+## WHAM: Implementar un modelo
+
+1. Crear una lista en R con los datos de entrada:
+
+<br>
+
+```{r eval = FALSE}
+input_data = list()
+input_data$ages # Vector con edades 
+input_data$catch_paa # Matrix con determinadas dimensiones 
+input_data$index_paa # Matrix con determinadas dimensiones
+# Y asi para capturas, composición de tallas, etc.
+```
+
+
+## WHAM: Implementar un modelo
+
+1. Crear una lista en R con los datos de entrada:
+
+::: {.callout-important icon=false}
+
+## Importante
+
+- La palabra `catch` ó `fleet` se refiere a las pesquerías y `index` a los índices (e.g., cruceros). 
+- No es necesario especificar todos los *slots*. Si algún *slot* no es especificado, este tomará el valor por defecto.
+- Las dimensiones son estrictas (no mucha flexibilidad).
+- Los datos de entrada también puede ser especificado a partir de un archivo *ASAP3*.
+
+:::
+
+
+## WHAM: Implementar un modelo
+
+2. Crear el objeto de entrada para WHAM:
+
+```{r eval = FALSE}
+my_input = wham::prepare_wham_input(model_name = "Example_1",
+                         basic_info = input_data, 
+                         NAA_re = list(), # Recruitment parameters
+                         M = list(), # M parameter
+                         selectivity = list(), # Selectivity parameter
+                         catchability = list(), # Catchability parameter
+                         ecov = list(), # Environmental information
+                         # Crecimiento somatico:
+                         growth = list(), LAA = list(), # Mean length-at-age
+                         LW = list(), # Length-weight relationship
+                         WAA = list(), # Mean weight-at-age
+                         age_comp = "multinomial", # Age composition model
+                         len_comp = "multinomial" # Length composition model
+                         ) 
+```
+
+## WHAM: Pasos para implementar un modelo
+
+2. Crear el objeto de entrada para WHAM:
+
+::: {.callout-important icon=false}
+
+## Importante
+
+- Al igual que para los datos de entrada, no necesitamos especificar todos los argumentos de `prepare_wham_input`. Si un argumento no es especificado, tomará el valor por defecto.
+- En el slide anterior, en el `list()` de cada argumento especificamos la información de cada parámetro.
+
+:::
+
+## WHAM: Implementar un modelo
+
+<br>
+
+Veremos que `my_input` tiene 4 principales *slots*:
+
+```{r eval = FALSE}
+my_input$data # datos
+my_input$par # informacion de parametros
+my_input$map # estimar/no estimar parametros
+my_input$random # variables aleatorias
+```
+
+<br>
+
+::: fragment
+
+3. Opcional: Fijar algunos parámetros
+
+```{r eval = FALSE}
+# Por ejemplo, podemos fijar sigma R:
+my_input$log_NAA_sigma = factor(NA)
+```
+
+:::
+
+## WHAM: Implementar un modelo
+
+<br>
+
+4. Correr el modelo
+
+```{r eval = FALSE}
+my_model = wham::fit_wham(my_input)
+```
+
+<br>
+
+::: fragment
+
+5. Analizar resultados
+
+```{r eval = FALSE}
+wham::plot_wham_output(my_model)
+```
+
+:::
+
+# Datos de entrada
+
+## Información básica
+
+<br>
+
+```{r eval = FALSE}
+input_data = list()
+input_data$ages = 1:10 # edades
+input_data$lengths = seq(from = 2, to = 120, by = 2) # tallas
+input_data$years = 1971:2020 # years
+input_data$n_fleets = 1 # numero de pesquerias
+input_data$n_indices = 1 # numero de indices
+```
+
+## Información de pesquería
+
+<br>
+
+Primero calculemos el número de años, edades, y tallas para hacer el resto más sencillo:
+
+```{r eval = FALSE}
+n_years = length(input_data$years)
+n_ages = length(input_data$ages)
+n_lengths = length(input_data$lengths)
+```
+
+## Información de pesquería
+
+<br>
+
+```{r eval = FALSE}
+# Captura agregada:
+input_data$agg_catch = matrix(mis_datos, ncol = input_data$n_fleets, nrow = n_years) # Obs
+input_data$catch_cv = matrix(mis_datos, ncol = input_data$n_fleets, nrow = n_years) # Obs error
+# Composicion por edades (proporcion)
+input_data$catch_paa = array(mis_datos, dim = c(input_data$n_fleets, n_years, n_ages)) # Obs
+input_data$catch_Neff = matrix(mis_datos, ncol = input_data$n_fleets, nrow = n_years) # Obs error
+# Composicion por tallas (proporcion)
+input_data$catch_pal = array(mis_datos, dim = c(input_data$n_fleets, n_years, n_lengths)) # Obs
+input_data$catch_NeffL = matrix(mis_datos, ncol = input_data$n_fleets, nrow = n_years) # Obs error
+# Conditional age-at-length (CAAL, proporcion)
+input_data$catch_caal = array(mis_datos, dim = c(input_data$n_fleets, n_years, n_lengths, n_ages)) # Obs
+input_data$catch_caal_Neff = array(mis_datos, dim = c(n_years, input_data$n_fleets, n_lengths)) # Obs error
+```
+
+## Información de índices
+
+<br>
+
+```{r eval = FALSE}
+# Indice agregado:
+input_data$agg_indices = matrix(mis_datos, ncol = input_data$n_indices, nrow = n_years) # Obs
+input_data$index_cv = matrix(mis_datos, ncol = input_data$n_indices, nrow = n_years) # Obs error
+# Información adicional:
+input_data$units_indices = matrix(0L, nrow = n_years, ncol = input_data$n_indices) # 0 = numbers, 1 = biomass
+input_data$fracyr_indices = matrix(0.5, ncol = data$n_indices, nrow = n_years) # fraccion del year
+# Composicion por edades (proporcion)
+input_data$index_paa = array(mis_datos, dim = c(input_data$n_indices, n_years, n_ages)) # Obs
+input_data$index_Neff = matrix(mis_datos, ncol = input_data$n_indices, nrow = n_years) # Obs error
+# Composicion por tallas (proporcion)
+input_data$index_pal = array(mis_datos, dim = c(input_data$n_indices, n_years, n_lengths)) # Obs
+input_data$index_NeffL = matrix(mis_datos, ncol = input_data$n_indices, nrow = n_years) # Obs error
+# Conditional age-at-length (CAAL, proporcion)
+input_data$index_caal = array(mis_datos, dim = c(input_data$n_indices, n_years, n_lengths, n_ages)) # Obs
+input_data$index_caal_Neff = array(mis_datos, dim = c(n_years, input_data$n_indices, n_lengths)) # Obs error
+```
+
+
+## Referencias
