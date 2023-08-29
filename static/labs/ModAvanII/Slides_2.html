@@ -477,6 +477,7 @@
 <li>Composición por edades y tallas</li>
 <li>Conditional age-at-length (CAAL)</li>
 <li>Variables ambientales</li>
+<li>Matrix de error de edad</li>
 <li>Peso medio a la edad</li>
 </ul>
 </section>
@@ -650,8 +651,15 @@
 <span id="cb9-9"><a href="#cb9-9"></a>input_data<span class="sc">$</span>catch_NeffL <span class="ot">=</span> <span class="fu">matrix</span>(mis_datos, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_fleets, <span class="at">nrow =</span> n_years) <span class="co"># Obs error</span></span>
 <span id="cb9-10"><a href="#cb9-10"></a><span class="co"># Conditional age-at-length (CAAL, proporcion)</span></span>
 <span id="cb9-11"><a href="#cb9-11"></a>input_data<span class="sc">$</span>catch_caal <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_fleets, n_years, n_lengths, n_ages)) <span class="co"># Obs</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a>input_data<span class="sc">$</span>catch_caal_Neff <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(n_years, input_data<span class="sc">$</span>n_fleets, n_lengths)) <span class="co"># Obs error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-12"><a href="#cb9-12"></a>input_data<span class="sc">$</span>catch_caal_Neff <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(n_years, input_data<span class="sc">$</span>n_fleets, n_lengths)) <span class="co"># Obs error</span></span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="co"># Aging error matrix</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a>input_data<span class="sc">$</span>catch_aging_error <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_fleets, n_ages, n_ages)) </span>
+<span id="cb9-15"><a href="#cb9-15"></a>input_data<span class="sc">$</span>use_catch_aging_error <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> input_data<span class="sc">$</span>n_fleets) <span class="co"># 1 = si usar, 0 = no usar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
+<section id="muestreo" class="slide level2">
+<h2>Muestreo</h2>
+<p>Add sampling methods for paa, pal, and caal</p>
 </section>
 <section id="información-de-índices" class="slide level2">
 <h2>Información de índices</h2>
@@ -671,7 +679,18 @@
 <span id="cb10-12"><a href="#cb10-12"></a>input_data<span class="sc">$</span>index_NeffL <span class="ot">=</span> <span class="fu">matrix</span>(mis_datos, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_indices, <span class="at">nrow =</span> n_years) <span class="co"># Obs error</span></span>
 <span id="cb10-13"><a href="#cb10-13"></a><span class="co"># Conditional age-at-length (CAAL, proporcion)</span></span>
 <span id="cb10-14"><a href="#cb10-14"></a>input_data<span class="sc">$</span>index_caal <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_indices, n_years, n_lengths, n_ages)) <span class="co"># Obs</span></span>
-<span id="cb10-15"><a href="#cb10-15"></a>input_data<span class="sc">$</span>index_caal_Neff <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(n_years, input_data<span class="sc">$</span>n_indices, n_lengths)) <span class="co"># Obs error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-15"><a href="#cb10-15"></a>input_data<span class="sc">$</span>index_caal_Neff <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(n_years, input_data<span class="sc">$</span>n_indices, n_lengths)) <span class="co"># Obs error</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a><span class="co"># Aging error matrix</span></span>
+<span id="cb10-17"><a href="#cb10-17"></a>input_data<span class="sc">$</span>index_aging_error <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_indices, n_ages, n_ages)) </span>
+<span id="cb10-18"><a href="#cb10-18"></a>input_data<span class="sc">$</span>use_index_aging_error <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> input_data<span class="sc">$</span>n_indices) <span class="co"># 1 = si usar, 0 = no usar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="selectividad" class="slide level2">
+<h2>Selectividad</h2>
+<p>Tenemos que especificar los <em>pointers</em> para las selectividad que especificaremos luego:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>input_data<span class="sc">$</span>selblock_pointer_fleets <span class="ot">=</span> <span class="fu">matrix</span>(my_pointers, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_fleets, <span class="at">nrow =</span> n_years)</span>
+<span id="cb11-2"><a href="#cb11-2"></a>input_data<span class="sc">$</span>selblock_pointer_indices <span class="ot">=</span> <span class="fu">matrix</span>(my_pointers, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_indices, <span class="at">nrow =</span> n_years)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">

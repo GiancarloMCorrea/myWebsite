@@ -69,6 +69,7 @@ Con la nueva extensión de WHAM [@Correa_2023], podemos incluir los siguientes t
 - Composición por edades y tallas
 - Conditional age-at-length (CAAL)
 - Variables ambientales
+- Matrix de error de edad
 - Peso medio a la edad
 
 ## WHAM: Secciones
@@ -239,7 +240,14 @@ input_data$catch_NeffL = matrix(mis_datos, ncol = input_data$n_fleets, nrow = n_
 # Conditional age-at-length (CAAL, proporcion)
 input_data$catch_caal = array(mis_datos, dim = c(input_data$n_fleets, n_years, n_lengths, n_ages)) # Obs
 input_data$catch_caal_Neff = array(mis_datos, dim = c(n_years, input_data$n_fleets, n_lengths)) # Obs error
+# Aging error matrix
+input_data$catch_aging_error = array(mis_datos, dim = c(input_data$n_fleets, n_ages, n_ages)) 
+input_data$use_catch_aging_error = rep(1, times = input_data$n_fleets) # 1 = si usar, 0 = no usar
 ```
+
+## Muestreo
+
+Add sampling methods for paa, pal, and caal
 
 ## Información de índices
 
@@ -261,6 +269,18 @@ input_data$index_NeffL = matrix(mis_datos, ncol = input_data$n_indices, nrow = n
 # Conditional age-at-length (CAAL, proporcion)
 input_data$index_caal = array(mis_datos, dim = c(input_data$n_indices, n_years, n_lengths, n_ages)) # Obs
 input_data$index_caal_Neff = array(mis_datos, dim = c(n_years, input_data$n_indices, n_lengths)) # Obs error
+# Aging error matrix
+input_data$index_aging_error = array(mis_datos, dim = c(input_data$n_indices, n_ages, n_ages)) 
+input_data$use_index_aging_error = rep(1, times = input_data$n_indices) # 1 = si usar, 0 = no usar
+```
+
+## Selectividad
+
+Tenemos que especificar los *pointers* para las selectividad que especificaremos luego:
+
+```{r eval = FALSE}
+input_data$selblock_pointer_fleets = matrix(my_pointers, ncol = input_data$n_fleets, nrow = n_years)
+input_data$selblock_pointer_indices = matrix(my_pointers, ncol = input_data$n_indices, nrow = n_years)
 ```
 
 
