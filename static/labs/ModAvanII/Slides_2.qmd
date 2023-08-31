@@ -20,6 +20,7 @@ bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b
 # The Woods Hole Assessment Model (WHAM)
 
 <!-- Install this version of knitr or update RStudio-->
+
 <!-- remotes::install_version("knitr", "1.42") -->
 
 ## WHAM: Introducción
@@ -27,65 +28,72 @@ bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b
 <br>
 
 ::: incremental
-- Modelo de evaluación estructurado por edades con enfoque SSM [@Stock_2021].
-- Implementado en TMB y R, sencillo aprendizaje para R-users.
-- Desarrollado a partir de [ASAP3](https://noaa-fisheries-integrated-toolbox.github.io/ASAP).
-- [Website](https://timjmiller.github.io/wham/).
-- [WHAM Github repository](https://github.com/timjmiller/wham) (ver *branches*).
-- Versión para este curso: [WHAM *growth* branch](https://github.com/GiancarloMCorrea/wham/tree/growth).
+-   Modelo de evaluación estructurado por edades con enfoque SSM [@Stock_2021].
+-   Implementado en TMB y R, sencillo aprendizaje para R-users.
+-   Desarrollado a partir de [ASAP3](https://noaa-fisheries-integrated-toolbox.github.io/ASAP).
+-   [Website](https://timjmiller.github.io/wham/).
+-   [WHAM Github repository](https://github.com/timjmiller/wham) (ver *branches*).
+-   Versión para este curso: [WHAM *growth* branch](https://github.com/GiancarloMCorrea/wham/tree/growth).
 :::
 
 ## WHAM: Introducción
 
 <br>
 
-- Antes de @Stock_2021, varios estudios ya habían ido publicando los inicios de WHAM: 
-  * @Stock_2021b
-  * @Miller_2018b
-  * @Miller_2018
-  * @Miller_2016 
+-   Antes de @Stock_2021, varios estudios ya habían ido publicando los inicios de WHAM:
+    -   @Stock_2021b
+    -   @Miller_2018b
+    -   @Miller_2018
+    -   @Miller_2016
 
 ## WHAM: Requerimientos
-
-<br>
 
 Se require lo siguiente:
 
 ::: incremental
+-   Disponibilidad de datos y conocimiento del stock.
+-   Solo se usa R para la implementación de un modelo.
+-   Se recomienda conocimiento básico en TMB.
+-   Conocimiento de las ecuaciones de dinámica poblacional en WHAM.
+:::
 
-* Disponibilidad de datos y conocimiento del stock.
-* Solo se usa R para la implementación de un modelo.
-* Se recomienda conocimiento básico en TMB.
-* Conocimiento de las ecuaciones de dinámica poblacional en WHAM.
+::: fragment
+
+::: {.callout-warning}
+## Recomendación
+
+Si **solo** se tienen datos de captura e índices de abundancia, se recomienda usar otras plataformas, por ejemplo: SPiCT [@Pedersen_2016], [REMA](https://github.com/afsc-assessments/rema). 
 
 :::
+
+::: 
 
 ## WHAM: Datos
 
 Con la nueva extensión de WHAM [@Correa_2023], podemos incluir los siguientes tipos de datos por año y flota (pesquerías e índices):
 
-- Captura total (solo para pesquerías)
-- Índices de abundancia (solo para índices)
-- Composición por edades y tallas
-- Conditional age-at-length (CAAL)
-- Variables ambientales
-- Matrix de error de edad
-- Peso medio a la edad
+-   Captura total (solo para pesquerías)
+-   Índices de abundancia (solo para índices)
+-   Composición por edades y tallas
+-   Conditional age-at-length (CAAL)
+-   Variables ambientales
+-   Matrix de error de edad
+-   Peso medio a la edad
 
 ## WHAM: Secciones
 
 Modelamiento de las siguientes secciones de la dinámica poblacional del stock:
 
-- Reclutamiento (abundancia a la edad)
-- Selectividad
-- Mortalidad natural
-- Capturabilidad
-- Variables ambientales
-- Crecimiento somático
+-   Reclutamiento (abundancia a la edad)
+-   Selectividad
+-   Mortalidad natural
+-   Capturabilidad
+-   Variables ambientales
+-   Crecimiento somático
 
 ## WHAM: Implementar un modelo
 
-1. Crear una lista en R con los datos de entrada:
+1.  Crear una lista en R con los datos de entrada:
 
 <br>
 
@@ -97,26 +105,22 @@ input_data$index_paa # Matrix con determinadas dimensiones
 # Y asi para capturas, composición de tallas, etc.
 ```
 
-
 ## WHAM: Implementar un modelo
 
-1. Crear una lista en R con los datos de entrada:
+1.  Crear una lista en R con los datos de entrada:
 
-::: {.callout-important icon=false}
-
+::: {.callout-important icon="false"}
 ## Importante
 
-- La palabra `catch` ó `fleet` se refiere a las pesquerías y `index` a los índices (e.g., cruceros). 
-- No es necesario especificar todos los *slots*. Si algún *slot* no es especificado, este tomará el valor por defecto.
-- Las dimensiones son estrictas (no mucha flexibilidad).
-- Los datos de entrada también puede ser especificado a partir de un archivo *ASAP3*.
-
+-   La palabra `catch` ó `fleet` se refiere a las pesquerías y `index` a los índices (e.g., cruceros).
+-   No es necesario especificar todos los *slots*. Si algún *slot* no es especificado, este tomará el valor por defecto.
+-   Las dimensiones son estrictas (no mucha flexibilidad).
+-   Los datos de entrada también puede ser especificado a partir de un archivo *ASAP3*.
 :::
-
 
 ## WHAM: Implementar un modelo
 
-2. Crear el objeto de entrada para WHAM:
+2.  Crear el objeto de entrada para WHAM:
 
 ```{r eval = FALSE}
 my_input = wham::prepare_wham_input(model_name = "Example_1",
@@ -137,15 +141,13 @@ my_input = wham::prepare_wham_input(model_name = "Example_1",
 
 ## WHAM: Pasos para implementar un modelo
 
-2. Crear el objeto de entrada para WHAM:
+2.  Crear el objeto de entrada para WHAM:
 
-::: {.callout-important icon=false}
-
+::: {.callout-important icon="false"}
 ## Importante
 
-- Al igual que para los datos de entrada, no necesitamos especificar todos los argumentos de `prepare_wham_input`. Si un argumento no es especificado, tomará el valor por defecto.
-- En el slide anterior, en el `list()` de cada argumento especificamos la información de cada parámetro.
-
+-   Al igual que para los datos de entrada, no necesitamos especificar todos los argumentos de `prepare_wham_input`. Si un argumento no es especificado, tomará el valor por defecto.
+-   En el slide anterior, en el `list()` de cada argumento especificamos la información de cada parámetro.
 :::
 
 ## WHAM: Implementar un modelo
@@ -164,21 +166,19 @@ my_input$random # variables aleatorias
 <br>
 
 ::: fragment
-
-3. Opcional: Fijar algunos parámetros
+3.  Opcional: Fijar algunos parámetros
 
 ```{r eval = FALSE}
 # Por ejemplo, podemos fijar sigma R:
-my_input$log_NAA_sigma = factor(NA)
+my_input$map$log_NAA_sigma = factor(NA)
 ```
-
 :::
 
 ## WHAM: Implementar un modelo
 
 <br>
 
-4. Correr el modelo
+4.  Correr el modelo
 
 ```{r eval = FALSE}
 my_model = wham::fit_wham(my_input)
@@ -187,13 +187,11 @@ my_model = wham::fit_wham(my_input)
 <br>
 
 ::: fragment
-
-5. Analizar resultados
+5.  Analizar resultados
 
 ```{r eval = FALSE}
 wham::plot_wham_output(my_model)
 ```
-
 :::
 
 # Datos de entrada
@@ -225,8 +223,6 @@ n_lengths = length(input_data$lengths)
 
 ## Información de pesquería
 
-<br>
-
 ```{r eval = FALSE}
 # Captura agregada:
 input_data$agg_catch = matrix(mis_datos, ncol = input_data$n_fleets, nrow = n_years) # Obs
@@ -242,16 +238,79 @@ input_data$catch_caal = array(mis_datos, dim = c(input_data$n_fleets, n_years, n
 input_data$catch_caal_Neff = array(mis_datos, dim = c(n_years, input_data$n_fleets, n_lengths)) # Obs error
 # Aging error matrix
 input_data$catch_aging_error = array(mis_datos, dim = c(input_data$n_fleets, n_ages, n_ages)) 
-input_data$use_catch_aging_error = rep(1, times = input_data$n_fleets) # 1 = si usar, 0 = no usar
 ```
+
+::: fragment
+
+::: {.callout-warning}
+## Cuidado
+
+No es posible tener captura agregada igual a 0, se sugiere especificar un número pequeño.
+
+:::
+
+::: 
 
 ## Muestreo
 
-Add sampling methods for paa, pal, and caal
+Para un viaje de pesca o un lance de un crucero de investigación:
+
+```{r}
+#| echo: false
+DiagrammeR::grViz("digraph {
+
+graph [layout = dot, rankdir = LB]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]
+
+C1 [label = 'Captura total', fillcolor = Pink]
+CAL [label = 'Muestreo de tallas', fillcolor = Pink]
+CAL2 [label = 'Composición por tallas', fillcolor = lightskyblue2]
+CAAL [label = 'Submuestreo de edades', fillcolor = Pink]
+OTO [label =  'Obtención de otolitos \n Talla-edad', fillcolor = Pink]
+
+{rank = min; C1}
+{rank = same; CAL CAL2}
+
+# edge definitions with the node IDs
+C1 -> CAL
+CAL -> CAL2
+CAL  -> CAAL
+CAAL  -> OTO
+
+}")
+```
+
+
+## Muestreo
+
+Después de muestrear muchos viajes de pesca o lances en un crucero, se suele construir una clave talla-edad (probabilidad de ser cierta edad dada la talla):
+
+![](images/D2_img0.jpg){fig-align="center" width="100%"}
+
+## Muestreo
+
+Finalmente, con los datos de la clave talla-edad y composición por talla por viaje o lance, se calcula la *composición por edades* por viaje o lance. Luego se realiza una expansión para todo el crucero o temporada de pesca.
+
+::: fragment
+
+::: {.callout-note}
+## Conditional age-at-length (CAAL)
+
+CAAL es justamente la información talla-edad (clave talla edad).
+
+:::
+
+:::
+
+::: fragment
+
+El esfuerzo de muestreo se representa con `Neff`. Por ejemplo: número de viajes muestreados, o el no. de individuos muestreados por talla (del submuestreo de edades).
+
+:::
 
 ## Información de índices
-
-<br>
 
 ```{r eval = FALSE}
 # Indice agregado:
@@ -271,17 +330,142 @@ input_data$index_caal = array(mis_datos, dim = c(input_data$n_indices, n_years, 
 input_data$index_caal_Neff = array(mis_datos, dim = c(n_years, input_data$n_indices, n_lengths)) # Obs error
 # Aging error matrix
 input_data$index_aging_error = array(mis_datos, dim = c(input_data$n_indices, n_ages, n_ages)) 
+```
+
+## Activar datos
+
+```{r eval = FALSE}
+# Para pesquerias
+input_data$use_agg_catch = matrix(mi_activar, nrow = n_years, ncol = n_fleets) # 1 = usar, 0 = no usar
+input_data$use_catch_paa = matrix(mi_activar, nrow = n_years, ncol = n_fleets) # 1 = usar, 0 = no usar
+input_data$use_catch_pal = matrix(mi_activar, nrow = n_years, ncol = n_fleets) # 1 = usar, 0 = no usar
+input_data$use_catch_caal = array(mi_activar, dim = c(n_years, n_fleets, n_lengths)) # 1 = usar, 0 = no usar
+input_data$use_catch_aging_error = rep(1, times = input_data$n_fleets) # 1 = si usar, 0 = no usar
+# Para indices
+input_data$use_indices = matrix(mi_activar, nrow = n_years, ncol = n_indices) # 1 = usar, 0 = no usar
+input_data$use_index_paa = matrix(mi_activar, nrow = n_years, ncol = n_indices) # 1 = usar, 0 = no usar
+input_data$use_index_pal = matrix(mi_activar, nrow = n_years, ncol = n_indices) # 1 = usar, 0 = no usar
+input_data$use_index_caal = array(mi_activar, dim = c(n_years, n_indices, n_lengths)) # 1 = usar, 0 = no usar
 input_data$use_index_aging_error = rep(1, times = input_data$n_indices) # 1 = si usar, 0 = no usar
 ```
 
-## Selectividad
+::: fragment
 
-Tenemos que especificar los *pointers* para las selectividad que especificaremos luego:
+::: {.callout-warning}
+## Cuidado
+
+Si no se incluyen datos, entonces el `use` será 0. Sin embargo, el valor por defecto para `paa` es 1, incluso si no se incluyen datos de composición por edad. Por lo tanto, siempre desactivarlo si es que no se planea usar `paa`.
+
+:::
+
+::: 
+
+
+## Selectividad pointers
+
+<br>
+
+Tenemos que especificar los *pointers* para los modelos de selectividad:
 
 ```{r eval = FALSE}
 input_data$selblock_pointer_fleets = matrix(my_pointers, ncol = input_data$n_fleets, nrow = n_years)
 input_data$selblock_pointer_indices = matrix(my_pointers, ncol = input_data$n_indices, nrow = n_years)
 ```
+
+<br>
+
+::: fragment
+
+En palabras sencillas, es un tipo de indexación para saber que modelo de selectividad usará, por ejemplo, la pesquería 1, 2, 3, y el índice 1, 2 (ver sección de parámetros).
+
+:::
+
+## Peso a la edad
+
+Puede ser tratado como empirical weight-at-age (asumimos que no tiene error) o como observaciones (error de observación asociado, `waa_cv`):
+
+```{r eval = FALSE}
+input_data$waa = array(mis_datos, dim = c(n_waa, n_years, n_ages))
+input_data$waa_pointer_fleets = my_pointer_1 #length = n_fleets. 
+input_data$waa_pointer_indices = my_pointer_2 #length = n_indices. 
+input_data$waa_pointer_totcatch = my_pointer_3 #length = 1 
+input_data$waa_pointer_ssb = my_pointer_4 #length = 1 
+input_data$waa_pointer_jan1 = my_pointer_5 #length = 1 
+input_data$waa_cv = array(mis_datos, dim = c(n_waa, n_years, n_ages)) # obs error
+```
+
+Los `my_pointer`, al igual que para selectividad, es una forma de indexación (que matrix de peso a la edad va a usar cierta pesquería o índice).
+
+## Información adicional
+
+<br>
+
+```{r eval = FALSE}
+input_data$maturity = matrix(mis_datos, nrow = n_years, ncol = n_ages) # madurez sexual
+input_data$fracyr_SSB = matrix(mis_datos, ncol = 1, nrow = n_years) # fraction of year SSB
+input_data$Fbar_ages = mis_datos # edades para calcular Fbar
+input_data$percentSPR = 40 # % SPR reference point
+input_data$percentFMSY = 100 # percent of FMSY to use for calculating catch in projections
+input_data$simulate_period = c(1,0) # simulation for 1: model period, 2: projection
+input_data$bias_correct_process = 1 # do process bias correction, 0 = no, 1 = yes
+input_data$bias_correct_observation = 1 # do obs bias correction, 0 = no, 1 = yes 
+```
+
+# Laboratorio
+
+
+## Creación de grupos de trabajo
+
+<br>
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+Grupo 1:
+
+* Luis Cubillos
+* Vania Henriquez
+* Yasmine Granda
+* Carlos Torres
+* Rene Chura
+
+:::
+
+::: {.column width="50%"}
+
+Grupo 2:
+
+* Victor Vargas
+* Francisco Córdova
+* Maria Jose Cuevas
+* Juan Anton
+
+:::
+
+::::
+
+## Proyecto en clase
+
+<br>
+
+A cada grupo se le entregarán datos simulados.
+
+Objetivo para el día de hoy:
+
+- Explorar los datos
+- Discutir enfoques de modelado
+- Hacer consultas pertinentes para implementar el modelo
+
+## Modelo básico de evaluación de stocks
+
+<br>
+
+Este ejercicio incluye datos de tallas:
+
+<br>
+
+Abrir archivo `Ejercicio_3.xlsx`
 
 
 ## Referencias

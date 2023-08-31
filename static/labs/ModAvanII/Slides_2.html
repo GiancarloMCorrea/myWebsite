@@ -402,6 +402,10 @@
       margin-right: 0; 
     }
   </style>
+  <script src="Slides_2_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+  <script src="Slides_2_files/libs/viz-1.8.2/viz.js"></script>
+  <link href="Slides_2_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+  <script src="Slides_2_files/libs/grViz-binding-1.0.10/grViz.js"></script>
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -457,7 +461,6 @@
 </section>
 <section id="wham-requerimientos" class="slide level2">
 <h2>WHAM: Requerimientos</h2>
-<p><br></p>
 <p>Se require lo siguiente:</p>
 <div>
 <ul>
@@ -466,6 +469,21 @@
 <li class="fragment">Se recomienda conocimiento básico en TMB.</li>
 <li class="fragment">Conocimiento de las ecuaciones de dinámica poblacional en WHAM.</li>
 </ul>
+</div>
+<div class="fragment">
+<div class="callout callout-warning callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Recomendación</strong></p>
+</div>
+<div class="callout-content">
+<p>Si <strong>solo</strong> se tienen datos de captura e índices de abundancia, se recomienda usar otras plataformas, por ejemplo: SPiCT <span class="citation" data-cites="Pedersen_2016">(<a href="#/referencias" role="doc-biblioref" onclick="">Pedersen and Berg 2016</a>)</span>, <a href="https://github.com/afsc-assessments/rema">REMA</a>.</p>
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="wham-datos" class="slide level2">
@@ -586,7 +604,7 @@
 </ol>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Por ejemplo, podemos fijar sigma R:</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>my_input<span class="sc">$</span>log_NAA_sigma <span class="ot">=</span> <span class="fu">factor</span>(<span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2"></a>my_input<span class="sc">$</span>map<span class="sc">$</span>log_NAA_sigma <span class="ot">=</span> <span class="fu">factor</span>(<span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -638,7 +656,6 @@
 </section>
 <section id="información-de-pesquería-1" class="slide level2">
 <h2>Información de pesquería</h2>
-<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Captura agregada:</span></span>
 <span id="cb9-2"><a href="#cb9-2"></a>input_data<span class="sc">$</span>agg_catch <span class="ot">=</span> <span class="fu">matrix</span>(mis_datos, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_fleets, <span class="at">nrow =</span> n_years) <span class="co"># Obs</span></span>
@@ -653,17 +670,63 @@
 <span id="cb9-11"><a href="#cb9-11"></a>input_data<span class="sc">$</span>catch_caal <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_fleets, n_years, n_lengths, n_ages)) <span class="co"># Obs</span></span>
 <span id="cb9-12"><a href="#cb9-12"></a>input_data<span class="sc">$</span>catch_caal_Neff <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(n_years, input_data<span class="sc">$</span>n_fleets, n_lengths)) <span class="co"># Obs error</span></span>
 <span id="cb9-13"><a href="#cb9-13"></a><span class="co"># Aging error matrix</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a>input_data<span class="sc">$</span>catch_aging_error <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_fleets, n_ages, n_ages)) </span>
-<span id="cb9-15"><a href="#cb9-15"></a>input_data<span class="sc">$</span>use_catch_aging_error <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> input_data<span class="sc">$</span>n_fleets) <span class="co"># 1 = si usar, 0 = no usar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-14"><a href="#cb9-14"></a>input_data<span class="sc">$</span>catch_aging_error <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_fleets, n_ages, n_ages)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="callout callout-warning callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Cuidado</strong></p>
+</div>
+<div class="callout-content">
+<p>No es posible tener captura agregada igual a 0, se sugiere especificar un número pequeño.</p>
+</div>
+</div>
+</div>
 </div>
 </section>
 <section id="muestreo" class="slide level2">
 <h2>Muestreo</h2>
-<p>Add sampling methods for paa, pal, and caal</p>
+<p>Para un viaje de pesca o un lance de un crucero de investigación:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c7e55a4c713246d177c0" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-c7e55a4c713246d177c0">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nC1 [label = \"Captura total\", fillcolor = Pink]\nCAL [label = \"Muestreo de tallas\", fillcolor = Pink]\nCAL2 [label = \"Composición por tallas\", fillcolor = lightskyblue2]\nCAAL [label = \"Submuestreo de edades\", fillcolor = Pink]\nOTO [label =  \"Obtención de otolitos \n Talla-edad\", fillcolor = Pink]\n\n{rank = min; C1}\n{rank = same; CAL CAL2}\n\n# edge definitions with the node IDs\nC1 -> CAL\nCAL -> CAL2\nCAL  -> CAAL\nCAAL  -> OTO\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="muestreo-1" class="slide level2">
+<h2>Muestreo</h2>
+<p>Después de muestrear muchos viajes de pesca o lances en un crucero, se suele construir una clave talla-edad (probabilidad de ser cierta edad dada la talla):</p>
+
+<img data-src="images/D2_img0.jpg" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
+<section id="muestreo-2" class="slide level2">
+<h2>Muestreo</h2>
+<p>Finalmente, con los datos de la clave talla-edad y composición por talla por viaje o lance, se calcula la <em>composición por edades</em> por viaje o lance. Luego se realiza una expansión para todo el crucero o temporada de pesca.</p>
+<div class="fragment">
+<div class="callout callout-note callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Conditional age-at-length (CAAL)</strong></p>
+</div>
+<div class="callout-content">
+<p>CAAL es justamente la información talla-edad (clave talla edad).</p>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p>El esfuerzo de muestreo se representa con <code>Neff</code>. Por ejemplo: número de viajes muestreados, o el no. de individuos muestreados por talla (del submuestreo de edades).</p>
+</div>
 </section>
 <section id="información-de-índices" class="slide level2">
 <h2>Información de índices</h2>
-<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Indice agregado:</span></span>
 <span id="cb10-2"><a href="#cb10-2"></a>input_data<span class="sc">$</span>agg_indices <span class="ot">=</span> <span class="fu">matrix</span>(mis_datos, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_indices, <span class="at">nrow =</span> n_years) <span class="co"># Obs</span></span>
@@ -681,17 +744,128 @@
 <span id="cb10-14"><a href="#cb10-14"></a>input_data<span class="sc">$</span>index_caal <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_indices, n_years, n_lengths, n_ages)) <span class="co"># Obs</span></span>
 <span id="cb10-15"><a href="#cb10-15"></a>input_data<span class="sc">$</span>index_caal_Neff <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(n_years, input_data<span class="sc">$</span>n_indices, n_lengths)) <span class="co"># Obs error</span></span>
 <span id="cb10-16"><a href="#cb10-16"></a><span class="co"># Aging error matrix</span></span>
-<span id="cb10-17"><a href="#cb10-17"></a>input_data<span class="sc">$</span>index_aging_error <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_indices, n_ages, n_ages)) </span>
-<span id="cb10-18"><a href="#cb10-18"></a>input_data<span class="sc">$</span>use_index_aging_error <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> input_data<span class="sc">$</span>n_indices) <span class="co"># 1 = si usar, 0 = no usar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-17"><a href="#cb10-17"></a>input_data<span class="sc">$</span>index_aging_error <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(input_data<span class="sc">$</span>n_indices, n_ages, n_ages)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="selectividad" class="slide level2">
-<h2>Selectividad</h2>
-<p>Tenemos que especificar los <em>pointers</em> para las selectividad que especificaremos luego:</p>
+<section id="activar-datos" class="slide level2">
+<h2>Activar datos</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>input_data<span class="sc">$</span>selblock_pointer_fleets <span class="ot">=</span> <span class="fu">matrix</span>(my_pointers, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_fleets, <span class="at">nrow =</span> n_years)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>input_data<span class="sc">$</span>selblock_pointer_indices <span class="ot">=</span> <span class="fu">matrix</span>(my_pointers, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_indices, <span class="at">nrow =</span> n_years)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Para pesquerias</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>input_data<span class="sc">$</span>use_agg_catch <span class="ot">=</span> <span class="fu">matrix</span>(mi_activar, <span class="at">nrow =</span> n_years, <span class="at">ncol =</span> n_fleets) <span class="co"># 1 = usar, 0 = no usar</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>input_data<span class="sc">$</span>use_catch_paa <span class="ot">=</span> <span class="fu">matrix</span>(mi_activar, <span class="at">nrow =</span> n_years, <span class="at">ncol =</span> n_fleets) <span class="co"># 1 = usar, 0 = no usar</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>input_data<span class="sc">$</span>use_catch_pal <span class="ot">=</span> <span class="fu">matrix</span>(mi_activar, <span class="at">nrow =</span> n_years, <span class="at">ncol =</span> n_fleets) <span class="co"># 1 = usar, 0 = no usar</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>input_data<span class="sc">$</span>use_catch_caal <span class="ot">=</span> <span class="fu">array</span>(mi_activar, <span class="at">dim =</span> <span class="fu">c</span>(n_years, n_fleets, n_lengths)) <span class="co"># 1 = usar, 0 = no usar</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>input_data<span class="sc">$</span>use_catch_aging_error <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> input_data<span class="sc">$</span>n_fleets) <span class="co"># 1 = si usar, 0 = no usar</span></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co"># Para indices</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>input_data<span class="sc">$</span>use_indices <span class="ot">=</span> <span class="fu">matrix</span>(mi_activar, <span class="at">nrow =</span> n_years, <span class="at">ncol =</span> n_indices) <span class="co"># 1 = usar, 0 = no usar</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>input_data<span class="sc">$</span>use_index_paa <span class="ot">=</span> <span class="fu">matrix</span>(mi_activar, <span class="at">nrow =</span> n_years, <span class="at">ncol =</span> n_indices) <span class="co"># 1 = usar, 0 = no usar</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a>input_data<span class="sc">$</span>use_index_pal <span class="ot">=</span> <span class="fu">matrix</span>(mi_activar, <span class="at">nrow =</span> n_years, <span class="at">ncol =</span> n_indices) <span class="co"># 1 = usar, 0 = no usar</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a>input_data<span class="sc">$</span>use_index_caal <span class="ot">=</span> <span class="fu">array</span>(mi_activar, <span class="at">dim =</span> <span class="fu">c</span>(n_years, n_indices, n_lengths)) <span class="co"># 1 = usar, 0 = no usar</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>input_data<span class="sc">$</span>use_index_aging_error <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="at">times =</span> input_data<span class="sc">$</span>n_indices) <span class="co"># 1 = si usar, 0 = no usar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="fragment">
+<div class="callout callout-warning callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Cuidado</strong></p>
+</div>
+<div class="callout-content">
+<p>Si no se incluyen datos, entonces el <code>use</code> será 0. Sin embargo, el valor por defecto para <code>paa</code> es 1, incluso si no se incluyen datos de composición por edad. Por lo tanto, siempre desactivarlo si es que no se planea usar <code>paa</code>.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="selectividad-pointers" class="slide level2">
+<h2>Selectividad pointers</h2>
+<p><br></p>
+<p>Tenemos que especificar los <em>pointers</em> para los modelos de selectividad:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>input_data<span class="sc">$</span>selblock_pointer_fleets <span class="ot">=</span> <span class="fu">matrix</span>(my_pointers, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_fleets, <span class="at">nrow =</span> n_years)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>input_data<span class="sc">$</span>selblock_pointer_indices <span class="ot">=</span> <span class="fu">matrix</span>(my_pointers, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_indices, <span class="at">nrow =</span> n_years)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="fragment">
+<p>En palabras sencillas, es un tipo de indexación para saber que modelo de selectividad usará, por ejemplo, la pesquería 1, 2, 3, y el índice 1, 2 (ver sección de parámetros).</p>
+</div>
+</section>
+<section id="peso-a-la-edad" class="slide level2">
+<h2>Peso a la edad</h2>
+<p>Puede ser tratado como empirical weight-at-age (asumimos que no tiene error) o como observaciones (error de observación asociado, <code>waa_cv</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>input_data<span class="sc">$</span>waa <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(n_waa, n_years, n_ages))</span>
+<span id="cb13-2"><a href="#cb13-2"></a>input_data<span class="sc">$</span>waa_pointer_fleets <span class="ot">=</span> my_pointer_1 <span class="co">#length = n_fleets. </span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>input_data<span class="sc">$</span>waa_pointer_indices <span class="ot">=</span> my_pointer_2 <span class="co">#length = n_indices. </span></span>
+<span id="cb13-4"><a href="#cb13-4"></a>input_data<span class="sc">$</span>waa_pointer_totcatch <span class="ot">=</span> my_pointer_3 <span class="co">#length = 1 </span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>input_data<span class="sc">$</span>waa_pointer_ssb <span class="ot">=</span> my_pointer_4 <span class="co">#length = 1 </span></span>
+<span id="cb13-6"><a href="#cb13-6"></a>input_data<span class="sc">$</span>waa_pointer_jan1 <span class="ot">=</span> my_pointer_5 <span class="co">#length = 1 </span></span>
+<span id="cb13-7"><a href="#cb13-7"></a>input_data<span class="sc">$</span>waa_cv <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(n_waa, n_years, n_ages)) <span class="co"># obs error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Los <code>my_pointer</code>, al igual que para selectividad, es una forma de indexación (que matrix de peso a la edad va a usar cierta pesquería o índice).</p>
+</section>
+<section id="información-adicional" class="slide level2">
+<h2>Información adicional</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>input_data<span class="sc">$</span>maturity <span class="ot">=</span> <span class="fu">matrix</span>(mis_datos, <span class="at">nrow =</span> n_years, <span class="at">ncol =</span> n_ages) <span class="co"># madurez sexual</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a>input_data<span class="sc">$</span>fracyr_SSB <span class="ot">=</span> <span class="fu">matrix</span>(mis_datos, <span class="at">ncol =</span> <span class="dv">1</span>, <span class="at">nrow =</span> n_years) <span class="co"># fraction of year SSB</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a>input_data<span class="sc">$</span>Fbar_ages <span class="ot">=</span> mis_datos <span class="co"># edades para calcular Fbar</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>input_data<span class="sc">$</span>percentSPR <span class="ot">=</span> <span class="dv">40</span> <span class="co"># % SPR reference point</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a>input_data<span class="sc">$</span>percentFMSY <span class="ot">=</span> <span class="dv">100</span> <span class="co"># percent of FMSY to use for calculating catch in projections</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a>input_data<span class="sc">$</span>simulate_period <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>) <span class="co"># simulation for 1: model period, 2: projection</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a>input_data<span class="sc">$</span>bias_correct_process <span class="ot">=</span> <span class="dv">1</span> <span class="co"># do process bias correction, 0 = no, 1 = yes</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>input_data<span class="sc">$</span>bias_correct_observation <span class="ot">=</span> <span class="dv">1</span> <span class="co"># do obs bias correction, 0 = no, 1 = yes </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section>
+<section>
+<section id="laboratorio" class="title-slide slide level1 center">
+<h1>Laboratorio</h1>
+
+</section>
+<section id="creación-de-grupos-de-trabajo" class="slide level2">
+<h2>Creación de grupos de trabajo</h2>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Grupo 1:</p>
+<ul>
+<li>Luis Cubillos</li>
+<li>Vania Henriquez</li>
+<li>Yasmine Granda</li>
+<li>Carlos Torres</li>
+<li>Rene Chura</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p>Grupo 2:</p>
+<ul>
+<li>Victor Vargas</li>
+<li>Francisco Córdova</li>
+<li>Maria Jose Cuevas</li>
+<li>Juan Anton</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="proyecto-en-clase" class="slide level2">
+<h2>Proyecto en clase</h2>
+<p><br></p>
+<p>A cada grupo se le entregarán datos simulados.</p>
+<p>Objetivo para el día de hoy:</p>
+<ul>
+<li>Explorar los datos</li>
+<li>Discutir enfoques de modelado</li>
+<li>Hacer consultas pertinentes para implementar el modelo</li>
+</ul>
+</section>
+<section id="modelo-básico-de-evaluación-de-stocks" class="slide level2">
+<h2>Modelo básico de evaluación de stocks</h2>
+<p><br></p>
+<p>Este ejercicio incluye datos de tallas:</p>
+<p><br></p>
+<p>Abrir archivo <code>Ejercicio_3.xlsx</code></p>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">
 <h2>Referencias</h2>
@@ -711,6 +885,9 @@ Miller, Timothy J., and Saang-Yoon Hyun. 2018. <span>“Evaluating Evidence for 
 </div>
 <div id="ref-Miller_2018b" class="csl-entry" role="doc-biblioentry">
 Miller, Timothy J., Loretta O’Brien, and Paula S. Fratantoni. 2018. <span>“Temporal and Environmental Variation in Growth and Maturity and Effects on Management Reference Points of Georges Bank Atlantic Cod.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 75 (12): 2159–71. <a href="https://doi.org/10.1139/cjfas-2017-0124">https://doi.org/10.1139/cjfas-2017-0124</a>.
+</div>
+<div id="ref-Pedersen_2016" class="csl-entry" role="doc-biblioentry">
+Pedersen, Martin W, and Casper W Berg. 2016. <span>“A Stochastic Surplus Production Model in Continuous Time.”</span> <em>Fish and Fisheries</em> 18 (2): 226–43. <a href="https://doi.org/10.1111/faf.12174">https://doi.org/10.1111/faf.12174</a>.
 </div>
 <div id="ref-Stock_2021" class="csl-entry" role="doc-biblioentry">
 Stock, Brian C., and Timothy J. Miller. 2021. <span>“The Woods Hole Assessment Model (<span>WHAM</span>): A General State-Space Assessment Framework That Incorporates Time- and Age-Varying Processes via Random Effects and Links to Environmental Covariates.”</span> <em>Fisheries Research</em> 240 (August): 105967. <a href="https://doi.org/10.1016/j.fishres.2021.105967">https://doi.org/10.1016/j.fishres.2021.105967</a>.
