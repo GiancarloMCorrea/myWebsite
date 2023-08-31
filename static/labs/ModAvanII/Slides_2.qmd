@@ -426,7 +426,6 @@ Grupo 1:
 
 * Luis Cubillos
 * Vania Henriquez
-* Yasmine Granda
 * Carlos Torres
 * Rene Chura
 
@@ -440,6 +439,7 @@ Grupo 2:
 * Francisco Córdova
 * Maria Jose Cuevas
 * Juan Anton
+* Yasmine Granda
 
 :::
 
