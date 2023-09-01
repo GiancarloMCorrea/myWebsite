@@ -3,7 +3,7 @@ date: "2023-08-23T00:00:00Z"
 draft: false
 featured: false
 image:
-  caption: 'Image credit: [**Shitota Yuri on Unsplash**](https://unsplash.com/photos/p0hDztR46cw)'
+  caption: 'Image credit: [**Jeswin Thomas on Unsplash**](https://unsplash.com/photos/hecib2an4T4)'
   focal_point: ""
   placement: 2
   preview_only: true
