@@ -1,0 +1,255 @@
+---
+title: "Modelos avanzados en evaluación de recursos pesqueros: Día 3"
+author: 
+   <br>Dr. Giancarlo M. Correa
+institute:
+   <br>Cousteau Consultant Group
+format:
+  revealjs:
+    theme: simple
+    logo: images/CGlogo1.png
+    slide-number: 'c/t'
+    css: myStyle.css
+from: markdown+emoji
+editor: visual
+execute:
+  echo: true
+bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b0/references.bib?x=eyJpZCI6ICJiNjNhYzI0Mi1hNzdjLTQ4MTYtOWMyNy1mY2RmYjMxODc1YjAiLCAidXNlciI6ICI1NDQwIiwgInNpZ25hdHVyZSI6ICIyMTMxYjVhZDk1NGYxNDUzYjk3YjZiNjk3ZDIxZWEwODIwZjA4MTBiZTk3YWIxOTNiMGVkMzI1YzI0YTRjZWNkIn0=/bibliography.bib"
+---
+
+# WHAM: Abundancia a la edad
+
+<!-- Install this version of knitr or update RStudio-->
+<!-- remotes::install_version("knitr", "1.42") -->
+
+## Abundancia a la edad
+
+Transiciones de la abundancia entre edades ($N_{a,y}$) [@Stock_2021]:
+
+$$\small{
+log(N_{a,y}) = \begin{cases}
+log(f(SSB_{y-1})) + \varepsilon_{1,y},\hspace{5cm}a=1\\
+log(N_{a-1,y-1})-Z_{a-1,y-1}+\varepsilon_{a,y},\hspace{1.4cm}1<a<A\\
+log(N_{A-1,y-1}exp(-Z_{A-1,y-1}) + \\
+\hspace{1cm}N_{A,y-1}exp(-Z_{A,y-1}))+\varepsilon_{A,y},\hspace{2cm}a=A
+\end{cases}
+}$$
+
+Donde $a$ es la edad, $y$ es año, $A$ es el grupo plus, $Z$ es la mortalidad total. $\varepsilon_{a,y}$ son desviaciones estocásticas (e.g., immigración, emmigración, misreported catch). 
+
+## Stock reclutamiento
+
+<br>
+
+¿Qué opciones tenemos para estimar reclutamiento? Vamos a omitir las desviaciones $\varepsilon_{1,y}$:
+
+::: incremental 
+
+1. Estimar $N_{1,y}$ como efectos fijos (1 parámetro por año).
+
+2. Estima reclutamiento medio a lo largo de los años ($N_{1,y}=\bar{R}$, 1 parámetro).
+
+:::
+
+## Stock reclutamiento
+
+3. Relación Beverton-Holt (2 parámetros)
+
+$$N_{1,y} = \frac{\alpha SSB_{y-1}}{1+\beta SSB_{y-1}}$$
+
+::: fragment
+
+4. Relación Ricker (2 parámetros)
+
+$$N_{1,y} = \alpha SSB_{y-1}exp(-\beta SSB_{y-1})$$
+
+:::
+
+## Stock reclutamiento
+
+<br>
+
+Para el caso de Beverton-Holt (B-H) y Ricker, es posible también usar $h$ (steepness) y $R_0$ (reclutamiento sin pesca). 
+
+<br>
+
+Para B-H, $\alpha$ y $\beta$ es calculado como:
+
+$$\alpha = \frac{4h}{SPR_0(1-h)}\hspace{2cm}\beta=\frac{5h-1}{(1-h)R_0SPR_0}$$
+
+Donde $SPR_0$ es el *spawning stock biomass per recruit* en condiciones sin pesca. 
+
+## Stock reclutamiento
+
+<br>
+
+Para Ricker, $\alpha$ y $\beta$ es calculado como:
+
+$$\alpha = exp(1.25log(5h)-log(SPR_0))\\
+\beta=\frac{1.25log(5h)}{R_0SPR_0}$$
+
+
+## Biomasa desovante
+
+<br>
+
+$SSB$ se calcula como:
+
+$$SSB_y = \sum_aN_{a,y}*W_{a,y}*mat_{a,y}*exp(-Z_{a,y}*frSSB_y)$$
+
+Donde $W$ es peso a la edad, $mat$ es madurez, y $frSSB$ es la fracción del año donde ocurre el desove.
+
+## Desviaciones
+
+<br>
+
+$\varepsilon_{a,y}$ son tratados como efectos aleatorios, y pueden tener diferentes estructuras.
+
+1. Independientes:
+
+$$\varepsilon_{1,y} \sim N(-\frac{\sigma_R^2}{2},\sigma_R^2)$$
+
+donde $\sigma_R^2$ es la varianza de reclutamiento y es estimado como efecto fijo.
+
+## Desviaciones
+
+2. Correlación temporal:
+
+$$\varepsilon_{1,y+1} \sim N(\rho_{year}\varepsilon_{1,y}-\frac{\sigma_R^2}{2(1-\rho_{year}^2)},\sigma_R^2)$$
+
+donde $-1< \rho_{year}<1$ es el parámetro de correlación a lo largo de los años.
+
+## Desviaciones
+
+3. Separado por edades:
+
+$$\varepsilon_{a,y} \sim \begin{cases}
+N(-\frac{\sigma_R^2}{2}, \sigma_R^2),\hspace{2cm}a=1\\
+N(-\frac{\sigma_a^2}{2}, \sigma_a^2),\hspace{2cm}a>1
+\end{cases}$$
+
+Donde $\sigma_a^2$ es la varianza que aplica a edades diferentes a 1. 
+
+## Desviaciones
+
+4. Correlacionado por edades y año
+
+$$E \sim MVN(0, \Sigma)$$
+
+$E = (\varepsilon_{1,1},...,\varepsilon_{1,Y-1},\varepsilon_{2,1},...,\varepsilon_{1,Y-1},...,\varepsilon_{A,1},...,\varepsilon_{A,Y-1})'$, $Y$ es el número de años, y $\Sigma$ es la matriz de covarianza:
+
+$$Cov(\varepsilon_{a,y},\tilde{\varepsilon}_{a,y}) = \frac{\sigma_a \sigma_\tilde{a}\rho_{a}^{\vert a-\tilde{a} \vert}\rho_{y}^{\vert y-\tilde{y} \vert}}{(1-\rho^2_a)(1-\rho_y^2)}$$
+
+donde $-1<\rho_a <1$ y $-1<\rho_y <1$ son los coeficientes de autocorrelación.
+
+## Población inicial
+
+Recuerda que también necesitamos la estructura poblacional para $y=1$. Tenemos dos opciones:
+
+::: incremental
+
+* Estimamos una abundancia a la edad como efectos fijos (número de parámetros igual al número de edades).
+
+* Estimamos un reclutamiento inicial $N_{1,1}$ y una mortalidad por pesca $F_{0}$ (2 parámetros). 
+
+:::
+
+## Definición en R
+
+<br>
+
+```{r eval = FALSE}
+#| code-line-numbers: "3"
+my_input = wham::prepare_wham_input(model_name = "Example_1",
+                         basic_info = input_data, 
+                         NAA_re = list(), # NAA parameters
+                         M = list(), # M parameter
+                         selectivity = list(), # Selectivity parameter
+                         catchability = list(), # Catchability parameter
+                         ecov = list(), # Environmental information
+                         # Crecimiento somatico:
+                         growth = list(), LAA = list(), # Mean length-at-age
+                         LW = list(), # Length-weight relationship
+                         WAA = list(), # Mean weight-at-age
+                         age_comp = "multinomial", # Age composition model
+                         len_comp = "multinomial" # Length composition model
+                         ) 
+```
+
+## Definición en R
+
+<br>
+
+Enfoquemos solo la parte de abundancia a la edad. Se pueden incluir los siguientes argumentos:
+
+
+```{r eval = FALSE}
+my_input = wham::prepare_wham_input(...,
+                         NAA_re = list(N1_model = ..., N1_pars = ..., # Pob inicial
+                                       recruit_model = ..., # recruitment model
+                                       use_steepness = ..., # use steepness ?
+                                       recruit_pars = ...,  # S-R parameters
+                                       sigma = ..., cor = ...),
+                         ...
+                         ) 
+```
+
+donde `...` representa objetos que vamos a especificar.
+
+## Población inicial
+
+* `N1_model`: (*integer*) como modelar la abundancia a la edad *inicial* (primer año)
+  - `0`: estima abundancia a la edad inicial como efectos fijos
+  - `1`: estima reclutamiento inicial y mortalidad por pesca inicial (2 parámetros como efectos fijos)
+
+## Población inicial
+
+* `N1_pars`: (*vector*) valores iniciales para la abundancia a la edad inicial. Puede ser un vector con longitud igual al número de edades (si `N1_model = 0`), o un vector con dos valores (si `N1_model = 1`).
+
+
+## Modelo de reclutamiento
+
+<br>
+
+* `recruit_model`: (*integer*) modelo para reclutamiento
+  - `1`: reclutamientos estimados como efectos fijos
+  - `2`: estima reclutamiento medio
+  - `3`: relación Beverton-Holt
+  - `4`: relación Ricker
+
+## Modelo de reclutamiento
+
+<br>
+<br>
+
+* `use_steepness`: (logical) `TRUE` or `FALSE` si se desea usar steepness formulation. Solo se usa si `recruit_model>2`.
+
+## Modelo de reclutamiento
+
+<br>
+
+* `recruit_pars`: (vector) valores iniciales para el modelo de reclutamiento.
+  - Si `recruit_model=2`, entonces viene a ser reclutamiento medio.
+  - Si `use_steepness = FALSE` y `recruit_model>2`, entonces viene a ser $\alpha$ y $\beta$. 
+  - Si `use_steepness = TRUE` y `recruit_model>2`, entonces viene a ser $h$ and $R_0$.
+
+
+## Desviaciones
+
+<br>
+
+* `sigma`: (caracter) permite estimar diferentes $\sigma_{a}$ para diferentes grupos de edades.
+  - `rec`: solo una varianza reclutamiento (edad 1, $\sigma^2_R$)
+  - `rec+1`: dos varianzas: $\sigma^2_R$ y $\sigma^2_a$ (compartida entre edades diferentes a 1).
+
+## Desviaciones
+
+<br>
+
+* `cor`: (caracter) estructura de efectos aleatorios
+  - `iid`: desviaciones independientes
+  - `ar1_a`: desviaciones correlacionadas por edad
+  - `ar1_y`: desviaciones correlacionadas por año
+  - `2dar1`: desviaciones correlacionadas por edad y año
+
+## Referencias
