@@ -673,7 +673,7 @@ N(-\frac{\sigma_a^2}{2}, \sigma_a^2),\hspace{2cm}a&gt;1
 <p><br></p>
 <p><span class="math inline">\(\delta_{a,y}\)</span> puede tener diferentes estructuras asumiendo una distribución normal:</p>
 <ul>
-<li>Independientes</li>
+<li>Independientes (por año y edad)</li>
 <li>Correlacionado por edades (constante en tiempo)</li>
 <li>Correlacionado por años (constante en edades)</li>
 <li>Correlacionado por edades y años</li>
@@ -743,13 +743,12 @@ N(-\frac{\sigma_a^2}{2}, \sigma_a^2),\hspace{2cm}a&gt;1
 </section>
 <section id="valores-iniciales" class="slide level2">
 <h2>Valores iniciales</h2>
-<p><br></p>
 <ul>
-<li><code>initial_means</code>: (vector) valores iniciales de <span class="math inline">\(M\)</span>. Va a depender del <code>model</code> que hayamos elegido.</li>
+<li><code>initial_means</code>: (vector) valores iniciales de <span class="math inline">\(M\)</span>. Longitud va a depender del <code>model</code> que hayamos elegido. Para <code>constant</code> y <code>weight-at-age</code>, será solo un valor (<span class="math inline">\(log_b\)</span> es asumido ser 0.305).</li>
 </ul>
 <div class="fragment">
 <ul>
-<li><code>est_ages</code>: (vector) edades a estimar <span class="math inline">\(M\)</span>. Si <code>model</code> es <code>constant</code>, entonces es 1.</li>
+<li><code>est_ages</code>: (vector) indexación de edades a estimar <span class="math inline">\(M\)</span>. Si <code>model</code> es <code>constant</code>, entonces el valor 1. Si <code>model</code> es <code>age-specific</code> y si queremos estimar edad 1, 2, y 4 (sin importar el grupo plus), entonces será <code>c(1,2,4)</code>.</li>
 </ul>
 </div>
 <div class="fragment">

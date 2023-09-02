@@ -284,7 +284,7 @@ $$log(M_{a,y}) = \mu_{M_a} + \delta_{a,y}$$
 
 $\delta_{a,y}$ puede tener diferentes estructuras asumiendo una distribución normal:
 
-- Independientes
+- Independientes (por año y edad)
 - Correlacionado por edades (constante en tiempo)
 - Correlacionado por años (constante en edades)
 - Correlacionado por edades y años
@@ -355,13 +355,11 @@ donde `...` representa objetos que vamos a especificar.
 
 ## Valores iniciales
 
-<br>
-
-* `initial_means`: (vector) valores iniciales de $M$. Va a depender del `model` que hayamos elegido.
+* `initial_means`: (vector) valores iniciales de $M$. Longitud va a depender del `model` que hayamos elegido. Para `constant` y `weight-at-age`, será solo un valor ($log_b$ es asumido ser 0.305). 
 
 ::: fragment
 
-* `est_ages`: (vector) edades a estimar $M$. Si `model` es `constant`, entonces es 1.
+* `est_ages`: (vector) indexación de edades a estimar $M$. Si `model` es `constant`, entonces el valor 1. Si `model` es `age-specific` y si queremos estimar edad 1, 2, y 4 (sin importar el grupo plus), entonces será `c(1,2,4)`.
 
 :::
 
