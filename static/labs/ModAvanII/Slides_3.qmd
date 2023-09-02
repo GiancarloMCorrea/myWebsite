@@ -140,7 +140,7 @@ $E = (\varepsilon_{1,1},...,\varepsilon_{1,Y-1},\varepsilon_{2,1},...,\varepsilo
 
 $$Cov(\varepsilon_{a,y},\tilde{\varepsilon}_{a,y}) = \frac{\sigma_a \sigma_\tilde{a}\rho_{a}^{\vert a-\tilde{a} \vert}\rho_{y}^{\vert y-\tilde{y} \vert}}{(1-\rho^2_a)(1-\rho_y^2)}$$
 
-donde $-1<\rho_a <1$ y $-1<\rho_y <1$ son los coeficientes de autocorrelación.
+donde $-1<\rho_a <1$ y $-1<\rho_y <1$ son los coeficientes de autocorrelación (efectos fijos).
 
 ## Población inicial
 
@@ -204,7 +204,7 @@ donde `...` representa objetos que vamos a especificar.
 
 ## Población inicial
 
-* `N1_pars`: (*vector*) valores iniciales para la abundancia a la edad inicial. Puede ser un vector con longitud igual al número de edades (si `N1_model = 0`), o un vector con dos valores (si `N1_model = 1`).
+* `N1_pars`: (*vector*) valores iniciales para la abundancia a la edad inicial. Puede ser un vector con longitud igual al número de edades (si `N1_model = 0`), o un vector con dos valores: $N_{1,1,}$ y $F_0$ (si `N1_model = 1`).
 
 
 ## Modelo de reclutamiento
@@ -246,10 +246,224 @@ donde `...` representa objetos que vamos a especificar.
 
 <br>
 
-* `cor`: (caracter) estructura de efectos aleatorios
+* `cor`: (caracter) estructura de desviaciones
   - `iid`: desviaciones independientes
   - `ar1_a`: desviaciones correlacionadas por edad
   - `ar1_y`: desviaciones correlacionadas por año
   - `2dar1`: desviaciones correlacionadas por edad y año
+
+# WHAM: Mortalidad natural
+
+## Mortalidad natural
+
+En WHAM, tenemos 3 opciones para estimar $M$ como efecto fijo:
+
+::: incremental
+
+1. $M$ único para todas las edades, por lo tanto: $Z_{a,y} = F_yS_{a,y} + M$. 
+
+2. $M_a$ por edad, por lo tanto: $Z_{a,y} = F_yS_{a,y} + M_{a}$.
+
+3. $M$ como función de peso a la edad [@Lorenzen_1996]: $M_{y,a}=MW_{a,y}^b$. Por lo tanto: $Z_{a,y} = F_yS_{a,y} + M_{a,y}$.
+
+:::
+
+## Desviaciones
+
+<br>
+
+Al igual que para abundancia a la edad, podemos estimar desviaciones del parámetro $M$:
+
+$$log(M_{a,y}) = \mu_{M_a} + \delta_{a,y}$$
+
+ $\mu_{M_a}$ es el efecto fijo en log-scale.
+
+## Desviaciones
+
+<br>
+
+$\delta_{a,y}$ puede tener diferentes estructuras asumiendo una distribución normal:
+
+- Independientes
+- Correlacionado por edades (constante en tiempo)
+- Correlacionado por años (constante en edades)
+- Correlacionado por edades y años
+
+
+
+## Definición en R
+
+<br>
+
+```{r eval = FALSE}
+#| code-line-numbers: "4"
+my_input = wham::prepare_wham_input(model_name = "Example_1",
+                         basic_info = input_data, 
+                         NAA_re = list(), # NAA parameters
+                         M = list(), # M parameter
+                         selectivity = list(), # Selectivity parameter
+                         catchability = list(), # Catchability parameter
+                         ecov = list(), # Environmental information
+                         # Crecimiento somatico:
+                         growth = list(), LAA = list(), # Mean length-at-age
+                         LW = list(), # Length-weight relationship
+                         WAA = list(), # Mean weight-at-age
+                         age_comp = "multinomial", # Age composition model
+                         len_comp = "multinomial" # Length composition model
+                         ) 
+```
+
+## Definición en R
+
+<br>
+
+Enfoquemos solo la parte de abundancia a la edad. Se pueden incluir los siguientes argumentos:
+
+
+```{r eval = FALSE}
+my_input = wham::prepare_wham_input(...,
+                         M = list(model = ..., # Modelo M 
+                                  re = ..., # Estructura desviaciones
+                                  initial_means = ..., # Valor inicial
+                                  est_ages = ..., # Edades a estimar
+                                  logb_prior = ...), # Prior b (link to W)
+                         ...
+                         ) 
+```
+
+donde `...` representa objetos que vamos a especificar.
+
+## Modelo para M
+
+<br>
+
+* `model`: (caracter) modelo M a utilizar
+  - `constant`: único M para todas las edades
+  - `age-specific`: M para cada edad
+  - `weight-at-age`: relación con peso a la edad
+
+## Estructura de desviaciones
+
+<br>
+
+* `re`: (caracter) estructura a utilizar
+  - `none`: no incluir desviaciones
+  - `iid`: desviaciones por año y edad y son independientes.
+  - `ar1_a`: desviaciones correlacionadas por edad (constante en tiempo)
+  - `ar1_y`: desviaciones correlacionadas por año (constante en edad)
+  - `2dar1`: desviaciones correlacionadas por edad y año
+
+## Valores iniciales
+
+<br>
+
+* `initial_means`: (vector) valores iniciales de $M$. Va a depender del `model` que hayamos elegido.
+
+::: fragment
+
+* `est_ages`: (vector) edades a estimar $M$. Si `model` es `constant`, entonces es 1.
+
+:::
+
+::: fragment
+
+* `logb_prior`: (logical) Se debe usar prior para la relación con peso a la edad? El prior para $b$ es $N(0.305,0.08)$.
+
+:::
+
+# WHAM: Capturabilidad
+
+## Capturabilidad
+
+Definición: proporción de peces de la población pescada por una unidad de esfuerzo pesquero. Mide la interacción entre la abundancia del recurso y esfuerzo pesquero [@Arreguin_Sanchez_1996].
+
+::: fragment
+
+En WHAM, especificamos un parámetro de capturabilidad por índice de abundancia. Además, podemos incluir desviaciones:
+
+$$logit(q_{i,y}) = logit(q_i)+\delta_{i,y}$$
+
+Donde $\delta_{i,y}$ sigue una distribución normal y puede ser independientes en el tiempo o correlacionadas en el tiempo. 
+
+:::
+
+## Definición en R
+
+<br>
+
+```{r eval = FALSE}
+#| code-line-numbers: "6"
+my_input = wham::prepare_wham_input(model_name = "Example_1",
+                         basic_info = input_data, 
+                         NAA_re = list(), # NAA parameters
+                         M = list(), # M parameter
+                         selectivity = list(), # Selectivity parameter
+                         catchability = list(), # Catchability parameter
+                         ecov = list(), # Environmental information
+                         # Crecimiento somatico:
+                         growth = list(), LAA = list(), # Mean length-at-age
+                         LW = list(), # Length-weight relationship
+                         WAA = list(), # Mean weight-at-age
+                         age_comp = "multinomial", # Age composition model
+                         len_comp = "multinomial" # Length composition model
+                         ) 
+```
+
+## Definición en R
+
+<br>
+
+Enfoquemos solo la parte de abundancia a la edad. Se pueden incluir los siguientes argumentos:
+
+
+```{r eval = FALSE}
+my_input = wham::prepare_wham_input(...,
+                         catchability = list(re = ..., # Estructura de desviaciones
+                                             initial_q = ..., # Valores iniciales para Q
+                                             q_lower = ..., # Lower bound
+                                             q_upper = ..., # Lower bound
+                                             prior_sd = ...), # SD para prior (normal)
+                         ...
+                         ) 
+```
+
+donde `...` representa objetos que vamos a especificar.
+
+## Estructura de desviaciones
+
+<br>
+
+* `re`: (character vector) estructura de desviaciones. Longitud debe ser igual al número de índices.
+  - `none`: no desviaciones
+  - `iid`: independientes
+  - `ar1`: correlacionados en el tiempo
+
+## Parámetros de capturabilidad
+
+* `initial_q`: (numeric vector) valores iniciales de `q`. Longitud debe ser igual al número de índices.
+* `q_lower`: (numeric vector) lower bound de `q`. Longitud debe ser igual al número de índices.
+* `q_upper`: (numeric vector) upper bound de `q`. Longitud debe ser igual al número de índices.
+* `prior_sd`: (numeric vector) valores de SD si prior quiere ser usado. Especificar `NA` si no se quiere usar prior. Longitud debe ser igual al número de índices.
+
+# Laboratorio
+
+## Modelo básico de evaluación de stocks
+
+<br>
+
+Este ejercicio incluye datos de tallas:
+
+<br>
+
+Abrir archivo `Ejercicio_3.xlsx`
+
+## Implementación de objeto de datos
+
+<br>
+
+Vamos a crear el objeto de datos (e.g., `input_data`) para WHAM. Sigan las instrucciones de la clase 2. 
+
+- Fecha de desove: 1 de enero
+- Unidades de índice de abundancia: peso
 
 ## Referencias

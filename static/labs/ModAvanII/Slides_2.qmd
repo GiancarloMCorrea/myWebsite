@@ -58,15 +58,12 @@ Se require lo siguiente:
 :::
 
 ::: fragment
-
-::: {.callout-warning}
+::: callout-warning
 ## Recomendación
 
-Si **solo** se tienen datos de captura e índices de abundancia, se recomienda usar otras plataformas, por ejemplo: SPiCT [@Pedersen_2016], [REMA](https://github.com/afsc-assessments/rema). 
-
+Si **solo** se tienen datos de captura e índices de abundancia, se recomienda usar otras plataformas, por ejemplo: SPiCT [@Pedersen_2016], [REMA](https://github.com/afsc-assessments/rema).
 :::
-
-::: 
+:::
 
 ## WHAM: Datos
 
@@ -241,15 +238,12 @@ input_data$catch_aging_error = array(mis_datos, dim = c(input_data$n_fleets, n_a
 ```
 
 ::: fragment
-
-::: {.callout-warning}
+::: callout-warning
 ## Cuidado
 
 No es posible tener captura agregada igual a 0, se sugiere especificar un número pequeño.
-
 :::
-
-::: 
+:::
 
 ## Muestreo
 
@@ -282,7 +276,6 @@ CAAL  -> OTO
 }")
 ```
 
-
 ## Muestreo
 
 Después de muestrear muchos viajes de pesca o lances en un crucero, se suele construir una clave talla-edad (probabilidad de ser cierta edad dada la talla):
@@ -294,20 +287,15 @@ Después de muestrear muchos viajes de pesca o lances en un crucero, se suele co
 Finalmente, con los datos de la clave talla-edad y composición por talla por viaje o lance, se calcula la *composición por edades* por viaje o lance. Luego se realiza una expansión para todo el crucero o temporada de pesca.
 
 ::: fragment
-
-::: {.callout-note}
+::: callout-note
 ## Conditional age-at-length (CAAL)
 
 CAAL es justamente la información talla-edad (clave talla edad).
-
 :::
-
 :::
 
 ::: fragment
-
 El esfuerzo de muestreo se representa con `Neff`. Por ejemplo: número de viajes muestreados, o el no. de individuos muestreados por talla (del submuestreo de edades).
-
 :::
 
 ## Información de índices
@@ -350,16 +338,12 @@ input_data$use_index_aging_error = rep(1, times = input_data$n_indices) # 1 = si
 ```
 
 ::: fragment
-
-::: {.callout-warning}
+::: callout-warning
 ## Cuidado
 
 Si no se incluyen datos de `pal` o `caal`, entonces el `use` será 0 automáticamente. Sin embargo, para `paa`, WHAM asigna `use` igual a 1 (activo) incluso si no incluimos datos de composición por edad. Por lo tanto, si no se desea usar datos de `paa`, especificar explicitamente `use_paa` igual a 0.
-
 :::
-
-::: 
-
+:::
 
 ## Selectividad pointers
 
@@ -375,9 +359,7 @@ input_data$selblock_pointer_indices = matrix(my_pointers, ncol = input_data$n_in
 <br>
 
 ::: fragment
-
 En palabras sencillas, es un tipo de indexación para saber que modelo de selectividad usará, por ejemplo, la pesquería 1, 2, 3, y el índice 1, 2 (ver sección de parámetros).
-
 :::
 
 ## Peso a la edad
@@ -413,59 +395,42 @@ input_data$bias_correct_observation = 1 # do obs bias correction, 0 = no, 1 = ye
 
 # Laboratorio
 
-
 ## Creación de grupos de trabajo
 
 <br>
 
-:::: {.columns}
-
+::: columns
 ::: {.column width="50%"}
-
 Grupo 1:
 
-* Luis Cubillos
-* Vania Henriquez
-* Carlos Torres
-* Rene Chura
-
+-   Luis Cubillos
+-   Vania Henriquez
+-   Carlos Torres
+-   Rene Chura
 :::
 
 ::: {.column width="50%"}
-
 Grupo 2:
 
-* Victor Vargas
-* Francisco Córdova
-* Maria Jose Cuevas
-* Juan Anton
-* Yasmine Granda
-
+-   Victor Vargas
+-   Francisco Córdova
+-   Maria Jose Cuevas
+-   Juan Anton
+-   Yasmine Granda
 :::
-
-::::
+:::
 
 ## Proyecto en clase
 
 <br>
 
-A cada grupo se le entregarán datos simulados.
+Se le entregarán datos simulados (3 casos).
 
 Objetivo para el día de hoy:
 
-- Explorar los datos
-- Discutir enfoques de modelado
-- Hacer consultas pertinentes para implementar el modelo
-
-## Modelo básico de evaluación de stocks
-
-<br>
-
-Este ejercicio incluye datos de tallas:
-
-<br>
-
-Abrir archivo `Ejercicio_3.xlsx`
+-   Explorar los datos
+-   Discutir enfoques de modelado para cada caso
+-   Hacer consultas pertinentes para implementar el modelo
 
 
 ## Referencias

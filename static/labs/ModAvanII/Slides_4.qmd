@@ -1,0 +1,100 @@
+---
+title: "Modelos avanzados en evaluación de recursos pesqueros: Día 4"
+author: 
+   <br>Dr. Giancarlo M. Correa
+institute:
+   <br>Cousteau Consultant Group
+format:
+  revealjs:
+    theme: simple
+    logo: images/CGlogo1.png
+    slide-number: 'c/t'
+    css: myStyle.css
+from: markdown+emoji
+editor: visual
+execute:
+  echo: true
+bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b0/references.bib?x=eyJpZCI6ICJiNjNhYzI0Mi1hNzdjLTQ4MTYtOWMyNy1mY2RmYjMxODc1YjAiLCAidXNlciI6ICI1NDQwIiwgInNpZ25hdHVyZSI6ICIyMTMxYjVhZDk1NGYxNDUzYjk3YjZiNjk3ZDIxZWEwODIwZjA4MTBiZTk3YWIxOTNiMGVkMzI1YzI0YTRjZWNkIn0=/bibliography.bib"
+---
+
+# WHAM: Crecimiento
+
+<!-- Install this version of knitr or update RStudio-->
+
+<!-- remotes::install_version("knitr", "1.42") -->
+
+## Enfoques
+
+<br>
+
+```{r}
+#| echo: false
+DiagrammeR::grViz("digraph {
+
+graph [layout = dot, rankdir = LB]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]
+
+LAA1 [label = 'LAA: \n Parametric', fillcolor = Pink]
+LAA2 [label = 'LAA: \n Nonparametric', fillcolor = Pink]
+LAA3 [label = 'LAA: \n Semiparametric', fillcolor = Pink]
+WAA1 [label =  'WAA: \n Empirical', fillcolor = lightskyblue2]
+WAA2 [label =  'WAA: \n Parametric (LW relationship)', fillcolor = lightskyblue2]
+WAA3 [label =  'WAA: \n Nonparametric', fillcolor = lightskyblue2]
+SSB [label= 'SSB and reference points \n calculation', fillcolor = Beige]
+DAT1 [label = 'Informative data: \n Marginal length comps \n Conditional age-at-length', fillcolor = White, style = rounded]
+DAT2 [label = 'Informative data: \n Observed mean \n weight-at-age', fillcolor = White, style = rounded]
+
+{rank = min; DAT1 DAT2}
+{rank = same; LAA1 LAA2 LAA3}
+{rank = same; WAA1 WAA2 WAA3}
+{rank = max; SSB}
+
+# edge definitions with the node IDs
+DAT1 -> {LAA1 LAA2 LAA3}
+DAT2 -> {WAA2 WAA3}
+edge [arrowhead = none]
+{WAA1 WAA2 WAA3}  -> SSB
+{LAA1 LAA2 LAA3}  -> WAA2
+
+}")
+```
+
+## Longitud media inicial
+
+<br>
+
+Para $y=1$ al inicio del año [@Correa_2023]:
+
+$$
+\tilde{L}_{y,a} = \begin{cases}
+L'_{min} + ba,\hspace{6cm}a\leq \tilde{a}\\
+(L_\infty^\gamma + (L_\tilde{a}^\gamma-L_\infty^\gamma)exp(-k(a-\tilde{a})))^{1/\gamma}\hspace{1cm}a>\tilde{a}
+\end{cases}
+$$
+
+Donde $L'_{min}$ es el límite inferior de la marca de clase menor, $\tilde{a}$ es una edad de referencia, $L_\infty$ es la talla asintótica, $k$ es la tasa de crecimiento, $\gamma$ es el *parámetro de forma*. Además, $b=(L_\tilde{a} - L'_{min})/\tilde{a}$.
+
+## Longitud media
+
+<br>
+
+Para $y>1$:
+
+$$
+\tilde{L}_{y,a} = \begin{cases}
+L'_{min} + ba,\hspace{7cm}a\leq \tilde{a}\\
+(\tilde{L}_{y-1,a-1}^\gamma + (\tilde{L}_{y-1,a-1}^\gamma-L_\infty^\gamma)(exp(-k)-1))^{1/\gamma}\hspace{1cm}a>\tilde{a}
+\end{cases}
+$$
+
+## Longitud media
+
+<br>
+
+Para cualquier fracción $\theta$ del año:
+
+$$\tilde{L}_{y,a+\theta}=(\tilde{L}_{y-1,a-1}^\gamma + (\tilde{L}^\gamma_{y-1,a-1})(exp(-k\theta)-1))^{1/\gamma}$$
+
+## Referencias

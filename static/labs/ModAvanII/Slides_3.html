@@ -525,7 +525,7 @@ N(-\frac{\sigma_a^2}{2}, \sigma_a^2),\hspace{2cm}a&gt;1
 <p><span class="math display">\[E \sim MVN(0, \Sigma)\]</span></p>
 <p><span class="math inline">\(E = (\varepsilon_{1,1},...,\varepsilon_{1,Y-1},\varepsilon_{2,1},...,\varepsilon_{1,Y-1},...,\varepsilon_{A,1},...,\varepsilon_{A,Y-1})'\)</span>, <span class="math inline">\(Y\)</span> es el número de años, y <span class="math inline">\(\Sigma\)</span> es la matriz de covarianza:</p>
 <p><span class="math display">\[Cov(\varepsilon_{a,y},\tilde{\varepsilon}_{a,y}) = \frac{\sigma_a \sigma_\tilde{a}\rho_{a}^{\vert a-\tilde{a} \vert}\rho_{y}^{\vert y-\tilde{y} \vert}}{(1-\rho^2_a)(1-\rho_y^2)}\]</span></p>
-<p>donde <span class="math inline">\(-1&lt;\rho_a &lt;1\)</span> y <span class="math inline">\(-1&lt;\rho_y &lt;1\)</span> son los coeficientes de autocorrelación.</p>
+<p>donde <span class="math inline">\(-1&lt;\rho_a &lt;1\)</span> y <span class="math inline">\(-1&lt;\rho_y &lt;1\)</span> son los coeficientes de autocorrelación (efectos fijos).</p>
 </section>
 <section id="población-inicial" class="slide level2">
 <h2>Población inicial</h2>
@@ -586,7 +586,7 @@ N(-\frac{\sigma_a^2}{2}, \sigma_a^2),\hspace{2cm}a&gt;1
 <section id="población-inicial-2" class="slide level2">
 <h2>Población inicial</h2>
 <ul>
-<li><code>N1_pars</code>: (<em>vector</em>) valores iniciales para la abundancia a la edad inicial. Puede ser un vector con longitud igual al número de edades (si <code>N1_model = 0</code>), o un vector con dos valores (si <code>N1_model = 1</code>).</li>
+<li><code>N1_pars</code>: (<em>vector</em>) valores iniciales para la abundancia a la edad inicial. Puede ser un vector con longitud igual al número de edades (si <code>N1_model = 0</code>), o un vector con dos valores: <span class="math inline">\(N_{1,1,}\)</span> y <span class="math inline">\(F_0\)</span> (si <code>N1_model = 1</code>).</li>
 </ul>
 </section>
 <section id="modelo-de-reclutamiento" class="slide level2">
@@ -636,13 +636,218 @@ N(-\frac{\sigma_a^2}{2}, \sigma_a^2),\hspace{2cm}a&gt;1
 <h2>Desviaciones</h2>
 <p><br></p>
 <ul>
-<li><code>cor</code>: (caracter) estructura de efectos aleatorios
+<li><code>cor</code>: (caracter) estructura de desviaciones
 <ul>
 <li><code>iid</code>: desviaciones independientes</li>
 <li><code>ar1_a</code>: desviaciones correlacionadas por edad</li>
 <li><code>ar1_y</code>: desviaciones correlacionadas por año</li>
 <li><code>2dar1</code>: desviaciones correlacionadas por edad y año</li>
 </ul></li>
+</ul>
+</section></section>
+<section>
+<section id="wham-mortalidad-natural" class="title-slide slide level1 center">
+<h1>WHAM: Mortalidad natural</h1>
+
+</section>
+<section id="mortalidad-natural" class="slide level2">
+<h2>Mortalidad natural</h2>
+<p>En WHAM, tenemos 3 opciones para estimar <span class="math inline">\(M\)</span> como efecto fijo:</p>
+<div>
+<ol type="1">
+<li class="fragment"><p><span class="math inline">\(M\)</span> único para todas las edades, por lo tanto: <span class="math inline">\(Z_{a,y} = F_yS_{a,y} + M\)</span>.</p></li>
+<li class="fragment"><p><span class="math inline">\(M_a\)</span> por edad, por lo tanto: <span class="math inline">\(Z_{a,y} = F_yS_{a,y} + M_{a}\)</span>.</p></li>
+<li class="fragment"><p><span class="math inline">\(M\)</span> como función de peso a la edad <span class="citation" data-cites="Lorenzen_1996">(<a href="#/referencias" role="doc-biblioref" onclick="">Lorenzen 1996</a>)</span>: <span class="math inline">\(M_{y,a}=MW_{a,y}^b\)</span>. Por lo tanto: <span class="math inline">\(Z_{a,y} = F_yS_{a,y} + M_{a,y}\)</span>.</p></li>
+</ol>
+</div>
+</section>
+<section id="desviaciones-6" class="slide level2">
+<h2>Desviaciones</h2>
+<p><br></p>
+<p>Al igual que para abundancia a la edad, podemos estimar desviaciones del parámetro <span class="math inline">\(M\)</span>:</p>
+<p><span class="math display">\[log(M_{a,y}) = \mu_{M_a} + \delta_{a,y}\]</span></p>
+<p><span class="math inline">\(\mu_{M_a}\)</span> es el efecto fijo en log-scale.</p>
+</section>
+<section id="desviaciones-7" class="slide level2">
+<h2>Desviaciones</h2>
+<p><br></p>
+<p><span class="math inline">\(\delta_{a,y}\)</span> puede tener diferentes estructuras asumiendo una distribución normal:</p>
+<ul>
+<li>Independientes</li>
+<li>Correlacionado por edades (constante en tiempo)</li>
+<li>Correlacionado por años (constante en edades)</li>
+<li>Correlacionado por edades y años</li>
+</ul>
+</section>
+<section id="definición-en-r-2" class="slide level2">
+<h2>Definición en R</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" data-code-line-numbers="4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>my_input <span class="ot">=</span> wham<span class="sc">::</span><span class="fu">prepare_wham_input</span>(<span class="at">model_name =</span> <span class="st">"Example_1"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2"></a>                         <span class="at">basic_info =</span> input_data, </span>
+<span id="cb3-3"><a href="#cb3-3"></a>                         <span class="at">NAA_re =</span> <span class="fu">list</span>(), <span class="co"># NAA parameters</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>                         <span class="at">M =</span> <span class="fu">list</span>(), <span class="co"># M parameter</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>                         <span class="at">selectivity =</span> <span class="fu">list</span>(), <span class="co"># Selectivity parameter</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>                         <span class="at">catchability =</span> <span class="fu">list</span>(), <span class="co"># Catchability parameter</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>                         <span class="at">ecov =</span> <span class="fu">list</span>(), <span class="co"># Environmental information</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>                         <span class="co"># Crecimiento somatico:</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>                         <span class="at">growth =</span> <span class="fu">list</span>(), <span class="at">LAA =</span> <span class="fu">list</span>(), <span class="co"># Mean length-at-age</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>                         <span class="at">LW =</span> <span class="fu">list</span>(), <span class="co"># Length-weight relationship</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>                         <span class="at">WAA =</span> <span class="fu">list</span>(), <span class="co"># Mean weight-at-age</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>                         <span class="at">age_comp =</span> <span class="st">"multinomial"</span>, <span class="co"># Age composition model</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>                         <span class="at">len_comp =</span> <span class="st">"multinomial"</span> <span class="co"># Length composition model</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>                         ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="definición-en-r-3" class="slide level2">
+<h2>Definición en R</h2>
+<p><br></p>
+<p>Enfoquemos solo la parte de abundancia a la edad. Se pueden incluir los siguientes argumentos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>my_input <span class="ot">=</span> wham<span class="sc">::</span><span class="fu">prepare_wham_input</span>(...,</span>
+<span id="cb4-2"><a href="#cb4-2"></a>                         <span class="at">M =</span> <span class="fu">list</span>(<span class="at">model =</span> ..., <span class="co"># Modelo M </span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>                                  <span class="at">re =</span> ..., <span class="co"># Estructura desviaciones</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>                                  <span class="at">initial_means =</span> ..., <span class="co"># Valor inicial</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>                                  <span class="at">est_ages =</span> ..., <span class="co"># Edades a estimar</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>                                  <span class="at">logb_prior =</span> ...), <span class="co"># Prior b (link to W)</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>                         ...</span>
+<span id="cb4-8"><a href="#cb4-8"></a>                         ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>donde <code>...</code> representa objetos que vamos a especificar.</p>
+</section>
+<section id="modelo-para-m" class="slide level2">
+<h2>Modelo para M</h2>
+<p><br></p>
+<ul>
+<li><code>model</code>: (caracter) modelo M a utilizar
+<ul>
+<li><code>constant</code>: único M para todas las edades</li>
+<li><code>age-specific</code>: M para cada edad</li>
+<li><code>weight-at-age</code>: relación con peso a la edad</li>
+</ul></li>
+</ul>
+</section>
+<section id="estructura-de-desviaciones" class="slide level2">
+<h2>Estructura de desviaciones</h2>
+<p><br></p>
+<ul>
+<li><code>re</code>: (caracter) estructura a utilizar
+<ul>
+<li><code>none</code>: no incluir desviaciones</li>
+<li><code>iid</code>: desviaciones por año y edad y son independientes.</li>
+<li><code>ar1_a</code>: desviaciones correlacionadas por edad (constante en tiempo)</li>
+<li><code>ar1_y</code>: desviaciones correlacionadas por año (constante en edad)</li>
+<li><code>2dar1</code>: desviaciones correlacionadas por edad y año</li>
+</ul></li>
+</ul>
+</section>
+<section id="valores-iniciales" class="slide level2">
+<h2>Valores iniciales</h2>
+<p><br></p>
+<ul>
+<li><code>initial_means</code>: (vector) valores iniciales de <span class="math inline">\(M\)</span>. Va a depender del <code>model</code> que hayamos elegido.</li>
+</ul>
+<div class="fragment">
+<ul>
+<li><code>est_ages</code>: (vector) edades a estimar <span class="math inline">\(M\)</span>. Si <code>model</code> es <code>constant</code>, entonces es 1.</li>
+</ul>
+</div>
+<div class="fragment">
+<ul>
+<li><code>logb_prior</code>: (logical) Se debe usar prior para la relación con peso a la edad? El prior para <span class="math inline">\(b\)</span> es <span class="math inline">\(N(0.305,0.08)\)</span>.</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="wham-capturabilidad" class="title-slide slide level1 center">
+<h1>WHAM: Capturabilidad</h1>
+
+</section>
+<section id="capturabilidad" class="slide level2">
+<h2>Capturabilidad</h2>
+<p>Definición: proporción de peces de la población pescada por una unidad de esfuerzo pesquero. Mide la interacción entre la abundancia del recurso y esfuerzo pesquero <span class="citation" data-cites="Arreguin_Sanchez_1996">(<a href="#/referencias" role="doc-biblioref" onclick="">Arreguin-Sanchez 1996</a>)</span>.</p>
+<div class="fragment">
+<p>En WHAM, especificamos un parámetro de capturabilidad por índice de abundancia. Además, podemos incluir desviaciones:</p>
+<p><span class="math display">\[logit(q_{i,y}) = logit(q_i)+\delta_{i,y}\]</span></p>
+<p>Donde <span class="math inline">\(\delta_{i,y}\)</span> sigue una distribución normal y puede ser independientes en el tiempo o correlacionadas en el tiempo.</p>
+</div>
+</section>
+<section id="definición-en-r-4" class="slide level2">
+<h2>Definición en R</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" data-code-line-numbers="6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>my_input <span class="ot">=</span> wham<span class="sc">::</span><span class="fu">prepare_wham_input</span>(<span class="at">model_name =</span> <span class="st">"Example_1"</span>,</span>
+<span id="cb5-2"><a href="#cb5-2"></a>                         <span class="at">basic_info =</span> input_data, </span>
+<span id="cb5-3"><a href="#cb5-3"></a>                         <span class="at">NAA_re =</span> <span class="fu">list</span>(), <span class="co"># NAA parameters</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>                         <span class="at">M =</span> <span class="fu">list</span>(), <span class="co"># M parameter</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>                         <span class="at">selectivity =</span> <span class="fu">list</span>(), <span class="co"># Selectivity parameter</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>                         <span class="at">catchability =</span> <span class="fu">list</span>(), <span class="co"># Catchability parameter</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a>                         <span class="at">ecov =</span> <span class="fu">list</span>(), <span class="co"># Environmental information</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>                         <span class="co"># Crecimiento somatico:</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a>                         <span class="at">growth =</span> <span class="fu">list</span>(), <span class="at">LAA =</span> <span class="fu">list</span>(), <span class="co"># Mean length-at-age</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>                         <span class="at">LW =</span> <span class="fu">list</span>(), <span class="co"># Length-weight relationship</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a>                         <span class="at">WAA =</span> <span class="fu">list</span>(), <span class="co"># Mean weight-at-age</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>                         <span class="at">age_comp =</span> <span class="st">"multinomial"</span>, <span class="co"># Age composition model</span></span>
+<span id="cb5-13"><a href="#cb5-13"></a>                         <span class="at">len_comp =</span> <span class="st">"multinomial"</span> <span class="co"># Length composition model</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a>                         ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="definición-en-r-5" class="slide level2">
+<h2>Definición en R</h2>
+<p><br></p>
+<p>Enfoquemos solo la parte de abundancia a la edad. Se pueden incluir los siguientes argumentos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>my_input <span class="ot">=</span> wham<span class="sc">::</span><span class="fu">prepare_wham_input</span>(...,</span>
+<span id="cb6-2"><a href="#cb6-2"></a>                         <span class="at">catchability =</span> <span class="fu">list</span>(<span class="at">re =</span> ..., <span class="co"># Estructura de desviaciones</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>                                             <span class="at">initial_q =</span> ..., <span class="co"># Valores iniciales para Q</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>                                             <span class="at">q_lower =</span> ..., <span class="co"># Lower bound</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>                                             <span class="at">q_upper =</span> ..., <span class="co"># Lower bound</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>                                             <span class="at">prior_sd =</span> ...), <span class="co"># SD para prior (normal)</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>                         ...</span>
+<span id="cb6-8"><a href="#cb6-8"></a>                         ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>donde <code>...</code> representa objetos que vamos a especificar.</p>
+</section>
+<section id="estructura-de-desviaciones-1" class="slide level2">
+<h2>Estructura de desviaciones</h2>
+<p><br></p>
+<ul>
+<li><code>re</code>: (character vector) estructura de desviaciones. Longitud debe ser igual al número de índices.
+<ul>
+<li><code>none</code>: no desviaciones</li>
+<li><code>iid</code>: independientes</li>
+<li><code>ar1</code>: correlacionados en el tiempo</li>
+</ul></li>
+</ul>
+</section>
+<section id="parámetros-de-capturabilidad" class="slide level2">
+<h2>Parámetros de capturabilidad</h2>
+<ul>
+<li><code>initial_q</code>: (numeric vector) valores iniciales de <code>q</code>. Longitud debe ser igual al número de índices.</li>
+<li><code>q_lower</code>: (numeric vector) lower bound de <code>q</code>. Longitud debe ser igual al número de índices.</li>
+<li><code>q_upper</code>: (numeric vector) upper bound de <code>q</code>. Longitud debe ser igual al número de índices.</li>
+<li><code>prior_sd</code>: (numeric vector) valores de SD si prior quiere ser usado. Especificar <code>NA</code> si no se quiere usar prior. Longitud debe ser igual al número de índices.</li>
+</ul>
+</section></section>
+<section>
+<section id="laboratorio" class="title-slide slide level1 center">
+<h1>Laboratorio</h1>
+
+</section>
+<section id="modelo-básico-de-evaluación-de-stocks" class="slide level2">
+<h2>Modelo básico de evaluación de stocks</h2>
+<p><br></p>
+<p>Este ejercicio incluye datos de tallas:</p>
+<p><br></p>
+<p>Abrir archivo <code>Ejercicio_3.xlsx</code></p>
+</section>
+<section id="implementación-de-objeto-de-datos" class="slide level2">
+<h2>Implementación de objeto de datos</h2>
+<p><br></p>
+<p>Vamos a crear el objeto de datos (e.g., <code>input_data</code>) para WHAM. Sigan las instrucciones de la clase 2.</p>
+<ul>
+<li>Fecha de desove: 1 de enero</li>
+<li>Unidades de índice de abundancia: peso</li>
 </ul>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">
@@ -652,6 +857,12 @@ N(-\frac{\sigma_a^2}{2}, \sigma_a^2),\hspace{2cm}a&gt;1
 
 </div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Arreguin_Sanchez_1996" class="csl-entry" role="doc-biblioentry">
+Arreguin-Sanchez, Francisco. 1996. <span>“Catchability: A Key Parameter for Fish Stock Assessment.”</span> <em>Reviews in Fish Biology and Fisheries</em> 6 (2). <a href="https://doi.org/10.1007/bf00182344">https://doi.org/10.1007/bf00182344</a>.
+</div>
+<div id="ref-Lorenzen_1996" class="csl-entry" role="doc-biblioentry">
+Lorenzen, K. 1996. <span>“The Relationship Between Body Weight and Natural Mortality in Juvenile and Adult Fish: A Comparison of Natural Ecosystems and Aquaculture.”</span> <em>Journal of Fish Biology</em> 49 (4): 627–42. <a href="https://doi.org/10.1111/j.1095-8649.1996.tb00060.x">https://doi.org/10.1111/j.1095-8649.1996.tb00060.x</a>.
+</div>
 <div id="ref-Stock_2021" class="csl-entry" role="doc-biblioentry">
 Stock, Brian C., and Timothy J. Miller. 2021. <span>“The Woods Hole Assessment Model (<span>WHAM</span>): A General State-Space Assessment Framework That Incorporates Time- and Age-Varying Processes via Random Effects and Links to Environmental Covariates.”</span> <em>Fisheries Research</em> 240 (August): 105967. <a href="https://doi.org/10.1016/j.fishres.2021.105967">https://doi.org/10.1016/j.fishres.2021.105967</a>.
 </div>

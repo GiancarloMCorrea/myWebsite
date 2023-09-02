@@ -693,8 +693,8 @@
 <p>Para un viaje de pesca o un lance de un crucero de investigación:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-72b5d22f67d7bb7feef0" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-72b5d22f67d7bb7feef0">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nC1 [label = \"Captura total\", fillcolor = Pink]\nCAL [label = \"Muestreo de tallas\", fillcolor = Pink]\nCAL2 [label = \"Composición por tallas\", fillcolor = lightskyblue2]\nCAAL [label = \"Submuestreo de edades\", fillcolor = Pink]\nOTO [label =  \"Obtención de otolitos \n Talla-edad\", fillcolor = Pink]\n\n{rank = min; C1}\n{rank = same; CAL CAL2}\n\n# edge definitions with the node IDs\nC1 -> CAL\nCAL -> CAL2\nCAL  -> CAAL\nCAAL  -> OTO\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-2bab5c1247a321417c39" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-2bab5c1247a321417c39">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nC1 [label = \"Captura total\", fillcolor = Pink]\nCAL [label = \"Muestreo de tallas\", fillcolor = Pink]\nCAL2 [label = \"Composición por tallas\", fillcolor = lightskyblue2]\nCAAL [label = \"Submuestreo de edades\", fillcolor = Pink]\nOTO [label =  \"Obtención de otolitos \n Talla-edad\", fillcolor = Pink]\n\n{rank = min; C1}\n{rank = same; CAL CAL2}\n\n# edge definitions with the node IDs\nC1 -> CAL\nCAL -> CAL2\nCAL  -> CAAL\nCAAL  -> OTO\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -852,20 +852,13 @@
 <section id="proyecto-en-clase" class="slide level2">
 <h2>Proyecto en clase</h2>
 <p><br></p>
-<p>A cada grupo se le entregarán datos simulados.</p>
+<p>Se le entregarán datos simulados (3 casos).</p>
 <p>Objetivo para el día de hoy:</p>
 <ul>
 <li>Explorar los datos</li>
-<li>Discutir enfoques de modelado</li>
+<li>Discutir enfoques de modelado para cada caso</li>
 <li>Hacer consultas pertinentes para implementar el modelo</li>
 </ul>
-</section>
-<section id="modelo-básico-de-evaluación-de-stocks" class="slide level2">
-<h2>Modelo básico de evaluación de stocks</h2>
-<p><br></p>
-<p>Este ejercicio incluye datos de tallas:</p>
-<p><br></p>
-<p>Abrir archivo <code>Ejercicio_3.xlsx</code></p>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">
 <h2>Referencias</h2>
