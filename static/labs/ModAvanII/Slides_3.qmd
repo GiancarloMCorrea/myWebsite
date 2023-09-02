@@ -355,7 +355,7 @@ donde `...` representa objetos que vamos a especificar.
 
 ## Valores iniciales
 
-* `initial_means`: (vector) valores iniciales de $M$. Longitud va a depender del `model` que hayamos elegido. Para `constant` y `weight-at-age`, será solo un valor ($log_b$ es asumido ser 0.305). 
+* `initial_means`: (vector) valores iniciales de $M$. Longitud va a depender del `model` que hayamos elegido. Para `constant` y `weight-at-age`, será solo un valor de $M$ ($log_b$ es asumido ser 0.305). 
 
 ::: fragment
 
