@@ -693,8 +693,8 @@
 <p>Para un viaje de pesca o un lance de un crucero de investigación:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-2bab5c1247a321417c39" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-2bab5c1247a321417c39">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nC1 [label = \"Captura total\", fillcolor = Pink]\nCAL [label = \"Muestreo de tallas\", fillcolor = Pink]\nCAL2 [label = \"Composición por tallas\", fillcolor = lightskyblue2]\nCAAL [label = \"Submuestreo de edades\", fillcolor = Pink]\nOTO [label =  \"Obtención de otolitos \n Talla-edad\", fillcolor = Pink]\n\n{rank = min; C1}\n{rank = same; CAL CAL2}\n\n# edge definitions with the node IDs\nC1 -> CAL\nCAL -> CAL2\nCAL  -> CAAL\nCAAL  -> OTO\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-179fda3c94d843ad1e1c" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-179fda3c94d843ad1e1c">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nC1 [label = \"Captura total\", fillcolor = Pink]\nCAL [label = \"Muestreo de tallas\", fillcolor = Pink]\nCAL2 [label = \"Composición por tallas\", fillcolor = lightskyblue2]\nCAAL [label = \"Submuestreo de edades\", fillcolor = Pink]\nOTO [label =  \"Obtención de otolitos \n Talla-edad\", fillcolor = Pink]\n\n{rank = min; C1}\n{rank = same; CAL CAL2}\n\n# edge definitions with the node IDs\nC1 -> CAL\nCAL -> CAL2\nCAL  -> CAAL\nCAAL  -> OTO\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -804,7 +804,7 @@
 <span id="cb13-6"><a href="#cb13-6"></a>input_data<span class="sc">$</span>waa_pointer_jan1 <span class="ot">=</span> my_pointer_5 <span class="co">#length = 1 </span></span>
 <span id="cb13-7"><a href="#cb13-7"></a>input_data<span class="sc">$</span>waa_cv <span class="ot">=</span> <span class="fu">array</span>(mis_datos, <span class="at">dim =</span> <span class="fu">c</span>(n_waa, n_years, n_ages)) <span class="co"># obs error</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Los <code>my_pointer</code>, al igual que para selectividad, es una forma de indexación (que matrix de peso a la edad va a usar cierta pesquería o índice).</p>
+<p>Los <code>my_pointer</code>, al igual que para selectividad, es una forma de indexación (indica la matrix de peso a la edad va a usar cierta pesquería o índice).</p>
 </section>
 <section id="información-adicional" class="slide level2">
 <h2>Información adicional</h2>

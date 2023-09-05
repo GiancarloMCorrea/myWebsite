@@ -376,7 +376,7 @@ input_data$waa_pointer_jan1 = my_pointer_5 #length = 1
 input_data$waa_cv = array(mis_datos, dim = c(n_waa, n_years, n_ages)) # obs error
 ```
 
-Los `my_pointer`, al igual que para selectividad, es una forma de indexación (que matrix de peso a la edad va a usar cierta pesquería o índice).
+Los `my_pointer`, al igual que para selectividad, es una forma de indexación (indica la matrix de peso a la edad va a usar cierta pesquería o índice).
 
 ## Información adicional
 
