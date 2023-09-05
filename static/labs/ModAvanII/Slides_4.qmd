@@ -222,7 +222,7 @@ Se tiene un vector de peso media a la edad al inicio del año $\tilde{W}_{a}$ (p
 
 ::: fragment
 
-La talla media a cualquier fracción del año se calcula como:
+El peso medio a cualquier fracción del año se calcula como:
 
 $$\tilde{W}_{y,a+\theta} = \tilde{W}_{y,a}(G_{y,a})^\theta$$
 
@@ -354,7 +354,7 @@ Corresponde a argumento `growth`.
 
 Corresponde a argumento `growth`.
 
-* `re`: (character) estructura de desviaciones
+* `re`: (vector character) estructura de desviaciones. Longitud igual al número de parámetros.
   - `none`: no incluir desviaciones
   - `iid_y`: independientes por año
   - `iid_c`: independientes por cohortes
@@ -394,18 +394,7 @@ Corresponde a argumento `LAA`.
 
 <br>
 
-Especificamos tanto `growth` como `LAA`. Del argumento `LAA` solo se tomará información de `re`, lo demás no es necesario. 
-
-## WAA paramétrico
-
-Corresponde a argumento `LW`.
-
-* `re`: (character) estructura de desviaciones
-  - `none`: no incluir desviaciones
-  - `iid_y`: independientes por año
-  - `iid_c`: independientes por cohortes
-  - `ar1_y`: correlacionadas por año
-  - `ar1_c`: correlacionadas por cohorte
+Especificamos tanto `growth` como `LAA`. Del argumento `LAA` solo se tomará información de `re`, lo demás no es necesario. **No especificar `re` en el argumento `growth`.**
 
 ## WAA paramétrico
 
@@ -418,6 +407,18 @@ Corresponde a argumento `LW`.
 * `est_pars`: (vector integer) vector que indica la posición del parámetro a estimar.
 
 :::
+
+
+## WAA paramétrico
+
+Corresponde a argumento `LW`.
+
+* `re`: (vector character) estructura de desviaciones. Longitud igual a 2.
+  - `none`: no incluir desviaciones
+  - `iid_y`: independientes por año
+  - `iid_c`: independientes por cohortes
+  - `ar1_y`: correlacionadas por año
+  - `ar1_c`: correlacionadas por cohorte
 
 ## WAA no paramétrico
 
@@ -544,7 +545,7 @@ Tiene 6 parámetros. Basada en la parametrización implementada en Stock Synthes
 :::: {.columns}
 
 ::: {.column width="50%"}
-- *par1*: talla inicio meseta
+- *par1*: edad inicio meseta
 - *par2*: ancho de meseta
 - *par3*: ancho subida hacia meseta
 :::
@@ -686,5 +687,7 @@ my_input = wham::prepare_wham_input(...,
 * Correr modelo para caso 1.
 
 * Implementación del objeto de datos para el caso 2.
+
+* Asumir $M=0.35$ y $Q=1$.
 
 ## Referencias

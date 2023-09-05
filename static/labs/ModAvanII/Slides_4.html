@@ -437,8 +437,8 @@
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-ab38942b88b6b074a25f" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-ab38942b88b6b074a25f">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Parametric\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n Nonparametric\", fillcolor = Pink]\nLAA3 [label = \"LAA: \n Semiparametric\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n Parametric (LW relationship)\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n Nonparametric\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points \n calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Marginal length comps \n Conditional age-at-length\", fillcolor = White, style = rounded]\nDAT2 [label = \"Informative data: \n Observed mean \n weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1 DAT2}\n{rank = same; LAA1 LAA2 LAA3}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {LAA1 LAA2 LAA3}\nDAT2 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{WAA1 WAA2 WAA3}  -> SSB\n{LAA1 LAA2 LAA3}  -> WAA2\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-95c300b8e746a8b9c092" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-95c300b8e746a8b9c092">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Parametric\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n Nonparametric\", fillcolor = Pink]\nLAA3 [label = \"LAA: \n Semiparametric\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n Parametric (LW relationship)\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n Nonparametric\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points \n calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Marginal length comps \n Conditional age-at-length\", fillcolor = White, style = rounded]\nDAT2 [label = \"Informative data: \n Observed mean \n weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1 DAT2}\n{rank = same; LAA1 LAA2 LAA3}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {LAA1 LAA2 LAA3}\nDAT2 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{WAA1 WAA2 WAA3}  -> SSB\n{LAA1 LAA2 LAA3}  -> WAA2\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section></section>
@@ -566,7 +566,7 @@ L'_{min} + ba,\hspace{7cm}a\leq \tilde{a}\\
 <p>Se tiene un vector de peso media a la edad al inicio del año <span class="math inline">\(\tilde{W}_{a}\)</span> (parámetros), que serán tratados como efectos fijos. Si no se modela variabilidad temporal, entonces <span class="math inline">\(\tilde{W}_{a,y}=\tilde{W}_{a}\)</span> para todo <span class="math inline">\(y\)</span>.</p>
 <p><br></p>
 <div class="fragment">
-<p>La talla media a cualquier fracción del año se calcula como:</p>
+<p>El peso medio a cualquier fracción del año se calcula como:</p>
 <p><span class="math display">\[\tilde{W}_{y,a+\theta} = \tilde{W}_{y,a}(G_{y,a})^\theta\]</span></p>
 <p>Donde <span class="math inline">\(G_{y,a} = \tilde{W}_{y+1,a+1}/\tilde{W}_{y,a}\)</span>.</p>
 </div>
@@ -583,8 +583,8 @@ L'_{min} + ba,\hspace{7cm}a\leq \tilde{a}\\
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-a97517e5cd20678b9583" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-a97517e5cd20678b9583">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Parametric\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n Nonparametric\", fillcolor = Pink]\nLAA3 [label = \"LAA: \n Semiparametric\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n Parametric (LW relationship)\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n Nonparametric\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points \n calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Marginal length comps \n Conditional age-at-length\", fillcolor = White, style = rounded]\nDAT2 [label = \"Informative data: \n Observed mean \n weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1 DAT2}\n{rank = same; LAA1 LAA2 LAA3}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {LAA1 LAA2 LAA3}\nDAT2 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{WAA1 WAA2 WAA3}  -> SSB\n{LAA1 LAA2 LAA3}  -> WAA2\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-07bf38abddcce885033b" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-07bf38abddcce885033b">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nLAA1 [label = \"LAA: \n Parametric\", fillcolor = Pink]\nLAA2 [label = \"LAA: \n Nonparametric\", fillcolor = Pink]\nLAA3 [label = \"LAA: \n Semiparametric\", fillcolor = Pink]\nWAA1 [label =  \"WAA: \n Empirical\", fillcolor = lightskyblue2]\nWAA2 [label =  \"WAA: \n Parametric (LW relationship)\", fillcolor = lightskyblue2]\nWAA3 [label =  \"WAA: \n Nonparametric\", fillcolor = lightskyblue2]\nSSB [label= \"SSB and reference points \n calculation\", fillcolor = Beige]\nDAT1 [label = \"Informative data: \n Marginal length comps \n Conditional age-at-length\", fillcolor = White, style = rounded]\nDAT2 [label = \"Informative data: \n Observed mean \n weight-at-age\", fillcolor = White, style = rounded]\n\n{rank = min; DAT1 DAT2}\n{rank = same; LAA1 LAA2 LAA3}\n{rank = same; WAA1 WAA2 WAA3}\n{rank = max; SSB}\n\n# edge definitions with the node IDs\nDAT1 -> {LAA1 LAA2 LAA3}\nDAT2 -> {WAA2 WAA3}\nedge [arrowhead = none]\n{WAA1 WAA2 WAA3}  -> SSB\n{LAA1 LAA2 LAA3}  -> WAA2\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section></section>
@@ -663,7 +663,7 @@ L'_{min} + ba,\hspace{7cm}a\leq \tilde{a}\\
 <h2>LAA paramétrico</h2>
 <p>Corresponde a argumento <code>growth</code>.</p>
 <ul>
-<li><code>re</code>: (character) estructura de desviaciones
+<li><code>re</code>: (vector character) estructura de desviaciones. Longitud igual al número de parámetros.
 <ul>
 <li><code>none</code>: no incluir desviaciones</li>
 <li><code>iid_y</code>: independientes por año</li>
@@ -706,23 +706,9 @@ L'_{min} + ba,\hspace{7cm}a\leq \tilde{a}\\
 <section id="laa-semi-paramétrico-1" class="slide level2">
 <h2>LAA semi-paramétrico</h2>
 <p><br></p>
-<p>Especificamos tanto <code>growth</code> como <code>LAA</code>. Del argumento <code>LAA</code> solo se tomará información de <code>re</code>, lo demás no es necesario.</p>
+<p>Especificamos tanto <code>growth</code> como <code>LAA</code>. Del argumento <code>LAA</code> solo se tomará información de <code>re</code>, lo demás no es necesario. <strong>No especificar <code>re</code> en el argumento <code>growth</code>.</strong></p>
 </section>
 <section id="waa-paramétrico-2" class="slide level2">
-<h2>WAA paramétrico</h2>
-<p>Corresponde a argumento <code>LW</code>.</p>
-<ul>
-<li><code>re</code>: (character) estructura de desviaciones
-<ul>
-<li><code>none</code>: no incluir desviaciones</li>
-<li><code>iid_y</code>: independientes por año</li>
-<li><code>iid_c</code>: independientes por cohortes</li>
-<li><code>ar1_y</code>: correlacionadas por año</li>
-<li><code>ar1_c</code>: correlacionadas por cohorte</li>
-</ul></li>
-</ul>
-</section>
-<section id="waa-paramétrico-3" class="slide level2">
 <h2>WAA paramétrico</h2>
 <p>Corresponde a argumento <code>LW</code>.</p>
 <ul>
@@ -733,6 +719,20 @@ L'_{min} + ba,\hspace{7cm}a\leq \tilde{a}\\
 <li><code>est_pars</code>: (vector integer) vector que indica la posición del parámetro a estimar.</li>
 </ul>
 </div>
+</section>
+<section id="waa-paramétrico-3" class="slide level2">
+<h2>WAA paramétrico</h2>
+<p>Corresponde a argumento <code>LW</code>.</p>
+<ul>
+<li><code>re</code>: (vector character) estructura de desviaciones. Longitud igual a 2.
+<ul>
+<li><code>none</code>: no incluir desviaciones</li>
+<li><code>iid_y</code>: independientes por año</li>
+<li><code>iid_c</code>: independientes por cohortes</li>
+<li><code>ar1_y</code>: correlacionadas por año</li>
+<li><code>ar1_c</code>: correlacionadas por cohorte</li>
+</ul></li>
+</ul>
 </section>
 <section id="waa-no-paramétrico-2" class="slide level2">
 <h2>WAA no paramétrico</h2>
@@ -858,7 +858,7 @@ L'_{min} + ba,\hspace{7cm}a\leq \tilde{a}\\
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><em>par1</em>: talla inicio meseta</li>
+<li><em>par1</em>: edad inicio meseta</li>
 <li><em>par2</em>: ancho de meseta</li>
 <li><em>par3</em>: ancho subida hacia meseta</li>
 </ul>
@@ -992,6 +992,7 @@ L'_{min} + ba,\hspace{7cm}a\leq \tilde{a}\\
 <li><p>Continuar con la implementación del objeto de datos para el caso 1.</p></li>
 <li><p>Correr modelo para caso 1.</p></li>
 <li><p>Implementación del objeto de datos para el caso 2.</p></li>
+<li><p>Asumir <span class="math inline">\(M=0.35\)</span> y <span class="math inline">\(Q=1\)</span>.</p></li>
 </ul>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">
