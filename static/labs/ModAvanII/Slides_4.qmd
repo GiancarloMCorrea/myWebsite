@@ -111,11 +111,11 @@ Podemos predecir desviaciones sobre los parámetros de crecimiento base para mod
 
 $$log(P_t) = \mu_P + \delta_{P,t}$$
 
-Donde $P$ representa alguno de los parámetros de crecimiento, y $t$ representa años o cohortes. 
+Donde $P$ representa alguno de los parámetros de crecimiento, y $t$ representa años o cohortes.
 
 <br>
 
-Al igual que en otros componentes, las desviaciones $\delta_{P,t}$ pueden ser independientes o correlacionadas en el tiempo. 
+Al igual que en otros componentes, las desviaciones $\delta_{P,t}$ pueden ser independientes o correlacionadas en el tiempo.
 
 ## 2. LAA no paramétrico
 
@@ -124,9 +124,7 @@ Comenzamos con un vector de talla media a la edad al inicio del año $\tilde{L}_
 <br>
 
 ::: fragment
-
-La talla media a cualquier fracción del año se calcula como una interpolación lineal entre $\tilde{L}_{a,y}$ y $\tilde{L}_{a+1,y+1}$. 
-
+La talla media a cualquier fracción del año se calcula como una interpolación lineal entre $\tilde{L}_{a,y}$ y $\tilde{L}_{a+1,y+1}$.
 :::
 
 ## 2. LAA no paramétrico
@@ -146,21 +144,18 @@ Donde las desviaciones $\delta_{a,y}$ pueden ser independientes o correlacionada
 Es una combinación de ambos enfoques. Lo podemos dividir en los siguientes pasos:
 
 ::: incremental
+a.  Calcula la talla media al inicio del año utilizando el enfoque paramétrico.
 
-a. Calcula la talla media al inicio del año utilizando el enfoque paramétrico.
+b.  Predecir desviaciones con alguna estructura presentada en el enfoque no paramétrico.
 
-b. Predecir desviaciones con alguna estructura presentada en el enfoque no paramétrico.
-
-c. Calcular talla media en cualquier momento del año mediante interpolación lineal.
-
+c.  Calcular talla media en cualquier momento del año mediante interpolación lineal.
 :::
 
 ## Comparación de enfoques
 
-
 ## Matriz de transición
 
-Distribuye la información de cada edad entre las diferentes marcas de clase modeladas. 
+Distribuye la información de cada edad entre las diferentes marcas de clase modeladas.
 
 $$\varphi_{y,l,a}=\begin{cases}
 \Phi(\frac{L'_{min^\ast} - L_{y,a}}{\sigma_{y,a}})\hspace{3.2cm}l=1\\
@@ -179,9 +174,7 @@ $\sigma_{y,a}$ es calculado a partir de dos parámetros (efecto fijo para cualqu
 $$\sigma_{y,a}=\sigma_{\tilde{a}}+(\frac{\sigma_{A}-\sigma_{\tilde{a}}}{L_{\infty}-L_{\tilde{a}}})(\tilde{L}_{y,a}-L_{\tilde{a}})$$
 
 ::: fragment
-
 Para el enfoque no paramétrico, usamos $L_A$ en vez de $L_{\infty}$ y $L_1$ en vez de $L_{\tilde{a}}$.
-
 :::
 
 ## Matriz de transición
@@ -196,12 +189,10 @@ Cuando modelamos tallas en la población, podemos usar la relación talla-peso:
 
 $$W_{L_l} = \Omega_1 {L_l}^{\Omega_2}$$
 
-Donde $\Omega_1$ y $\Omega_2$ son estimados como efectos fijos. 
+Donde $\Omega_1$ y $\Omega_2$ son estimados como efectos fijos.
 
 ::: fragment
-
 También podemos modelar variabilidad temporal en estos parámetros, con las mismas estructuras descritas para los parámetros de crecimiento (LAA paramétrico).
-
 :::
 
 ## 1. WAA paramétrico
@@ -214,20 +205,18 @@ $$W_{y,a}=\sum_l \varphi_{y,l,a}W_{L_l}$$
 
 ## 2. WAA no paramétrico
 
-Es el mismo enfoque descrito para LAA no paramétrico. 
+Es el mismo enfoque descrito para LAA no paramétrico.
 
 Se tiene un vector de peso media a la edad al inicio del año $\tilde{W}_{a}$ (parámetros), que serán tratados como efectos fijos. Si no se modela variabilidad temporal, entonces $\tilde{W}_{a,y}=\tilde{W}_{a}$ para todo $y$.
 
 <br>
 
 ::: fragment
-
 El peso medio a cualquier fracción del año se calcula como:
 
 $$\tilde{W}_{y,a+\theta} = \tilde{W}_{y,a}(G_{y,a})^\theta$$
 
 Donde $G_{y,a} = \tilde{W}_{y+1,a+1}/\tilde{W}_{y,a}$.
-
 :::
 
 ## 2. WAA no paramétrico
@@ -278,7 +267,6 @@ edge [arrowhead = none]
 }")
 ```
 
-
 # Definición en R
 
 ## Definición en R
@@ -301,7 +289,6 @@ my_input = wham::prepare_wham_input(model_name = "Example_1",
                          len_comp = "multinomial" # Length composition model
                          ) 
 ```
-
 
 ## Definición en R
 
@@ -326,69 +313,61 @@ my_input = wham::prepare_wham_input(...,
 
 Corresponde a argumento `growth`.
 
-* `model`: (character) modelo paramétrico a utilizar
-  - `vB_classic`: Ecuación von Bertalanffy (asume $\gamma = 1$).
-  - `Richards`: Ecuación Richards (incluye $\gamma = 1$).
+-   `model`: (character) modelo paramétrico a utilizar
+    -   `vB_classic`: Ecuación von Bertalanffy (asume $\gamma = 1$).
+    -   `Richards`: Ecuación Richards (incluye $\gamma = 1$).
 
 ::: fragment
-
-* `init_vals`: (vector numeric) valores iniciales para parámetros $k$, $L_\infty$, $L_{\tilde{a}}$ (para von Bertalanffy), y además $\gamma$ (para Richards).
-
-::: 
+-   `init_vals`: (vector numeric) valores iniciales para parámetros $k$, $L_\infty$, $L_{\tilde{a}}$ (para von Bertalanffy), y además $\gamma$ (para Richards).
+:::
 
 ## LAA paramétrico
 
 Corresponde a argumento `growth`.
 
-* `est_pars`: (vector integer) vector que indica la posición del parámetro a estimar (e.g., `c(1,3)` indica que estimará $k$ y $L_{\tilde{a}}$).
+-   `est_pars`: (vector integer) vector que indica la posición del parámetro a estimar (e.g., `c(1,3)` indica que estimará $k$ y $L_{\tilde{a}}$).
 
 ::: fragment
+-   `SD_vals`: (vector numeric) valores iniciales para parámetros $\sigma_{\tilde{a}}$ y $\sigma_{A}$.
 
-* `SD_vals`: (vector numeric) valores iniciales para parámetros $\sigma_{\tilde{a}}$ y $\sigma_{A}$.
-
-* `SD_est`: (vector integer) vector que indica la posición del parámetro a estimar.
-
-::: 
+-   `SD_est`: (vector integer) vector que indica la posición del parámetro a estimar.
+:::
 
 ## LAA paramétrico
 
 Corresponde a argumento `growth`.
 
-* `re`: (vector character) estructura de desviaciones. Longitud igual al número de parámetros.
-  - `none`: no incluir desviaciones
-  - `iid_y`: independientes por año
-  - `iid_c`: independientes por cohortes
-  - `ar1_y`: correlacionadas por año
-  - `ar1_c`: correlacionadas por cohorte
+-   `re`: (vector character) estructura de desviaciones. Longitud igual al número de parámetros.
+    -   `none`: no incluir desviaciones
+    -   `iid_y`: independientes por año
+    -   `iid_c`: independientes por cohortes
+    -   `ar1_y`: correlacionadas por año
+    -   `ar1_c`: correlacionadas por cohorte
 
 ## LAA no paramétrico
 
 Corresponde a argumento `LAA`.
 
-* `re`: (character) estructura de desviaciones
-  - `none`: no incluir desviaciones
-  - `iid`: independientes
-  - `2dar1`: correlacionadas por año y edad
+-   `re`: (character) estructura de desviaciones
+    -   `none`: no incluir desviaciones
+    -   `iid`: independientes
+    -   `2dar1`: correlacionadas por año y edad
 
 ::: fragment
-
-* `LAA_vals`: (vector numeric) valores iniciales para parámetros talla media a la edad.
-
-::: 
+-   `LAA_vals`: (vector numeric) valores iniciales para parámetros talla media a la edad.
+:::
 
 ## LAA no paramétrico
 
 Corresponde a argumento `LAA`.
 
-* `est_pars`: (vector integer) vector que indica la posición del parámetro a estimar.
+-   `est_pars`: (vector integer) vector que indica la posición del parámetro a estimar.
 
 ::: fragment
+-   `SD_vals`: (vector numeric) valores iniciales para parámetros $\sigma_{\tilde{a}}$ y $\sigma_{A}$.
 
-* `SD_vals`: (vector numeric) valores iniciales para parámetros $\sigma_{\tilde{a}}$ y $\sigma_{A}$.
-
-* `SD_est`: (vector integer) vector que indica la posición del parámetro a estimar.
-
-::: 
+-   `SD_est`: (vector integer) vector que indica la posición del parámetro a estimar.
+:::
 
 ## LAA semi-paramétrico
 
@@ -400,46 +379,39 @@ Especificamos tanto `growth` como `LAA`. Del argumento `LAA` solo se tomará inf
 
 Corresponde a argumento `LW`.
 
-* `init_vals`: (vector numeric) valores iniciales para parámetros $\Omega_1$ y $\Omega_2$.
+-   `init_vals`: (vector numeric) valores iniciales para parámetros $\Omega_1$ y $\Omega_2$.
 
-::: fragment 
-
-* `est_pars`: (vector integer) vector que indica la posición del parámetro a estimar.
-
+::: fragment
+-   `est_pars`: (vector integer) vector que indica la posición del parámetro a estimar.
 :::
-
 
 ## WAA paramétrico
 
 Corresponde a argumento `LW`.
 
-* `re`: (vector character) estructura de desviaciones. Longitud igual a 2.
-  - `none`: no incluir desviaciones
-  - `iid_y`: independientes por año
-  - `iid_c`: independientes por cohortes
-  - `ar1_y`: correlacionadas por año
-  - `ar1_c`: correlacionadas por cohorte
+-   `re`: (vector character) estructura de desviaciones. Longitud igual a 2.
+    -   `none`: no incluir desviaciones
+    -   `iid_y`: independientes por año
+    -   `iid_c`: independientes por cohortes
+    -   `ar1_y`: correlacionadas por año
+    -   `ar1_c`: correlacionadas por cohorte
 
 ## WAA no paramétrico
 
 Corresponde a argumento `WAA`.
 
-* `re`: (character) estructura de desviaciones
-  - `none`: no incluir desviaciones
-  - `iid`: independientes
-  - `2dar1`: correlacionadas por año y edad
+-   `re`: (character) estructura de desviaciones
+    -   `none`: no incluir desviaciones
+    -   `iid`: independientes
+    -   `2dar1`: correlacionadas por año y edad
 
-::: fragment 
+::: fragment
+-   `WAA_vals`: (vector numeric) valores iniciales para parámetros peso media a la edad.
+:::
 
-* `WAA_vals`: (vector numeric) valores iniciales para parámetros peso media a la edad.
-
-::: 
-
-::: fragment 
-
-* `est_pars`: (vector integer) vector que indica la posición del parámetro a estimar.
-
-::: 
+::: fragment
+-   `est_pars`: (vector integer) vector que indica la posición del parámetro a estimar.
+:::
 
 ## Definición en R
 
@@ -447,12 +419,12 @@ Corresponde a argumento `WAA`.
 
 ::: callout-warning
 ## Importante
-- No todos los argumentos del componente crecimiento somático son necesarios.
-- Para el uso de cierto enfoque para LAA o WAA, tendremos que especificar el argumento correspondiente. 
+
+-   No todos los argumentos del componente crecimiento somático son necesarios.
+-   Para el uso de cierto enfoque para LAA o WAA, tendremos que especificar el argumento correspondiente.
 :::
 
 ::: fragment
-
 Por ejemplo, para usar LAA paramétrico y WAA paramétrico, solo tendríamos que especificar:
 
 ```{r eval = FALSE}
@@ -461,7 +433,6 @@ my_input = wham::prepare_wham_input(...,
                                     LW = ...,
                                     ...) 
 ```
-
 :::
 
 ## Definición en R
@@ -469,21 +440,16 @@ my_input = wham::prepare_wham_input(...,
 ::: callout-warning
 ## Cambios en datos de entrada
 
-
 ::: incremental
+-   El método estándar es incluir empirical weight-at-age (`input_data$waa`), el cual asume que **no tiene error de observación**. Recuerda que esto ignora los datos de tallas (en caso la tengamos) para calcular SSB.
 
-- El método estándar es incluir empirical weight-at-age (`input_data$waa`), el cual asume que **no tiene error de observación**. Recuerda que esto ignora los datos de tallas (en caso la tengamos) para calcular SSB.
+-   En caso no tener empirical weight-at-age, se puede estimar usando los diferentes métodos. Para esto, no es necesario especificar `input_data$waa`, pero los WAA *pointers* **si son necesarios**.
 
-- En caso no tener empirical weight-at-age, se puede estimar usando los diferentes métodos. Para esto, no es necesario especificar `input_data$waa`, pero los WAA *pointers* **si son necesarios**.
+-   Si se desea usar `input_data$waa` como observaciones con un error asociado, también se debe incluir `input_data$waa_cv` (con las mismas dimensiones).
 
-- Si se desea usar `input_data$waa` como observaciones con un error asociado, también se debe incluir `input_data$waa_cv` (con las mismas dimensiones). 
-
-- También podemos modificar $\tilde{a}$ (edad de referencia, por defecto es 1). Para eso, especificar `input_data$age_L1` (numeric).
-
+-   También podemos modificar $\tilde{a}$ (edad de referencia, por defecto es 1). Para eso, especificar `input_data$age_L1` (numeric).
 :::
-
 :::
-
 
 # WHAM: Selectividad
 
@@ -491,32 +457,30 @@ my_input = wham::prepare_wham_input(...,
 
 Tenemos las siguientes opciones:
 
-1. Específico a la edad
-2. Logística a la edad
-3. Logística doble a la edad
-4. Logística decreciente a la edad
-5. Doble normal a la edad
-6. Logística a la talla
-7. Logística decreciente a la talla
-8. Doble normal a la talla
+1.  Específico a la edad
+2.  Logística a la edad
+3.  Logística doble a la edad
+4.  Logística decreciente a la edad
+5.  Doble normal a la edad
+6.  Logística a la talla
+7.  Logística decreciente a la talla
+8.  Doble normal a la talla
 
 ## Selectividad a la edad
 
 ### Específico a la edad
 
-Se estima un parámetro para cada edad (valores entre 0 y 1). 
+Se estima un parámetro para cada edad (valores entre 0 y 1).
 
 <br>
 
 ::: fragment
-
 ### Logística a la edad
 
 Dos parámetros $\beta_1$ y $\beta_2$ (ambos mayores a 0), se calcula usando:
 
 $$S_a = \frac{1}{1+exp(-(a-\beta_1)/\beta_2)}$$
-
-::: 
+:::
 
 ## Selectividad a la edad
 
@@ -527,12 +491,10 @@ Dos parámetros $\beta_3$ y $\beta_4$ (ambos mayores a 0), se calcula usando:
 $$S_a = \frac{1}{1+exp((a-\beta_3)/\beta_4)}$$
 
 ::: fragment
-
 ### Logística doble a la edad
 
 Es una combinación de logística y logística decreciente. Tiene 4 parámetros ($\beta_1$, $\beta_2$, $\beta_3$, $\beta_4$), y resulta en una forma acampanada.
-
-::: 
+:::
 
 ## Selectividad a la edad
 
@@ -540,23 +502,21 @@ Es una combinación de logística y logística decreciente. Tiene 4 parámetros 
 
 ### Doble normal a la edad
 
-Tiene 6 parámetros. Basada en la parametrización implementada en Stock Synthesis. Tiene forma acampanada. 
+Tiene 6 parámetros. Basada en la parametrización implementada en Stock Synthesis. Tiene forma acampanada.
 
-:::: {.columns}
-
+::: columns
 ::: {.column width="50%"}
-- *par1*: edad inicio meseta
-- *par2*: ancho de meseta
-- *par3*: ancho subida hacia meseta
+-   *par1*: edad inicio meseta
+-   *par2*: ancho de meseta
+-   *par3*: ancho subida hacia meseta
 :::
 
 ::: {.column width="50%"}
-- *par4*: ancho de bajada desde meseta
-- *par5*: selectividad inicial
-- *par6*: selectividad final
+-   *par4*: ancho de bajada desde meseta
+-   *par5*: selectividad inicial
+-   *par6*: selectividad final
 :::
-
-::::
+:::
 
 ## Desviaciones
 
@@ -569,7 +529,6 @@ Donde $\sigma^2_s$ es la AR1 varianza, $\phi_{par}$ y $\phi_{year}$ los parámet
 ## Ejemplo
 
 ![](images/selex_GOApcod.jpg){fig-align="center" width="100%"}
-
 
 ## Definición en R
 
@@ -594,7 +553,7 @@ my_input = wham::prepare_wham_input(model_name = "Example_1",
 
 ## Definición en R
 
-Enfoquemos solo la parte de crecimiento somático. Se pueden incluir los siguientes argumentos:
+Enfoquemos solo la parte de selectividad. Se pueden incluir los siguientes argumentos:
 
 ```{r eval = FALSE}
 my_input = wham::prepare_wham_input(...,
@@ -611,33 +570,31 @@ my_input = wham::prepare_wham_input(...,
 
 `model`: (character vector) nombre de modelos a usar. Longitud igual al número de bloques o funciones de selectividad diferente. No necesariamente debe ser igual al número de pesquerías e índices.
 
-:::: {.columns}
-
+::: columns
 ::: {.column width="50%"}
-  - `age-specific`
-  - `logistic` (age)
-  - `double-logistic` (age)
-  - `decreasing-logistic` (age)
+-   `age-specific`
+-   `logistic` (age)
+-   `double-logistic` (age)
+-   `decreasing-logistic` (age)
 :::
 
 ::: {.column width="50%"}
-  - `double-normal` (age)
-  - `len-logistic` (tallas)
-  - `len-decreasing-logistic` (tallas)
-  - `len-double-normal` (tallas)
+-   `double-normal` (age)
+-   `len-logistic` (tallas)
+-   `len-decreasing-logistic` (tallas)
+-   `len-double-normal` (tallas)
 :::
-
-::::
+:::
 
 ## Definición en R
 
 `re`: (character vector) estructura de desviaciones. Longitud igual al número de bloques.
 
-  * `none`: no desviaciones
-  * `iid`: parámetros varían en el tiempo pero independientes
-  * `ar1`: correlacionados entre parámetros, pero constante en tiempo
-  * `ar1_y`: correlacionados en el tiempo, pero no entre parámetros
-  * `2dar1`: correlacionado en el tiempo y entre parámetros
+-   `none`: no desviaciones
+-   `iid`: parámetros varían en el tiempo pero independientes
+-   `ar1`: correlacionados entre parámetros, pero constante en tiempo
+-   `ar1_y`: correlacionados en el tiempo, pero no entre parámetros
+-   `2dar1`: correlacionado en el tiempo y entre parámetros
 
 ## Definición en R
 
@@ -646,16 +603,12 @@ my_input = wham::prepare_wham_input(...,
 `initial_pars`: (list) longitud igual al número de bloques. Cada *slot* contiene un vector (numeric) con los valores iniciales de parámetros.
 
 ::: fragment
-
 `fix_pars`: (list) longitud igual al número de bloques. Cada *slot* contiene un vector (numeric) con la posición del parámetro a fijar. Si se estiman todos los parámetros para cierto bloque, especificar `NULL`.
-
-::: 
+:::
 
 ::: fragment
-
 `n_selblocks`: (integer) número de bloques de selectividad
-
-::: 
+:::
 
 ## Definición en R
 
@@ -665,15 +618,12 @@ my_input = wham::prepare_wham_input(...,
 ## Cambios en datos de entrada
 
 ::: incremental
+-   Es justamente donde `input_data$selblock_pointer_fleets` y `input_data$selblock_pointer_indices` toman importancia. Estos *pointers* se refiere a los bloques que usarán las pesquerías y los índices.
 
-- Es justamente donde `input_data$selblock_pointer_fleets` y `input_data$selblock_pointer_indices` toman importancia. Estos *pointers* se refiere a los bloques que usarán las pesquerías y los índices.
+-   Los *pointers* pueden cambiar en el tiempo.
 
-- Los *pointers* pueden cambiar en el tiempo.
-
-- La aplicabilidad es similar a la de *mirror* en Stock Synthesis (e.g., CPUE y pesquerías).
-
+-   La aplicabilidad es similar a la de *mirror* en Stock Synthesis (e.g., CPUE y pesquerías).
 :::
-
 :::
 
 # Laboratorio
@@ -682,12 +632,12 @@ my_input = wham::prepare_wham_input(...,
 
 <br>
 
-* Continuar con la implementación del objeto de datos para el caso 1.
+-   Continuar con la implementación del objeto de datos para el caso 1.
 
-* Correr modelo para caso 1.
+-   Correr modelo para caso 1.
 
-* Implementación del objeto de datos para el caso 2.
+-   Implementación del objeto de datos para el caso 2.
 
-* Asumir $M=0.35$ y $Q=1$. Además, $\bar{R} = 100000$.
+-   Asumir $M=0.35$ y $Q=1$. Además, $\bar{R} = 100000$.
 
 ## Referencias

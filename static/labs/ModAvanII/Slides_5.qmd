@@ -1,0 +1,450 @@
+---
+title: "Modelos avanzados en evaluación de recursos pesqueros: Día 5"
+author: 
+   <br>Dr. Giancarlo M. Correa
+institute:
+   <br>Cousteau Consultant Group
+format:
+  revealjs:
+    theme: simple
+    logo: images/CGlogo1.png
+    slide-number: 'c/t'
+    css: myStyle.css
+from: markdown+emoji
+editor: visual
+execute:
+  echo: true
+bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b0/references.bib?x=eyJpZCI6ICJiNjNhYzI0Mi1hNzdjLTQ4MTYtOWMyNy1mY2RmYjMxODc1YjAiLCAidXNlciI6ICI1NDQwIiwgInNpZ25hdHVyZSI6ICIyMTMxYjVhZDk1NGYxNDUzYjk3YjZiNjk3ZDIxZWEwODIwZjA4MTBiZTk3YWIxOTNiMGVkMzI1YzI0YTRjZWNkIn0=/bibliography.bib"
+---
+
+# WHAM: Variables ambientales
+
+<!-- Install this version of knitr or update RStudio-->
+
+<!-- remotes::install_version("knitr", "1.42") -->
+
+## Introducción 
+
+<br>
+
+::: incremental
+
+* Se usa el enfoque SSM para los procesos y observaciones:
+
+  - Se introducen observaciones que serán tratados como datos. 
+  - Se estiman los procesos $X_y$ a partir de las observaciones.
+  - Los procesos $X_y$ son los que afectan al componente poblacional.
+  
+* Se pueden incluir *lags*.
+
+:::
+
+## Introducción 
+
+<br>
+
+::: incremental
+
+* Se puede estimar el error de observación.
+
+* Se pueden incluir múltiples variables.
+
+* Se puede tener años sin datos.
+
+* Se puede emplear para hacer proyecciones.
+
+::: 
+
+## Process model
+
+<br>
+
+1) Random walk [@Miller_2016]:
+
+$$X_{y+1} \mid X_y \sim N(X_y,\sigma_X^2)$$
+
+$\sigma_X^2$ es la varianza del proceso y $X_1$ es estimado como efecto fijo.
+
+## Process model
+
+<br>
+
+2) AR1 process [@Miller_2018b]:
+
+$$X_1 \sim N(\mu_X, \frac{\sigma_X^2}{1-\phi_X^2})$$
+
+$$X_y \sim N(\mu_X(1-\phi_X) + \phi_XX_{y-1}, \sigma_X^2)$$
+
+donde $\mu_X$, $\sigma_X^2$, y $\mid \phi_X \mid < 1$ son la media marginal, varianza condicional, y parámetro de autocorrelación.
+
+## Observation model
+
+Observaciones $x_y$ son asumidas ser normalmente distribuidas con media $X_y$ y varianza $\sigma_{x_y}^2$ (para cada año):
+
+$$x_y \mid X_y \sim N(X_y,\sigma^2_{x_y})$$
+
+$\sigma_{x_y}^2$ puede ser datos de entrada o puede ser estimada (tratado como efecto aleatorio):
+
+$$\sigma_{x_y}^2 \sim N(\mu_{\sigma_x}, \sigma_{\sigma_x}^2)$$
+
+## Link to population
+
+<br>
+
+Puede impactar los siguientes componentes poblacionales: 
+
+  - Reclutamiento (varias funciones de enlace)
+  - Capturabilidad
+  - Mortalidad natural
+  - Crecimiento
+  
+## Link to recruitment
+
+Tenemos las siguientes opciones:
+
+* *controlling*: mortalidad independiente de la densidad
+* *limiting*: efecto de capacidad de carga, $X_y$ determina el suitable habitat
+* *masking*: $X_y$ reduce $dR/SSB$, lo que sucede cuando $X_y$ afecta metabolismo o crecimiento
+
+::: fragment
+
+Para una relación de Beverton-Holt, podemos usar las tres opciones. Para Ricker, solo podemos usar *controlling* o *masking*.
+
+:::
+
+## Link to recruitment
+
+<br>
+
+Las ecuaciones son las siguientes [@Stock_2021]:
+
+<br>
+
+![](images/D4_img1.png){fig-align="center" width="100%"}
+
+Referencia sugerida: @du_Pontavice_2022
+
+## Ejemplo
+
+Para Beverton-Holt:
+
+![](images/D4_img2.jpg){fig-align="center" width="100%"}
+
+
+## Link to natural mortality
+
+<br>
+
+Modifica $M$ (para todas las edades):
+
+$$M_{a,y} = \mu_{M_a}exp(\beta X_{y})$$
+
+::: fragment
+
+Similar formulación existe para capturabilidad. En general, veremos que esta relación puede variar (lineal o polinomial).
+
+:::
+
+## Link to somatic growth
+
+<br>
+
+Modificar cualquiera de los parámetros de todos los enfoques explorados:
+
+$$G_{y} = \mu_{G}exp(\beta X_{y})$$
+
+Para el caso de los enfoques no paramétricos, va a afectar a todas las edades por igual ($\beta$ impacta todas las edades).
+
+## Funciones de link
+
+<br>
+
+Pueden ser lineales o polinomiales. Por ejemplo, se puede evaluar:
+
+$$R_{y+1} = \frac{\alpha SSB_y}{1+exp(\beta_0 + \beta_1 X_y + \beta_2 X_y^2)SSB_y}$$
+
+Para este caso, $\alpha$ y $\beta_0$ son los parámetros estándar de Beverton-Holt. $\beta_1$ y $\beta_2$ son los parámetros del efecto polinomial.
+
+# Definición en R
+
+## Definición en R
+
+<br>
+
+```{r eval = FALSE}
+#| code-line-numbers: "7"
+my_input = wham::prepare_wham_input(model_name = "Example_1",
+                         basic_info = input_data, 
+                         NAA_re = list(), # NAA parameters
+                         M = list(), # M parameter
+                         selectivity = list(), # Selectivity parameter
+                         catchability = list(), # Catchability parameter
+                         ecov = list(), # Environmental information
+                         # Crecimiento somatico:
+                         growth = list(), LAA = list(), # Mean length-at-age
+                         LW = list(), WAA = list(), # Mean weight-at-age
+                         age_comp = "multinomial", # Age composition model
+                         len_comp = "multinomial" # Length composition model
+                         ) 
+```
+
+## Definición en R
+
+Enfoquemos solo la parte de variables ambientales:
+
+```{r eval = FALSE}
+my_input = wham::prepare_wham_input(...,
+                                    ecov = list(label = ..., # nombre de variable
+                                                mean = ..., # observations
+                                                logsigma = ..., # obs error (log scale)
+                                                year = ..., # years
+                                                use_obs = ..., # use/not use obs
+                                                lag = ..., # lag
+                                                process_model = ..., # process
+                                                where = ..., # what component to affect
+                                                where_subindex = ..., # parameter to affect
+                                                indices = ..., # index to affect
+                                                link_model = ..., # type link function
+                                                ages = ..., # ages to affect
+                                                how = ...), # special links
+                                    ...)
+```
+
+## Definición en R
+
+* `label`: (character vector) Nombre de variables. Longitud igual al número de variables ambientales (nEcov).
+
+* `mean`: (matrix numeric) Observaciones. Número de años (filas) por nEcov (columnas). Para valores faltantes poner `NA`.
+
+* `year`: (vector integer) Años (longitud igual al número de filas de `mean`).
+
+* `use_obs`: (matrix integer) Matriz especificando si usar o no la observación. Mismas dimensiones que `mean`. 
+
+## Definición en R
+
+* `logsigma`: (matrix numeric) Matriz como `mean`, pero contiene errores de observación en escala log. Si se desea estimar, entonces no será una matriz, y debemos especificar:
+
+  - `est_1`: mismo valor para todos los años
+  - `est_re`: valor distinto para cada año
+
+* `lag`: (vector integer) Lags. Longitud igual a nEcov.
+
+* `process_model`: (character) Puede ser `rw` (random walk) o `ar1` (AR1 process).
+
+## Definición en R
+
+* `where`: (character vector) Longitud igual a nEcov. Puede ser `'recruit'`, `'M'`, `'q'`, `'growth'`, `'LAA'`, `'LW'`, o `'WAA'`.
+
+* `where_subindex`: (vector integer) parámetro que va a afectar Ecov (solo usado para `growth` o `LW`).
+
+* `indices`: (list) Solo usado cuando `where='q'`. Longitud de lista igual a nEcov. 
+
+## Definición en R
+
+* `link_model`: (vector character) Tipo de link. Longitud igual a nEcov. Opciones: `none`, `linear`, `poly-x` (donde `x` es el orden).
+
+* `ages`: (list) Longitud igual a nEcov. Edades que afecta la variable ambiental.
+
+* `how`: (vector integer) Longitud igual a nEcov. Tipo de link (especialmente para reclutamiento). Para reclutamiento tenemos: `0` = none, `1` = controlling, `2` = limiting, `4` = masking.
+
+# WHAM: Mortalidad por pesca
+
+## Enfoque en WHAM
+
+<br>
+
+Ya hemos visto como la mortalidad por pesca $F$ impacta la abundancia de la población. 
+
+Más adelante veremos como $F$ es utilizada para obtener las capturas.
+
+::: fragment
+
+En WHAM, $F$ no tiene un argumento dentro de la función `prepare_wham_input`.
+
+:::
+
+## Enfoque en WHAM
+
+<br>
+
+Sin embargo, en la sección de datos, nosotros podemos especificar valores iniciales de $F$ para cada pesquería:
+
+<br>
+
+```{r eval = FALSE}
+input_data$F = matrix(mis_F_iniciales, ncol = input_data$n_fleets, nrow = n_years)
+```
+
+<br>
+
+::: fragment
+
+Internamente, lo que WHAM calcula son diferencias de $F$ ($F_{y+1}-F_y$), llamado $F_{devs}$ y que son estimados como efectos fijos (única opción). El $F$ inicial `log_F1` es estimado como efecto fijo también.
+
+:::
+
+# WHAM: Fijar parámetros
+
+## Overview
+
+<br>
+
+Como hemos visto, desde `prepare_wham_input` podemos decidir los parámetros (efectos fijos) a estimar o fijar para los siguientes componentes:
+
+- Mortalidad natural
+- Selectividad
+- Crecimiento somático
+
+## Overview
+
+<br>
+
+Sin embargo, no hay forma de manipular directamente esto para los efectos fijos de abundancia a la edad (i.e., reclutamiento), capturabilidad, ó variables ambientales. Además, no podemos manipular los parámetros cuando modelados desviaciones (e.g., `iid`, `ar1`, `2dar1`).
+
+<br>
+
+::: fragment
+
+Si queremos hacer esto, podemos usar `my_input$map`.
+
+:::
+
+## Ejemplo
+
+<br>
+
+Primero creamos el objeto de entrada para WHAM:
+
+<br>
+
+```{r eval = FALSE}
+my_input = prepare_wham_input(...)
+```
+
+## Ejemplo
+
+`my_input` tiene 4 elementos importantes:
+
+- `my_input$data`: Organiza los datos como el código fuente de WHAM los necesita.
+- `my_input$par`: Valores iniciales de parámetros.
+- `my_input$map`: Parámetros (efectos fijos) que serán estimados. Siempre será vector tipo factor. Cuando veamos `<NA>`, significa que estará fijo. Cuando veamos algún número, significa que será estimado.
+- `my_input$random`: Variable tratada como efectos aleatorios.
+
+
+## Overview
+
+<br>
+
+Como nos daremos cuenta, los elementos de `my_input$par` y `my_input$map` van a tener los mismos nombres.
+
+<br>
+
+::: fragment
+
+Por ejemplo, nos daremos cuenta que existe `my_input$par$M_a` (valores iniciales de $M$ en escala log), y también existe `my_input$map$M_a`. Se recomienda explorar todos los elementos de  `my_input$par` y `my_input$map` para familiarizarse.
+
+:::
+
+## Ejemplo
+
+<br>
+
+Si queremos fijar $\sigma_R$, podemos hacer de la siguiente forma:
+
+```{r eval = FALSE}
+my_input$map$log_NAA_sigma = factor(NA)
+```
+
+::: fragment
+
+Si queremos fijar $Q$, podemos hacer de la siguiente forma (para un solo índice):
+
+```{r eval = FALSE}
+my_input$map$logit_q = factor(NA)
+```
+
+:::
+
+## Ejemplo
+
+<br>
+
+Si queremos fijar $F_0$, en caso usemos $R_{1,1}$ y $F_0$ para calcular la población inicial, podemos hacerlo:
+
+```{r eval = FALSE}
+my_input$map$log_N1_pars = factor(c(1, NA))
+```
+
+## Ejemplo
+
+<br>
+
+Si queremos desactivar los efectos aleatorios, podemos hacerlo:
+
+```{r eval = FALSE}
+my_input$random = NULL
+```
+
+::: fragment
+
+Esto último provocará que todo sea tratado como efectos fijos. 
+
+::: callout-warning
+## Importante
+
+-   Si se va a desactivar los efectos aleatorios, se recomienda **no estimar** los parámetros asociados a la estructura de las desviaciones (e.g., $\sigma_R$, $\rho_a$, $\rho_y$, etc.). 
+:::
+
+:::
+
+# WHAM: Correr un modelo
+
+## Overview
+
+<br>
+
+Para esto, utilizaremos el objeto `my_input` después de fijar o estimar los parámetros deseados. Luego:
+
+```{r eval = FALSE}
+my_model = fit_wham(input = my_input, do.sdrep = ..., do.retro = ..., 
+                    n.peels = ..., do.osa = ..., do.proj = ..., do.fit = ...)
+```
+
+`fit_wham` contiene más argumentos, pero los mostrados son los más relevantes.
+
+## Overview
+
+<br>
+
+* `do.sdrep`: (logical) Invertir matriz hessiana y calcular errores estándar para los parámetros?. Default = `TRUE`.
+
+* `do.retro`: (logical) Correr análisis retrospectivo?. Default = `TRUE`.
+
+* `n.peels`: (integer) Número de peels si `do.retro = TRUE`. Default = `7`.
+
+## Overview
+
+<br>
+
+* `do.osa`: (logical) Calcular *one-step ahead residuals*? Default = `TRUE`.
+
+* `do.proj`: (logical) Hacer proyecciones? Default = `FALSE`.
+
+* `do.fit`: (logical) Ajustar a los datos? Default = `TRUE`. Esto es útil cuando queremos testear nuestros parámetros iniciales o explorar la configuración del modelo.
+
+# Laboratorio
+
+## Objetivos
+
+<br>
+
+1. Explorar la función auxiliar de selectividad.
+
+2. Continuar con caso 1 y caso 2. Información relevante:
+
+  - Para la relación longitud-peso, se utilizó: $\Omega_1=exp(-12.1)$ y $\Omega_2 = 3.2$.
+  - Dado que se conoce $F_0$, se recomienda fijarlo en 0.
+  
+3. Explorar el objeto de entrada `my_input` y las salidas del modelo `my_model`.
+
+## Referencias

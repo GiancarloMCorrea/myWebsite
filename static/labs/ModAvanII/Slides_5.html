@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Slides_5_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Slides_5_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Slides_5_files/libs/quarto-html/popper.min.js"></script>
+<script src="Slides_5_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Slides_5_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Slides_5_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="Slides_5_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.2.269">
+
+  <meta name="author" content=" Dr.&nbsp;Giancarlo M. Correa">
+  <title>Modelos avanzados en evaluación de recursos pesqueros: Día 5</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Slides_5_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Slides_5_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+    }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+  <link rel="stylesheet" href="Slides_5_files/libs/revealjs/dist/theme/quarto.css" id="theme">
+  <link rel="stylesheet" href="myStyle.css">
+  <link href="Slides_5_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Slides_5_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Slides_5_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Slides_5_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-captioned.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-captioned) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-captioned.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-captioned .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-captioned .callout-caption  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-captioned.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-captioned.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-caption {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-caption {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-caption {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-captioned .callout-body > .callout-content > :last-child {
+    margin-bottom: 0.5rem;
+  }
+
+  .callout.callout-captioned .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-captioned) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-caption {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-caption {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-caption {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-caption {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-caption {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Modelos avanzados en evaluación de recursos pesqueros: Día 5</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+<br>Dr.&nbsp;Giancarlo M. Correa 
+</div>
+        <p class="quarto-title-affiliation">
+            <br>Cousteau Consultant Group
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="wham-variables-ambientales" class="title-slide slide level1 center">
+<h1>WHAM: Variables ambientales</h1>
+<!-- Install this version of knitr or update RStudio-->
+<!-- remotes::install_version("knitr", "1.42") -->
+</section>
+<section id="introducción" class="slide level2">
+<h2>Introducción</h2>
+<p><br></p>
+<div>
+<ul>
+<li class="fragment"><p>Se usa el enfoque SSM para los procesos y observaciones:</p>
+<ul>
+<li class="fragment">Se introducen observaciones que serán tratados como datos.</li>
+<li class="fragment">Se estiman los procesos <span class="math inline">\(X_y\)</span> a partir de las observaciones.</li>
+<li class="fragment">Los procesos <span class="math inline">\(X_y\)</span> son los que afectan al componente poblacional.</li>
+</ul></li>
+<li class="fragment"><p>Se pueden incluir <em>lags</em>.</p></li>
+</ul>
+</div>
+</section>
+<section id="introducción-1" class="slide level2">
+<h2>Introducción</h2>
+<p><br></p>
+<div>
+<ul>
+<li class="fragment"><p>Se puede estimar el error de observación.</p></li>
+<li class="fragment"><p>Se pueden incluir múltiples variables.</p></li>
+<li class="fragment"><p>Se puede tener años sin datos.</p></li>
+<li class="fragment"><p>Se puede emplear para hacer proyecciones.</p></li>
+</ul>
+</div>
+</section>
+<section id="process-model" class="slide level2">
+<h2>Process model</h2>
+<p><br></p>
+<ol type="1">
+<li>Random walk <span class="citation" data-cites="Miller_2016">(<a href="#/referencias" role="doc-biblioref" onclick="">Miller, Hare, and Alade 2016</a>)</span>:</li>
+</ol>
+<p><span class="math display">\[X_{y+1} \mid X_y \sim N(X_y,\sigma_X^2)\]</span></p>
+<p><span class="math inline">\(\sigma_X^2\)</span> es la varianza del proceso y <span class="math inline">\(X_1\)</span> es estimado como efecto fijo.</p>
+</section>
+<section id="process-model-1" class="slide level2">
+<h2>Process model</h2>
+<p><br></p>
+<ol start="2" type="1">
+<li>AR1 process <span class="citation" data-cites="Miller_2018b">(<a href="#/referencias" role="doc-biblioref" onclick="">Miller, O’Brien, and Fratantoni 2018</a>)</span>:</li>
+</ol>
+<p><span class="math display">\[X_1 \sim N(\mu_X, \frac{\sigma_X^2}{1-\phi_X^2})\]</span></p>
+<p><span class="math display">\[X_y \sim N(\mu_X(1-\phi_X) + \phi_XX_{y-1}, \sigma_X^2)\]</span></p>
+<p>donde <span class="math inline">\(\mu_X\)</span>, <span class="math inline">\(\sigma_X^2\)</span>, y <span class="math inline">\(\mid \phi_X \mid &lt; 1\)</span> son la media marginal, varianza condicional, y parámetro de autocorrelación.</p>
+</section>
+<section id="observation-model" class="slide level2">
+<h2>Observation model</h2>
+<p>Observaciones <span class="math inline">\(x_y\)</span> son asumidas ser normalmente distribuidas con media <span class="math inline">\(X_y\)</span> y varianza <span class="math inline">\(\sigma_{x_y}^2\)</span> (para cada año):</p>
+<p><span class="math display">\[x_y \mid X_y \sim N(X_y,\sigma^2_{x_y})\]</span></p>
+<p><span class="math inline">\(\sigma_{x_y}^2\)</span> puede ser datos de entrada o puede ser estimada (tratado como efecto aleatorio):</p>
+<p><span class="math display">\[\sigma_{x_y}^2 \sim N(\mu_{\sigma_x}, \sigma_{\sigma_x}^2)\]</span></p>
+</section>
+<section id="link-to-population" class="slide level2">
+<h2>Link to population</h2>
+<p><br></p>
+<p>Puede impactar los siguientes componentes poblacionales:</p>
+<ul>
+<li>Reclutamiento (varias funciones de enlace)</li>
+<li>Capturabilidad</li>
+<li>Mortalidad natural</li>
+<li>Crecimiento</li>
+</ul>
+</section>
+<section id="link-to-recruitment" class="slide level2">
+<h2>Link to recruitment</h2>
+<p>Tenemos las siguientes opciones:</p>
+<ul>
+<li><em>controlling</em>: mortalidad independiente de la densidad</li>
+<li><em>limiting</em>: efecto de capacidad de carga, <span class="math inline">\(X_y\)</span> determina el suitable habitat</li>
+<li><em>masking</em>: <span class="math inline">\(X_y\)</span> reduce <span class="math inline">\(dR/SSB\)</span>, lo que sucede cuando <span class="math inline">\(X_y\)</span> afecta metabolismo o crecimiento</li>
+</ul>
+<div class="fragment">
+<p>Para una relación de Beverton-Holt, podemos usar las tres opciones. Para Ricker, solo podemos usar <em>controlling</em> o <em>masking</em>.</p>
+</div>
+</section>
+<section id="link-to-recruitment-1" class="slide level2">
+<h2>Link to recruitment</h2>
+<p><br></p>
+<p>Las ecuaciones son las siguientes <span class="citation" data-cites="Stock_2021">(<a href="#/referencias" role="doc-biblioref" onclick="">Stock and Miller 2021</a>)</span>:</p>
+<p><br></p>
+
+<img data-src="images/D4_img1.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p>Referencia sugerida: <span class="citation" data-cites="du_Pontavice_2022">Pontavice et al. (<a href="#/referencias" role="doc-biblioref" onclick="">2022</a>)</span></p>
+</section>
+<section id="ejemplo" class="slide level2">
+<h2>Ejemplo</h2>
+<p>Para Beverton-Holt:</p>
+
+<img data-src="images/D4_img2.jpg" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
+<section id="link-to-natural-mortality" class="slide level2">
+<h2>Link to natural mortality</h2>
+<p><br></p>
+<p>Modifica <span class="math inline">\(M\)</span> (para todas las edades):</p>
+<p><span class="math display">\[M_{a,y} = \mu_{M_a}exp(\beta X_{y})\]</span></p>
+<div class="fragment">
+<p>Similar formulación existe para capturabilidad. En general, veremos que esta relación puede variar (lineal o polinomial).</p>
+</div>
+</section>
+<section id="link-to-somatic-growth" class="slide level2">
+<h2>Link to somatic growth</h2>
+<p><br></p>
+<p>Modificar cualquiera de los parámetros de todos los enfoques explorados:</p>
+<p><span class="math display">\[G_{y} = \mu_{G}exp(\beta X_{y})\]</span></p>
+<p>Para el caso de los enfoques no paramétricos, va a afectar a todas las edades por igual (<span class="math inline">\(\beta\)</span> impacta todas las edades).</p>
+</section>
+<section id="funciones-de-link" class="slide level2">
+<h2>Funciones de link</h2>
+<p><br></p>
+<p>Pueden ser lineales o polinomiales. Por ejemplo, se puede evaluar:</p>
+<p><span class="math display">\[R_{y+1} = \frac{\alpha SSB_y}{1+exp(\beta_0 + \beta_1 X_y + \beta_2 X_y^2)SSB_y}\]</span></p>
+<p>Para este caso, <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\beta_0\)</span> son los parámetros estándar de Beverton-Holt. <span class="math inline">\(\beta_1\)</span> y <span class="math inline">\(\beta_2\)</span> son los parámetros del efecto polinomial.</p>
+</section></section>
+<section>
+<section id="definición-en-r" class="title-slide slide level1 center">
+<h1>Definición en R</h1>
+
+</section>
+<section id="definición-en-r-1" class="slide level2">
+<h2>Definición en R</h2>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" data-code-line-numbers="7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>my_input <span class="ot">=</span> wham<span class="sc">::</span><span class="fu">prepare_wham_input</span>(<span class="at">model_name =</span> <span class="st">"Example_1"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2"></a>                         <span class="at">basic_info =</span> input_data, </span>
+<span id="cb1-3"><a href="#cb1-3"></a>                         <span class="at">NAA_re =</span> <span class="fu">list</span>(), <span class="co"># NAA parameters</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>                         <span class="at">M =</span> <span class="fu">list</span>(), <span class="co"># M parameter</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>                         <span class="at">selectivity =</span> <span class="fu">list</span>(), <span class="co"># Selectivity parameter</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>                         <span class="at">catchability =</span> <span class="fu">list</span>(), <span class="co"># Catchability parameter</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>                         <span class="at">ecov =</span> <span class="fu">list</span>(), <span class="co"># Environmental information</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>                         <span class="co"># Crecimiento somatico:</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>                         <span class="at">growth =</span> <span class="fu">list</span>(), <span class="at">LAA =</span> <span class="fu">list</span>(), <span class="co"># Mean length-at-age</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>                         <span class="at">LW =</span> <span class="fu">list</span>(), <span class="at">WAA =</span> <span class="fu">list</span>(), <span class="co"># Mean weight-at-age</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a>                         <span class="at">age_comp =</span> <span class="st">"multinomial"</span>, <span class="co"># Age composition model</span></span>
+<span id="cb1-12"><a href="#cb1-12"></a>                         <span class="at">len_comp =</span> <span class="st">"multinomial"</span> <span class="co"># Length composition model</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>                         ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="definición-en-r-2" class="slide level2">
+<h2>Definición en R</h2>
+<p>Enfoquemos solo la parte de variables ambientales:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>my_input <span class="ot">=</span> wham<span class="sc">::</span><span class="fu">prepare_wham_input</span>(...,</span>
+<span id="cb2-2"><a href="#cb2-2"></a>                                    <span class="at">ecov =</span> <span class="fu">list</span>(<span class="at">label =</span> ..., <span class="co"># nombre de variable</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>                                                <span class="at">mean =</span> ..., <span class="co"># observations</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>                                                <span class="at">logsigma =</span> ..., <span class="co"># obs error (log scale)</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>                                                <span class="at">year =</span> ..., <span class="co"># years</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>                                                <span class="at">use_obs =</span> ..., <span class="co"># use/not use obs</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>                                                <span class="at">lag =</span> ..., <span class="co"># lag</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>                                                <span class="at">process_model =</span> ..., <span class="co"># process</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>                                                <span class="at">where =</span> ..., <span class="co"># what component to affect</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>                                                <span class="at">where_subindex =</span> ..., <span class="co"># parameter to affect</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>                                                <span class="at">indices =</span> ..., <span class="co"># index to affect</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>                                                <span class="at">link_model =</span> ..., <span class="co"># type link function</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a>                                                <span class="at">ages =</span> ..., <span class="co"># ages to affect</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a>                                                <span class="at">how =</span> ...), <span class="co"># special links</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>                                    ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="definición-en-r-3" class="slide level2">
+<h2>Definición en R</h2>
+<ul>
+<li><p><code>label</code>: (character vector) Nombre de variables. Longitud igual al número de variables ambientales (nEcov).</p></li>
+<li><p><code>mean</code>: (matrix numeric) Observaciones. Número de años (filas) por nEcov (columnas). Para valores faltantes poner <code>NA</code>.</p></li>
+<li><p><code>year</code>: (vector integer) Años (longitud igual al número de filas de <code>mean</code>).</p></li>
+<li><p><code>use_obs</code>: (matrix integer) Matriz especificando si usar o no la observación. Mismas dimensiones que <code>mean</code>.</p></li>
+</ul>
+</section>
+<section id="definición-en-r-4" class="slide level2">
+<h2>Definición en R</h2>
+<ul>
+<li><p><code>logsigma</code>: (matrix numeric) Matriz como <code>mean</code>, pero contiene errores de observación en escala log. Si se desea estimar, entonces no será una matriz, y debemos especificar:</p>
+<ul>
+<li><code>est_1</code>: mismo valor para todos los años</li>
+<li><code>est_re</code>: valor distinto para cada año</li>
+</ul></li>
+<li><p><code>lag</code>: (vector integer) Lags. Longitud igual a nEcov.</p></li>
+<li><p><code>process_model</code>: (character) Puede ser <code>rw</code> (random walk) o <code>ar1</code> (AR1 process).</p></li>
+</ul>
+</section>
+<section id="definición-en-r-5" class="slide level2">
+<h2>Definición en R</h2>
+<ul>
+<li><p><code>where</code>: (character vector) Longitud igual a nEcov. Puede ser <code>'recruit'</code>, <code>'M'</code>, <code>'q'</code>, <code>'growth'</code>, <code>'LAA'</code>, <code>'LW'</code>, o <code>'WAA'</code>.</p></li>
+<li><p><code>where_subindex</code>: (vector integer) parámetro que va a afectar Ecov (solo usado para <code>growth</code> o <code>LW</code>).</p></li>
+<li><p><code>indices</code>: (list) Solo usado cuando <code>where='q'</code>. Longitud de lista igual a nEcov.</p></li>
+</ul>
+</section>
+<section id="definición-en-r-6" class="slide level2">
+<h2>Definición en R</h2>
+<ul>
+<li><p><code>link_model</code>: (vector character) Tipo de link. Longitud igual a nEcov. Opciones: <code>none</code>, <code>linear</code>, <code>poly-x</code> (donde <code>x</code> es el orden).</p></li>
+<li><p><code>ages</code>: (list) Longitud igual a nEcov. Edades que afecta la variable ambiental.</p></li>
+<li><p><code>how</code>: (vector integer) Longitud igual a nEcov. Tipo de link (especialmente para reclutamiento). Para reclutamiento tenemos: <code>0</code> = none, <code>1</code> = controlling, <code>2</code> = limiting, <code>4</code> = masking.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="wham-mortalidad-por-pesca" class="title-slide slide level1 center">
+<h1>WHAM: Mortalidad por pesca</h1>
+
+</section>
+<section id="enfoque-en-wham" class="slide level2">
+<h2>Enfoque en WHAM</h2>
+<p><br></p>
+<p>Ya hemos visto como la mortalidad por pesca <span class="math inline">\(F\)</span> impacta la abundancia de la población.</p>
+<p>Más adelante veremos como <span class="math inline">\(F\)</span> es utilizada para obtener las capturas.</p>
+<div class="fragment">
+<p>En WHAM, <span class="math inline">\(F\)</span> no tiene un argumento dentro de la función <code>prepare_wham_input</code>.</p>
+</div>
+</section>
+<section id="enfoque-en-wham-1" class="slide level2">
+<h2>Enfoque en WHAM</h2>
+<p><br></p>
+<p>Sin embargo, en la sección de datos, nosotros podemos especificar valores iniciales de <span class="math inline">\(F\)</span> para cada pesquería:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>input_data<span class="sc">$</span>F <span class="ot">=</span> <span class="fu">matrix</span>(mis_F_iniciales, <span class="at">ncol =</span> input_data<span class="sc">$</span>n_fleets, <span class="at">nrow =</span> n_years)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div class="fragment">
+<p>Internamente, lo que WHAM calcula son diferencias de <span class="math inline">\(F\)</span> (<span class="math inline">\(F_{y+1}-F_y\)</span>), llamado <span class="math inline">\(F_{devs}\)</span> y que son estimados como efectos fijos (única opción). El <span class="math inline">\(F\)</span> inicial <code>log_F1</code> es estimado como efecto fijo también.</p>
+</div>
+</section></section>
+<section>
+<section id="wham-fijar-parámetros" class="title-slide slide level1 center">
+<h1>WHAM: Fijar parámetros</h1>
+
+</section>
+<section id="overview" class="slide level2">
+<h2>Overview</h2>
+<p><br></p>
+<p>Como hemos visto, desde <code>prepare_wham_input</code> podemos decidir los parámetros (efectos fijos) a estimar o fijar para los siguientes componentes:</p>
+<ul>
+<li>Mortalidad natural</li>
+<li>Selectividad</li>
+<li>Crecimiento somático</li>
+</ul>
+</section>
+<section id="overview-1" class="slide level2">
+<h2>Overview</h2>
+<p><br></p>
+<p>Sin embargo, no hay forma de manipular directamente esto para los efectos fijos de abundancia a la edad (i.e., reclutamiento), capturabilidad, ó variables ambientales. Además, no podemos manipular los parámetros cuando modelados desviaciones (e.g., <code>iid</code>, <code>ar1</code>, <code>2dar1</code>).</p>
+<p><br></p>
+<div class="fragment">
+<p>Si queremos hacer esto, podemos usar <code>my_input$map</code>.</p>
+</div>
+</section>
+<section id="ejemplo-1" class="slide level2">
+<h2>Ejemplo</h2>
+<p><br></p>
+<p>Primero creamos el objeto de entrada para WHAM:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>my_input <span class="ot">=</span> <span class="fu">prepare_wham_input</span>(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ejemplo-2" class="slide level2">
+<h2>Ejemplo</h2>
+<p><code>my_input</code> tiene 4 elementos importantes:</p>
+<ul>
+<li><code>my_input$data</code>: Organiza los datos como el código fuente de WHAM los necesita.</li>
+<li><code>my_input$par</code>: Valores iniciales de parámetros.</li>
+<li><code>my_input$map</code>: Parámetros (efectos fijos) que serán estimados. Siempre será vector tipo factor. Cuando veamos <code>&lt;NA&gt;</code>, significa que estará fijo. Cuando veamos algún número, significa que será estimado.</li>
+<li><code>my_input$random</code>: Variable tratada como efectos aleatorios.</li>
+</ul>
+</section>
+<section id="overview-2" class="slide level2">
+<h2>Overview</h2>
+<p><br></p>
+<p>Como nos daremos cuenta, los elementos de <code>my_input$par</code> y <code>my_input$map</code> van a tener los mismos nombres.</p>
+<p><br></p>
+<div class="fragment">
+<p>Por ejemplo, nos daremos cuenta que existe <code>my_input$par$M_a</code> (valores iniciales de <span class="math inline">\(M\)</span> en escala log), y también existe <code>my_input$map$M_a</code>. Se recomienda explorar todos los elementos de <code>my_input$par</code> y <code>my_input$map</code> para familiarizarse.</p>
+</div>
+</section>
+<section id="ejemplo-3" class="slide level2">
+<h2>Ejemplo</h2>
+<p><br></p>
+<p>Si queremos fijar <span class="math inline">\(\sigma_R\)</span>, podemos hacer de la siguiente forma:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>my_input<span class="sc">$</span>map<span class="sc">$</span>log_NAA_sigma <span class="ot">=</span> <span class="fu">factor</span>(<span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>Si queremos fijar <span class="math inline">\(Q\)</span>, podemos hacer de la siguiente forma (para un solo índice):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>my_input<span class="sc">$</span>map<span class="sc">$</span>logit_q <span class="ot">=</span> <span class="fu">factor</span>(<span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="ejemplo-4" class="slide level2">
+<h2>Ejemplo</h2>
+<p><br></p>
+<p>Si queremos fijar <span class="math inline">\(F_0\)</span>, en caso usemos <span class="math inline">\(R_{1,1}\)</span> y <span class="math inline">\(F_0\)</span> para calcular la población inicial, podemos hacerlo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>my_input<span class="sc">$</span>map<span class="sc">$</span>log_N1_pars <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="cn">NA</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ejemplo-5" class="slide level2">
+<h2>Ejemplo</h2>
+<p><br></p>
+<p>Si queremos desactivar los efectos aleatorios, podemos hacerlo:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>my_input<span class="sc">$</span>random <span class="ot">=</span> <span class="cn">NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<p>Esto último provocará que todo sea tratado como efectos fijos.</p>
+<div class="callout callout-warning callout-captioned callout-style-default">
+<div class="callout-body">
+<div class="callout-caption">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Importante</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Si se va a desactivar los efectos aleatorios, se recomienda <strong>no estimar</strong> los parámetros asociados a la estructura de las desviaciones (e.g., <span class="math inline">\(\sigma_R\)</span>, <span class="math inline">\(\rho_a\)</span>, <span class="math inline">\(\rho_y\)</span>, etc.).</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="wham-correr-un-modelo" class="title-slide slide level1 center">
+<h1>WHAM: Correr un modelo</h1>
+
+</section>
+<section id="overview-3" class="slide level2">
+<h2>Overview</h2>
+<p><br></p>
+<p>Para esto, utilizaremos el objeto <code>my_input</code> después de fijar o estimar los parámetros deseados. Luego:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>my_model <span class="ot">=</span> <span class="fu">fit_wham</span>(<span class="at">input =</span> my_input, <span class="at">do.sdrep =</span> ..., <span class="at">do.retro =</span> ..., </span>
+<span id="cb9-2"><a href="#cb9-2"></a>                    <span class="at">n.peels =</span> ..., <span class="at">do.osa =</span> ..., <span class="at">do.proj =</span> ..., <span class="at">do.fit =</span> ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>fit_wham</code> contiene más argumentos, pero los mostrados son los más relevantes.</p>
+</section>
+<section id="overview-4" class="slide level2">
+<h2>Overview</h2>
+<p><br></p>
+<ul>
+<li><p><code>do.sdrep</code>: (logical) Invertir matriz hessiana y calcular errores estándar para los parámetros?. Default = <code>TRUE</code>.</p></li>
+<li><p><code>do.retro</code>: (logical) Correr análisis retrospectivo?. Default = <code>TRUE</code>.</p></li>
+<li><p><code>n.peels</code>: (integer) Número de peels si <code>do.retro = TRUE</code>. Default = <code>7</code>.</p></li>
+</ul>
+</section>
+<section id="overview-5" class="slide level2">
+<h2>Overview</h2>
+<p><br></p>
+<ul>
+<li><p><code>do.osa</code>: (logical) Calcular <em>one-step ahead residuals</em>? Default = <code>TRUE</code>.</p></li>
+<li><p><code>do.proj</code>: (logical) Hacer proyecciones? Default = <code>FALSE</code>.</p></li>
+<li><p><code>do.fit</code>: (logical) Ajustar a los datos? Default = <code>TRUE</code>. Esto es útil cuando queremos testear nuestros parámetros iniciales o explorar la configuración del modelo.</p></li>
+</ul>
+</section></section>
+<section>
+<section id="laboratorio" class="title-slide slide level1 center">
+<h1>Laboratorio</h1>
+
+</section>
+<section id="objetivos" class="slide level2">
+<h2>Objetivos</h2>
+<p><br></p>
+<ol type="1">
+<li><p>Explorar la función auxiliar de selectividad.</p></li>
+<li><p>Continuar con caso 1 y caso 2. Información relevante:</p></li>
+</ol>
+<ul>
+<li>Para la relación longitud-peso, se utilizó: <span class="math inline">\(\Omega_1=exp(-12.1)\)</span> y <span class="math inline">\(\Omega_2 = 3.2\)</span>.</li>
+<li>Dado que se conoce <span class="math inline">\(F_0\)</span>, se recomienda fijarlo en 0.</li>
+</ul>
+<ol start="3" type="1">
+<li>Explorar el objeto de entrada <code>my_input</code> y las salidas del modelo <code>my_model</code>.</li>
+</ol>
+</section>
+<section id="referencias" class="slide level2 smaller scrollable">
+<h2>Referencias</h2>
+
+<img src="images/CGlogo1.png" class="slide-logo r-stretch"><div class="footer footer-default">
+
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Miller_2016" class="csl-entry" role="doc-biblioentry">
+Miller, Timothy J., Jonathan A. Hare, and Larry A. Alade. 2016. <span>“A State-Space Approach to Incorporating Environmental Effects on Recruitment in an Age-Structured Assessment Model with an Application to Southern New England Yellowtail Flounder.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 73 (8): 1261–70. <a href="https://doi.org/10.1139/cjfas-2015-0339">https://doi.org/10.1139/cjfas-2015-0339</a>.
+</div>
+<div id="ref-Miller_2018b" class="csl-entry" role="doc-biblioentry">
+Miller, Timothy J., Loretta O’Brien, and Paula S. Fratantoni. 2018. <span>“Temporal and Environmental Variation in Growth and Maturity and Effects on Management Reference Points of Georges Bank Atlantic Cod.”</span> <em>Canadian Journal of Fisheries and Aquatic Sciences</em> 75 (12): 2159–71. <a href="https://doi.org/10.1139/cjfas-2017-0124">https://doi.org/10.1139/cjfas-2017-0124</a>.
+</div>
+<div id="ref-du_Pontavice_2022" class="csl-entry" role="doc-biblioentry">
+Pontavice, Hubert du, Timothy J Miller, Brian C Stock, Zhuomin Chen, and Vincent S Saba. 2022. <span>“Ocean Model-Based Covariates Improve a Marine Fish Stock Assessment When Observations Are Limited.”</span> Edited by Manuel Hidalgo. <em><span>ICES</span> Journal of Marine Science</em> 79 (4): 1259–73. <a href="https://doi.org/10.1093/icesjms/fsac050">https://doi.org/10.1093/icesjms/fsac050</a>.
+</div>
+<div id="ref-Stock_2021" class="csl-entry" role="doc-biblioentry">
+Stock, Brian C., and Timothy J. Miller. 2021. <span>“The Woods Hole Assessment Model (<span>WHAM</span>): A General State-Space Assessment Framework That Incorporates Time- and Age-Varying Processes via Random Effects and Links to Environmental Covariates.”</span> <em>Fisheries Research</em> 240 (August): 105967. <a href="https://doi.org/10.1016/j.fishres.2021.105967">https://doi.org/10.1016/j.fishres.2021.105967</a>.
+</div>
+</div>
+</section></section>
+    </div>
+  </div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Slides_5_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Slides_5_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Slides_5_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'smaller': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        target: function(trigger) {
+          return trigger.previousElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+      function tippyHover(el, contentFn) {
+        const config = {
+          allowHTML: true,
+          content: contentFn,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'quarto-reveal',
+          placement: 'bottom-start'
+        };
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          return note.innerHTML;
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
