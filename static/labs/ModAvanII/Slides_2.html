@@ -693,8 +693,8 @@
 <p>Para un viaje de pesca o un lance de un crucero de investigación:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-67ee71eb65e86f63e430" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-67ee71eb65e86f63e430">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nC1 [label = \"Captura total\", fillcolor = Pink]\nCAL [label = \"Muestreo de tallas\", fillcolor = Pink]\nCAL2 [label = \"Composición por tallas\", fillcolor = lightskyblue2]\nCAAL [label = \"Submuestreo de edades\", fillcolor = Pink]\nOTO [label =  \"Obtención de otolitos \n Talla-edad\", fillcolor = Pink]\n\n{rank = min; C1}\n{rank = same; CAL CAL2}\n\n# edge definitions with the node IDs\nC1 -> CAL\nCAL -> CAL2\nCAL  -> CAAL\nCAAL  -> OTO\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0ea4c185f1bcf76e3263" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-0ea4c185f1bcf76e3263">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nC1 [label = \"Captura total\", fillcolor = Pink]\nCAL [label = \"Muestreo de tallas\", fillcolor = Pink]\nCAL2 [label = \"Composición por tallas\", fillcolor = lightskyblue2]\nCAAL [label = \"Submuestreo de edades\", fillcolor = Pink]\nOTO [label =  \"Obtención de otolitos \n Talla-edad\", fillcolor = Pink]\n\n{rank = min; C1}\n{rank = same; CAL CAL2}\n\n# edge definitions with the node IDs\nC1 -> CAL\nCAL -> CAL2\nCAL  -> CAAL\nCAAL  -> OTO\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -796,7 +796,6 @@
 </section>
 <section id="activar-datos-1" class="slide level2">
 <h2>Activar datos</h2>
-<p><br></p>
 <div class="callout callout-warning callout-captioned callout-style-default">
 <div class="callout-body">
 <div class="callout-caption">
@@ -806,11 +805,10 @@
 <p><strong>Cuidado</strong></p>
 </div>
 <div class="callout-content">
-<p>Si no se incluyen datos de <code>pal</code> o <code>caal</code>, entonces el <code>use</code> será 0 automáticamente. Sin embargo, para <code>paa</code>, <code>use</code> es igual a 1 (activo) incluso si no incluimos datos de composición por edad. Por lo tanto, si no se desea usar datos de <code>paa</code>, especificar explicitamente <code>use_paa</code> igual a 0.</p>
+<p>Si no se incluyen datos de <code>pal</code> o <code>caal</code>, entonces el <code>use</code> será 0 automáticamente. Sin embargo, para <code>paa</code>, <code>use</code> es igual a 1 (activo) incluso si no incluimos datos de composición por edad. Por lo tanto, si no se desea usar datos de <code>paa</code>, especificar explicitamente <code>use_paa</code> igual a 0 en la matriz correspondiente.</p>
 </div>
 </div>
 </div>
-<p><br></p>
 <div class="fragment">
 <div class="callout callout-warning callout-captioned callout-style-default">
 <div class="callout-body">
@@ -821,7 +819,7 @@
 <p><strong>Cuidado</strong></p>
 </div>
 <div class="callout-content">
-<p>Cuando se incluye datos de <code>pal</code> o <code>caal</code> o <code>waa</code>, también debemos especificar el <code>use</code> igual a 1 explicitamente.</p>
+<p>Cuando se incluye datos de <code>pal</code> o <code>caal</code> o <code>waa</code>, también debemos especificar explicitamente el <code>use</code> igual a 1 en la matriz correspondiente.</p>
 </div>
 </div>
 </div>
