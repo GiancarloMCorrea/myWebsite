@@ -626,18 +626,4 @@ my_input = wham::prepare_wham_input(...,
 :::
 :::
 
-# Laboratorio
-
-## Actividades
-
-<br>
-
--   Continuar con la implementación del objeto de datos para el caso 1.
-
--   Correr modelo para caso 1.
-
--   Implementación del objeto de datos para el caso 2.
-
--   Asumir $M=0.35$ y $Q=1$. Además, $\bar{R} = 100000$.
-
 ## Referencias

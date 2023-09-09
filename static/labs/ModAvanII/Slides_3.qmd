@@ -20,6 +20,7 @@ bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b
 # WHAM: Abundancia a la edad
 
 <!-- Install this version of knitr or update RStudio-->
+
 <!-- remotes::install_version("knitr", "1.42") -->
 
 ## Abundancia a la edad
@@ -35,7 +36,7 @@ log(N_{A-1,y-1}exp(-Z_{A-1,y-1}) + \\
 \end{cases}
 }$$
 
-Donde $a$ es la edad, $y$ es año, $A$ es el grupo plus, $Z$ es la mortalidad total. $\varepsilon_{a,y}$ son desviaciones estocásticas (e.g., immigración, emmigración, misreported catch). 
+Donde $a$ es la edad, $y$ es año, $A$ es el grupo plus, $Z$ es la mortalidad total. $\varepsilon_{a,y}$ son desviaciones estocásticas (e.g., immigración, emmigración, misreported catch).
 
 ## Stock reclutamiento
 
@@ -43,33 +44,29 @@ Donde $a$ es la edad, $y$ es año, $A$ es el grupo plus, $Z$ es la mortalidad to
 
 ¿Qué opciones tenemos para estimar reclutamiento? Vamos a omitir las desviaciones $\varepsilon_{1,y}$:
 
-::: incremental 
+::: incremental
+1.  Estimar $N_{1,y}$ como efectos fijos (1 parámetro por año).
 
-1. Estimar $N_{1,y}$ como efectos fijos (1 parámetro por año).
-
-2. Estima reclutamiento medio a lo largo de los años ($N_{1,y}=\bar{R}$, 1 parámetro).
-
+2.  Estima reclutamiento medio a lo largo de los años ($N_{1,y}=\bar{R}$, 1 parámetro).
 :::
 
 ## Stock reclutamiento
 
-3. Relación Beverton-Holt (2 parámetros)
+3.  Relación Beverton-Holt (2 parámetros)
 
 $$N_{1,y} = \frac{\alpha SSB_{y-1}}{1+\beta SSB_{y-1}}$$
 
 ::: fragment
-
-4. Relación Ricker (2 parámetros)
+4.  Relación Ricker (2 parámetros)
 
 $$N_{1,y} = \alpha SSB_{y-1}exp(-\beta SSB_{y-1})$$
-
 :::
 
 ## Stock reclutamiento
 
 <br>
 
-Para el caso de Beverton-Holt (B-H) y Ricker, es posible también usar $h$ (steepness) y $R_0$ (reclutamiento sin pesca). 
+Para el caso de Beverton-Holt (B-H) y Ricker, es posible también usar $h$ (steepness) y $R_0$ (reclutamiento sin pesca).
 
 <br>
 
@@ -77,7 +74,7 @@ Para B-H, $\alpha$ y $\beta$ es calculado como:
 
 $$\alpha = \frac{4h}{SPR_0(1-h)}\hspace{2cm}\beta=\frac{5h-1}{(1-h)R_0SPR_0}$$
 
-Donde $SPR_0$ es el *spawning stock biomass per recruit* en condiciones sin pesca. 
+Donde $SPR_0$ es el *spawning stock biomass per recruit* en condiciones sin pesca.
 
 ## Stock reclutamiento
 
@@ -87,7 +84,6 @@ Para Ricker, $\alpha$ y $\beta$ es calculado como:
 
 $$\alpha = exp(1.25log(5h)-log(SPR_0))\\
 \beta=\frac{1.25log(5h)}{R_0SPR_0}$$
-
 
 ## Biomasa desovante
 
@@ -105,7 +101,7 @@ Donde $W$ es peso a la edad, $mat$ es madurez, y $frSSB$ es la fracción del añ
 
 $\varepsilon_{a,y}$ son tratados como efectos aleatorios, y pueden tener diferentes estructuras.
 
-1. Independientes:
+1.  Independientes:
 
 $$\varepsilon_{1,y} \sim N(-\frac{\sigma_R^2}{2},\sigma_R^2)$$
 
@@ -113,7 +109,7 @@ donde $\sigma_R^2$ es la varianza de reclutamiento y es estimado como efecto fij
 
 ## Desviaciones
 
-2. Correlación temporal:
+2.  Correlación temporal:
 
 $$\varepsilon_{1,y+1} \sim N(\rho_{year}\varepsilon_{1,y}-\frac{\sigma_R^2}{2(1-\rho_{year}^2)},\sigma_R^2)$$
 
@@ -121,18 +117,18 @@ donde $-1< \rho_{year}<1$ es el parámetro de correlación a lo largo de los añ
 
 ## Desviaciones
 
-3. Separado por edades:
+3.  Separado por edades:
 
 $$\varepsilon_{a,y} \sim \begin{cases}
 N(-\frac{\sigma_R^2}{2}, \sigma_R^2),\hspace{2cm}a=1\\
 N(-\frac{\sigma_a^2}{2}, \sigma_a^2),\hspace{2cm}a>1
 \end{cases}$$
 
-Donde $\sigma_a^2$ es la varianza que aplica a edades diferentes a 1. 
+Donde $\sigma_a^2$ es la varianza que aplica a edades diferentes a 1.
 
 ## Desviaciones
 
-4. Correlacionado por edades y año
+4.  Correlacionado por edades y año
 
 $$E \sim MVN(0, \Sigma)$$
 
@@ -147,11 +143,9 @@ donde $-1<\rho_a <1$ y $-1<\rho_y <1$ son los coeficientes de autocorrelación (
 Recuerda que también necesitamos la estructura poblacional para $y=1$. Tenemos dos opciones:
 
 ::: incremental
+-   Estimamos una abundancia a la edad como efectos fijos (número de parámetros igual al número de edades).
 
-* Estimamos una abundancia a la edad como efectos fijos (número de parámetros igual al número de edades).
-
-* Estimamos un reclutamiento inicial $N_{1,1}$ y una mortalidad por pesca $F_{0}$ (2 parámetros). 
-
+-   Estimamos un reclutamiento inicial $N_{1,1}$ y una mortalidad por pesca $F_{0}$ (2 parámetros).
 :::
 
 ## Definición en R
@@ -182,7 +176,6 @@ my_input = wham::prepare_wham_input(model_name = "Example_1",
 
 Enfoquemos solo la parte de abundancia a la edad. Se pueden incluir los siguientes argumentos:
 
-
 ```{r eval = FALSE}
 my_input = wham::prepare_wham_input(...,
                          NAA_re = list(N1_model = ..., N1_pars = ..., # Pob inicial
@@ -198,59 +191,56 @@ donde `...` representa objetos que vamos a especificar.
 
 ## Población inicial
 
-* `N1_model`: (*integer*) como modelar la abundancia a la edad *inicial* (primer año)
-  - `0`: estima abundancia a la edad inicial como efectos fijos
-  - `1`: estima reclutamiento inicial y mortalidad por pesca inicial (2 parámetros como efectos fijos)
+-   `N1_model`: (*integer*) como modelar la abundancia a la edad *inicial* (primer año)
+    -   `0`: estima abundancia a la edad inicial como efectos fijos
+    -   `1`: estima reclutamiento inicial y mortalidad por pesca inicial (2 parámetros como efectos fijos)
 
 ## Población inicial
 
-* `N1_pars`: (*vector*) valores iniciales para la abundancia a la edad inicial. Puede ser un vector con longitud igual al número de edades (si `N1_model = 0`), o un vector con dos valores: $N_{1,1,}$ y $F_0$ (si `N1_model = 1`).
-
-
-## Modelo de reclutamiento
-
-<br>
-
-* `recruit_model`: (*integer*) modelo para reclutamiento
-  - `1`: reclutamientos estimados como efectos fijos
-  - `2`: estima reclutamiento medio
-  - `3`: relación Beverton-Holt
-  - `4`: relación Ricker
-
-## Modelo de reclutamiento
-
-<br>
-<br>
-
-* `use_steepness`: (logical) `TRUE` or `FALSE` si se desea usar steepness formulation. Solo se usa si `recruit_model>2`.
+-   `N1_pars`: (*vector*) valores iniciales para la abundancia a la edad inicial. Puede ser un vector con longitud igual al número de edades (si `N1_model = 0`), o un vector con dos valores: $N_{1,1,}$ y $F_0$ (si `N1_model = 1`).
 
 ## Modelo de reclutamiento
 
 <br>
 
-* `recruit_pars`: (vector) valores iniciales para el modelo de reclutamiento.
-  - Si `recruit_model=2`, entonces viene a ser reclutamiento medio.
-  - Si `use_steepness = FALSE` y `recruit_model>2`, entonces viene a ser $\alpha$ y $\beta$. 
-  - Si `use_steepness = TRUE` y `recruit_model>2`, entonces viene a ser $h$ and $R_0$.
+-   `recruit_model`: (*integer*) modelo para reclutamiento
+    -   `1`: reclutamientos estimados como efectos fijos
+    -   `2`: estima reclutamiento medio
+    -   `3`: relación Beverton-Holt
+    -   `4`: relación Ricker
 
+## Modelo de reclutamiento
+
+<br> <br>
+
+-   `use_steepness`: (logical) `TRUE` or `FALSE` si se desea usar steepness formulation. Solo se usa si `recruit_model>2`.
+
+## Modelo de reclutamiento
+
+<br>
+
+-   `recruit_pars`: (vector) valores iniciales para el modelo de reclutamiento.
+    -   Si `recruit_model=2`, entonces viene a ser reclutamiento medio.
+    -   Si `use_steepness = FALSE` y `recruit_model>2`, entonces viene a ser $\alpha$ y $\beta$.
+    -   Si `use_steepness = TRUE` y `recruit_model>2`, entonces viene a ser $h$ and $R_0$.
 
 ## Desviaciones
 
 <br>
 
-* `sigma`: (caracter) permite estimar diferentes $\sigma_{a}$ para diferentes grupos de edades.
-  - `rec`: solo una varianza reclutamiento (edad 1, $\sigma^2_R$)
-  - `rec+1`: dos varianzas: $\sigma^2_R$ y $\sigma^2_a$ (compartida entre edades diferentes a 1).
+-   `sigma`: (caracter) permite estimar diferentes $\sigma_{a}$ para diferentes grupos de edades.
+    -   `rec`: solo una varianza reclutamiento (edad 1, $\sigma^2_R$)
+    -   `rec+1`: dos varianzas: $\sigma^2_R$ y $\sigma^2_a$ (compartida entre edades diferentes a 1).
 
 ## Desviaciones
 
 <br>
 
-* `cor`: (caracter) estructura de desviaciones
-  - `iid`: desviaciones independientes
-  - `ar1_a`: desviaciones correlacionadas por edad
-  - `ar1_y`: desviaciones correlacionadas por año
-  - `2dar1`: desviaciones correlacionadas por edad y año
+-   `cor`: (caracter) estructura de desviaciones
+    -   `iid`: desviaciones independientes
+    -   `ar1_a`: desviaciones correlacionadas por edad
+    -   `ar1_y`: desviaciones correlacionadas por año
+    -   `2dar1`: desviaciones correlacionadas por edad y año
 
 # WHAM: Mortalidad natural
 
@@ -259,13 +249,11 @@ donde `...` representa objetos que vamos a especificar.
 En WHAM, tenemos 3 opciones para estimar $M$ como efecto fijo:
 
 ::: incremental
+1.  $M$ único para todas las edades, por lo tanto: $Z_{a,y} = F_yS_{a,y} + M$.
 
-1. $M$ único para todas las edades, por lo tanto: $Z_{a,y} = F_yS_{a,y} + M$. 
+2.  $M_a$ por edad, por lo tanto: $Z_{a,y} = F_yS_{a,y} + M_{a}$.
 
-2. $M_a$ por edad, por lo tanto: $Z_{a,y} = F_yS_{a,y} + M_{a}$.
-
-3. $M$ como función de peso a la edad [@Lorenzen_1996]: $M_{y,a}=MW_{a,y}^b$. Por lo tanto: $Z_{a,y} = F_yS_{a,y} + M_{a,y}$.
-
+3.  $M$ como función de peso a la edad [@Lorenzen_1996]: $M_{y,a}=MW_{a,y}^b$. Por lo tanto: $Z_{a,y} = F_yS_{a,y} + M_{a,y}$.
 :::
 
 ## Desviaciones
@@ -276,7 +264,7 @@ Al igual que para abundancia a la edad, podemos estimar desviaciones del paráme
 
 $$log(M_{a,y}) = \mu_{M_a} + \delta_{a,y}$$
 
- $\mu_{M_a}$ es el efecto fijo en log-scale.
+$\mu_{M_a}$ es el efecto fijo en log-scale.
 
 ## Desviaciones
 
@@ -284,12 +272,10 @@ $$log(M_{a,y}) = \mu_{M_a} + \delta_{a,y}$$
 
 $\delta_{a,y}$ puede tener diferentes estructuras asumiendo una distribución normal:
 
-- Independientes (por año y edad)
-- Correlacionado por edades (constante en tiempo)
-- Correlacionado por años (constante en edades)
-- Correlacionado por edades y años
-
-
+-   Independientes (por año y edad)
+-   Correlacionado por edades (constante en tiempo)
+-   Correlacionado por años (constante en edades)
+-   Correlacionado por edades y años
 
 ## Definición en R
 
@@ -319,7 +305,6 @@ my_input = wham::prepare_wham_input(model_name = "Example_1",
 
 Enfoquemos solo la parte de abundancia a la edad. Se pueden incluir los siguientes argumentos:
 
-
 ```{r eval = FALSE}
 my_input = wham::prepare_wham_input(...,
                          M = list(model = ..., # Modelo M 
@@ -337,36 +322,32 @@ donde `...` representa objetos que vamos a especificar.
 
 <br>
 
-* `model`: (caracter) modelo M a utilizar
-  - `constant`: único M para todas las edades
-  - `age-specific`: M para cada edad
-  - `weight-at-age`: relación con peso a la edad
+-   `model`: (caracter) modelo M a utilizar
+    -   `constant`: único M para todas las edades
+    -   `age-specific`: M para cada edad
+    -   `weight-at-age`: relación con peso a la edad
 
 ## Estructura de desviaciones
 
 <br>
 
-* `re`: (caracter) estructura a utilizar
-  - `none`: no incluir desviaciones
-  - `iid`: desviaciones por año y edad y son independientes.
-  - `ar1_a`: desviaciones correlacionadas por edad (constante en tiempo)
-  - `ar1_y`: desviaciones correlacionadas por año (constante en edad)
-  - `2dar1`: desviaciones correlacionadas por edad y año
+-   `re`: (caracter) estructura a utilizar
+    -   `none`: no incluir desviaciones
+    -   `iid`: desviaciones por año y edad y son independientes.
+    -   `ar1_a`: desviaciones correlacionadas por edad (constante en tiempo)
+    -   `ar1_y`: desviaciones correlacionadas por año (constante en edad)
+    -   `2dar1`: desviaciones correlacionadas por edad y año
 
 ## Valores iniciales
 
-* `initial_means`: (vector) valores iniciales de $M$. Longitud va a depender del `model` que hayamos elegido. Para `constant` y `weight-at-age`, será solo un valor de $M$ ($log_b$ es asumido ser 0.305). 
+-   `initial_means`: (vector) valores iniciales de $M$. Longitud va a depender del `model` que hayamos elegido. Para `constant` y `weight-at-age`, será solo un valor de $M$ ($log_b$ es asumido ser 0.305).
 
 ::: fragment
-
-* `est_ages`: (vector) indexación de edades a estimar $M$. Si `model` es `constant`, entonces el valor 1. Si `model` es `age-specific` y si queremos estimar edad 1, 2, y 4 (sin importar el grupo plus), entonces será `c(1,2,4)`.
-
+-   `est_ages`: (vector) indexación de edades a estimar $M$. Si `model` es `constant`, entonces el valor 1. Si `model` es `age-specific` y si queremos estimar edad 1, 2, y 4 (sin importar el grupo plus), entonces será `c(1,2,4)`.
 :::
 
 ::: fragment
-
-* `logb_prior`: (logical) Se debe usar prior para la relación con peso a la edad? El prior para $b$ es $N(0.305,0.08)$.
-
+-   `logb_prior`: (logical) Se debe usar prior para la relación con peso a la edad? El prior para $b$ es $N(0.305,0.08)$.
 :::
 
 # WHAM: Capturabilidad
@@ -376,13 +357,11 @@ donde `...` representa objetos que vamos a especificar.
 Definición: proporción de peces de la población pescada por una unidad de esfuerzo pesquero. Mide la interacción entre la abundancia del recurso y esfuerzo pesquero [@Arreguin_Sanchez_1996].
 
 ::: fragment
-
 En WHAM, especificamos un parámetro de capturabilidad por índice de abundancia. Además, podemos incluir desviaciones:
 
 $$logit(q_{i,y}) = logit(q_i)+\delta_{i,y}$$
 
-Donde $\delta_{i,y}$ sigue una distribución normal y puede ser independientes en el tiempo o correlacionadas en el tiempo. 
-
+Donde $\delta_{i,y}$ sigue una distribución normal y puede ser independientes en el tiempo o correlacionadas en el tiempo.
 :::
 
 ## Definición en R
@@ -413,7 +392,6 @@ my_input = wham::prepare_wham_input(model_name = "Example_1",
 
 Enfoquemos solo la parte de abundancia a la edad. Se pueden incluir los siguientes argumentos:
 
-
 ```{r eval = FALSE}
 my_input = wham::prepare_wham_input(...,
                          catchability = list(re = ..., # Estructura de desviaciones
@@ -431,37 +409,16 @@ donde `...` representa objetos que vamos a especificar.
 
 <br>
 
-* `re`: (character vector) estructura de desviaciones. Longitud debe ser igual al número de índices.
-  - `none`: no desviaciones
-  - `iid`: independientes
-  - `ar1`: correlacionados en el tiempo
+-   `re`: (character vector) estructura de desviaciones. Longitud debe ser igual al número de índices.
+    -   `none`: no desviaciones
+    -   `iid`: independientes
+    -   `ar1`: correlacionados en el tiempo
 
 ## Parámetros de capturabilidad
 
-* `initial_q`: (numeric vector) valores iniciales de `q`. Longitud debe ser igual al número de índices.
-* `q_lower`: (numeric vector) lower bound de `q`. Longitud debe ser igual al número de índices.
-* `q_upper`: (numeric vector) upper bound de `q`. Longitud debe ser igual al número de índices.
-* `prior_sd`: (numeric vector) valores de SD si prior quiere ser usado. Especificar `NA` si no se quiere usar prior. Longitud debe ser igual al número de índices.
-
-# Laboratorio
-
-## Modelo básico de evaluación de stocks
-
-<br>
-
-Este ejercicio incluye datos de tallas:
-
-<br>
-
-Abrir archivo `Ejercicio_3.xlsx`
-
-## Implementación de objeto de datos
-
-<br>
-
-Vamos a crear el objeto de datos (e.g., `input_data`) para WHAM. Sigan las instrucciones de la clase 2. 
-
-- Fecha de desove: 1 de enero
-- Unidades de índice de abundancia: peso
+-   `initial_q`: (numeric vector) valores iniciales de `q`. Longitud debe ser igual al número de índices.
+-   `q_lower`: (numeric vector) lower bound de `q`. Longitud debe ser igual al número de índices.
+-   `q_upper`: (numeric vector) upper bound de `q`. Longitud debe ser igual al número de índices.
+-   `prior_sd`: (numeric vector) valores de SD si prior quiere ser usado. Especificar `NA` si no se quiere usar prior. Longitud debe ser igual al número de índices.
 
 ## Referencias

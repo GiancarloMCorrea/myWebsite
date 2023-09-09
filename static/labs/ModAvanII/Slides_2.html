@@ -693,8 +693,8 @@
 <p>Para un viaje de pesca o un lance de un crucero de investigación:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-0ea4c185f1bcf76e3263" style="width:960px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-0ea4c185f1bcf76e3263">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nC1 [label = \"Captura total\", fillcolor = Pink]\nCAL [label = \"Muestreo de tallas\", fillcolor = Pink]\nCAL2 [label = \"Composición por tallas\", fillcolor = lightskyblue2]\nCAAL [label = \"Submuestreo de edades\", fillcolor = Pink]\nOTO [label =  \"Obtención de otolitos \n Talla-edad\", fillcolor = Pink]\n\n{rank = min; C1}\n{rank = same; CAL CAL2}\n\n# edge definitions with the node IDs\nC1 -> CAL\nCAL -> CAL2\nCAL  -> CAAL\nCAAL  -> OTO\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-417100d7a968672713be" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-417100d7a968672713be">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=30]\n\nC1 [label = \"Captura total\", fillcolor = Pink]\nCAL [label = \"Muestreo de tallas\", fillcolor = Pink]\nCAL2 [label = \"Composición por tallas\", fillcolor = lightskyblue2]\nCAAL [label = \"Submuestreo de edades\", fillcolor = Pink]\nOTO [label =  \"Obtención de otolitos \n Talla-edad\", fillcolor = Pink]\n\n{rank = min; C1}\n{rank = same; CAL CAL2}\n\n# edge definitions with the node IDs\nC1 -> CAL\nCAL -> CAL2\nCAL  -> CAAL\nCAAL  -> OTO\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -838,46 +838,6 @@
 <span id="cb14-7"><a href="#cb14-7"></a>input_data<span class="sc">$</span>bias_correct_process <span class="ot">=</span> <span class="dv">1</span> <span class="co"># do process bias correction, 0 = no, 1 = yes</span></span>
 <span id="cb14-8"><a href="#cb14-8"></a>input_data<span class="sc">$</span>bias_correct_observation <span class="ot">=</span> <span class="dv">1</span> <span class="co"># do obs bias correction, 0 = no, 1 = yes </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section></section>
-<section>
-<section id="laboratorio" class="title-slide slide level1 center">
-<h1>Laboratorio</h1>
-
-</section>
-<section id="creación-de-grupos-de-trabajo" class="slide level2">
-<h2>Creación de grupos de trabajo</h2>
-<p><br></p>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Grupo 1:</p>
-<ul>
-<li>Luis Cubillos</li>
-<li>Vania Henriquez</li>
-<li>Carlos Torres</li>
-<li>Rene Chura</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p>Grupo 2:</p>
-<ul>
-<li>Victor Vargas</li>
-<li>Francisco Córdova</li>
-<li>Maria Jose Cuevas</li>
-<li>Juan Anton</li>
-<li>Yasmine Granda</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="proyecto-en-clase" class="slide level2">
-<h2>Proyecto en clase</h2>
-<p><br></p>
-<p>Se le entregarán datos simulados (3 casos).</p>
-<p>Objetivo para el día de hoy:</p>
-<ul>
-<li>Explorar los datos</li>
-<li>Discutir enfoques de modelado para cada caso</li>
-<li>Hacer consultas pertinentes para implementar el modelo</li>
-</ul>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">
 <h2>Referencias</h2>

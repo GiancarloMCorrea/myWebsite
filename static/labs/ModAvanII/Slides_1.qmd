@@ -17,72 +17,6 @@ execute:
 bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b0/references.bib?x=eyJpZCI6ICJiNjNhYzI0Mi1hNzdjLTQ4MTYtOWMyNy1mY2RmYjMxODc1YjAiLCAidXNlciI6ICI1NDQwIiwgInNpZ25hdHVyZSI6ICIyMTMxYjVhZDk1NGYxNDUzYjk3YjZiNjk3ZDIxZWEwODIwZjA4MTBiZTk3YWIxOTNiMGVkMzI1YzI0YTRjZWNkIn0=/bibliography.bib"
 ---
 
-# Presentación
-
-<!-- Install this version of knitr or update RStudio-->
-<!-- remotes::install_version("knitr", "1.42") -->
-
-## Estructura
-
-<br>
-
-Serie de cursos orientado a análisis cuantitativo de pesquerías:
-
-::: incremental
-
-1. Dinámica de poblaciones de peces en R
-2. Introducción a modelos de evaluación de stocks
-3. Modelos avanzados de evaluación de recursos pesqueros
-4. **Modelos avanzados de evaluación de recursos pesqueros II**
-
-:::
-
-## Objetivos
-
-<br>
-
-::: incremental
-
-- Fundamentos de modelos de evaluación estructurados por edad.
-- Introducción de modelos *state-space*.
-- Estructura del modelo *Woods Hole Assessment Model* (WHAM).
-- Implementación de modelos de evaluación en WHAM.
-
-:::
-
-## Proyecto
-
-<br>
-
-Para obtención de la certificación de aprobación. 
-
-::: incremental
-
-* Se crearán dos grupos de trabajo.
-* Objetivos: 
-  - Discutir enfoques de análisis de datos pesqueros.
-  - Implementar un modelo de evaluación en WHAM.
-* Se invertirá 25% de horas de clase (no habrán actividades fuera de clase).
-* Presentación de resultados el último día de clases.
-
-:::
-
-## Participantes
-
-<br>
-
-Presentación de participantes:
-
-::: fragment
-
-- Nombre
-- Ocupación
-- Afiliación
-- Área de experiencia ó interés
-- Nivel de experiencia con modelos de evaluación
-
-:::
-
 # Modelos estructurados por edad
 
 ## Sistema pesquero
@@ -111,23 +45,21 @@ Diferencias claves en enfoques para estudiar poblaciones:
 
 ::: {.absolute top="650" left="70"}
 ::: sectionhead
-[@Haddon_2011]{style="font-size:50%"}
+@Haddon_2011
 :::
 :::
 
 ## Enfoque integrado
 
-Combina diferentes tipos de datos en un único análisis. El ajuste a los datos se realiza por medio de una rutina de minimización de alguna función objetivo [@Fournier_1982]. 
+Combina diferentes tipos de datos en un único análisis. El ajuste a los datos se realiza por medio de una rutina de minimización de alguna función objetivo [@Fournier_1982].
 
 ::: fragment
-
 Tipos de datos más comunes:
 
-* Capturas
-* Índices de abundancia
-* Composición por tallas o edades
-* Marcaje y recaptura
-
+-   Capturas
+-   Índices de abundancia
+-   Composición por tallas o edades
+-   Marcaje y recaptura
 :::
 
 ## Enfoque integrado
@@ -138,7 +70,7 @@ Tipos de datos más comunes:
 
 ::: {.absolute top="650" left="70"}
 ::: sectionhead
-[@Haddon_2011]{style="font-size:50%"}
+@Haddon_2011
 :::
 :::
 
@@ -148,79 +80,69 @@ Tipos de datos más comunes:
 
 En un modelo de evaluación estructurado por edades tenemos los siguientes componentes principalmente:
 
-* Reclutamiento
-* Mortalidad (natural y por pesca)
-* Selectividad
-* Crecimiento somático
+-   Reclutamiento
+-   Mortalidad (natural y por pesca)
+-   Selectividad
+-   Crecimiento somático
 
 ## Plataforma de evaluación
 
-Software o librería orientado a la implementación de modelos de evaluación de stocks (en general). 
+Software o librería orientado a la implementación de modelos de evaluación de stocks (en general).
 
 ::: fragment
-
-::: {.callout-note icon=false}
-
+::: {.callout-note icon="false"}
 ## Ventajas
 
-- No hay necesidad de codificar
-- Comunicación más sencilla
-
+-   No hay necesidad de codificar
+-   Comunicación más sencilla
 :::
 
-::: {.callout-warning icon=false}
-
+::: {.callout-warning icon="false"}
 ## Desventajas
 
-- No pueden ser aplicables a todos los stocks
-- Efecto de *caja negra*
-
+-   No pueden ser aplicables a todos los stocks
+-   Efecto de *caja negra*
+:::
 :::
 
-:::
-  
 ## Plataforma de evaluación
-  
+
 <br>
 
-Ejemplos: 
+Ejemplos:
 
-* Stock Synthesis [@Methot_2013]
-* MULTIFAN-CL [@fournier1998multifan]
-* SAM [@Nielsen_2014]
-* **WHAM** [@Stock_2021]
+-   Stock Synthesis [@Methot_2013]
+-   MULTIFAN-CL [@fournier1998multifan]
+-   SAM [@Nielsen_2014]
+-   **WHAM** [@Stock_2021]
 
 # Introducción a modelos *state-space*
 
 ## Modelos *state-space*
 
-::: {.callout-tip icon=false}
-
+::: {.callout-tip icon="false"}
 ## Definición
 
-* SSM permiten diferenciar y separar variaciones en procesos de un sistema de los errores de observación.
-
+-   SSM permiten diferenciar y separar variaciones en procesos de un sistema de los errores de observación.
 :::
 
-::: fragment 
-
+::: fragment
 Podemos tener dos series temporales:
 
-1. Serie de procesos, o estados, que representan los cambios verdaderos en el sistema.
-2. Serie de observaciones que realizamos del sistema.
+1.  Serie de procesos, o estados, que representan los cambios verdaderos en el sistema.
+2.  Serie de observaciones que realizamos del sistema.
 
 Los procesos cambian en el tiempo estocásticamente, lo que se conoce como variaciones en procesos (*process variation*).
-
 :::
 
 ## Modelos *state-space*
 
-* $z_{t}$: estado en tiempo $t$ (e.g., abundancia de la población)
-* $y_{t}$: observaciones
+-   $z_{t}$: estado en tiempo $t$ (e.g., abundancia de la población)
+-   $y_{t}$: observaciones
 
 ![](images/D1_img4.png){fig-align="center" width="100%"}
 
-[@Auger_M_th__2021]{style="font-size:50%"}
+@Auger_M_th__2021
 
 ## Modelos *state-space*
 
@@ -228,8 +150,8 @@ Normalmente se asume un proceso Markov (de primer orden) para modelar los estado
 
 $$z_t = \beta z_{t-1}+\epsilon_t$$
 
-* $\beta$: autocorrelación de estados en el tiempo
-* $\epsilon$: variación de procesos, donde:
+-   $\beta$: autocorrelación de estados en el tiempo
+-   $\epsilon$: variación de procesos, donde:
 
 $$\epsilon_t \sim N(0,\sigma_p^2)$$
 
@@ -241,8 +163,8 @@ Para el caso de las observaciones, se asumen que estas son independientes, y se 
 
 $$y_t = \alpha z_{t}+\eta_t$$
 
-* $\alpha$: parámetro que regula el sesgo entre observación y estado
-* $\eta$: error de observación, donde:
+-   $\alpha$: parámetro que regula el sesgo entre observación y estado
+-   $\eta$: error de observación, donde:
 
 $$\eta_t \sim N(0,\sigma_o^2)$$
 
@@ -254,66 +176,57 @@ $$g(y_t \mid z_{t}, \boldsymbol{\theta}_o)$$
 
 $$f(z_t \mid z_{t-1}, \boldsymbol{\theta}_p)$$
 
-
-para $t=1,...,T$, donde $f$ y $g$ son dos funciones de densidad de probabilidad normales,  $\boldsymbol{\theta}_p$ y $\boldsymbol{\theta}_o$ son vectores de parámetros asociados con cada ecuación:
+para $t=1,...,T$, donde $f$ y $g$ son dos funciones de densidad de probabilidad normales, $\boldsymbol{\theta}_p$ y $\boldsymbol{\theta}_o$ son vectores de parámetros asociados con cada ecuación:
 
 $$\boldsymbol{\theta}_p = (\beta, \sigma_p^2), \boldsymbol{\theta}_o = (\alpha,\sigma_o^2)$$
 
 ## Modelos *state-space*
 
-Los <span style="color:red;">efectos fijos</span> vienen a ser:
+Los [efectos fijos]{style="color:red;"} vienen a ser:
 
 $$\boldsymbol{\theta} = (\boldsymbol{\theta}_p, \boldsymbol{\theta}_o, z_0)$$
 
 ::: fragment
-
-Y los estados $z_t$ son tratados como <span style="color:red;">variables aleatorias</span>.
+Y los estados $z_t$ son tratados como [variables aleatorias]{style="color:red;"}.
 
 Por lo tanto, los SSM se consideran estos modelos jerárquicos:
 
-1. Primer nivel: ecuación de observación
-2. Segundo nivel: ecuación de proceso
-
+1.  Primer nivel: ecuación de observación
+2.  Segundo nivel: ecuación de proceso
 :::
-
 
 ## Modelos *state-space*
 
-* Aplicaciones a una gran variedad de campos de investigación.
+-   Aplicaciones a una gran variedad de campos de investigación.
 
 ::: fragment
-
-* Enfoque utilizado para analizar series de tiempo en ecología:
-  - movimiento de animales
-  - biologging
-  - datos de captura-recaptura
-  - epidemiología
-  - evaluación de stocks
-
+-   Enfoque utilizado para analizar series de tiempo en ecología:
+    -   movimiento de animales
+    -   biologging
+    -   datos de captura-recaptura
+    -   epidemiología
+    -   evaluación de stocks
 :::
 
 ## SSM en evaluación de stocks
 
-Enfoque presentado por @Sullivan_1992 y @Gudmundsson_1994. 
+Enfoque presentado por @Sullivan_1992 y @Gudmundsson_1994.
 
 ::: fragment
-
 Usualmente los estados $z_t$ vienen a ser variables como [@Aeberhard_2018]:
 
-- Abundancia a la edad
-- Reclutamiento
-- Mortalidad por pesca
-- Mortalidad natural
-- Selectividad
-
+-   Abundancia a la edad
+-   Reclutamiento
+-   Mortalidad por pesca
+-   Mortalidad natural
+-   Selectividad
 :::
 
 ## SSM en evaluación de stocks
 
 En modelos de evaluación tradicionales se emplea el enfoque de *máxima verosimilitud penalizada* (PML) para modelar variaciones temporales en algún estado.
 
-::: {.callout-important icon=false}
-
+::: {.callout-important icon="false"}
 ## Ejemplo
 
 Para modelar mortalidad por pesca, se separa la mortalidad por pesca anual y la selectividad a la edad:
@@ -321,13 +234,10 @@ Para modelar mortalidad por pesca, se separa la mortalidad por pesca anual y la 
 $$F_{a,t} = f_t S_a \exp(\delta_{a,t})$$
 
 Asumiendo que $\delta_{a,t} \sim N(0,\sigma_\delta^2)$. El enfoque PML **fija** $\sigma_\delta^2$ (penalty term) en el modelo a un valor subjetivo.
-
 :::
 
 ::: fragment
-
-Principal ventaja de SSM: estimación de $\sigma_\delta^2$. 
-
+Principal ventaja de SSM: estimación de $\sigma_\delta^2$.
 :::
 
 ## SSM en evaluación de stocks
@@ -337,11 +247,9 @@ Principal ventaja de SSM: estimación de $\sigma_\delta^2$.
 En la actualidad, TMB [@Kristensen_2016] es la principal plataforma para implementar SSM debido a su eficiencia para modelar efectos aleatorios.
 
 ::: fragment
-
-* Desarrollado a partir de *ADMB* [@Fournier_2012]
-* Usa la maquinaria de C++
-* Sencilla manipulación desde R
-
+-   Desarrollado a partir de *ADMB* [@Fournier_2012]
+-   Usa la maquinaria de C++
+-   Sencilla manipulación desde R
 :::
 
 # Laboratorio
@@ -350,10 +258,10 @@ En la actualidad, TMB [@Kristensen_2016] es la principal plataforma para impleme
 
 <br>
 
-* MS Excel
-* R [instalar](https://cran.r-project.org/)
-* RStudio [instalar](https://posit.co/download/rstudio-desktop/)
-* Rtools [instalar](https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html)
+-   MS Excel
+-   R [instalar](https://cran.r-project.org/)
+-   RStudio [instalar](https://posit.co/download/rstudio-desktop/)
+-   Rtools [instalar](https://cran.r-project.org/bin/windows/Rtools/rtools43/rtools.html)
 
 ## Instalación de librerías
 
@@ -368,7 +276,6 @@ install.packages('TMB')
 <br>
 
 ::: fragment
-
 Para instalar WHAM, utilizaremos la versión que permite incluir datos de tallas:
 
 ```{r eval=FALSE}
@@ -377,7 +284,6 @@ remotes::install_github(repo = 'GiancarloMCorrea/wham', ref='growth',
 ```
 
 También les sugiero explorar la [versión base de WHAM](https://timjmiller.github.io/wham/).
-
 :::
 
 ## Modelo sencillo en TMB
@@ -386,23 +292,21 @@ También les sugiero explorar la [versión base de WHAM](https://timjmiller.gith
 
 Objetivo: Conocer los pasos para implementar un modelo en TMB
 
-Ejemplo obtenido de [Sean Anderson](https://seananderson.ca/2014/10/17/tmb/) (Gompertz SSM). 
+Ejemplo obtenido de [Sean Anderson](https://seananderson.ca/2014/10/17/tmb/) (Gompertz SSM).
 
 ## Modelo sencillo en TMB
 
-1. Tener en claro el sistema a modelar:
+1.  Tener en claro el sistema a modelar:
 
-$$u_t = a + b u_{t-1} + \epsilon_t$$
-$$y_t = ln(u_t)$$
+$$u_t = a + b u_{t-1} + \epsilon_t$$ $$y_t = ln(u_t)$$
 
-$$\epsilon_t \sim N(0,\sigma_p^2)$$
-$$y_t \sim N(ln(u_t),\sigma_o^2)$$
+$$\epsilon_t \sim N(0,\sigma_p^2)$$ $$y_t \sim N(ln(u_t),\sigma_o^2)$$
 
 Donde $u_t$ es el estado (abundancia) en la población.
 
 ## Modelo sencillo en TMB
 
-2. Implementar tu modelo en TMB (ver `Ejercicio_1.cpp`)
+2.  Implementar tu modelo en TMB (ver `Ejercicio_1.cpp`)
 
 ```{Rcpp}
 #| eval: false
@@ -453,7 +357,7 @@ return nll;
 
 ## Modelo sencillo en TMB
 
-2. Implementar tu modelo en TMB (ver `Ejercicio_1.cpp`)
+2.  Implementar tu modelo en TMB (ver `Ejercicio_1.cpp`)
 
 ```{Rcpp}
 #| eval: false
@@ -502,10 +406,9 @@ return nll;
 }
 ```
 
-
 ## Modelo sencillo en TMB
 
-2. Implementar tu modelo en TMB (ver `Ejercicio_1.cpp`)
+2.  Implementar tu modelo en TMB (ver `Ejercicio_1.cpp`)
 
 ```{Rcpp}
 #| eval: false
@@ -557,7 +460,7 @@ return nll;
 
 <br>
 
-3. Compilar el modelo (en R):
+3.  Compilar el modelo (en R):
 
 ```{r eval = FALSE}
 require(TMB)
@@ -565,12 +468,11 @@ compile("Ejercicio_1.cpp")
 dyn.load(dynlib("Ejercicio_1"))
 ```
 
-
 ## Modelo sencillo en TMB
 
 <br>
 
-4. En R, leer tus datos. Imaginemos que `y` son tus observaciones:
+4.  En R, leer tus datos. Imaginemos que `y` son tus observaciones:
 
 ```{r echo = FALSE}
 N = 100
@@ -603,7 +505,7 @@ print(y)
 
 <br>
 
-5. Preparar los objetos y correr el modelo:
+5.  Preparar los objetos y correr el modelo:
 
 ```{r eval = FALSE}
 # Data input (list)
@@ -619,7 +521,6 @@ opt <- nlminb(start = obj$par, obj = obj$fn, gr = obj$gr)
 # Calculate SD of model parameters
 est_pars <- sdreport(obj)
 ```
-
 
 ## Modelo básico de evaluación de stocks
 

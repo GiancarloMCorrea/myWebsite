@@ -22,13 +22,11 @@ bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b
 ## Introducción
 
 ::: incremental
-
-- Nos referimos a cantidades que el modelo predice y son contrastadas con observaciones. Por ejemplo: captura agregada predicha vs. captura agregada observada.
-- Ya hemos ido viendo algunas variables:
-  * Abundancia a la edad
-  * Talla media a la edad
-  * Peso medio a la edad
-
+-   Nos referimos a cantidades que el modelo predice y son contrastadas con observaciones. Por ejemplo: captura agregada predicha vs. captura agregada observada.
+-   Ya hemos ido viendo algunas variables:
+    -   Abundancia a la edad
+    -   Talla media a la edad
+    -   Peso medio a la edad
 :::
 
 ## Captura a la edad y talla
@@ -39,7 +37,7 @@ Se calcula usando [@Correa_2023]:
 
 $$\hat{C}_{y,f,l,a} = \varphi_{y,l,a}S_{y,f,l}S_{y,f,a}F_{y,f}*N_{y,a}\frac{1-exp(-Z_{y,a})}{Z_{y,a}}$$
 
-Donde $f$ representa las pesquerías y $Z_{y,a}$ es calculando usando $F$ acumulado (para diferentes pesquerías). 
+Donde $f$ representa las pesquerías y $Z_{y,a}$ es calculando usando $F$ acumulado (para diferentes pesquerías).
 
 ## Composición por talla y edades
 
@@ -48,11 +46,9 @@ Primero calculamos la sumatoria a lo largo de edades o tallas:
 $$\hat{C}_{y,f,a} = \sum_l{\hat{C}_{y,f,l,a}}\hspace{2cm}\hat{C}_{y,f,l} = \sum_a{\hat{C}_{y,f,l,a}}$$
 
 ::: fragment
-
 Luego, para calcular la composición marginal (proporción):
 
 $$\hat{p}_{y,f,a}=\frac{\hat{C}_{y,f,a}}{\sum_{a}\hat{C}_{y,f,a}}\hspace{2cm}\hat{p}_{y,f,l}=\frac{\hat{C}_{y,f,l}}{\sum_{l}\hat{C}_{y,f,l}}$$
-
 :::
 
 ## Captura agregada
@@ -84,13 +80,10 @@ Luego calculamos la sumatoria a lo largo de edades o tallas:
 $$\hat{I}_{y,i,a} = \sum_l{\hat{I}_{y,i,l,a}}\hspace{2cm}\hat{I}_{y,i,l} = \sum_a{\hat{I}_{y,i,l,a}}$$
 
 ::: fragment
-
 Luego, para calcular la composición marginal (proporción):
 
 $$\hat{p}_{y,i,a}=\frac{\hat{I}_{y,i,a}}{\sum_{a}\hat{I}_{y,i,a}}\hspace{2cm}\hat{p}_{y,i,l}=\frac{\hat{I}_{y,i,l}}{\sum_{l}\hat{I}_{y,i,l}}$$
-
 :::
-
 
 ## Indice de abundancia
 
@@ -110,27 +103,13 @@ Para el caso de índice agregado en abundancia, simplemente se omite $W_{y,a}$.
 
 <br>
 
-1. Captura agregada:
+1.  Captura agregada:
 
 Se asume una distribución normal de errores.
 
 <br>
 
-2. Indices de abundancia agregados:
-
-Se asume una distribución normal de errores.
-
-## Componentes de verosimilitud
-
-<br>
-
-3. Peso a la edad:
-
-Se asume una distribución normal de errores.
-
-<br>
-
-4. Variables ambientales:
+2.  Indices de abundancia agregados:
 
 Se asume una distribución normal de errores.
 
@@ -138,7 +117,21 @@ Se asume una distribución normal de errores.
 
 <br>
 
-5. Composición a la edad y CAAL:
+3.  Peso a la edad:
+
+Se asume una distribución normal de errores.
+
+<br>
+
+4.  Variables ambientales:
+
+Se asume una distribución normal de errores.
+
+## Componentes de verosimilitud
+
+<br>
+
+5.  Composición a la edad y CAAL:
 
 Tenemos varias opciones y lo podemos especificar:
 
@@ -156,26 +149,26 @@ Se recomienda explorar @Fisch_2021.
 
 <br>
 
-- `"multinomial"`: Opcion por defecto. 0 parámetros.
-- `"dir-mult"`: Dirichlet saturante. 1 parámetros.
-- `"dirichlet-pool0"`: Se agregan cantidades predecidas cuando hay ceros en observaciones [@Francis_2014]. 1 parámetro.
-- `"dirichlet-miss0"`: Trata los ceros en observaciones como valores faltantes. 1 parámetro.
+-   `"multinomial"`: Opcion por defecto. 0 parámetros.
+-   `"dir-mult"`: Dirichlet saturante. 1 parámetros.
+-   `"dirichlet-pool0"`: Se agregan cantidades predecidas cuando hay ceros en observaciones [@Francis_2014]. 1 parámetro.
+-   `"dirichlet-miss0"`: Trata los ceros en observaciones como valores faltantes. 1 parámetro.
 
 ## Componentes de verosimilitud
 
 <br>
 
-- `"logistic-normal-miss0"`: Logistic normal, trata valores ceros como faltantes [@Francis_2014]. 1 parámetro.
-- `"logistic-normal-ar1-miss0"`: Logistic normal, trata valores ceros como faltantes e incluye correlación temporal. 2 parámetros.
-- `"logistic-normal-pool0"`: Logistic normal, se hace la agregación como en dirichlet. 1 parámetros.
+-   `"logistic-normal-miss0"`: Logistic normal, trata valores ceros como faltantes [@Francis_2014]. 1 parámetro.
+-   `"logistic-normal-ar1-miss0"`: Logistic normal, trata valores ceros como faltantes e incluye correlación temporal. 2 parámetros.
+-   `"logistic-normal-pool0"`: Logistic normal, se hace la agregación como en dirichlet. 1 parámetros.
 
 ## Componentes de verosimilitud
 
 <br>
 
-- `"logistic-normal-01-infl"`: Cero o uno inflado logistic normal [@Ospina_2012]. 3 parámetros.
-- `"mvtweedie"`: Multivariate-tweedie [@Thorson_2022]. 2 parámetros.
-- `"dir-mult-linear"`: Linear Dirichlet multinomial [@Thorson_2017]. 1 parámetro.
+-   `"logistic-normal-01-infl"`: Cero o uno inflado logistic normal [@Ospina_2012]. 3 parámetros.
+-   `"mvtweedie"`: Multivariate-tweedie [@Thorson_2022]. 2 parámetros.
+-   `"dir-mult-linear"`: Linear Dirichlet multinomial [@Thorson_2017]. 1 parámetro.
 
 ## Componentes de verosimilitud
 
@@ -191,7 +184,7 @@ Resumen [@Francis_2014]:
 
 <br>
 
-6. Composición a la talla:
+6.  Composición a la talla:
 
 Tenemos algunas opciones y lo podemos especificar:
 
@@ -205,9 +198,9 @@ my_input = prepare_wham_input(...,
 
 <br>
 
-- `"multinomial"`: Multinomial. 0 parámetros.
-- `"dir-mult"`: Dirichlet saturante. 1 parámetros.
-- `"dir-mult-linear"`: Linear Dirichlet multinomial [@Thorson_2017]. 1 parámetro.
+-   `"multinomial"`: Multinomial. 0 parámetros.
+-   `"dir-mult"`: Dirichlet saturante. 1 parámetros.
+-   `"dir-mult-linear"`: Linear Dirichlet multinomial [@Thorson_2017]. 1 parámetro.
 
 ## Componentes de verosimilitud
 
@@ -215,14 +208,11 @@ my_input = prepare_wham_input(...,
 
 <br>
 
-::: {.callout-note}
-
+::: callout-note
 ## No olvidar
 
-Dado que WHAM puede ser catalogado como un modelo con enfoque integrado, todas estos componentes de verosimilitud son agregados en un solo componente, el cual será minimizado por el algoritmo de optimización. 
-
+Dado que WHAM puede ser catalogado como un modelo con enfoque integrado, todas estos componentes de verosimilitud son agregados en un solo componente, el cual será minimizado por el algoritmo de optimización.
 :::
-
 
 # WHAM: Aproximación de Laplace
 
@@ -230,12 +220,10 @@ Dado que WHAM puede ser catalogado como un modelo con enfoque integrado, todas e
 
 <br>
 
-El algoritmo de opmitización de TMB es el mismo que para ADMB. Ambas plataformas darán el mismo resultado para un mismo modelo. 
+El algoritmo de opmitización de TMB es el mismo que para ADMB. Ambas plataformas darán el mismo resultado para un mismo modelo.
 
 ::: fragment
-
-Lo novedoso de TMB es que es mucho más rápido para modelos con efectos aleatorios [@Kristensen_2016]. 
-
+Lo novedoso de TMB es que es mucho más rápido para modelos con efectos aleatorios [@Kristensen_2016].
 :::
 
 ## Definición
@@ -245,11 +233,8 @@ Lo novedoso de TMB es que es mucho más rápido para modelos con efectos aleator
 $$L_{joint}(\theta, y_{1:T},x_{0:t}) = p_\theta (x_0) \prod^T_{t=1} p_\theta (y_t \mid x_t)p_\theta (x_t \mid x_{t-1})$$
 
 ::: fragment
-
 Sin embargo, lo visto anteriormente no es práctico. Por lo tanto, en ciencias pesqueras se suele utilizar dos enfoques para esto: frecuentista y bayesiano.
-
 :::
-
 
 ## Enfoque frecuentista
 
@@ -258,25 +243,21 @@ Marginal likelihood:
 $$L_{marginal}(\theta , y_{1:T}) = \int L_{joint}(\theta, y_{1:T}, x_{0:T})dx_{1:T}$$
 
 ::: fragment
-
 Luego de integrar, the maximum likelihood estimator (MLE) para $\theta$:
 
 $$\hat{\theta}_{ML} = \arg \max_{\theta \in \Theta} logL_{marginal}(\theta,y_{1:T})$$
-
 :::
 
 ## Enfoque frecuentista
 
 <br>
 
-Ahora, se necesitará alguna forma para integrar (o aproximar) el marginal likelihood. Es justamente aquí donde se utiliza la aproximación de Laplace, realizado de una manera eficiente en TMB. 
+Ahora, se necesitará alguna forma para integrar (o aproximar) el marginal likelihood. Es justamente aquí donde se utiliza la aproximación de Laplace, realizado de una manera eficiente en TMB.
 
 ::: fragment
-
 Característica importante:
 
-* El marginal likelihood debe ser cercano a una función unimodal (para ser aproximada mediante una función de densidad normal).
-
+-   El marginal likelihood debe ser cercano a una función unimodal (para ser aproximada mediante una función de densidad normal).
 :::
 
 # WHAM: Optimización
@@ -289,7 +270,7 @@ Objetivo: reducir las discrepancias.
 
 ::: {.absolute top="650" left="70"}
 ::: sectionhead
-[[@Subbey_2018]]{style="font-size:50%"}
+[@Subbey_2018]
 :::
 :::
 
@@ -301,7 +282,7 @@ Objetivo: reducir las discrepancias.
 
 ::: {.absolute top="650" left="70"}
 ::: sectionhead
-[[@Subbey_2018]]{style="font-size:50%"}
+[@Subbey_2018]
 :::
 :::
 
@@ -313,7 +294,7 @@ Pero no es tan sencillo:
 
 ::: {.absolute top="650" left="70"}
 ::: sectionhead
-[[@Subbey_2018]]{style="font-size:50%"}
+[@Subbey_2018]
 :::
 :::
 
@@ -325,7 +306,7 @@ Superficie depende de varios factores:
 
 ::: {.absolute top="650" left="70"}
 ::: sectionhead
-[[@Subbey_2018]]{style="font-size:50%"}
+[@Subbey_2018]
 :::
 :::
 
@@ -337,11 +318,11 @@ Mínimo difícil de encontrar por diversos motivos:
 
 ::: {.absolute top="650" left="70"}
 ::: sectionhead
-[[@Subbey_2018]]{style="font-size:50%"}
+[@Subbey_2018]
 :::
 :::
 
-# WHAM: One-step ahead (OSA) residuals 
+# WHAM: One-step ahead (OSA) residuals
 
 ## Definición
 
@@ -352,9 +333,7 @@ Usualmente para analizar *datos de composición* utilizamos los Pearson residual
 <br>
 
 ::: fragment
-
 Los OSA residuals aparecen para lidiar con este problema, los cuales de-correlacionan datos de composición cuando estimamos residuos estandarizados [@Trijoulet_2023].
-
 :::
 
 ## Ejemplo
@@ -363,7 +342,7 @@ Los OSA residuals aparecen para lidiar con este problema, los cuales de-correlac
 
 ::: {.absolute top="650" left="70"}
 ::: sectionhead
-[@Trijoulet_2023]{style="font-size:50%"}
+@Trijoulet_2023
 :::
 :::
 
@@ -373,10 +352,10 @@ Los OSA residuals aparecen para lidiar con este problema, los cuales de-correlac
 
 Los OSA residuals tiene las siguientes características:
 
-- Independientes
-- Normalmente distribuidos
-- Media cero
-- Varianza igual a uno
+-   Independientes
+-   Normalmente distribuidos
+-   Media cero
+-   Varianza igual a uno
 
 ## Definición
 
@@ -384,10 +363,9 @@ Los OSA residuals tiene las siguientes características:
 
 Utilizado para las siguientes distribuciones de error (datos de composición):
 
-- Multinomial
-- Dirichlet-multinomial
-- Logistic-normal
-
+-   Multinomial
+-   Dirichlet-multinomial
+-   Logistic-normal
 
 # WHAM: Resultados
 
@@ -408,13 +386,11 @@ my_model = fit_wham(input = my_input, do.retro = FALSE, do.osa = FALSE)
 <br>
 
 ::: fragment
-
 Para explorar los estimados de efectos fijos y su error estándar:
 
 ```{r eval = FALSE}
 my_model$sdrep
 ```
-
 :::
 
 ## Resultados
@@ -432,13 +408,11 @@ my_model$opt$convergence # 0 = model has converged
 <br>
 
 ::: fragment
-
 Para explorar el gradiente final de cada parámetro (efecto fijo):
 
 ```{r eval = FALSE}
 my_model$final_gradient
 ```
-
 :::
 
 ## Resultados
@@ -502,27 +476,27 @@ wham::project_wham(model = ..., # model object
 
 Dentro de `proj.opts` (lista), debemos especificar lo siguiente:
 
-* `n.yrs`: (integer) número de años de proyecciones
-* `use.last.F`: (logical) Usar terminal F para proyecciones?
-* `use.avg.F`: (logical) Usar average F (sobre ciertos años?) para proyecciones?
-* `avg.yrs`: (vector) Años para promediar para `use.avg.F`
+-   `n.yrs`: (integer) número de años de proyecciones
+-   `use.last.F`: (logical) Usar terminal F para proyecciones?
+-   `use.avg.F`: (logical) Usar average F (sobre ciertos años?) para proyecciones?
+-   `avg.yrs`: (vector) Años para promediar para `use.avg.F`
 
 ## Proyecciones
 
 <br>
 
-* `use.FXSPR`: (logical) Calcular y usar F at $X \%$ SPR para proyecciones?
-* `use.FMSY`: (logical) Usar F at MSY para proyecciones?
-* `proj.F`: (vector numeric) Especificar F para proyecciones. Longitud igual a `n.yrs`.
-* `proj.catch`: (vector numeric) Especificar captura agregada para proyecciones. Longitud igual a `n.yrs`.
+-   `use.FXSPR`: (logical) Calcular y usar F at $X \%$ SPR para proyecciones?
+-   `use.FMSY`: (logical) Usar F at MSY para proyecciones?
+-   `proj.F`: (vector numeric) Especificar F para proyecciones. Longitud igual a `n.yrs`.
+-   `proj.catch`: (vector numeric) Especificar captura agregada para proyecciones. Longitud igual a `n.yrs`.
 
 ## Proyecciones
 
 <br>
 
-* `cont.ecov`: (logical) continuar Ecov process en proyecciones?
-* `proj.ecov`: (matrix) especificar valores de Ecov para proyecciones.
-* `cont.Mre`: (logical) continuar desviaciones en proyecciones?
+-   `cont.ecov`: (logical) continuar Ecov process en proyecciones?
+-   `proj.ecov`: (matrix) especificar valores de Ecov para proyecciones.
+-   `cont.Mre`: (logical) continuar desviaciones en proyecciones?
 
 Existen mismas opciones para crecimiento somático.
 
@@ -530,39 +504,7 @@ Existen mismas opciones para crecimiento somático.
 
 <br>
 
-* `percentFXSPR`: (numeric) Solo usado cuando `use.FXSPR=TRUE`.
-* `percentFMSY`: (numeric) Solo usado cuando `use.FMSY=TRUE`.
-
-# Comentarios (personales) finales
-
-## Opinión
-
-::: incremental
-
-- Muchos conceptos aprendidos en este curso pueden ser aplicado a otros SSM.
-
-- Modelos de evaluación SSM estructurado por edad en TMB aún no son usados ampliamente.
-
-- WHAM es una plataforma en desarrollo y muchas cosas cambiarán rápidamente.
-
-- Grandes capacidades, y se espera una mayor la difusión de esta plataforma.
-
-- Miren [FIMS](https://github.com/NOAA-FIMS) (el futuro?).
-
-:::
-
-## Sobre el curso
-
-::: incremental
-
-- Gracias por su participación!
-
-- Horas de asesoría.
-
-- Próximo curso: Introducción a la programación en R (25 al 29 septiembre, 15-18 horas).
-
-- Déjanos una revisión en nuestro Facebook page.
-
-:::
+-   `percentFXSPR`: (numeric) Solo usado cuando `use.FXSPR=TRUE`.
+-   `percentFMSY`: (numeric) Solo usado cuando `use.FMSY=TRUE`.
 
 ## Referencias

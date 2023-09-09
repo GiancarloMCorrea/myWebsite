@@ -1,0 +1,194 @@
+DAY 1
+
+<!-- # Presentación -->
+  
+  <!-- ## Estructura -->
+  
+  <!-- <br> -->
+  
+  <!-- Serie de cursos orientado a análisis cuantitativo de pesquerías: -->
+  
+  <!-- ::: incremental -->
+  <!-- 1.  Dinámica de poblaciones de peces en R -->
+  <!-- 2.  Introducción a modelos de evaluación de stocks -->
+  <!-- 3.  Modelos avanzados de evaluación de recursos pesqueros -->
+  <!-- 4.  **Modelos avanzados de evaluación de recursos pesqueros II** -->
+  <!-- ::: -->
+  
+  <!-- ## Objetivos -->
+  
+  <!-- <br> -->
+  
+  <!-- ::: incremental -->
+  <!-- -   Fundamentos de modelos de evaluación estructurados por edad. -->
+  <!-- -   Introducción de modelos *state-space*. -->
+  <!-- -   Estructura del modelo *Woods Hole Assessment Model* (WHAM). -->
+  <!-- -   Implementación de modelos de evaluación en WHAM. -->
+  <!-- ::: -->
+  
+  <!-- ## Proyecto -->
+  
+  <!-- <br> -->
+  
+  <!-- Para obtención de la certificación de aprobación. -->
+  
+  <!-- ::: incremental -->
+  <!-- -   Se crearán dos grupos de trabajo. -->
+  <!-- -   Objetivos: -->
+  <!--     -   Discutir enfoques de análisis de datos pesqueros. -->
+  <!--     -   Implementar un modelo de evaluación en WHAM. -->
+  <!-- -   Se invertirá 25% de horas de clase (no habrán actividades fuera de clase). -->
+  <!-- -   Presentación de resultados el último día de clases. -->
+  <!-- ::: -->
+  
+  <!-- ## Participantes -->
+  
+  <!-- <br> -->
+  
+  <!-- Presentación de participantes: -->
+  
+  <!-- ::: fragment -->
+  <!-- -   Nombre -->
+  <!-- -   Ocupación -->
+  <!-- -   Afiliación -->
+  <!-- -   Área de experiencia ó interés -->
+  <!-- -   Nivel de experiencia con modelos de evaluación -->
+  <!-- ::: -->
+  
+
+DAY 2
+
+
+# Laboratorio
+
+## Creación de grupos de trabajo
+
+<br>
+
+::: columns
+::: {.column width="50%"}
+Grupo 1:
+
+-   Luis Cubillos
+-   Vania Henriquez
+-   Carlos Torres
+-   Rene Chura
+:::
+
+::: {.column width="50%"}
+Grupo 2:
+
+-   Victor Vargas
+-   Francisco Córdova
+-   Maria Jose Cuevas
+-   Juan Anton
+-   Yasmine Granda
+:::
+:::
+
+## Proyecto en clase
+
+<br>
+
+Se le entregarán datos simulados (3 casos).
+
+Objetivo para el día de hoy:
+
+-   Explorar los datos
+-   Discutir enfoques de modelado para cada caso
+-   Hacer consultas pertinentes para implementar el modelo
+
+
+DAY 3
+
+# Laboratorio
+
+## Modelo básico de evaluación de stocks
+
+<br>
+
+Este ejercicio incluye datos de tallas:
+
+<br>
+
+Abrir archivo `Ejercicio_3.xlsx`
+
+## Implementación de objeto de datos
+
+<br>
+
+Vamos a crear el objeto de datos (e.g., `input_data`) para WHAM. Sigan las instrucciones de la clase 2.
+
+-   Fecha de desove: 1 de enero
+-   Unidades de índice de abundancia: peso
+
+
+DAY 4
+
+
+
+# Laboratorio
+
+## Actividades
+
+<br>
+
+-   Continuar con la implementación del objeto de datos para el caso 1.
+
+-   Correr modelo para caso 1.
+
+-   Implementación del objeto de datos para el caso 2.
+
+-   Asumir $M=0.35$ y $Q=1$. Además, $\bar{R} = 100000$.
+
+
+DAY 5
+
+
+# Laboratorio
+
+## Objetivos
+
+<br>
+
+1.  Explorar la función auxiliar de selectividad.
+
+2.  Continuar con caso 1 y caso 2. Información relevante:
+
+-   Para la relación longitud-peso, se utilizó: $\Omega_1=exp(-12.1)$ y $\Omega_2 = 3.2$.
+-   Dado que se conoce $F_0$, se recomienda fijarlo en 0.
+
+3.  Explorar el objeto de entrada `my_input` y las salidas del modelo `my_model`.
+
+
+
+DAY 6
+
+
+# Comentarios (personales) finales
+
+## Opinión
+
+::: incremental
+-   Muchos conceptos aprendidos en este curso pueden ser aplicado a otros SSM.
+
+-   Modelos de evaluación SSM estructurado por edad en TMB aún no son usados ampliamente.
+
+-   WHAM es una plataforma en desarrollo y muchas cosas cambiarán rápidamente.
+
+-   Grandes capacidades, y se espera una mayor la difusión de esta plataforma.
+
+-   Miren [FIMS](https://github.com/NOAA-FIMS) (el futuro?).
+:::
+
+## Sobre el curso
+
+::: incremental
+-   Gracias por su participación!
+
+-   Horas de asesoría.
+
+-   Próximo curso: Introducción a la programación en R (25 al 29 septiembre, 15-18 horas).
+
+-   Déjanos una revisión en nuestro Facebook page.
+:::
