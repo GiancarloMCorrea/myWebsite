@@ -541,8 +541,8 @@
 <ul>
 <li><code>"multinomial"</code>: Opcion por defecto. 0 parámetros.</li>
 <li><code>"dir-mult"</code>: Dirichlet saturante. 1 parámetros.</li>
-<li><code>"dirichlet-pool0"</code>: Se agregan valores ceros para edades viejas <span class="citation" data-cites="Francis_2014">(<a href="#/referencias" role="doc-biblioref" onclick="">Francis 2014</a>)</span>. 1 parámetro.</li>
-<li><code>"dirichlet-miss0"</code>: Trata los ceros como valores faltantes. 1 parámetro.</li>
+<li><code>"dirichlet-pool0"</code>: Se agregan cantidades predecidas cuando hay ceros en observaciones <span class="citation" data-cites="Francis_2014">(<a href="#/referencias" role="doc-biblioref" onclick="">Francis 2014</a>)</span>. 1 parámetro.</li>
+<li><code>"dirichlet-miss0"</code>: Trata los ceros en observaciones como valores faltantes. 1 parámetro.</li>
 </ul>
 </section>
 <section id="componentes-de-verosimilitud-4" class="slide level2">
@@ -551,12 +551,17 @@
 <ul>
 <li><code>"logistic-normal-miss0"</code>: Logistic normal, trata valores ceros como faltantes <span class="citation" data-cites="Francis_2014">(<a href="#/referencias" role="doc-biblioref" onclick="">Francis 2014</a>)</span>. 1 parámetro.</li>
 <li><code>"logistic-normal-ar1-miss0"</code>: Logistic normal, trata valores ceros como faltantes e incluye correlación temporal. 2 parámetros.</li>
-<li><code>"logistic-normal-pool0"</code>: Logistic normal, se agregan valores ceros para edades viejas. 1 parámetros.</li>
+<li><code>"logistic-normal-pool0"</code>: Logistic normal, se hace la agregación como en dirichlet. 1 parámetros.</li>
 </ul>
 </section>
 <section id="componentes-de-verosimilitud-5" class="slide level2">
 <h2>Componentes de verosimilitud</h2>
-<p><br> - <code>"logistic-normal-01-infl"</code>: Cero o uno inflado logistic normal <span class="citation" data-cites="Ospina_2012">(<a href="#/referencias" role="doc-biblioref" onclick="">Ospina and Ferrari 2012</a>)</span>. 3 parámetros. - <code>"mvtweedie"</code>: Multivariate-tweedie <span class="citation" data-cites="Thorson_2022">(<a href="#/referencias" role="doc-biblioref" onclick="">James T. Thorson, Miller, and Stock 2022</a>)</span>. 2 parámetros. - <code>"dir-mult-linear"</code>: Linear Dirichlet multinomial <span class="citation" data-cites="Thorson_2017">(<a href="#/referencias" role="doc-biblioref" onclick="">James T. Thorson et al. 2017</a>)</span>. 1 parámetro.</p>
+<p><br></p>
+<ul>
+<li><code>"logistic-normal-01-infl"</code>: Cero o uno inflado logistic normal <span class="citation" data-cites="Ospina_2012">(<a href="#/referencias" role="doc-biblioref" onclick="">Ospina and Ferrari 2012</a>)</span>. 3 parámetros.</li>
+<li><code>"mvtweedie"</code>: Multivariate-tweedie <span class="citation" data-cites="Thorson_2022">(<a href="#/referencias" role="doc-biblioref" onclick="">James T. Thorson, Miller, and Stock 2022</a>)</span>. 2 parámetros.</li>
+<li><code>"dir-mult-linear"</code>: Linear Dirichlet multinomial <span class="citation" data-cites="Thorson_2017">(<a href="#/referencias" role="doc-biblioref" onclick="">James T. Thorson et al. 2017</a>)</span>. 1 parámetro.</li>
+</ul>
 </section>
 <section id="componentes-de-verosimilitud-6" class="slide level2">
 <h2>Componentes de verosimilitud</h2>
@@ -844,8 +849,6 @@
 <li><code>use.last.F</code>: (logical) Usar terminal F para proyecciones?</li>
 <li><code>use.avg.F</code>: (logical) Usar average F (sobre ciertos años?) para proyecciones?</li>
 <li><code>avg.yrs</code>: (vector) Años para promediar para <code>use.avg.F</code></li>
-<li><code>use.FXSPR</code>: (logical) Calcular y usar F at <span class="math inline">\(X \%\)</span> SPR para proyecciones?</li>
-<li><code>use.FMSY</code>: (logical) Usar F at MSY para proyecciones?</li>
 </ul>
 </section>
 <section id="proyecciones-2" class="slide level2">

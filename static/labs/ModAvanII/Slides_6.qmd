@@ -158,8 +158,8 @@ Se recomienda explorar @Fisch_2021.
 
 - `"multinomial"`: Opcion por defecto. 0 parámetros.
 - `"dir-mult"`: Dirichlet saturante. 1 parámetros.
-- `"dirichlet-pool0"`: Se agregan valores ceros para edades viejas [@Francis_2014]. 1 parámetro.
-- `"dirichlet-miss0"`: Trata los ceros como valores faltantes. 1 parámetro.
+- `"dirichlet-pool0"`: Se agregan cantidades predecidas cuando hay ceros en observaciones [@Francis_2014]. 1 parámetro.
+- `"dirichlet-miss0"`: Trata los ceros en observaciones como valores faltantes. 1 parámetro.
 
 ## Componentes de verosimilitud
 
@@ -167,11 +167,12 @@ Se recomienda explorar @Fisch_2021.
 
 - `"logistic-normal-miss0"`: Logistic normal, trata valores ceros como faltantes [@Francis_2014]. 1 parámetro.
 - `"logistic-normal-ar1-miss0"`: Logistic normal, trata valores ceros como faltantes e incluye correlación temporal. 2 parámetros.
-- `"logistic-normal-pool0"`: Logistic normal, se agregan valores ceros para edades viejas. 1 parámetros.
+- `"logistic-normal-pool0"`: Logistic normal, se hace la agregación como en dirichlet. 1 parámetros.
 
 ## Componentes de verosimilitud
 
 <br>
+
 - `"logistic-normal-01-infl"`: Cero o uno inflado logistic normal [@Ospina_2012]. 3 parámetros.
 - `"mvtweedie"`: Multivariate-tweedie [@Thorson_2022]. 2 parámetros.
 - `"dir-mult-linear"`: Linear Dirichlet multinomial [@Thorson_2017]. 1 parámetro.
@@ -505,8 +506,6 @@ Dentro de `proj.opts` (lista), debemos especificar lo siguiente:
 * `use.last.F`: (logical) Usar terminal F para proyecciones?
 * `use.avg.F`: (logical) Usar average F (sobre ciertos años?) para proyecciones?
 * `avg.yrs`: (vector) Años para promediar para `use.avg.F`
-* `use.FXSPR`: (logical) Calcular y usar F at $X \%$ SPR para proyecciones?
-* `use.FMSY`: (logical) Usar F at MSY para proyecciones?
 
 ## Proyecciones
 
