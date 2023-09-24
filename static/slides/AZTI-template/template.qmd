@@ -1,0 +1,83 @@
+---
+title: "This is my presentation title"
+subtitle: "This is my presentation subtitle (optional)"
+author: Author 1, Author 2, Author 3
+embed-resources: false
+highlight-style: "a11y-dark"
+format: azti-revealjs
+title-slide-attributes:
+    data-background-image: "images/main_image.jpg"
+    data-background-size: cover
+    data-background-opacity: "0.3"
+---
+
+## My first title
+
+### This is a subtitle
+
+<br>
+
+`some code` and some text.  
+This is [AZTI website](https://www.azti.es/).
+
+```{r}
+#| echo: true
+1 + 1
+```
+
+```{r}
+#| echo: true
+x <- 1
+y <- x + 1
+y
+```
+
+## This is a second title
+
+```{r}
+#| echo: true
+library(ggplot2)
+ggplot(mtcars, aes(wt, mpg)) + geom_point()
+```
+
+# This is a new section {background-color='#FCDA01'}
+
+## This is a slide with two columns
+
+::: columns
+::: {.column width="50%"}
+<br> My items:
+
+- Item 1
+- Item 2
+- Item 3
+- Item 4
+:::
+
+::: {.column width="50%"}
+![](images/example_1.jpg){fig-align="center" width="75%"}
+:::
+
+:::
+
+
+## This is a slide with image
+
+![](images/example_2.jpg){fig-align="center" width="75%"}
+
+## New slide
+
+With only text
+
+# Thank you {background-color='black'}
+
+<br>
+<br>
+
+![](images/__AZTI_secundario_BlancoAmarillo.png){fig-align="center" width="40%"}
+
+::: sectionhead
+[Contact:]{style="font-size:40px"} 
+<br> 
+[myemail\@azti.es](mailto:myemail@azti.es){style="font-size:40px"}
+:::
