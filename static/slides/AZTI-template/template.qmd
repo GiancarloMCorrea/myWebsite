@@ -5,6 +5,9 @@ author: Author 1, Author 2, Author 3
 embed-resources: false
 highlight-style: "a11y-dark"
 format: azti-revealjs
+include-in-header:
+  - text: |
+      <link rel = "shortcut icon" href = "azti.svg" />
 title-slide-attributes:
     data-background-image: "images/main_image.jpg"
     data-background-size: cover
