@@ -50,9 +50,9 @@ There is a need to implement measures to improve the status for BET and YFT. TAC
 
 <br>
 
-Evaluate the impacts of temporal and time-area closures on the future (ten-years projection) status of tropical tunas in the Indian Ocean (IO).
+Evaluate the impacts of temporal and time-area closures on the future status of tropical tunas in the Indian Ocean (IO).
 
-- Status evaluated using $SB/SB_{msy}$ and $F/F_{msy}$ in the terminal year of the projection period.
+- Status evaluated using $SB/SB_{msy}$ and $F/F_{msy}$ at the end of a 10-year projection.
 
 ## Stock status
 
