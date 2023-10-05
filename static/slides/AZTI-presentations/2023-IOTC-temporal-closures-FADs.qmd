@@ -1,0 +1,386 @@
+---
+title: "Responses of tuna stocks to temporal closures in the Indian Ocean"
+author: Giancarlo M. Correa, Gorka Merino, Josu Santiago, Agurtzane Urtizberea
+embed-resources: false
+highlight-style: "a11y-dark"
+format: azti-revealjs
+revealjs-plugins:
+  - pointer
+include-in-header:
+  - text: |
+      <link rel = "shortcut icon" href = "azti.svg" />
+title-slide-attributes:
+    data-background-image: "images/main_image2.jpg"
+    data-background-size: cover
+    data-background-opacity: "0.3"
+execute:
+  echo: false
+  warning: false
+---
+
+## Introduction
+
+<br>
+
+Recent assessment models estimated the current status of tropical tunas in the Indian Ocean (IO):
+
+-   Bigeye (BET): [overfished and subject to overfishing]{style="background-color: rgba(255,0,0,0.3)"}
+-   Yellowfin (YFT): [overfished and subject to overfishing]{style="background-color: rgba(255,0,0,0.3)"}
+-   Skipjack (SKJ): [not overfished and is not subject to overfishing]{style="background-color: rgba(115,245,139,0.3)"}
+
+::: fragment
+There is a need to implement measures to improve the status for BET and YFT. TAC recommendation is one of them.
+:::
+
+## Time-area closures
+
+<br>
+
+::: incremental
+
+- Implemented to control fishing effort, to protect adults during spawning season, to allow growth of juveniles, to rebuild depleted stocks, or to protect bycatch species (IATTC, 2021).
+
+- Seasonal closures are generally quite effective and easy to implement. 
+
+- However, effort allocation during open seasons or areas might produce negative results.
+
+:::
+
+## Objectives
+
+<br>
+
+Evaluate the impacts of temporal and time-area closures on the future (ten-years projection) status of tropical tunas in the Indian Ocean (IO).
+
+- Status evaluated using $SB/SB_{msy}$ and $F/F_{msy}$ in the terminal year of the projection period.
+
+## Stock status
+
+```{=html}
+<style type="text/css">
+div.callout-warning {
+  border-left-color: #f5f373 !important;
+}
+</style>
+```
+::: columns
+::: {.column width="60%"}
+Kobe plot:
+
+```{r}
+#| fig-height: 5
+#| fig-width: 6
+#| fig-dpi: 400
+#| fig-align: center
+require(ggplot2)
+datapoly = data.frame(id = rep(1:4, each = 5), 
+                      x = c(1,1,20,20,1,-1,-1,1,1,-1,-1,-1,1,1,-1,1,1,20,20,1),
+                      y = c(1,-1,-1,1,1,1,-1,-1,1,1,20,1,1,20,20,20,1,1,20,20))
+ggplot(data = datapoly, aes(x = x, y = y)) +
+       geom_polygon(aes(fill = factor(id), group = factor(id)), alpha = 0.45) +
+       coord_cartesian(xlim = c(0,3), ylim = c(0,3)) +
+       ylab(expression('F/'*F[msy])) + xlab(expression('SB/'*SB[msy])) +
+       scale_fill_manual(values = c('#8cff66', '#ffff00', '#ff3300', '#ff9900')) +
+       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+             axis.text = element_text(size = 10),
+             strip.background = element_blank(),
+             legend.position = 'none') 
+```
+:::
+
+::: {.column width="40%"}
+::: {.callout-tip icon="false"}
+## Not overfished and not subject to overfishing
+:::
+
+::: {.callout-caution icon="false"}
+## Not overfished and subject to overfishing
+:::
+
+::: {.callout-important icon="false"}
+## Overfished and subject to overfishing
+:::
+
+::: {.callout-warning icon="false"}
+## Overfished and not subject to overfishing
+:::
+:::
+:::
+
+
+## Assessment model
+
+<br>
+
+* Use Stock Synthesis (SS3) [(Fu 2020, Fu et al. 2021, 2022)]{style="font-size:75%"} to make projections.
+
+  - [SS3 configuration: steepness of 0.8, base growth and natural mortality, lambda of 1.]{style="font-size:75%"}
+
+* Projected recruitment is deterministic from the SR relationship.
+
+* Growth, selectivity, and other model components constant during the projection period.
+
+
+## Fleet definitions {.smaller}
+
+::: columns
+
+::: {.column width="45%"}
+
+|       Fishery name        | Fishery code |
+|:-------------------------:|:------------:|
+|   Longline (fresh tuna)   |      LF      |
+| Longline (distant waters) |      LL      |
+| Purse-seine (free school) |      FS      |
+|    Purse-seine (FADs)     |      LS      |
+|         Baitboat          |      BB      |
+|       Mixed gears         |     LINE     |
+|          Others           |      OT      |
+|       All fisheries       |     all      |
+
+:::
+
+::: {.column width="55%"}
+
+<br>
+
+![](images/2023-IOTC-temporal-closures-FADs/IO_Bigeye_2022.jpeg){fig-align="center"}
+:::
+
+:::
+
+## Fleet definitions {.smaller}
+
+::: columns
+
+::: {.column width="45%"}
+
+|       Fishery name        | Fishery code |
+|:-------------------------:|:------------:|
+|   Longline (fresh tuna)   |      LF      |
+| Longline (distant waters) |      LL      |
+| Purse-seine (free school) |      FS      |
+|    Purse-seine (FADs)     |      LS      |
+|         Baitboat          |      BB      |
+|          Gillnet          |      GI      |
+|         Handline          |      HD      |
+|           Troll           |      TR      |
+|          Others           |      OT      |
+|       All fisheries       |     all      |
+
+:::
+
+::: {.column width="55%"}
+
+<br>
+
+![](images/2023-IOTC-temporal-closures-FADs/IO_yellowfin_2021.jpeg){fig-align="center"}
+:::
+
+:::
+
+## Fleet definitions {.smaller}
+
+::: columns
+
+::: {.column width="45%"}
+
+|       Fishery name        | Fishery code |
+|:-------------------------:|:------------:|
+| Maldivian Pole and Line   |     LINE     |
+| Longline (distant waters) |      LL      |
+| Purse-seine (free school) |      FS      |
+|    Purse-seine (FADs)     |      LS      |
+|          Gillnet          |      GI      |
+|   Line (Handline, troll)  |      HD      |
+|          Others           |      OT      |
+|       All fisheries       |     all      |
+
+:::
+
+::: {.column width="55%"}
+
+<br>
+
+![](images/2023-IOTC-temporal-closures-FADs/IO_skipjack_2020.jpeg){fig-align="center"}
+:::
+
+:::
+
+
+## Catch projections
+
+<br>
+
+-   **Status quo**: projected catch as the average of the last three years of the model period.
+
+-   **TAC**: projected catch from TAC recommendation (YFT) or resolution (BET and SKJ, Resolution 23/04 and 16/02).
+
+-   **Closures**: projected catch derived from *status quo* values. Then, we applied several fleet-specific temporal closures to the entire IO.
+
+
+## Closure strategies
+
+::: incremental
+-   Closed quarter:
+    -   Q1, Q2, Q3, or Q4 could be closed. No catch during closed period.
+-   Closure duration:
+    -   For the selected quarter, we could close it for 3, 2, or 1 month.
+-   Catch reallocation:
+    -   100%, 50%, or 0% of the catch corresponding to the closed quarter could be redistributed among the open months.
+:::
+
+## Catch reallocation: example
+
+No closure, projected annual catch ($C$) $=$ 120 tons:
+
+```{r}
+#| fig-height: 5
+#| fig-width: 6
+#| fig-dpi: 400
+#| fig-align: center
+require(ggplot2)
+mydat = data.frame(quarter = c(1,2,3,4), x = c(30, 30, 30, 30))
+
+ggplot(data=mydat, aes(x=quarter, y=x, fill = as.factor(quarter))) +
+  geom_bar(stat="identity") +
+  coord_cartesian(ylim = c(0, 40)) +
+  theme_bw() +
+  xlab('Quater') + ylab('Projected catch (t)') +
+  theme(legend.position = 'none') +
+  scale_fill_manual(values=c("#CC79A7", "#56B4E9", "#56B4E9", "#56B4E9"))
+```
+
+## Catch reallocation: example
+
+Quarter 1 is closed, 100% reallocation, $C=120$ tons:
+
+```{r}
+#| fig-height: 5
+#| fig-width: 6
+#| fig-dpi: 400
+#| fig-align: center
+require(ggplot2)
+mydat = data.frame(quarter = rep(c(1,2,3,4), each = 2), 
+                   type = rep(c('base', 'extra'), times = 4),
+                   x = c(0, 0, 10, 30, 10, 30, 10, 30))
+
+ggplot(data=mydat, aes(x=quarter, y=x, fill = type)) +
+  geom_bar(stat="identity") +
+  coord_cartesian(ylim = c(0, 40)) +
+  theme_bw() +
+  xlab('Quater') + ylab('Projected catch (t)') +
+  theme(legend.position = 'none')+
+  scale_fill_manual(values=c("#CC79A7", "#56B4E9"))
+```
+
+## Catch reallocation: example
+
+Quarter 1 is closed, 50% reallocation, $C=105$ tons:
+
+```{r}
+#| fig-height: 5
+#| fig-width: 6
+#| fig-dpi: 400
+#| fig-align: center
+require(ggplot2)
+mydat = data.frame(quarter = rep(c(1,2,3,4), each = 2), 
+                   type = rep(c('base', 'extra'), times = 4),
+                   x = c(0, 0, 5, 30, 5, 30, 5, 30))
+
+ggplot(data=mydat, aes(x=quarter, y=x, fill = type)) +
+  geom_bar(stat="identity") +
+  coord_cartesian(ylim = c(0, 40)) +
+  theme_bw() +
+  xlab('Quater') + ylab('Projected catch (t)') +
+  theme(legend.position = 'none')+
+  scale_fill_manual(values=c("#CC79A7", "#56B4E9"))
+```
+
+
+## Catch reallocation: example
+
+Quarter 1 is closed (2 months), 0% reallocation, $C=100$ tons:
+
+```{r}
+#| fig-height: 5
+#| fig-width: 6
+#| fig-dpi: 400
+#| fig-align: center
+require(ggplot2)
+mydat = data.frame(quarter = rep(c(1,2,3,4), each = 2), 
+                   type = rep(c('base', 'extra'), times = 4),
+                   x = c(10, 0, 0, 30, 0, 30, 0, 30))
+
+ggplot(data=mydat, aes(x=quarter, y=x, fill = type)) +
+  geom_bar(stat="identity") +
+  coord_cartesian(ylim = c(0, 40)) +
+  theme_bw() +
+  xlab('Quater') + ylab('Projected catch (t)') +
+  theme(legend.position = 'none')+
+  scale_fill_manual(values=c("#CC79A7", "#56B4E9"))
+```
+
+## Projected catch
+
+For BET:
+
+![](images/2023-IOTC-temporal-closures-FADs/fore_catch_fleet_BET.jpg){fig-align="center"}
+
+## Projected catch
+
+For YFT:
+
+![](images/2023-IOTC-temporal-closures-FADs/fore_catch_fleet_YFT.jpg){fig-align="center"}
+
+## Projected catch
+
+For SKJ:
+
+![](images/2023-IOTC-temporal-closures-FADs/fore_catch_fleet_SKJ.jpg){fig-align="center"}
+
+## Results
+
+![](images/2023-IOTC-temporal-closures-FADs/BET_BBMSY.jpg){fig-align="center"}
+
+## Results
+
+![](images/2023-IOTC-temporal-closures-FADs/YFT_BBMSY.jpg){fig-align="center"}
+
+## Results
+
+![](images/2023-IOTC-temporal-closures-FADs/SKJ_BBMSY.jpg){fig-align="center"}
+
+## Conclusions
+
+<br>
+
+By the terminal year of the projection period:
+
+::: incremental
+-   The status quo scenario always produced a stock status [overfished and subject to overfishing]{style="background-color: rgba(255,0,0,0.3)"} for the three stocks.
+
+-   The TAC scenario produced a stock status [overfished and not subject to overfishing]{style="background-color: rgba(255,252,87,0.3)"} for BET and YFT and [not overfished and not subject to overfishing]{style="background-color: rgba(115,245,139,0.3)"} for SKJ.
+:::
+
+## Conclusions
+
+For closure scenarios, by the terminal year of the projection period:
+
+::: incremental
+-   Catch reallocation of 100% always produced a stock status [overfished and subject to overfishing]{style="background-color: rgba(255,0,0,0.3)"}.
+
+-   Closing all fleets during an entire quarter with 0% reallocation always produced a stock status [not overfished and not subject to overfishing]{style="background-color: rgba(115,245,139,0.3)"}.
+
+-   Closing the purse-seine FAD fishery produced the largest positive impact on the stock status compared to other fleet-specific closures.
+:::
+
+# Thank you {background-color="black"}
+
+<br> <br>
+
+![](images/__AZTI_secundario_BlancoAmarillo.png){fig-align="center" width="40%"}
+
+::: sectionhead
+[Contact:]{style="font-size:40px"} <br> [gmoron\@azti.es](mailto:gmoron@azti.es){style="font-size:40px"}
+:::
