@@ -377,7 +377,7 @@ For closure scenarios, by the terminal year of the projection period:
 
 -   Closing all fleets during an entire quarter with 0% reallocation always produced a stock status [not overfished and not subject to overfishing]{style="background-color: rgba(115,245,139,0.3)"}.
 
--   Closing the purse-seine FAD fishery produced the largest positive impact on the stock status compared to other fleet-specific closures.
+-   Closing the PS-FAD fishery produced the largest positive impact on the stock status compared to other fleet-specific closures, followed by BB (for BET) and GI and HD (for YFT).
 :::
 
 # Thank you {background-color="black"}
