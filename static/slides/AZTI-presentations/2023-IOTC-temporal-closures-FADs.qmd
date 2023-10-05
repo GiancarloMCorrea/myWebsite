@@ -353,14 +353,19 @@ For SKJ:
 
 ## Conclusions
 
+We presented a coherent framework to assess the impacts of closure strategies on tropical tunas in the Indian Ocean.
+
 <br>
 
+::: fragment
 By the terminal year of the projection period:
 
 ::: incremental
 -   The status quo scenario always produced a stock status [overfished and subject to overfishing]{style="background-color: rgba(255,0,0,0.3)"} for the three stocks.
 
 -   The TAC scenario produced a stock status [overfished and not subject to overfishing]{style="background-color: rgba(255,252,87,0.3)"} for BET and YFT and [not overfished and not subject to overfishing]{style="background-color: rgba(115,245,139,0.3)"} for SKJ.
+:::
+
 :::
 
 ## Conclusions
