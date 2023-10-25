@@ -29,7 +29,7 @@ Recent assessment models estimated the current status of tropical tunas in the I
 -   Skipjack (SKJ): [not overfished and is not subject to overfishing]{style="background-color: rgba(115,245,139,0.3)"}
 
 ::: fragment
-There is a need to implement measures to improve the status for BET and YFT. TAC recommendation is one of them.
+There is a need to implement measures to improve the status for BET and YFT.
 :::
 
 ## Time-area closures
@@ -212,113 +212,115 @@ ggplot(data = datapoly, aes(x = x, y = y)) +
 
 <br>
 
--   **Status quo**: projected catch as the average of the last three years of the model period.
-
 -   **TAC**: projected catch from TAC recommendation (YFT) or resolution (BET and SKJ, Resolution 23/04 and 16/02).
 
--   **Closures**: projected catch derived from *status quo* values. Then, we applied several fleet-specific temporal closures to the entire IO.
+-   **Closures**: projected catch derived from *TAC* values. Then, we applied several fleet-specific temporal closures to the entire IO.
 
+-   **LS-FS**: Interaction between the FAD and free school purse seine fisheries. 
 
 ## Closure strategies
 
+<br>
+
 ::: incremental
--   Closed quarter:
-    -   Q1, Q2, Q3, or Q4 could be closed. No catch during closed period.
--   Closure duration:
-    -   For the selected quarter, we could close it for 3, 2, or 1 month.
--   Catch reallocation:
-    -   100%, 50%, or 0% of the catch corresponding to the closed quarter could be redistributed among the open months.
+* Closed quarter: Q1, Q2, Q3, or Q4 could be closed. 
+* Closure duration: 3, 2, or 1 month.
+* Catch reallocation: 100%, 50%, or 0% of the catch corresponding to the closed period could be redistributed among the open period (for fleet-specific closures). 
+  + For LS-FS: Catch reallocation from LS to FS during the same period.
 :::
 
-## Catch reallocation: example
+## Catch reallocation
 
-No closure, projected annual catch ($C$) $=$ 120 tons:
-
-```{r}
-#| fig-height: 5
-#| fig-width: 6
-#| fig-dpi: 400
-#| fig-align: center
-require(ggplot2)
-mydat = data.frame(quarter = c(1,2,3,4), x = c(30, 30, 30, 30))
-
-ggplot(data=mydat, aes(x=quarter, y=x, fill = as.factor(quarter))) +
-  geom_bar(stat="identity") +
-  coord_cartesian(ylim = c(0, 40)) +
-  theme_bw() +
-  xlab('Quater') + ylab('Projected catch (t)') +
-  theme(legend.position = 'none') +
-  scale_fill_manual(values=c("#CC79A7", "#56B4E9", "#56B4E9", "#56B4E9"))
-```
-
-## Catch reallocation: example
-
-Quarter 1 is closed, 100% reallocation, $C=120$ tons:
+### TAC
 
 ```{r}
-#| fig-height: 5
-#| fig-width: 6
-#| fig-dpi: 400
-#| fig-align: center
-require(ggplot2)
-mydat = data.frame(quarter = rep(c(1,2,3,4), each = 2), 
-                   type = rep(c('base', 'extra'), times = 4),
-                   x = c(0, 0, 10, 30, 10, 30, 10, 30))
+#| echo: false
+DiagrammeR::grViz("digraph {
 
-ggplot(data=mydat, aes(x=quarter, y=x, fill = type)) +
-  geom_bar(stat="identity") +
-  coord_cartesian(ylim = c(0, 40)) +
-  theme_bw() +
-  xlab('Quater') + ylab('Projected catch (t)') +
-  theme(legend.position = 'none')+
-  scale_fill_manual(values=c("#CC79A7", "#56B4E9"))
-```
+graph [layout = dot, rankdir = LR]
 
-## Catch reallocation: example
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = circle, style = filled, fillcolor = Linen, fontsize=30]
 
-Quarter 1 is closed, 50% reallocation, $C=105$ tons:
+Q1 [label = 'Quarter 1 \n Open', fillcolor = lightskyblue2]
+Q2 [label = 'Quarter 2 \n Open', fillcolor = lightskyblue2]
+Q3 [label = 'Quarter 3 \n Open', fillcolor = lightskyblue2]
+Q4 [label = 'Quarter 4 \n Open', fillcolor = lightskyblue2]
 
-```{r}
-#| fig-height: 5
-#| fig-width: 6
-#| fig-dpi: 400
-#| fig-align: center
-require(ggplot2)
-mydat = data.frame(quarter = rep(c(1,2,3,4), each = 2), 
-                   type = rep(c('base', 'extra'), times = 4),
-                   x = c(0, 0, 5, 30, 5, 30, 5, 30))
+{rank = min; Q1}
+{rank = max; Q4}
 
-ggplot(data=mydat, aes(x=quarter, y=x, fill = type)) +
-  geom_bar(stat="identity") +
-  coord_cartesian(ylim = c(0, 40)) +
-  theme_bw() +
-  xlab('Quater') + ylab('Projected catch (t)') +
-  theme(legend.position = 'none')+
-  scale_fill_manual(values=c("#CC79A7", "#56B4E9"))
+edge [arrowhead = none]
+Q1 -> Q2 -> Q3 -> Q4
+
+}")
 ```
 
 
-## Catch reallocation: example
+## Catch reallocation
 
-Quarter 1 is closed (2 months), 0% reallocation, $C=100$ tons:
+### Fleet-specific closures
 
 ```{r}
-#| fig-height: 5
-#| fig-width: 6
-#| fig-dpi: 400
-#| fig-align: center
-require(ggplot2)
-mydat = data.frame(quarter = rep(c(1,2,3,4), each = 2), 
-                   type = rep(c('base', 'extra'), times = 4),
-                   x = c(10, 0, 0, 30, 0, 30, 0, 30))
+#| echo: false
+DiagrammeR::grViz("digraph {
 
-ggplot(data=mydat, aes(x=quarter, y=x, fill = type)) +
-  geom_bar(stat="identity") +
-  coord_cartesian(ylim = c(0, 40)) +
-  theme_bw() +
-  xlab('Quater') + ylab('Projected catch (t)') +
-  theme(legend.position = 'none')+
-  scale_fill_manual(values=c("#CC79A7", "#56B4E9"))
+graph [layout = dot, rankdir = LR]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = circle, style = filled, fillcolor = Linen, fontsize=30]
+
+Q1 [label = 'Quarter 1 \n Closed', fillcolor = Pink]
+Q2 [label = 'Quarter 2 \n Open', fillcolor = lightskyblue2]
+Q3 [label = 'Quarter 3 \n Open', fillcolor = lightskyblue2]
+Q4 [label = 'Quarter 4 \n Open', fillcolor = lightskyblue2]
+
+{rank = min; Q1}
+{rank = max; Q4}
+
+# edge definitions with the node IDs
+Q1 -> Q2 [label = 'reallocate catch']
+Q1 -> Q3 [label = 'reallocate catch']
+Q1 -> Q4 [label = 'reallocate catch']
+edge [arrowhead = none]
+Q2 -> Q3 -> Q4
+
+}")
+```
+
+## Catch reallocation
+
+### LS-FS closure interaction
+
+```{r}
+#| echo: false
+DiagrammeR::grViz("digraph {
+
+graph [layout = dot, rankdir = LR]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = circle, style = filled, fillcolor = Linen, fontsize=30]
+
+Q1 [label = 'Quarter 1 \n LS Closed', fillcolor = Pink]
+Q2 [label = 'Quarter 2 \n LS Open', fillcolor = lightskyblue2]
+Q3 [label = 'Quarter 3 \n LS Open', fillcolor = lightskyblue2]
+Q4 [label = 'Quarter 4 \n LS Open', fillcolor = lightskyblue2]
+
+Q11 [label = 'Quarter 1 \n FS Open', fillcolor = lightskyblue2]
+Q22 [label = 'Quarter 2 \n FS Open', fillcolor = lightskyblue2]
+Q33 [label = 'Quarter 3 \n FS Open', fillcolor = lightskyblue2]
+Q44 [label = 'Quarter 4 \n FS Open', fillcolor = lightskyblue2]
+
+{rank = min; Q1 Q11}
+{rank = max; Q4 Q44}
+
+# edge definitions with the node IDs
+Q1 -> Q11 [label = 'reallocate catch']
+edge [arrowhead = none]
+Q1 -> Q2 -> Q3 -> Q4
+Q11 -> Q22 -> Q33 -> Q44
+
+}")
 ```
 
 ## Projected catch
@@ -361,8 +363,6 @@ We presented a coherent framework to assess the impacts of closure strategies on
 By the terminal year of the projection period:
 
 ::: incremental
--   The status quo scenario always produced a stock status [overfished and subject to overfishing]{style="background-color: rgba(255,0,0,0.3)"} for the three stocks.
-
 -   The TAC scenario produced a stock status [overfished and not subject to overfishing]{style="background-color: rgba(255,252,87,0.3)"} for BET and YFT and [not overfished and not subject to overfishing]{style="background-color: rgba(115,245,139,0.3)"} for SKJ.
 :::
 
@@ -373,12 +373,23 @@ By the terminal year of the projection period:
 For closure scenarios, by the terminal year of the projection period:
 
 ::: incremental
--   Catch reallocation of 100% always produced a stock status [overfished and subject to overfishing]{style="background-color: rgba(255,0,0,0.3)"}.
+-   Catch reallocation of 100% always produced a stock status as in the TAC scenario.
 
 -   Closing all fleets during an entire quarter with 0% reallocation always produced a stock status [not overfished and not subject to overfishing]{style="background-color: rgba(115,245,139,0.3)"}.
 
--   Closing the PS-FAD fishery produced the largest positive impact on the stock status compared to other fleet-specific closures, followed by BB (for BET) and GI and HD (for YFT).
+-   Closing the PS-LS fishery produced the largest positive impact on the stock status compared to other fleet-specific closures, followed by BB (for BET) and GI and HD (for YFT).
 :::
+
+## Conclusions
+
+<br>
+
+For the LS-FS interaction, by the terminal year of the projection period:
+
+-   Produced even larger positive impact on the stock status compared to fleet-specific closures.
+
+-   Even considering a 100% reallocation, the stock status was [not overfished and not subject to overfishing]{style="background-color: rgba(115,245,139,0.3)"} in most cases for the three tuna stocks.
+
 
 # Thank you {background-color="black"}
 
