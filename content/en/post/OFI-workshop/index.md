@@ -61,6 +61,6 @@ We prepared three simple examples to show how to implement your model in WHAM.
 
 - **Case 1**: Only uses age compositions. Growth modeled using empirical weight-at-age or nonparametric WAA.
 - **Case 2**: Uses marginal length compositions. Growth modeled using parametric LAA.
-- **Case 2**: Uses marginal length compositions and conditional length-at-age data. Growth modeled using parametric LAA.
+- **Case 3**: Uses marginal length compositions and conditional length-at-age data. Growth modeled using parametric LAA.
 
 You can also find more examples on [Github](https://github.com/GiancarloMCorrea/AKWHAM). 
