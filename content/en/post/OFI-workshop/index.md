@@ -26,15 +26,15 @@ links:
 - icon: file-excel
   icon_pack: fas
   name: Case 1
-  url: /labs/OFI_WK_2023/case1.xlsx
+  url: /labs/OFI_WK_2023/examples/case1.xlsx
 - icon: file-excel
   icon_pack: fas
   name: Case 2
-  url: /labs/OFI_WK_2023/case2.xlsx
+  url: /labs/OFI_WK_2023/examples/case2.xlsx
 - icon: file-excel
   icon_pack: fas
   name: Case 3
-  url: /labs/OFI_WK_2023/case3.xlsx
+  url: /labs/OFI_WK_2023/examples/case3.xlsx
 ---
 
 Here you can find the slides and examples that my colleague (Jane Sullivan, NOAA) and I made for the workshop 

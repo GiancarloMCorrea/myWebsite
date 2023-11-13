@@ -53,8 +53,8 @@ for(i in seq_along(input_data$years)){
 input_data$use_index_caal = array(0, dim = c(n_years, input_data$n_indices, n_lengths))
 input_data$use_index_caal[input_data$index_caal_Neff > 0] = 1
 # Dont forget to turn off the use of paa (default):
-input_data$use_catch_paa = matrix(0, nrow = n_years, ncol = input_data$n_fleets) # 1 = usar, 0 = no usar
-input_data$use_index_paa = matrix(0, nrow = n_years, ncol = input_data$n_indices) # 1 = usar, 0 = no usar
+input_data$use_catch_paa = matrix(0, nrow = n_years, ncol = input_data$n_fleets) # 1 = use, 0 = no use
+input_data$use_index_paa = matrix(0, nrow = n_years, ncol = input_data$n_indices) # 1 = use, 0 = no use
 # Selex pointers:
 input_data$selblock_pointer_fleets = matrix(1L, ncol = input_data$n_fleets, nrow = n_years)
 input_data$selblock_pointer_indices = matrix(2L, ncol = input_data$n_indices, nrow = n_years)
@@ -65,7 +65,7 @@ input_data$waa_pointer_totcatch = 2
 input_data$waa_pointer_ssb = 1
 input_data$waa_pointer_jan1 = 1
 # More information:
-input_data$maturity = as.matrix(sheet6[,2:11]) # madurez sexual
+input_data$maturity = as.matrix(sheet6[,2:11]) # maturity
 input_data$fracyr_SSB = matrix(0, ncol = 1, nrow = n_years) # fraction of year SSB
 input_data$Fbar_ages = 1:10 # edades para calcular Fbar
 input_data$bias_correct_process = 1 # do process bias correction, 0 = no, 1 = yes
@@ -81,8 +81,7 @@ input3 = wham::prepare_wham_input(model_name = "Case_3",
                                    selectivity = list(model = c('len-double-normal', 'len-logistic'),
                                                       initial_pars = list(c(50,-1,4,4,-5,-2), c(15, 3)),
                                                       n_selblocks = 2), # Selectivity parameter
-                                  # Fijar algunos parameters selex como ejemplo
-                                   catchability = list(initial_q = 1), # Catchability parameter
+                                  catchability = list(initial_q = 1), # Catchability parameter
                                   growth = list(model = 'vB_classic', 
                                                 init_vals = c(0.2, 90, 10), est_pars = 1:3, 
                                                 SD_vals = c(1, 9)),

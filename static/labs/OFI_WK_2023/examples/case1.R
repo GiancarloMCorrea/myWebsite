@@ -74,7 +74,7 @@ my_input1a = prepare_wham_input(model_name = 'Case_1a',
 my_input1a$map$logit_q = factor(NA)
 my_input1a$map$log_N1_pars = factor(c(1,NA))
 
-# Run models:
+# Run model:
 my_model1a = fit_wham(input = my_input1a, do.retro = FALSE, do.osa = FALSE)
 
 # Explore outputs:
