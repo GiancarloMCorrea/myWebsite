@@ -35,15 +35,15 @@ links:
   icon_pack: fas
   name: Case 3
   url: /labs/OFI_WK_2023/examples/case3.xlsx
-- icon: r-project
+- icon: code
   icon_pack: fas
   name: Code 1
   url: /labs/OFI_WK_2023/examples/case1.R
-- icon: r-project
+- icon: code
   icon_pack: fas
   name: Code 2
   url: /labs/OFI_WK_2023/examples/case2.R
-- icon: r-project
+- icon: code
   icon_pack: fas
   name: Code 3
   url: /labs/OFI_WK_2023/examples/case3.R
