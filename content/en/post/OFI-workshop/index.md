@@ -23,6 +23,18 @@ links:
   icon_pack: fas
   name: Presentation 2
   url: /labs/OFI_WK_2023/presentation-2.html
+- icon: file-excel
+  icon_pack: fas
+  name: Case 1
+  url: /labs/OFI_WK_2023/case1.xlsx
+- icon: file-excel
+  icon_pack: fas
+  name: Case 2
+  url: /labs/OFI_WK_2023/case2.xlsx
+- icon: file-excel
+  icon_pack: fas
+  name: Case 3
+  url: /labs/OFI_WK_2023/case3.xlsx
 ---
 
 Here you can find the slides and examples that my colleague (Jane Sullivan, NOAA) and I made for the workshop 
@@ -30,3 +42,6 @@ Here you can find the slides and examples that my colleague (Jane Sullivan, NOAA
 
 In our presentations, we provide a quick overview of the modeling of length information in the WHAM model, how to implement a model from
 scratch, and several examples. All required files for the examples can be downloaded on this site.
+
+## Examples
+
