@@ -1,5 +1,5 @@
 ---
-title: "Using length information in WHAM"
+title: "Modeling time-varying growth in WHAM"
 subtitle: "Equations"
 author: Giancarlo M. Correa and Jane Sullivan
 embed-resources: false
@@ -136,6 +136,8 @@ Where $P$ represents the growth parameter, and $t$ represents years or cohorts.
 The structure of these deviations $\delta_{P,t}$ could be independent or correlated over time.
 
 ## 2. Nonparametric LAA
+
+<br>
 
 Input population mean size-at-age $\tilde{L}_{a}$ are treated as fixed effects. We do not need any kind of parametric equation. If time-invariant growth, so $\tilde{L}_{a,y}=\tilde{L}_{a}$ for all $y$.
 
@@ -365,7 +367,7 @@ We calculate:
 
 $$\hat{C}_{y,f}=\sum_a W_{y,a}\hat{C}_{y,f,a}$$
 
-Where $W_{y,a}$ is the population mean weight-at-age that corresponds to the fishery $f$ (fraction of the year).
+Where $W_{y,a}$ is the population mean weight-at-age that corresponds to the fishery $f$ (year fraction).
 
 ## Index of abundance
 

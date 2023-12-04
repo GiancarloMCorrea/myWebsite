@@ -13,7 +13,7 @@ projects: []
 subtitle: Workshop on assessment methods for stocks with little or no age data
 summary: Short tutorial about the use of length data in the Woods Hole Assessment model (WHAM)
 tags: []
-title: Using length information in WHAM
+title: Modeling time-varying growth WHAM
 links:
 - icon: file-powerpoint
   icon_pack: fas
@@ -52,7 +52,7 @@ links:
 Here you can find the slides and examples that my colleague (Jane Sullivan, NOAA) and I made for the workshop 
 **Assessment methods for stocks with little or no age data** organized by the *Ocean Frontier Institute* (Dalhousie University).
 
-In our presentations, we provide a quick overview of the modeling of length information in the WHAM model, how to implement a model from
+In our presentations, we provide a quick overview of the modeling of length information and time-varying growth in the WHAM model, how to implement a model from
 scratch, and several examples. All required files for the examples can be downloaded on this site.
 
 ## Examples
@@ -63,4 +63,4 @@ We prepared three simple examples to show how to implement your model in WHAM.
 - **Case 2**: Uses marginal length compositions. Growth modeled using parametric LAA.
 - **Case 3**: Uses marginal length compositions and conditional length-at-age data. Growth modeled using parametric LAA.
 
-You can also find more examples on [Github](https://github.com/GiancarloMCorrea/AKWHAM). 
+You can also find more examples at [this Github repository](https://github.com/GiancarloMCorrea/AKWHAM). 
