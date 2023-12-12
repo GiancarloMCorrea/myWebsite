@@ -47,6 +47,10 @@ links:
   icon_pack: fas
   name: Code 3
   url: /labs/OFI_WK_2023/examples/case3.R
+- icon: code
+  icon_pack: fas
+  name: helper
+  url: /labs/OFI_WK_2023/examples/helper.R
 ---
 
 Here you can find the slides and examples that my colleague (Jane Sullivan, NOAA) and I made for the workshop 
@@ -63,4 +67,4 @@ We prepared three simple examples to show how to implement your model in WHAM.
 - **Case 2**: Uses marginal length compositions. Growth modeled using parametric LAA.
 - **Case 3**: Uses marginal length compositions and conditional length-at-age data. Growth modeled using parametric LAA.
 
-You can also find more examples at [this Github repository](https://github.com/GiancarloMCorrea/AKWHAM). 
+You can also find these cases [here](https://github.com/JaneSullivan-NOAA/ofi2023_growth) and more examples applied to fish stocks in Alaska [here](https://github.com/GiancarloMCorrea/AKWHAM). 
