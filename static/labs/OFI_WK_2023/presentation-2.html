@@ -735,6 +735,7 @@
 </section>
 <section id="nonparametric-laa" class="slide level2">
 <h2>Nonparametric LAA</h2>
+<p><br></p>
 <p>Corresponds to the <code>LAA</code> argument.</p>
 <ul>
 <li><code>re</code>: (character) random effects’ structure.
@@ -742,21 +743,21 @@
 <li><code>none</code>: no deviations</li>
 <li><code>iid</code>: independent over years and ages</li>
 <li><code>2dar1</code>: correlated by years and ages.</li>
-<li><code>3dgmrf</code>: correlated by cohorts, years and ages.</li>
+<li><code>3dgmrf</code>: correlated by cohorts, years and ages <span class="citation" data-cites="Cheng_2023">(<a href="#/references" role="doc-biblioref" onclick="">Cheng et al. 2023</a>)</span>.</li>
 </ul></li>
 </ul>
-<div class="fragment">
-<ul>
-<li><code>LAA_vals</code>: (vector numeric) initial values of population mean size-at-age.</li>
-</ul>
-</div>
 </section>
 <section id="nonparametric-laa-1" class="slide level2">
 <h2>Nonparametric LAA</h2>
 <p><br></p>
 <ul>
+<li><code>LAA_vals</code>: (vector numeric) initial values of population mean size-at-age.</li>
+</ul>
+<div class="fragment">
+<ul>
 <li><code>est_pars</code>: (vector integer) indicates the index of the parameter of estimate.</li>
 </ul>
+</div>
 <div class="fragment">
 <ul>
 <li><p><code>SD_vals</code>: (vector numeric) initial values of the <span class="math inline">\(\sigma_{\tilde{a}}\)</span> and <span class="math inline">\(\sigma_{A}\)</span> parameters.</p></li>
@@ -849,6 +850,9 @@
 <p>© AZTI 2023. Todos los derechos reservados.</p>
 </div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Cheng_2023" class="csl-entry" role="listitem">
+Cheng, Matthew LH., James T. Thorson, James N. Ianelli, and Curry J. Cunningham. 2023. <span>“Unlocking the Triad of Age, Year, and Cohort Effects for Stock Assessment: Demonstration of a Computationally Efficient and Reproducible Framework Using Weight-at-Age.”</span> <em>Fisheries Research</em> 266 (October): 106755. <a href="https://doi.org/10.1016/j.fishres.2023.106755">https://doi.org/10.1016/j.fishres.2023.106755</a>.
+</div>
 <div id="ref-Correa_2023" class="csl-entry" role="listitem">
 Correa, Giancarlo M, Cole C Monnahan, Jane Y Sullivan, James T Thorson, and André E Punt. 2023. <span>“Modelling Time-Varying Growth in State-Space Stock Assessments.”</span> <em>ICES Journal of Marine Science</em> 80 (7): 2036–49. <a href="https://doi.org/10.1093/icesjms/fsad133">https://doi.org/10.1093/icesjms/fsad133</a>.
 </div>

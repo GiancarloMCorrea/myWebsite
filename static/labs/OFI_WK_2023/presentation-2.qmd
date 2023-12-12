@@ -371,23 +371,25 @@ Corresponds to the `growth` argument.
 
 ## Nonparametric LAA
 
+<br>
+
 Corresponds to the `LAA` argument.
 
 -   `re`: (character) random effects' structure.
     -   `none`: no deviations
     -   `iid`: independent over years and ages
     -   `2dar1`: correlated by years and ages.
-    -   `3dgmrf`: correlated by cohorts, years and ages.
-
-::: fragment
--   `LAA_vals`: (vector numeric) initial values of population mean size-at-age.
-:::
+    -   `3dgmrf`: correlated by cohorts, years and ages [@Cheng_2023].
 
 ## Nonparametric LAA
 
 <br>
 
+-   `LAA_vals`: (vector numeric) initial values of population mean size-at-age.
+
+::: fragment
 -   `est_pars`: (vector integer) indicates the index of the parameter of estimate.
+:::
 
 ::: fragment
 -   `SD_vals`: (vector numeric) initial values of the $\sigma_{\tilde{a}}$ and $\sigma_{A}$ parameters.
