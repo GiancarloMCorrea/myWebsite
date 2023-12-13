@@ -406,6 +406,10 @@
       margin-right: 0; 
     }
   </style>
+  <script src="presentation-2_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <script src="presentation-2_files/libs/viz-1.8.2/viz.js"></script>
+  <link href="presentation-2_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+  <script src="presentation-2_files/libs/grViz-binding-1.0.10/grViz.js"></script>
   <link rel="shortcut icon" href="azti.svg">
 </head>
 <body class="quarto-light">
@@ -699,25 +703,17 @@
 <li><code>vB_classic</code>: von Bertalanffy (assumes <span class="math inline">\(\gamma = 1\)</span>).</li>
 <li><code>Richards</code>: Richards (includes <span class="math inline">\(\gamma\)</span>).</li>
 </ul></li>
-</ul>
-<div class="fragment">
-<ul>
 <li><code>init_vals</code>: (vector numeric) initial values for parameters <span class="math inline">\(k\)</span>, <span class="math inline">\(L_\infty\)</span>, <span class="math inline">\(L_{\tilde{a}}\)</span>, and <span class="math inline">\(\gamma\)</span> (only if using Richards).</li>
 </ul>
-</div>
 </section>
 <section id="parametric-laa-1" class="slide level2">
 <h2>Parametric LAA</h2>
 <p><br></p>
 <ul>
-<li><code>est_pars</code>: (vector integer) index of parameter to be estimated (e.g., <code>c(1,3)</code> indicates that <span class="math inline">\(k\)</span> and <span class="math inline">\(L_{\tilde{a}}\)</span> will be estimated).</li>
-</ul>
-<div class="fragment">
-<ul>
+<li><p><code>est_pars</code>: (vector integer) index of parameter to be estimated (e.g., <code>c(1,3)</code> indicates that <span class="math inline">\(k\)</span> and <span class="math inline">\(L_{\tilde{a}}\)</span> will be estimated).</p></li>
 <li><p><code>SD_vals</code>: (vector numeric) initial values for parameters <span class="math inline">\(\sigma_{\tilde{a}}\)</span> and <span class="math inline">\(\sigma_{A}\)</span>.</p></li>
 <li><p><code>SD_est</code>: (vector integer) index of SD parameter to estimate.</p></li>
 </ul>
-</div>
 </section>
 <section id="parametric-laa-2" class="slide level2">
 <h2>Parametric LAA</h2>
@@ -743,7 +739,7 @@
 <li><code>none</code>: no deviations</li>
 <li><code>iid</code>: independent over years and ages</li>
 <li><code>2dar1</code>: correlated by years and ages.</li>
-<li><code>3dgmrf</code>: correlated by cohorts, years and ages <span class="citation" data-cites="Cheng_2023">(<a href="#/references" role="doc-biblioref" onclick="">Cheng et al. 2023</a>)</span>.</li>
+<li><code>3dgmrf</code>: correlated by cohorts, years and ages.</li>
 </ul></li>
 </ul>
 </section>
@@ -751,37 +747,25 @@
 <h2>Nonparametric LAA</h2>
 <p><br></p>
 <ul>
-<li><code>LAA_vals</code>: (vector numeric) initial values of population mean size-at-age.</li>
-</ul>
-<div class="fragment">
-<ul>
-<li><code>est_pars</code>: (vector integer) indicates the index of the parameter of estimate.</li>
-</ul>
-</div>
-<div class="fragment">
-<ul>
+<li><p><code>LAA_vals</code>: (vector numeric) initial values of population mean size-at-age.</p></li>
+<li><p><code>est_pars</code>: (vector integer) indicates the index of the parameter of estimate.</p></li>
 <li><p><code>SD_vals</code>: (vector numeric) initial values of the <span class="math inline">\(\sigma_{\tilde{a}}\)</span> and <span class="math inline">\(\sigma_{A}\)</span> parameters.</p></li>
 <li><p><code>SD_est</code>: (vector integer) indicates the index of the SD parameter to estimate.</p></li>
 </ul>
-</div>
 </section>
 <section id="semiparametric-laa" class="slide level2">
 <h2>Semiparametric LAA</h2>
 <p><br></p>
-<p>We have to specify both <code>growth</code> and <code>LAA</code>. From the <code>LAA</code> argument, we will only use the <code>re</code> information.</p>
+<p>We have to specify both <code>growth</code> and <code>LAA</code>. From the <code>LAA</code> argument, we only need the <code>re</code> information.</p>
 </section>
 <section id="parametric-waa" class="slide level2">
 <h2>Parametric WAA</h2>
 <p><br></p>
 <p>Corresponds to the <code>LW</code> argument.</p>
 <ul>
-<li><code>init_vals</code>: (vector numeric) initial values for the <span class="math inline">\(\Omega_1\)</span> and <span class="math inline">\(\Omega_2\)</span> parameters.</li>
+<li><p><code>init_vals</code>: (vector numeric) initial values for the <span class="math inline">\(\Omega_1\)</span> and <span class="math inline">\(\Omega_2\)</span> parameters.</p></li>
+<li><p><code>est_pars</code>: (vector integer) indicates the index of the parameter to estimate.</p></li>
 </ul>
-<div class="fragment">
-<ul>
-<li><code>est_pars</code>: (vector integer) indicates the index of the parameter to estimate.</li>
-</ul>
-</div>
 </section>
 <section id="parametric-waa-1" class="slide level2">
 <h2>Parametric WAA</h2>
@@ -818,10 +802,35 @@
 <li><code>WAA_vals</code>: (vector numeric) initial values of population mean weight-at-age.</li>
 </ul>
 <p><br></p>
-<div class="fragment">
 <ul>
 <li><code>est_pars</code>: (vector integer) indicates the index of parameters to estimate.</li>
 </ul>
+</section></section>
+<section>
+<section id="simulation-experiment" class="title-slide slide level1 center">
+<h1>Simulation experiment</h1>
+
+</section>
+<section id="simulation-experiment-1" class="slide level2">
+<h2>Simulation experiment</h2>
+<p>Goal: provide guidelines for growth modeling in state-space assessment models under diverse scenarios.</p>
+<div class="fragment">
+<ul>
+<li><strong><em>Data type</em></strong>: age compositions vs length compositions vs CAAL (<em>random vs length-stratified sampling</em>).</li>
+<li><strong><em>Informative data source</em></strong>: fishery vs survey.</li>
+<li><strong><em>Data quality</em></strong>: data rich vs data poor.</li>
+<li><strong><em>Modeling approach</em></strong>: parametric vs nonparametric vs semiparametric vs Ecov.</li>
+<li><strong><em>Time-varying parameter</em></strong>: changes in <span class="math inline">\(k\)</span>, <span class="math inline">\(L_{\infty}\)</span> or <span class="math inline">\(L_{\tilde{a}}\)</span>.</li>
+</ul>
+</div>
+</section>
+<section id="preliminary-results" class="slide level2">
+<h2>Preliminary results</h2>
+<div class="cell">
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item" id="htmlwidget-d12113fd6858216f0a6f" style="width:960px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-d12113fd6858216f0a6f">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LB]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen, fontsize=35]\n\nQ1 [label = \"What data type do you have or intend to use?\", fillcolor = Pink]\nR1 [label = \"Age compositions\", fillcolor = lightskyblue2]\nR2 [label = \"Length compositions\", fillcolor = lightskyblue2]\nR3 [label = \"Age and length information\", fillcolor = lightskyblue2]\nA1 [label =  \"Use WAA nonparametric \n - Better quantification \n of uncertainty \n - Projections \n - No imputation methods \n required\", fillcolor = Beige]\nQ2 [label =  \"What is the data quality?\", fillcolor = Pink]\nR4 [label = \"Poor\", fillcolor = lightskyblue2]\nR5 [label = \"Rich\", fillcolor = lightskyblue2]\nA2 [label =  \"Use Ecov LAA parametric \n - Projections \n - Need of previous \n research\", fillcolor = Beige]\nA3 [label =  \"Use LAA parametric \n - Projections \n - No need of previous \n research\", fillcolor = Beige]\nA4 [label =  \"Use CAAL \n - More informative \n - Prioritize survey data \n - Length-stratified sampling\", fillcolor = Beige]\n\n{rank = min; Q1}\n{rank = same; R1 R2 R3}\n{rank = same; A4}\n{rank = max; A1 A2 A3}\n\n# edge definitions with the node IDs\nQ1 -> {R1 R2 R3}\nR1 -> {A1}\nR2 -> {Q2}\nQ2 -> {R4 R5}\nR4 -> {A2}\nR5 -> {A3}\nR3 -> {A4}\nA4 -> {Q2}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</div>
 </div>
 </section>
 <section id="thanks" class="slide level2" data-background-color="white">
@@ -850,9 +859,6 @@
 <p>© AZTI 2023. Todos los derechos reservados.</p>
 </div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-Cheng_2023" class="csl-entry" role="listitem">
-Cheng, Matthew LH., James T. Thorson, James N. Ianelli, and Curry J. Cunningham. 2023. <span>“Unlocking the Triad of Age, Year, and Cohort Effects for Stock Assessment: Demonstration of a Computationally Efficient and Reproducible Framework Using Weight-at-Age.”</span> <em>Fisheries Research</em> 266 (October): 106755. <a href="https://doi.org/10.1016/j.fishres.2023.106755">https://doi.org/10.1016/j.fishres.2023.106755</a>.
-</div>
 <div id="ref-Correa_2023" class="csl-entry" role="listitem">
 Correa, Giancarlo M, Cole C Monnahan, Jane Y Sullivan, James T Thorson, and André E Punt. 2023. <span>“Modelling Time-Varying Growth in State-Space Stock Assessments.”</span> <em>ICES Journal of Marine Science</em> 80 (7): 2036–49. <a href="https://doi.org/10.1093/icesjms/fsad133">https://doi.org/10.1093/icesjms/fsad133</a>.
 </div>

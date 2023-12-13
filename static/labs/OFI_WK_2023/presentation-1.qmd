@@ -169,6 +169,11 @@ $$Cov(\varepsilon_{a,y},\tilde{\varepsilon}_{a,y}) = \frac{\sigma_G\rho_{a}^{\ve
 
 where $-1<\rho_a <1$ and $-1<\rho_y <1$ are the autocorrelation coefficients (fixed effects).
 
+## 2. Nonparametric LAA
+
+We could also estimate partial autocorrelation coefficients by year, age and cohorts [@Cheng_2023].
+
+![](images/cheng_etal.png){fig-align="center" width="100%"}
 
 ## 3. Semiparametric LAA
 
@@ -299,7 +304,7 @@ To model temporal variability, we can predict deviations:
 
 $$\tilde{W}_{a,y} = \mu_{\tilde{W}_{a}} + \delta_{a,y}$$
 
-Where these deviations $\delta_{a,y}$ can be independent or correlated over time and ages.
+Where these deviations $\delta_{a,y}$ can be independent or correlated over time and ages, or correlated over time, ages, and cohorts.
 
 # Selectivity
 
