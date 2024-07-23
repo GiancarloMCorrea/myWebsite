@@ -20,7 +20,7 @@ This is a short tutorial to work with Zotero from RStudio to manage your citatio
 
 ## Create citation keys in Zotero
 
-These keys are used as an identifier, so RStudio can find all the information of your bibliography item (e.g., article, book). To create automatically citations keys for all your items in your Zotero, you can use [Better Bibtex for Zotero](https://retorque.re/zotero-better-bibtex/). You can install it following [these instructions](https://retorque.re/zotero-better-bibtex/installation/index.html). Once installed, you could see that every item in your Zotero library will have a *Citation key*, which should look something like `@kearneyCoupledPelagicBenthic2020`.
+These keys are used as an identifier, so RStudio can find all the information of your bibliography item (e.g., article, book). To create automatically citations keys for all your items in your Zotero, you can use [Better Bibtex for Zotero](https://retorque.re/zotero-better-bibtex/). You can install it following [these instructions](https://retorque.re/zotero-better-bibtex/installation/index.html). Once installed, you could see that every item in your Zotero library will have a *Citation key*, which should look something like `kearneyCoupledPelagicBenthic2020`.
 
 ## Install the `rbbt` R package
 
