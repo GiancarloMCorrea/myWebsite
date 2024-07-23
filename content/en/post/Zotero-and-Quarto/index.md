@@ -20,11 +20,11 @@ This is a short tutorial to work with Zotero from RStudio to manage your citatio
 
 ## Create citation keys in Zotero
 
-These keys are used as an identifier, so RStudio can find all the information of your bibliography item (e.g., article, book). To create automatically citations keys for all your items in your Zotero, you can use [Better Bibtex for Zotero](https://retorque.re/zotero-better-bibtex/). You can install it following [these instructions](https://retorque.re/zotero-better-bibtex/installation/index.html). Once installed, you could see that every item in your Zotero will have a *Citation key*, which should look like `@kearneyCoupledPelagicBenthic2020`.
+These keys are used as an identifier, so RStudio can find all the information of your bibliography item (e.g., article, book). To create automatically citations keys for all your items in your Zotero, you can use [Better Bibtex for Zotero](https://retorque.re/zotero-better-bibtex/). You can install it following [these instructions](https://retorque.re/zotero-better-bibtex/installation/index.html). Once installed, you could see that every item in your Zotero library will have a *Citation key*, which should look something like `@kearneyCoupledPelagicBenthic2020`.
 
 ## Install the `rbbt` R package
 
-This package is quite useful to efficiently insert citations in your Quarto document (i.e., RStudio) from Zotero. The original `rbbt` package can be found [here](https://github.com/paleolimbot/rbbt), but it has a bug. So I recommend to install that package from this [Github repository](https://github.com/wmoldham/rbbt). Restart RStudio just in case. 
+This package is quite useful to efficiently insert citations in your Quarto document (i.e., RStudio) from Zotero. The original `rbbt` package can be found [here](https://github.com/paleolimbot/rbbt), but it has a bug. So I recommend installing it from this [Github repository](https://github.com/wmoldham/rbbt). Restart RStudio just in case. 
 
 ## Create a BIB file
 
@@ -44,7 +44,7 @@ However, the `rbbt` package allows us to use the Zotero popup window to look for
 
 ## Update the Bibtex file
 
-This is done automatically by inserting this code chunk at the beginning of your Quarto file (`.qmd`):
+This is done automatically by inserting this R code chunk at the beginning of your Quarto file (`.qmd`):
 
 ```{r, eval=FALSE}
 require(rbbt)
