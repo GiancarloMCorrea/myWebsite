@@ -59,6 +59,6 @@ This chunk automatically detects all the citation keys (e.g., `@kearneyCoupledPe
 
 > :warning: **Important**
 >
-> When specifying labels for figures, tables, equations, and sections, you should always start with `fig-`, `tbl-`, `eq-`, and `sec-`, respectively. So the `bbt_update_bib` function will not interpret these labels as citation keys (see last step above).
+> When specifying labels for figures, tables, equations, sections, and supplementary figures, you should always start with the `fig-`, `tbl-`, `eq-`, `sec-`, and `suppfig-` prefixes, respectively. So the `bbt_update_bib` function will not interpret these labels as citation keys (see last step above).
 
 Let me know if you have any questions or suggestions. Happy coding!
