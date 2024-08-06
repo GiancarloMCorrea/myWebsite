@@ -51,7 +51,7 @@ require(rbbt)
 require(this.path)
 qmd_file = this.path() # this identifies the qmd file name
 keys = rbbt::bbt_detect_citations(qmd_file)
-bbt_ignore = keys[grepl("fig-|tbl-|eq-|sec-", keys)] # ignore these patterns as citations
+bbt_ignore = keys[grepl("fig-|tbl-|eq-|sec-|suppfig-", keys)] # ignore these patterns as citations
 rbbt::bbt_update_bib(path_rmd = qmd_file, ignore = bbt_ignore, overwrite = T, translator = "bibtex")
 ```
 
