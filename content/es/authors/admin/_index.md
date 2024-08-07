@@ -27,7 +27,7 @@ social:
 - icon: envelope
   icon_pack: fas
   link: /#contact
-- icon: fa-x-twitter
+- icon: twitter
   icon_pack: fab
   link: https://x.com/mc_giancarlo
 - icon: researchgate
