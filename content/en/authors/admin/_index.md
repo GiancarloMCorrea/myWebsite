@@ -27,9 +27,9 @@ social:
 - icon: envelope
   icon_pack: fas
   link: /#contact
-- icon: twitter
+- icon: x-twitter
   icon_pack: fab
-  link: https://twitter.com/mc_giancarlo
+  link: https://x.com/mc_giancarlo
 - icon: researchgate
   icon_pack: fab
   link: https://researchgate.net/profile/Giancarlo_Moron_Correa
