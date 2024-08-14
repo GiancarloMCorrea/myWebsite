@@ -1,5 +1,5 @@
 ---
-date: "2024-08-15T00:00:00Z"
+date: "2024-08-14T00:00:00Z"
 draft: false
 featured: false
 image:
