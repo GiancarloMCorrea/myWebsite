@@ -115,7 +115,7 @@ Forma solo un componente de todo el proceso de manejo pesquero, y tiene la final
 :::
 
 ::: {.column width="40%"}
-Uso de métodos de observación directa, como campañas acústivas, de arrastre, ictioplancton, entre otros.
+Uso de métodos de observación directa, como campañas acústicas, de arrastre, ictioplancton, entre otros.
 :::
 
 ::::
@@ -190,7 +190,7 @@ Ejemplos:
 
 -   **Stock Synthesis** [@Methot_2013]
 -   MULTIFAN-CL [@fournier1998multifan]
--   SPiCT [[@Pedersen_2016]]
+-   SPiCT [@Pedersen_2016]
 -   SAM [@Nielsen_2014]
 -   WHAM [@Stock_2021]
 

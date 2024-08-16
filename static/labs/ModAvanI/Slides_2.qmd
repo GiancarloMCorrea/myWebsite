@@ -292,8 +292,6 @@ Los índices de abundancia y su error de observación son reportados para cada:
 
 No es necesario introducir observaciones para todos los años.
 
-- Normalmente usamos surveys o CPUE, pero también podemos introducir índices especiales (e.g., índices de reclutamiento, spawning biomass). Ver SS Manual.
-
 ## Composición por tallas
 
 Proporción en número para cada marca de clase. Para cada observación necesitamos la siguiente información:
