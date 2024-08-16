@@ -50,3 +50,10 @@ Los siguientes spreadsheets serán usados durante el curso:
 
 * [Cod](/labs/ModAvanI/data/cod.xlsx)
 * [Sardine](/labs/ModAvanI/data/sardine.xlsx)
+
+## Hojas de cálculo para SS
+
+Obtenidos de SS Virtual Lab:
+
+* [Starter and forecast](/labs/ModAvanI/spreadsheets/starter-forecast-helper.xlsx)
+* [Data](/labs/ModAvanI/spreadsheets/data-helper.xlsx)

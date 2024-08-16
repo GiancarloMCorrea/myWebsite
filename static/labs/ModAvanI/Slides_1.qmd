@@ -304,8 +304,8 @@ remotes::install_github("r4ss/r4ss")
 ```
 
 - Explorar [SS Virtual Lab](https://vlab.noaa.gov/web/stock-synthesis)
-  * Descargar ejecutable (item 2, `ss3_win.exe`)
-  * Descargar manual (item 5, `SS330_User_Manual.pdf`)
+  * Descargar ejecutable (`ss3_win.exe`)
+  * Descargar manual (`SS330_User_Manual.pdf`)
 - Explorar [ss3sim package](https://ss3sim.github.io/ss3sim/)
 
 

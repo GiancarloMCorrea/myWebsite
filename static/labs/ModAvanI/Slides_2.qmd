@@ -28,19 +28,17 @@ bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b
 
 Son cuatro principales:
 
--   *starter.ss*: contiene los nombres de los archivos de datos y parámetros, y parámetros relacionados a cómo ejecutar el modelo.
--   *forecast.ss*: contiene información sobre proyecciones y puntos de referencias.
--   *data.ss* (ó *data.dat*): contiene los datos de entrada e información del stock y pesquerías.
--   *control.ss* (ó *control.ctl*): contiene los valores iniciales de los parámetros del modelo.
+-   *starter.ss*: nombres de archivos de datos y parámetros, y parámetros relacionados a la ejecución del modelo.
+-   *forecast.ss*: proyecciones y puntos de referencias.
+-   *data.ss* (ó *data.dat*): datos de entrada e información del stock y pesquerías.
+-   *control.ss* (ó *control.ctl*): valores iniciales de los parámetros del modelo.
 
 ## Archivos de entrada
 
-<br>
-
-::: callout-important
+::: {.callout-note icon=false}
 ## Importante
 
-Los archivos de datos y control son los **únicos** que pueden cambiar de nombre (e.g., *misdatos.ss*, *misparametros.ss*), los cuales se deben especificar en *starter.ss*.
+Los archivos de datos y control son los **únicos** que pueden cambiar de nombre (e.g., *my_data.ss*, *my_control.ss*). Si se cambian estos nombres, se debe especificar en *starter.ss*.
 :::
 
 ::: fragment
@@ -55,64 +53,49 @@ Archivos opcionales:
 Se crean muchos archivos de salida después de ejecutar SS, pero lo más imporantes son:
 
 -   *echoinput.sso*: importante para hacer debugging. Nos muestra cómo SS va leyendo los archivos de entrada paso a paso.
--   *warning.sso*: muestra adventencias luego que el modelo ha terminado de correr.
+-   *warning.sso*: muestra adventencias
 -   *Report.sso*: guarda todos los parámetros estimados y cantidades calculadas (e.g. estimados de biomasa, F, SSB, etc).
 
 ## Estructura de carpeta de trabajo
 
 ``` bash
 └───Mod_Avanzados_Evaluacion
-    ├───sardine
-    │   ├───mod0
+    ├───ss_models
+    │   ├───sardine
     │   │   ├───starter.ss
     │   │   ├───forecast.ss
     │   │   ├───data.ss
     │   │   └───control.ss
-    │   ├───mod1
+    │   ├───cod
     │   │   ├───starter.ss
     │   │   ├───forecast.ss
     │   │   ├───data.ss
     │   │   └───control.ss
-    │   └───mod2
+    │   └───simple
     │       ├───starter.ss
     │       ├───forecast.ss
     │       ├───data.ss
     │       └───control.ss
-    └───cod
-        ├───mod0
-        │   ├───starter.ss
-        │   ├───forecast.ss
-        │   ├───data.ss
-        │   └───control.ss
-        ├───mod1
-        │   ├───starter.ss
-        │   ├───forecast.ss
-        │   ├───data.ss
-        │   └───control.ss
-        └───mod2
-            ├───starter.ss
-            ├───forecast.ss
-            ├───data.ss
-            └───control.ss
+    └───...
 ```
 
 ## Ejecutar un modelo en SS
 
-Existen diferentes formas de hacerlo. Para este curso, usaremos la libería *r4ss*.
+Existen diferentes formas de hacerlo. Para este curso, usaremos la libería *r4ss* y el modelo de ejemplo que pueden encontrar en [SS Virtual Lab](https://github.com/nmfs-ost/ss3-user-examples/tree/main).
 
-Vamos a asumir que mi directorio de trabajo es `Mod_Avanzados_Evaluacion`, entonces para correr un modelo:
+Vamos a asumir que mi directorio de trabajo es `Mod_Avanzados_Evaluacion`, luego ejecutamos:
 
 ```{r eval=FALSE}
+# Definir path donde SS exe esta ubicado:
 path_to_exe = "C:/Users/moroncog/Documents/Mod_Avanzados_Evaluacion"
-r4ss::run(dir = 'sardine/mod0', # ruta a la carpeta del modelo
+# Correr el modelo:
+r4ss::run(dir = 'ss_models/simple', # ruta a la carpeta del modelo
           exe = file.path(path_to_exe, 'ss3_win.exe'), # path and exe name
           extras = '-nohess') # ADMB commands, ver SS manual
 ```
 
-<br>
-
 ::: fragment
-Cuando el modelo termine de ejecutarse, veremos que varios archivos de salida serán creados en `sardine/mod0`.
+Cuando el modelo termine de ejecutarse, veremos que varios archivos de salida serán creados en `ss_models/simple`.
 :::
 
 ## Obtener ayuda sobre SS
@@ -123,7 +106,7 @@ Cuando el modelo termine de ejecutarse, veremos que varios archivos de salida se
 -   Preguntarle a Giancarlo
 -   Otros modelos implementados encontrados en reportes de evaluación (e.g., NOAA)
 -   Preguntar a otros usuarios
--   Abrir un issue en el [Github repository](https://github.com/nmfs-ost/ss3-source-code) de SS
+-   Abrir un *issue* en el [Github repository](https://github.com/nmfs-ost/ss3-source-code) de SS
 
 # Archivo de entrada: starter.ss
 
@@ -155,12 +138,16 @@ Antes de preparar los datos para SS, debemos tener en claro algunas preguntas cl
 -   Mínima y máxima talla
 -   Mes de desove
 -   ¿Cuántas *seasons* quiero modelar?
--   ¿Cuántas flotas (pesquerías + indices de abundancia) quiero modelar?
+-   ¿Cuántas flotas quiero modelar?
 :::
 
 ## Preparación del modelo
 
-<br>
+::: callout-tip
+## Recuerda
+
+En SS, le decimos flotas a las pesquerías y a los índices de abundancia (e.g., surveys, CPUE, etc.).
+:::
 
 ::: incremental
 -   Unidades de captura e índices de abundancia (e.g., kg o número)
@@ -169,19 +156,12 @@ Antes de preparar los datos para SS, debemos tener en claro algunas preguntas cl
 -   ¿Una ó múltiple áreas?
 :::
 
-::: fragment
-
-::: callout-tip
-## Recuerda
-
-En SS, le decimos flotas a las pesquerías y a los índices de abundancia (e.g., surveys, CPUE, etc.).
-:::
-
-:::
 
 ## Preparación del modelo
 
 Una vez tengo en claro las preguntas anteriores, recomiendo realizar una tabla resumen sobre las flotas que quiero modelar.
+
+<br>
 
 Ejemplo 1:
 
@@ -191,6 +171,8 @@ Ejemplo 1:
 |   SurveyAcus   |   2       |   Survey         |   Biomasa       |   1       |
 
 ## Preparación del modelo
+
+<br>
 
 Ejemplo 2:
 
@@ -219,25 +201,13 @@ Por ejemplo:
 ::: callout-tip
 ## Importante
 
-La información de captura es especificada por cada *season* dentro de un año, por lo que modelar *seasons* es particularmente importante cuando la pesquería no opera homogeneamente a lo largo del año.
-:::
+- La información de captura es especificada por cada *season* dentro de un año, por lo que modelar *seasons* es particularmente importante cuando la pesquería no opera homogeneamente a lo largo del año.
 
-## Preparación del modelo
+- SS asume a la edad 0 como la primera edad. Individuos de edad 0 se les llama *reclutas*.
 
-::: callout-tip
-## Importante
+- Una cohorte siempre avanza a la siguiente edad el 1 de enero, independientemente del mes de desove.
 
-SS asume a la edad 0 como la primera edad. Individuos de edad 0 se les llama *reclutas*.
-:::
-
-:::fragment
-
-::: callout-tip
-## Importante
-
-Una cohorte siempre avanza a la siguiente edad el 1 de enero, independientemente del mes de desove.
-:::
-
+- Desove sucede una vez al año, pero se puede modelar varios reclutamientos por año.
 :::
 
 ## Captura
@@ -246,9 +216,20 @@ Se necesitan datos de captura y su error de observación (i.e., se asume que la 
 
 - Año
 - Season
-- Pesquería
+- Flota
 
 Solo valores positivos de captura son necesarios (i.e., para observaciones faltantes se asume captura cero).
+
+## Unidades
+
+<br>
+
+Los datos deben ser reportados en estas unidades:
+
+- Biomasa: toneladas métricas
+- Peso corporal: kilogramos
+- Talla: centímetros
+- Número: miles de peces
 
 ## Índices de abundancia
 
@@ -260,6 +241,18 @@ Los índices de abundancia y su error de observación son reportados para cada:
 
 No es necesario introducir observaciones para todos los años.
 
+## Índices de abundancia
+
+<br>
+
+Existen otros tipos de surveys que podemos incluir:
+
+- Spawning biomass 
+- Recruitment
+- Depletion
+- Survey deviation
+- Recruitment deviation
+
 ## Composición por tallas
 
 Proporción en número para cada marca de clase. Para cada observación necesitamos la siguiente información:
@@ -269,7 +262,7 @@ Proporción en número para cada marca de clase. Para cada observación necesita
 - Flota
 - Sexo
 - Partition: importante cuando modelamos descartes
-- Nsamp: esfuerzo de muestreo (e.g., número de embarcaciones muestreadas)
+- Nsamp: esfuerzo de muestreo (e.g., número de embarcaciones muestreadas). Ver @HulsonUnknownTitle2024.
 
 ## Composición por edad
 
@@ -277,6 +270,17 @@ Proporción en número para cada edad. Para cada observación necesitamos la mis
 
 - Age Err: Matriz de error a utilizar
 - Lbin lo y Lbin hi: Rango de tallas de donde esta observación ha sido tomada
+
+## Otros datos
+
+También podemos incluir:
+
+- Conditional age-at-length (CAAL)
+- Descartes
+- Peso o longitud media
+- Peso o longitud media a la edad
+- Datos ambientales
+- Datos marcado-recaptura
 
 
 ## data.ss
@@ -287,5 +291,12 @@ Proporción en número para cada edad. Para cada observación necesitamos la mis
 
 -   Explorar SS Manual (sección *Data File*).
 
+# Laboratorio
+
+## Preparación de datos
+
+<br>
+
+Preparar los datos en formato para SS.
 
 ## Referencias
