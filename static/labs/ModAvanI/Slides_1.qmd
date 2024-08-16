@@ -241,7 +241,7 @@ Se pueden listar algunas ventajas de estos modelos:
 - Inclusión de gran diversidad y cantidad de datos
 - Evita la necesidad de preprocesamiento (e.g., talla a edades)
 - Captura la incertidumbre de una mejor manera
-- Facilidad de investigar el impacto de diferentes fuentes de datos sobre resultados
+- Facilidad de investigar el impacto de diferentes fuentes de datos sobre resultados [@MagnussonUnknownTitle2007]. 
 
 ## Análisis integrado
 
@@ -255,6 +255,40 @@ Desarrollo a través de los años:
 - CASAL [@Bull2002]
 - Stock Synthesis 2 [@Methot2005]
 - Stock Synthesis 3 [@Methot_2013]
+
+# Stock Synthesis
+
+## Stock Synthesis
+
+::: incremental
+-   Plataforma de modelado estadístico de una población estructurado por edad [@Methot_2013].
+-   Puede ser utilizado con pocos y con gran cantidad y diversidad de datos.
+-   Utilidad en manejo pesquero.
+-   Programado en AD Model Builder. Ver código fuente [aquí](https://github.com/nmfs-ost/ss3-source-code).
+-   Procesamiento de resultados usando la librería en R *r4ss*.
+-   Ampliamente utilizado actualmente.
+:::
+
+## Stock Synthesis
+
+![Stock Synthesis Virtual Lab](images/ss_world.png){fig-align="center"}
+
+## Stock Synthesis
+
+![Stock Synthesis Virtual Lab](images/ss_world2.png){fig-align="center"}
+
+## Stock Synthesis
+
+Algunos beneficios de usar SS:
+
+-   Flexibilidad de modelar la dinámica del stock
+-   Integra muchas fuentes de datos
+-   Mejor cuantificación de la incertidumbre
+-   Puede incorporar modelos simples a complejos
+-   Comunidad de personas de soporte
+-   Menor probabilidad de tener *bugs*
+-   Librerías de soporte (e.g. r4ss, ss3sim)
+-   Facilidad de compartir y comunicar resultados
 
 # Laboratorio
 
@@ -270,9 +304,11 @@ remotes::install_github("r4ss/r4ss")
 ```
 
 - Explorar [SS Virtual Lab](https://vlab.noaa.gov/web/stock-synthesis)
-  * Descargar ejecutable
-  * Descargar manual
+  * Descargar ejecutable (item 2, `ss3_win.exe`)
+  * Descargar manual (item 5, `SS330_User_Manual.pdf`)
 - Explorar [ss3sim package](https://ss3sim.github.io/ss3sim/)
+
+
 
 ## Proyecto
 

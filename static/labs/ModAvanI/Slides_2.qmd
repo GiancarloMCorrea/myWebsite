@@ -22,38 +22,6 @@ bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b
 
 ## Stock Synthesis
 
-::: incremental
--   Plataforma de modelado estadístico de una población estructurado por edad [@Methot_2013].
--   Puede ser utilizado con pocos y con gran cantidad y diversidad de datos.
--   Utilidad en manejo pesquero.
--   Programado en AD Model Builder. Ver código fuente [aquí](https://github.com/nmfs-ost/ss3-source-code).
--   Procesamiento de resultados usando la librería en R *r4ss*.
--   Ampliamente utilizado actualmente.
-:::
-
-## Stock Synthesis
-
-![Stock Synthesis Virtual Lab](images/ss_world.png){fig-align="center"}
-
-## Stock Synthesis
-
-![Stock Synthesis Virtual Lab](images/ss_world2.png){fig-align="center"}
-
-## Stock Synthesis
-
-Algunos beneficios de usar SS:
-
--   Flexibilidad de modelar la dinámica del stock
--   Integra muchas fuentes de datos
--   Mejor cuantificación de la incertidumbre
--   Puede incorporar modelos simples a complejos
--   Comunidad de personas de soporte
--   Menor probabilidad de tener *bugs*
--   Librerías de soporte (e.g. r4ss, ss3sim)
--   Facilidad de compartir y comunicar resultados
-
-## Stock Synthesis
-
 ![Stock Synthesis Virtual Lab](images/ss_workflow.png){fig-align="center"}
 
 ## Archivos de entrada
