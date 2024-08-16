@@ -1,0 +1,325 @@
+---
+title: "Modelos avanzados en evaluación de recursos pesqueros"
+author: 
+   <br>Dr. Giancarlo M. Correa
+institute:
+   <br>Cousteau Consultant Group
+format:
+  revealjs:
+    theme: simple
+    logo: images/CGlogo1.png
+    slide-number: 'c/t'
+    css: myStyle.css
+from: markdown+emoji
+csl: canadian-journal-of-fisheries-and-aquatic-sciences.csl
+editor: source
+execute:
+  echo: true
+bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b0/references.bib?x=eyJpZCI6ICJiNjNhYzI0Mi1hNzdjLTQ4MTYtOWMyNy1mY2RmYjMxODc1YjAiLCAidXNlciI6ICI1NDQwIiwgInNpZ25hdHVyZSI6ICIyMTMxYjVhZDk1NGYxNDUzYjk3YjZiNjk3ZDIxZWEwODIwZjA4MTBiZTk3YWIxOTNiMGVkMzI1YzI0YTRjZWNkIn0="
+---
+
+# Stock Synthesis
+
+## Stock Synthesis
+
+::: incremental
+-   Plataforma de modelado estadístico de una población estructurado por edad [@Methot_2013].
+-   Puede ser utilizado con pocos y con gran cantidad y diversidad de datos.
+-   Utilidad en manejo pesquero.
+-   Programado en AD Model Builder. Ver código fuente [aquí](https://github.com/nmfs-ost/ss3-source-code).
+-   Procesamiento de resultados usando la librería en R *r4ss*.
+-   Ampliamente utilizado actualmente.
+:::
+
+## Stock Synthesis
+
+![Stock Synthesis Virtual Lab](images/ss_world.png){fig-align="center"}
+
+## Stock Synthesis
+
+![Stock Synthesis Virtual Lab](images/ss_world2.png){fig-align="center"}
+
+## Stock Synthesis
+
+Algunos beneficios de usar SS:
+
+-   Flexibilidad de modelar la dinámica del stock
+-   Integra muchas fuentes de datos
+-   Mejor cuantificación de la incertidumbre
+-   Puede incorporar modelos simples a complejos
+-   Comunidad de personas de soporte
+-   Menor probabilidad de tener *bugs*
+-   Librerías de soporte (e.g. r4ss, ss3sim)
+-   Facilidad de compartir y comunicar resultados
+
+## Stock Synthesis
+
+![Stock Synthesis Virtual Lab](images/ss_workflow.png){fig-align="center"}
+
+## Archivos de entrada
+
+Son cuatro principales:
+
+-   *starter.ss*: contiene los nombres de los archivos de datos y parámetros, y parámetros relacionados a cómo ejecutar el modelo.
+-   *forecast.ss*: contiene información sobre proyecciones y puntos de referencias.
+-   *data.ss* (ó *data.dat*): contiene los datos de entrada e información del stock y pesquerías.
+-   *control.ss* (ó *control.ctl*): contiene los valores iniciales de los parámetros del modelo.
+
+## Archivos de entrada
+
+<br>
+
+::: callout-important
+## Importante
+
+Los archivos de datos y control son los **únicos** que pueden cambiar de nombre (e.g., *misdatos.ss*, *misparametros.ss*), los cuales se deben especificar en *starter.ss*.
+:::
+
+::: fragment
+Archivos opcionales:
+
+-   *ss.par*: contiene parámetros estimados por SS. Por lo tanto, se crea después de ejecutar SS. Puede usarse como valores de parámetros iniciales y reemplazar a *control.ss*.
+-   *wtatage.ss*: contiene información de peso y/o fecundidad a la edad.
+:::
+
+## Archivos de salida
+
+Se crean muchos archivos de salida después de ejecutar SS, pero lo más imporantes son:
+
+-   *echoinput.sso*: importante para hacer debugging. Nos muestra cómo SS va leyendo los archivos de entrada paso a paso.
+-   *warning.sso*: muestra adventencias luego que el modelo ha terminado de correr.
+-   *Report.sso*: guarda todos los parámetros estimados y cantidades calculadas (e.g. estimados de biomasa, F, SSB, etc).
+
+## Estructura de carpeta de trabajo
+
+``` bash
+└───Mod_Avanzados_Evaluacion
+    ├───sardine
+    │   ├───mod0
+    │   │   ├───starter.ss
+    │   │   ├───forecast.ss
+    │   │   ├───data.ss
+    │   │   └───control.ss
+    │   ├───mod1
+    │   │   ├───starter.ss
+    │   │   ├───forecast.ss
+    │   │   ├───data.ss
+    │   │   └───control.ss
+    │   └───mod2
+    │       ├───starter.ss
+    │       ├───forecast.ss
+    │       ├───data.ss
+    │       └───control.ss
+    └───cod
+        ├───mod0
+        │   ├───starter.ss
+        │   ├───forecast.ss
+        │   ├───data.ss
+        │   └───control.ss
+        ├───mod1
+        │   ├───starter.ss
+        │   ├───forecast.ss
+        │   ├───data.ss
+        │   └───control.ss
+        └───mod2
+            ├───starter.ss
+            ├───forecast.ss
+            ├───data.ss
+            └───control.ss
+```
+
+## Ejecutar un modelo en SS
+
+Existen diferentes formas de hacerlo. Para este curso, usaremos la libería *r4ss*.
+
+Vamos a asumir que mi directorio de trabajo es `Mod_Avanzados_Evaluacion`, entonces para correr un modelo:
+
+```{r eval=FALSE}
+path_to_exe = "C:/Users/moroncog/Documents/Mod_Avanzados_Evaluacion"
+r4ss::run(dir = 'sardine/mod0', # ruta a la carpeta del modelo
+          exe = file.path(path_to_exe, 'ss3_win.exe'), # path and exe name
+          extras = '-nohess') # ADMB commands, ver SS manual
+```
+
+<br>
+
+::: fragment
+Cuando el modelo termine de ejecutarse, veremos que varios archivos de salida serán creados en `sardine/mod0`.
+:::
+
+## Obtener ayuda sobre SS
+
+<br>
+
+-   Manual
+-   Preguntarle a Giancarlo
+-   Otros modelos implementados encontrados en reportes de evaluación (e.g., NOAA)
+-   Preguntar a otros usuarios
+-   Abrir un issue en el [Github repository](https://github.com/nmfs-ost/ss3-source-code) de SS
+
+# Archivo de entrada: starter.ss
+
+## starter.ss
+
+-   Es el primer archivo que SS lee al correr el modelo.
+-   Nos permite especificar el nombre de los archivos control y data.
+-   Controlar el nivel de detalle en los resultados obtenidos (mayor detalle puede conllevar un mayor tiempo de computación).
+-   Especificar información para Markov Chain runs.
+-   Alguna información relevante para el modelo (e.g., depletion denominator, summary biomass).
+
+## starter.ss
+
+<br>
+
+-   Explorar el archivo Excel `SS_330_starter_and_forecast_helper.xlsx` (`STARTER` sheet) (obtenido de Stock Synthesis Virtual Lab).
+
+-   Explorar SS Manual (sección *Starter File*).
+
+# Archivo de entrada: data.ss
+
+## Preparación del modelo
+
+Antes de preparar los datos para SS, debemos tener en claro algunas preguntas clave:
+
+::: incremental
+-   Disponibilidad de datos (tipos, serie de tiempo, etc.)
+-   Máxima edad a modelar
+-   Mínima y máxima talla
+-   Mes de desove
+-   ¿Cuántas *seasons* quiero modelar?
+-   ¿Cuántas flotas (pesquerías + indices de abundancia) quiero modelar?
+:::
+
+## Preparación del modelo
+
+<br>
+
+::: incremental
+-   Unidades de captura e índices de abundancia (e.g., kg o número)
+-   Año de inicio y término del modelo
+-   ¿Uno o dos sexos?
+-   ¿Una ó múltiple áreas?
+:::
+
+::: fragment
+
+::: callout-tip
+## Recuerda
+
+En SS, le decimos flotas a las pesquerías y a los índices de abundancia (e.g., surveys, CPUE, etc.).
+:::
+
+:::
+
+## Preparación del modelo
+
+Una vez tengo en claro las preguntas anteriores, recomiendo realizar una tabla resumen sobre las flotas que quiero modelar.
+
+Ejemplo 1:
+
+| **Nombre**     | **Index** | **Tipo**         |  **Unidades**   | **Área**  |
+|:--------------:|:---------:|:----------------:|:---------------:|:---------:|
+|   CercoIndus   |   1       |   Pesquería      |   Biomasa       |   1       |
+|   SurveyAcus   |   2       |   Survey         |   Biomasa       |   1       |
+
+## Preparación del modelo
+
+Ejemplo 2:
+
+| **Nombre**     | **Index** | **Tipo**         |  **Unidades**   | **Área**  |
+|:--------------:|:---------:|:----------------:|:---------------:|:---------:|
+|   CercoIndus   |   1       |   Pesquería      |   Biomasa       |   1       |
+|   Arrastre     |   2       |   Pesquería      |   Biomasa       |   1       |
+|   Artesanal    |   3       |   Pesquería      |   Número        |   1       |
+|   SurveyAcus   |   4       |   Survey         |   Biomasa       |   1       |
+|   SurveyAereo  |   5       |   Survey         |   Número        |   1       |
+
+## Preparación del modelo
+
+Respecto a la resolución temporal, SS siempre asume que el paso de tiempo es anual, pero podemos modelar *seasons* dentro de un año. 
+
+Por ejemplo:
+
+- 1 *season*: Enero a diciembre
+- 2 *seasons*: Enero a junio, julio a diciembre
+- 4 *seasons*: Enero a marzo, abril a junio, julio a septiembre, octubre a diciembre
+
+## Preparación del modelo
+
+<br>
+
+::: callout-tip
+## Importante
+
+La información de captura es especificada por cada *season* dentro de un año, por lo que modelar *seasons* es particularmente importante cuando la pesquería no opera homogeneamente a lo largo del año.
+:::
+
+## Preparación del modelo
+
+::: callout-tip
+## Importante
+
+SS asume a la edad 0 como la primera edad. Individuos de edad 0 se les llama *reclutas*.
+:::
+
+:::fragment
+
+::: callout-tip
+## Importante
+
+Una cohorte siempre avanza a la siguiente edad el 1 de enero, independientemente del mes de desove.
+:::
+
+:::
+
+## Captura
+
+Se necesitan datos de captura y su error de observación (i.e., se asume que la captura no es totalmente precisa) ordenados por:
+
+- Año
+- Season
+- Pesquería
+
+Solo valores positivos de captura son necesarios (i.e., para observaciones faltantes se asume captura cero).
+
+## Índices de abundancia
+
+Los índices de abundancia y su error de observación son reportados para cada:
+
+- Año
+- Mes (independientemente si modelamos *seasons*)
+- Flota
+
+No es necesario introducir observaciones para todos los años.
+
+- Normalmente usamos surveys o CPUE, pero también podemos introducir índices especiales (e.g., índices de reclutamiento, spawning biomass). Ver SS Manual.
+
+## Composición por tallas
+
+Proporción en número para cada marca de clase. Para cada observación necesitamos la siguiente información:
+
+- Año
+- Mes (independientemente si modelamos *seasons*)
+- Flota
+- Sexo
+- Partition: importante cuando modelamos descartes
+- Nsamp: esfuerzo de muestreo (e.g., número de embarcaciones muestreadas)
+
+## Composición por edad
+
+Proporción en número para cada edad. Para cada observación necesitamos la misma información reportada para los datos de composición por tallas, y además:
+
+- Age Err: Matriz de error a utilizar
+- Lbin lo y Lbin hi: Rango de tallas de donde esta observación ha sido tomada
+
+
+## data.ss
+
+<br>
+
+-   Explorar el archivo Excel `SS_330_data_helper.xlsx` (`Data_typical` sheet) (obtenido de Stock Synthesis Virtual Lab).
+
+-   Explorar SS Manual (sección *Data File*).
+
+
+## Referencias

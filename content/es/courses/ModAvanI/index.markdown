@@ -8,6 +8,11 @@ image:
   placement: 2
   preview_only: true
 projects: []
+links:
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Clase 1
+  url: /labs/ModAvanI/Slides_1.html
 subtitle: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque en modelos integrados utilizando la plataforma Stock Synthesis.
 summary: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque en modelos integrados utilizando la plataforma Stock Synthesis.
 title: Modelos avanzados en evaluación de recursos pesqueros I
@@ -38,3 +43,10 @@ Encuentra el silabo de este curso [aquí](https://cousteau-group.com/cursos/mode
 * Conceptos básicos de estadística
 * Conceptos intermedios de programación en R
 * Conceptos básicos de biología pesquera
+
+## Datos
+
+Los siguientes spreadsheets serán usados durante el curso:
+
+* [Cod](/labs/ModAvanI/data/cod.xlsx)
+* [Sardine](/labs/ModAvanI/data/sardine.xlsx)

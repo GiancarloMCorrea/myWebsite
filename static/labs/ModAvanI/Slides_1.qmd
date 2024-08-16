@@ -1,0 +1,285 @@
+---
+title: "Modelos avanzados en evaluación de recursos pesqueros"
+author: 
+   <br>Dr. Giancarlo M. Correa
+institute:
+   <br>Cousteau Consultant Group
+format:
+  revealjs:
+    theme: simple
+    logo: images/CGlogo1.png
+    slide-number: 'c/t'
+    css: myStyle.css
+from: markdown+emoji
+csl: canadian-journal-of-fisheries-and-aquatic-sciences.csl
+editor: source
+execute:
+  echo: true
+bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b0/references.bib?x=eyJpZCI6ICJiNjNhYzI0Mi1hNzdjLTQ4MTYtOWMyNy1mY2RmYjMxODc1YjAiLCAidXNlciI6ICI1NDQwIiwgInNpZ25hdHVyZSI6ICIyMTMxYjVhZDk1NGYxNDUzYjk3YjZiNjk3ZDIxZWEwODIwZjA4MTBiZTk3YWIxOTNiMGVkMzI1YzI0YTRjZWNkIn0="
+---
+
+# Presentación
+
+## Estructura
+
+<br>
+
+Serie de cursos orientado a análisis cuantitativo de pesquerías:
+
+::: incremental
+1.  Dinámica de poblaciones de peces en R
+2.  Introducción a modelos de evaluación de stocks
+3.  **Modelos avanzados de evaluación de recursos pesqueros I**
+4.  Modelos avanzados de evaluación de recursos pesqueros II
+:::
+
+## Objetivos
+
+<br>
+
+::: incremental
+-   Fundamentos de modelos integrados de evaluación estructurados por edad.
+-   Estructura del la plataforma de modelado *Stock Synthesis* (SS).
+-   Implementación de modelos de evaluación **sencillos** en SS.
+:::
+
+## Proyecto
+
+<br>
+
+Para obtención de la certificación de aprobación.
+
+::: incremental
+-   Se crearán dos grupos de trabajo.
+-   Objetivos:
+    -   Discutir enfoques de análisis de datos pesqueros.
+    -   Implementar un modelo de evaluación en SS.
+-   Se invertirá 25% de horas de clase (no habrán actividades fuera de clase).
+-   Presentación de resultados el último día de clases.
+:::
+
+## Participantes
+
+<br>
+
+Presentación de participantes:
+
+::: fragment
+-   Nombre
+-   Ocupación
+-   Afiliación
+-   Área de experiencia ó interés
+-   Nivel de experiencia con modelos de evaluación
+:::
+  
+
+# Conceptos básicos
+
+## Dinámica de una población explotada
+
+![](images/D1_img1.png){fig-align="center" width="100%"}
+
+::: {.absolute top="650" left="70"}
+::: sectionhead
+[Stockholm University Baltic Sea Centre]{style="font-size:50%"}
+:::
+:::
+
+## Sistema pesquero
+
+Formado por diferentes componentes:
+
+![](images/D1_img0.jpg){fig-align="center" width="70%"}
+
+
+## Evaluación de recursos pesqueros
+
+Tiene como objetivo [@HilbornUnknownTitle1992]:
+
+- Conocer el estado actual del stock (i.e., nivel poblacional y estado de explotación)
+- Reconstruir la dinámica histórica del stock
+- Predecir la respuesta del stock a diferentes niveles de explotación
+
+::: fragment
+Forma solo un componente de todo el proceso de manejo pesquero, y tiene la finalidad de *asesoramiento* sobre explotación.
+:::
+
+## Métodos directos
+
+:::: {.columns}
+
+::: {.column width="60%"}
+<br>
+
+![Dauphin Island Sea Lab](images/surveys.jpg){fig-align="center"}
+:::
+
+::: {.column width="40%"}
+Uso de métodos de observación directa, como campañas acústivas, de arrastre, ictioplancton, entre otros.
+:::
+
+::::
+
+## Métodos indirectos
+
+Uso de modelos matemáticos y datos para explicar la dinámica del stock.
+
+<br>
+
+::: fragment
+
+Basado en la estructura del modelo:
+
+- *Modelos de producción excedente*: asume todo el stock como homogéneo
+- *Modelos estructurados por edades*
+- *Modelos estructurados por tallas*
+
+:::
+
+## Modelos estructurado por edades
+
+Enfoque *hacia atrás* (backward) o *hacia delante* (forward):
+
+![@Haddon_2011](images/D1_img2.png){fig-align="center" width="70%"}
+
+
+## Forward approach
+
+Abundancia $N_{y,a}$ ($y$ son años y $a$ edades):
+
+![@Haddon_2011](images/D1_img3.png){fig-align="center" width="60%"}
+
+## Componentes del modelo
+
+<br>
+
+En un modelo de evaluación estructurado por edades tenemos los siguientes componentes principalmente:
+
+- Reclutamiento
+- Mortalidad (natural y por pesca)
+- Selectividad
+- Crecimiento somático
+- Madurez sexual y fecundidad
+- Movimiento
+
+## Plataforma de evaluación
+
+Software o librería orientado a la implementación de modelos de evaluación de stocks (en general).
+
+::: fragment
+::: {.callout-note icon="false"}
+## Ventajas
+
+-   No hay necesidad de codificar
+-   Comunicación más sencilla
+:::
+
+::: {.callout-warning icon="false"}
+## Desventajas
+
+-   No pueden ser aplicables a todos los stocks
+-   Efecto de *caja negra*
+:::
+:::
+
+## Plataforma de evaluación
+
+<br>
+
+Ejemplos:
+
+-   **Stock Synthesis** [@Methot_2013]
+-   MULTIFAN-CL [@fournier1998multifan]
+-   SPiCT [[@Pedersen_2016]]
+-   SAM [@Nielsen_2014]
+-   WHAM [@Stock_2021]
+
+# Modelos integrados de evaluación
+
+## Análisis integrado
+
+<br>
+
+¿Qué pasa si no temenos datos (o buena calidad de estos) en un periodo de tiempo? ¿Cómo implementamos un modelo de evaluación?
+
+- ¿Truncar la serie de tiempo?
+- ¿Crear datos de captura a la edad con poca calidad?
+- ¿Implementar modelos de evaluación sencillos?
+
+
+## Análisis integrado
+
+:::: {.columns}
+
+::: {.column width="60%"}
+![](images/integrado_ss.png){fig-align="center"}
+:::
+
+::: {.column width="40%"}
+Combina diferentes tipos de datos en un único análisis. El ajuste a los datos se realiza por medio de una rutina de minimización de alguna función objetivo [@Fournier_1982].
+:::
+
+::::
+
+## Análisis integrado
+
+<br>
+
+Tipos de datos más comunes:
+
+- Capturas agregadas
+- Índices de abundancia
+- Composición por tallas o edades
+- Conditional age-at-length (CAAL)
+- Marcaje y recaptura
+- Close Kin Mark Recapture [@PuntUnknownTitle2024]
+
+## Análisis integrado
+
+Se pueden listar algunas ventajas de estos modelos:
+
+- Inclusión de gran diversidad y cantidad de datos
+- Evita la necesidad de preprocesamiento (e.g., talla a edades)
+- Captura la incertidumbre de una mejor manera
+- Facilidad de investigar el impacto de diferentes fuentes de datos sobre resultados
+
+## Análisis integrado
+
+Desarrollo a través de los años:
+
+- @Fournier_2012: inclusion de datos auxiliares.
+- CAGEAN [@DerisoUnknownTitle1985]
+- Stock Synthesis [@Method1990]
+- AD Model Builder: plataforma para construir un IA propio.
+- MULTIFAN-CL [@FournierUnknownTitle1990]
+- CASAL [@Bull2002]
+- Stock Synthesis 2 [@Methot2005]
+- Stock Synthesis 3 [@Methot_2013]
+
+# Laboratorio
+
+## Software requerido
+
+<br>
+
+- Lector de texto plano (e.g., [Notepad++](https://notepad-plus-plus.org/))
+- Instalar [r4ss package](https://github.com/r4ss/r4ss):
+
+```{r eval=FALSE}
+remotes::install_github("r4ss/r4ss")
+```
+
+- Explorar [SS Virtual Lab](https://vlab.noaa.gov/web/stock-synthesis)
+  * Descargar ejecutable
+  * Descargar manual
+- Explorar [ss3sim package](https://ss3sim.github.io/ss3sim/)
+
+## Proyecto
+
+<br>
+
+- Explorar datos
+- Crear directorio de trabajo
+
+
+## Referencias
