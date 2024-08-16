@@ -81,7 +81,7 @@ Se crean muchos archivos de salida después de ejecutar SS, pero lo más imporan
 
 ## Ejecutar un modelo en SS
 
-Existen diferentes formas de hacerlo. Para este curso, usaremos la libería *r4ss* y el modelo de ejemplo que pueden encontrar en [SS Virtual Lab](https://github.com/nmfs-ost/ss3-user-examples/tree/main).
+Usaremos la libería *r4ss* y el modelo de ejemplo que pueden encontrar en [SS Virtual Lab](https://github.com/nmfs-ost/ss3-user-examples/tree/main).
 
 Vamos a asumir que mi directorio de trabajo es `Mod_Avanzados_Evaluacion`, luego ejecutamos:
 
