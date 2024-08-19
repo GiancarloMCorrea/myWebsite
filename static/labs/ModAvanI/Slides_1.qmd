@@ -290,6 +290,10 @@ Algunos beneficios de usar SS:
 -   Librerías de soporte (e.g. r4ss, ss3sim)
 -   Facilidad de compartir y comunicar resultados
 
+## Stock Synthesis
+
+![Stock Synthesis Virtual Lab](images/ss_workflow.png){fig-align="center"}
+
 # Laboratorio
 
 ## Software requerido

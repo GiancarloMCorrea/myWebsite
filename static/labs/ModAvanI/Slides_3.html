@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="Slides_1_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Slides_1_files/libs/quarto-html/tabby.min.js"></script>
-<script src="Slides_1_files/libs/quarto-html/popper.min.js"></script>
-<script src="Slides_1_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="Slides_1_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Slides_1_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Slides_1_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="Slides_1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="Slides_3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Slides_3_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Slides_3_files/libs/quarto-html/popper.min.js"></script>
+<script src="Slides_3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Slides_3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Slides_3_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Slides_3_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="Slides_3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.55">
 
   <meta name="author" content=" Dr.&nbsp;Giancarlo M. Correa">
@@ -15,8 +15,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="Slides_1_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="Slides_1_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="Slides_3_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Slides_3_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -115,12 +115,12 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="Slides_1_files/libs/revealjs/dist/theme/quarto.css">
+  <link rel="stylesheet" href="Slides_3_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="myStyle.css">
-  <link href="Slides_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="Slides_1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="Slides_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="Slides_1_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link href="Slides_3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Slides_3_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Slides_3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Slides_3_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -427,331 +427,488 @@
 
 </section>
 <section>
-<section id="presentación" class="title-slide slide level1 center">
-<h1>Presentación</h1>
+<section id="modelo-poblacional" class="title-slide slide level1 center">
+<h1>Modelo poblacional</h1>
 
 </section>
-<section id="estructura" class="slide level2">
-<h2>Estructura</h2>
-<p><br></p>
-<p>Serie de cursos orientado a análisis cuantitativo de pesquerías:</p>
-<div>
-<ol type="1">
-<li class="fragment">Dinámica de poblaciones de peces en R</li>
-<li class="fragment">Introducción a modelos de evaluación de stocks</li>
-<li class="fragment"><strong>Modelos avanzados de evaluación de recursos pesqueros I</strong></li>
-<li class="fragment">Modelos avanzados de evaluación de recursos pesqueros II</li>
-</ol>
-</div>
-</section>
-<section id="objetivos" class="slide level2">
-<h2>Objetivos</h2>
-<p><br></p>
-<div>
-<ul>
-<li class="fragment">Fundamentos de modelos integrados de evaluación estructurados por edad.</li>
-<li class="fragment">Estructura del la plataforma de modelado <em>Stock Synthesis</em> (SS).</li>
-<li class="fragment">Implementación de modelos de evaluación <strong>sencillos</strong> en SS.</li>
-</ul>
-</div>
-</section>
-<section id="proyecto" class="slide level2">
-<h2>Proyecto</h2>
-<p><br></p>
-<p>Para obtención de la certificación de aprobación.</p>
-<div>
-<ul>
-<li class="fragment">Se crearán dos grupos de trabajo.</li>
-<li class="fragment">Objetivos:
-<ul>
-<li class="fragment">Discutir enfoques de análisis de datos pesqueros.</li>
-<li class="fragment">Implementar un modelo de evaluación en SS.</li>
-</ul></li>
-<li class="fragment">Se invertirá 25% de horas de clase (no habrán actividades fuera de clase).</li>
-<li class="fragment">Presentación de resultados el último día de clases.</li>
-</ul>
-</div>
-</section>
-<section id="participantes" class="slide level2">
-<h2>Participantes</h2>
-<p><br></p>
-<p>Presentación de participantes:</p>
-<div class="fragment">
-<ul>
-<li>Nombre</li>
-<li>Ocupación</li>
-<li>Afiliación</li>
-<li>Área de experiencia ó interés</li>
-<li>Nivel de experiencia con modelos de evaluación</li>
-</ul>
-</div>
-</section></section>
-<section>
-<section id="conceptos-básicos" class="title-slide slide level1 center">
-<h1>Conceptos básicos</h1>
-
-</section>
-<section id="dinámica-de-una-población-explotada" class="slide level2">
-<h2>Dinámica de una población explotada</h2>
-
-<img data-src="images/D1_img1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"><div class="absolute" style="top: 650px; left: 70px; ">
-<div class="sectionhead">
-<p><span style="font-size:50%">Stockholm University Baltic Sea Centre</span></p>
-</div>
-</div>
-</section>
-<section id="sistema-pesquero" class="slide level2">
-<h2>Sistema pesquero</h2>
-<p>Formado por diferentes componentes:</p>
-
-<img data-src="images/D1_img0.jpg" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
-<section id="evaluación-de-recursos-pesqueros" class="slide level2">
-<h2>Evaluación de recursos pesqueros</h2>
-<p>Tiene como objetivo <span class="citation" data-cites="HilbornUnknownTitle1992">(<a href="#/referencias" role="doc-biblioref" onclick="">Hilborn and Walters 1992</a>)</span>:</p>
-<ul>
-<li>Conocer el estado actual del stock (i.e., nivel poblacional y estado de explotación)</li>
-<li>Reconstruir la dinámica histórica del stock</li>
-<li>Predecir la respuesta del stock a diferentes niveles de explotación</li>
-</ul>
-<div class="fragment">
-<p>Forma solo un componente de todo el proceso de manejo pesquero, y tiene la finalidad de <em>asesoramiento</em> sobre explotación.</p>
-</div>
-</section>
-<section id="métodos-directos" class="slide level2">
-<h2>Métodos directos</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
-<p><br></p>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/surveys.jpg"></p>
-<figcaption>Dauphin Island Sea Lab</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:40%;">
-<p>Uso de métodos de observación directa, como campañas acústicas, de arrastre, ictioplancton, entre otros.</p>
-</div></div>
-</section>
-<section id="métodos-indirectos" class="slide level2">
-<h2>Métodos indirectos</h2>
-<p>Uso de modelos matemáticos y datos para explicar la dinámica del stock.</p>
-<p><br></p>
-<div class="fragment">
-<p>Basado en la estructura del modelo:</p>
-<ul>
-<li><em>Modelos de producción excedente</em>: asume todo el stock como homogéneo</li>
-<li><em>Modelos estructurados por edades</em></li>
-<li><em>Modelos estructurados por tallas</em></li>
-</ul>
-</div>
-</section>
-<section id="modelos-estructurado-por-edades" class="slide level2">
-<h2>Modelos estructurado por edades</h2>
-<p>Enfoque <em>hacia atrás</em> (backward) o <em>hacia delante</em> (forward):</p>
-
-<img data-src="images/D1_img2.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="Haddon_2011">Haddon (<a href="#/referencias" role="doc-biblioref" onclick="">2011</a>)</span></p></section>
-<section id="forward-approach" class="slide level2">
-<h2>Forward approach</h2>
-<p>Abundancia <span class="math inline">\(N_{y,a}\)</span> (<span class="math inline">\(y\)</span> son años y <span class="math inline">\(a\)</span> edades):</p>
+<section id="estructura-interna" class="slide level2">
+<h2>Estructura interna</h2>
+<p>Dos principales dimensiones: años y edad.</p>
 
 <img data-src="images/D1_img3.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="Haddon_2011">Haddon (<a href="#/referencias" role="doc-biblioref" onclick="">2011</a>)</span></p></section>
-<section id="componentes-del-modelo" class="slide level2">
-<h2>Componentes del modelo</h2>
-<p><br></p>
-<p>En un modelo de evaluación estructurado por edades tenemos los siguientes componentes principalmente:</p>
+<section id="crecimiento-estructura-inicial" class="slide level2">
+<h2>Crecimiento: estructura inicial</h2>
+<p>Al nacer, se asigna la talla mínima en la población (<span class="math inline">\(L_{min}\)</span>). Luego, crecen linealmente hasta <span class="math inline">\(A_1\)</span>:</p>
+<p><span class="math display">\[L_{0,a} = L_{min} + ba\]</span></p>
+<p>Donde</p>
+<p><span class="math display">\[b = \frac{L_{A_1}- L_{min}}{A_1}\]</span></p>
+<div style="font-size: 75%;">
 <ul>
-<li>Reclutamiento</li>
-<li>Mortalidad (natural y por pesca)</li>
-<li>Selectividad</li>
-<li>Crecimiento somático</li>
-<li>Madurez sexual y fecundidad</li>
-<li>Movimiento</li>
+<li><span class="math inline">\(a=\)</span> edad</li>
+<li><span class="math inline">\(A_1=\)</span> edad de referencia (cercana a la edad 0). Se recomienda que sea la edad donde comenzamos a tener buenos datos</li>
 </ul>
+</div>
 </section>
-<section id="plataforma-de-evaluación" class="slide level2">
-<h2>Plataforma de evaluación</h2>
-<p>Software o librería orientado a la implementación de modelos de evaluación de stocks (en general).</p>
+<section id="crecimiento-estructura-inicial-1" class="slide level2">
+<h2>Crecimiento: estructura inicial</h2>
+<p>Para <span class="math inline">\(a &gt; A_1\)</span>, los peces crecen según la ecuación de crecimiento seleccionada</p>
 <div class="fragment">
-<div class="callout callout-note no-icon callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<p><strong>Ventajas</strong></p>
-</div>
-<div class="callout-content">
+<p>Por ejemplo, usando la ecuación de von Bertalanffy, longitud media a la edad de la población:</p>
+<p><span class="math display">\[L_{0,a} = L_{\infty} + (L_{A_1} - L_{\infty})(exp(-k(a-A_1)))\]</span></p>
+<div style="font-size: 75%;">
 <ul>
-<li>No hay necesidad de codificar</li>
-<li>Comunicación más sencilla</li>
+<li><span class="math inline">\(L_{A_1}=\)</span> longitud media a la edad <span class="math inline">\(A_1\)</span> (<span class="math inline">\(cm\)</span>)</li>
+<li><span class="math inline">\(L_{\infty}=\)</span> longitud asintótica (<span class="math inline">\(cm\)</span>)</li>
+<li><span class="math inline">\(k=\)</span> tasa de crecimiento (<span class="math inline">\(1/year\)</span>)</li>
 </ul>
-</div>
-</div>
-</div>
-<div class="callout callout-warning no-icon callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<p><strong>Desventajas</strong></p>
-</div>
-<div class="callout-content">
-<ul>
-<li>No pueden ser aplicables a todos los stocks</li>
-<li>Efecto de <em>caja negra</em></li>
-</ul>
-</div>
-</div>
 </div>
 </div>
 </section>
-<section id="plataforma-de-evaluación-1" class="slide level2">
-<h2>Plataforma de evaluación</h2>
+<section id="crecimiento-dinámica" class="slide level2">
+<h2>Crecimiento: dinámica</h2>
 <p><br></p>
-<p>Ejemplos:</p>
+<p>Para <span class="math inline">\(y&gt;0\)</span>, usamos:</p>
+<p><span class="math display">\[L_{y+1,a+1} = L_{y,a} + (L_{y,a}-L_{\infty})(exp(-k) - 1)\]</span></p>
+<p>Para el grupo plus, la ecuación es ligeramente diferente para <em>acumular tallas</em> (ver Technical Description, <span class="citation" data-cites="Methot_2013">Methot and Wetzel (<a href="#/referencias" role="doc-biblioref" onclick="">2013</a>)</span>).</p>
+</section>
+<section id="crecimiento" class="slide level2">
+<h2>Crecimiento</h2>
+<p><br></p>
+<p>Para cualquier fracción <span class="math inline">\(\theta\)</span> del año:</p>
+<p><span class="math display">\[\tilde{L}_{y,a}=L_{y,a} + (L_{y,a}-L_{\infty})(exp(-k\theta)-1)\]</span></p>
+<p><br></p>
+<p>Esto es importante dado que los peces también crecen dentro de un año.</p>
+</section>
+<section id="crecimiento-1" class="slide level2">
+<h2>Crecimiento</h2>
+<p><br></p>
+<p>Otras parametrizaciones estan disponibles:</p>
 <ul>
-<li><strong>Stock Synthesis</strong> <span class="citation" data-cites="Methot_2013">(<a href="#/referencias" role="doc-biblioref" onclick="">Methot and Wetzel 2013</a>)</span></li>
-<li>MULTIFAN-CL <span class="citation" data-cites="fournier1998multifan">(<a href="#/referencias" role="doc-biblioref" onclick="">Fournier et al. 1998</a>)</span></li>
-<li>SPiCT <span class="citation" data-cites="Pedersen_2016">(<a href="#/referencias" role="doc-biblioref" onclick="">Pedersen and Berg 2016</a>)</span></li>
-<li>SAM <span class="citation" data-cites="Nielsen_2014">(<a href="#/referencias" role="doc-biblioref" onclick="">Nielsen and Berg 2014</a>)</span></li>
-<li>WHAM <span class="citation" data-cites="Stock_2021">(<a href="#/referencias" role="doc-biblioref" onclick="">Stock and Miller 2021</a>)</span></li>
+<li>Richards <span class="citation" data-cites="RICHARDSUnknownTitle1959">(<a href="#/referencias" role="doc-biblioref" onclick="">Richards 1959</a>)</span></li>
+<li>von Bertalanffy with age-specific K</li>
+<li>Growth cessation <span class="citation" data-cites="MaunderUnknownTitle2018">(<a href="#/referencias" role="doc-biblioref" onclick="">Maunder et al. 2018</a>)</span></li>
 </ul>
-</section></section>
-<section>
-<section id="modelos-integrados-de-evaluación" class="title-slide slide level1 center">
-<h1>Modelos integrados de evaluación</h1>
+</section>
+<section id="crecimiento-2" class="slide level2">
+<h2>Crecimiento</h2>
 
-</section>
-<section id="análisis-integrado" class="slide level2">
-<h2>Análisis integrado</h2>
-<p><br></p>
-<p>¿Qué pasa si no temenos datos (o buena calidad de estos) en un periodo de tiempo? ¿Cómo implementamos un modelo de evaluación?</p>
+<img data-src="images/growth_1.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Talla media a la edad de la población.</p></section>
+<section id="crecimiento-3" class="slide level2">
+<h2>Crecimiento</h2>
+
+<img data-src="images/growth_2.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Variabilidad de tallas por edad.</p></section>
+<section id="crecimiento-4" class="slide level2">
+<h2>Crecimiento</h2>
+<p>Variabilidad de tallas por edad:</p>
+<p><span class="math display">\[\sigma_{y,a} = \begin{cases}
+\tilde{L}_{y,a}(CV_1) &amp;\text{a$\leq$ A1}\\
+\tilde{L}_{y,a}(CV_1+\frac{\tilde{L}_{y,a}-L_1}{L_2-L_1}(CV_2 - CV1)) &amp;\text{a&gt;A1}
+\end{cases}\]</span></p>
+<div style="font-size: 75%;">
+<p>Donde tenemos dos parámetros:</p>
 <ul>
-<li>¿Truncar la serie de tiempo?</li>
-<li>¿Crear datos de captura a la edad con poca calidad?</li>
-<li>¿Implementar modelos de evaluación sencillos?</li>
+<li><span class="math inline">\(CV_1\)</span> es el coeficiente de variación de longitudes en la edad <span class="math inline">\(A_1\)</span></li>
+<li><span class="math inline">\(CV_2\)</span> es el coeficiente de variación de longitudes en la máxima edad</li>
 </ul>
+</div>
+<div class="fragment">
+<p>También podemos calcular <span class="math inline">\(\sigma_{y,a}\)</span> como función de la edad.</p>
+</div>
 </section>
-<section id="análisis-integrado-1" class="slide level2">
-<h2>Análisis integrado</h2>
+<section id="crecimiento-5" class="slide level2">
+<h2>Crecimiento</h2>
+<p>Distribuye la información de cada edad entre las diferentes marcas de clase modeladas.</p>
+<p><span class="math display">\[\varphi_{y,l,a}=\begin{cases}
+\Phi(\frac{L'_{min^\ast} - L_{y,a}}{\sigma_{y,a}})\hspace{3.2cm}l=1\\
+\Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}})-\Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}})\hspace{1cm}1&lt;l&lt;n_L\\
+1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})\hspace{2.5cm}l=n_L
+\end{cases}\]</span></p>
+<p><span class="math inline">\(\Phi\)</span> es la distribución normal estándar acumulada, <span class="math inline">\(L'\)</span> representa las marcas de clase modeladas, <span class="math inline">\(l\)</span> es indicador de marca de clase, <span class="math inline">\(n_L\)</span> es el número de marcas de clase. <span class="math inline">\(L\)</span> también podría ser <span class="math inline">\(\tilde{L}\)</span>.</p>
+</section>
+<section id="crecimiento-6" class="slide level2">
+<h2>Crecimiento</h2>
+
+<img data-src="images/phi_mat_tile.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section id="crecimiento-7" class="slide level2">
+<h2>Crecimiento</h2>
+<p><br></p>
 <div class="columns">
-<div class="column" style="width:60%;">
+<div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/integrado_ss.png" class="quarto-figure quarto-figure-center"></p>
+<p><img data-src="images/growth_3.png" class="quarto-figure quarto-figure-center"></p>
 </figure>
 </div>
-</div><div class="column" style="width:40%;">
-<p>Combina diferentes tipos de datos en un único análisis. El ajuste a los datos se realiza por medio de una rutina de minimización de alguna función objetivo <span class="citation" data-cites="Fournier_1982">(<a href="#/referencias" role="doc-biblioref" onclick="">Fournier and Archibald 1982</a>)</span>.</p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/growth_4.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
 </div></div>
 </section>
-<section id="análisis-integrado-2" class="slide level2">
-<h2>Análisis integrado</h2>
+<section id="crecimiento-8" class="slide level2">
+<h2>Crecimiento</h2>
 <p><br></p>
-<p>Tipos de datos más comunes:</p>
-<ul>
-<li>Capturas agregadas</li>
-<li>Índices de abundancia</li>
-<li>Composición por tallas o edades</li>
-<li>Conditional age-at-length (CAAL)</li>
-<li>Marcaje y recaptura</li>
-<li>Close Kin Mark Recapture <span class="citation" data-cites="PuntUnknownTitle2024">(<a href="#/referencias" role="doc-biblioref" onclick="">Punt et al. 2024</a>)</span></li>
-</ul>
+<p>También podemos modelar <em>morphs</em>, que son colecciones de peces de una cohorte con carácterísticas biológicas únicas (e.g., mortalidad, crecimiento). Usado cuando queremos modelar, por ejemplo, diferentes parámetros biológicos en diferentes áreas o <em>seasons</em>.</p>
+<div class="fragment">
+<p>Estos <em>morphs</em> a su vez pueden ser dividos en <em>platoons</em> para permitir supervivencia dependiente de la talla. Ver este artículo: <span class="citation" data-cites="McGarveyUnknownTitle2024">McGarvey et al. (<a href="#/referencias" role="doc-biblioref" onclick="">2024</a>)</span>.</p>
+</div>
 </section>
-<section id="análisis-integrado-3" class="slide level2">
-<h2>Análisis integrado</h2>
-<p>Se pueden listar algunas ventajas de estos modelos:</p>
-<ul>
-<li>Inclusión de gran diversidad y cantidad de datos</li>
-<li>Evita la necesidad de preprocesamiento (e.g., talla a edades)</li>
-<li>Captura la incertidumbre de una mejor manera</li>
-<li>Facilidad de investigar el impacto de diferentes fuentes de datos sobre resultados <span class="citation" data-cites="MagnussonUnknownTitle2007">(<a href="#/referencias" role="doc-biblioref" onclick="">Magnusson and Hilborn 2007</a>)</span>.</li>
-</ul>
+<section id="longitud-peso" class="slide level2">
+<h2>Longitud-peso</h2>
+<p><br></p>
+<p>Convertir de talla a edad:</p>
+<p><span class="math display">\[w_l = \Omega_1 (L_l')^{\Omega_2}\]</span></p>
+<p>Donde <span class="math inline">\(\Omega_1\)</span> y <span class="math inline">\(\Omega_2\)</span> son parámetros del modelo.</p>
 </section>
-<section id="análisis-integrado-4" class="slide level2">
-<h2>Análisis integrado</h2>
-<p>Desarrollo a través de los años:</p>
-<ul>
-<li><span class="citation" data-cites="Fournier_2012">Fournier et al. (<a href="#/referencias" role="doc-biblioref" onclick="">2012</a>)</span>: inclusion de datos auxiliares.</li>
-<li>CAGEAN <span class="citation" data-cites="DerisoUnknownTitle1985">(<a href="#/referencias" role="doc-biblioref" onclick="">Deriso et al. 1985</a>)</span></li>
-<li>Stock Synthesis <span class="citation" data-cites="Method1990">(<a href="#/referencias" role="doc-biblioref" onclick="">Methot and Low 1990</a>)</span></li>
-<li>AD Model Builder: plataforma para construir un IA propio.</li>
-<li>MULTIFAN-CL <span class="citation" data-cites="FournierUnknownTitle1990">(<a href="#/referencias" role="doc-biblioref" onclick="">Fournier et al. 1990</a>)</span></li>
-<li>CASAL <span class="citation" data-cites="Bull2002">(<a href="#/referencias" role="doc-biblioref" onclick="">Bull et al. 2002</a>)</span></li>
-<li>Stock Synthesis 2 <span class="citation" data-cites="Methot2005">(<a href="#/referencias" role="doc-biblioref" onclick="">Methot 2005</a>)</span></li>
-<li>Stock Synthesis 3 <span class="citation" data-cites="Methot_2013">(<a href="#/referencias" role="doc-biblioref" onclick="">Methot and Wetzel 2013</a>)</span></li>
-</ul>
-</section></section>
-<section>
-<section id="stock-synthesis" class="title-slide slide level1 center">
-<h1>Stock Synthesis</h1>
+<section id="longitud-peso-1" class="slide level2">
+<h2>Longitud-peso</h2>
 
+<img data-src="images/LW_1.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="madurez-sexual" class="slide level2">
+<h2>Madurez sexual</h2>
+<p><br></p>
+<p>Puede ser modelada como una función de talla o edad. Como función de talla:</p>
+<p><span class="math display">\[Mat_l = \frac{1}{1+exp(\Omega_4(L'_l - \Omega_3))}\]</span></p>
+<p>Donde <span class="math inline">\(\Omega_3\)</span> (talla a 50% madurez) y <span class="math inline">\(\Omega_4\)</span> (pendiente) son parámetros del modelo.</p>
 </section>
-<section id="stock-synthesis-1" class="slide level2">
-<h2>Stock Synthesis</h2>
-<div>
+<section id="madurez-sexual-1" class="slide level2">
+<h2>Madurez sexual</h2>
+
+<img data-src="images/maturity.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="producción-de-huevos" class="slide level2">
+<h2>Producción de huevos</h2>
+<p><br></p>
+<p>La producción de huevos es modelada como una función de la talla:</p>
+<p><span class="math display">\[Eggs_l = \Omega_5 + w_l \Omega_6\]</span></p>
+<p>Donde <span class="math inline">\(Eggs_l\)</span> representa la producción de huevos por kg de peso de la hembra. Donde <span class="math inline">\(\Omega_5\)</span> y <span class="math inline">\(\Omega_6\)</span> son parámetros del modelo.</p>
+</section>
+<section id="producción-de-huevos-1" class="slide level2">
+<h2>Producción de huevos</h2>
+<p>Asumiendo <span class="math inline">\(\Omega_5 = 1\)</span> y <span class="math inline">\(\Omega_6=0\)</span>:</p>
+
+<img data-src="images/eggprod.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="fecunidad" class="slide level2">
+<h2>Fecunidad</h2>
+<p>Es modelada como:</p>
+<p><span class="math display">\[f_{y,a} = \sum_l\varphi_{y,l,a}(Mat_lEggs_lw_l)\]</span> <br></p>
+<div class="fragment">
+<p>Finalmente, la biomasa desovante (SSB) puede ser estimada como:</p>
+<p><span class="math display">\[SSB_y = \sum_a N_{y,a} f_{y,a}\]</span></p>
+</div>
+</section>
+<section id="stock-reclutamiento" class="slide level2">
+<h2>Stock-reclutamiento</h2>
+<p>Usando la función Berverton-Holt:</p>
+<p><span class="math display">\[R_y = \frac{4hR_0SSB_y}{SSB_0(1-h)+SSB_y(5h-1)}exp(-0.5b_y \sigma_R^2 + \tilde{R}_y)\]</span></p>
+<p>Donde <span class="math inline">\(\tilde{R}_y \sim N(0,\sigma_R^2)\)</span>. <span class="math inline">\(R_0\)</span> es el reclutamiento sin pesca, <span class="math inline">\(SSB_0\)</span> es la biomasa desovante sin pesca, <span class="math inline">\(h\)</span> es el steepness, <span class="math inline">\(b_y\)</span> es el ajuste de sesgo aplicado durante el año <span class="math inline">\(y\)</span>, <span class="math inline">\(\sigma_R\)</span> es la desviación estándar de desviaciones de reclutamiento en el espacio log natural, y <span class="math inline">\(\tilde{R}_y\)</span> es es la desviación de reclutamiento lognormal.</p>
+</section>
+<section id="stock-reclutamiento-1" class="slide level2">
+<h2>Stock-reclutamiento</h2>
+<p>Usando la función Ricker:</p>
+<p><span class="math display">\[R_y = \frac{R_0SSB_y}{SSB_0}exp(h(1-SSB_y/SSB_0))exp(-0.5b_y \sigma_R^2 + \tilde{R}_y)\]</span></p>
+<p><br></p>
+<div class="fragment">
+<p>Existen otras funciones stock-reclutamiento como: Hockey-Stick, Shepherd, Survivorship <span class="citation" data-cites="TaylorUnknownTitle2013">(<a href="#/referencias" role="doc-biblioref" onclick="">Taylor et al. 2013</a>)</span>, versión modificada de Ricker <span class="citation" data-cites="PuntUnknownTitle2019">(<a href="#/referencias" role="doc-biblioref" onclick="">Punt and Cope 2019</a>)</span>.</p>
+</div>
+</section>
+<section id="ajuste-de-sesgo" class="slide level2">
+<h2>Ajuste de sesgo</h2>
+<p>Aplicado para corregir sesgo entre transformaciones en escala natural y log <span class="citation" data-cites="MethotUnknownTitle2011">(<a href="#/referencias" role="doc-biblioref" onclick="">Methot and Taylor 2011</a>)</span>. Normalmente se realiza un ajuste máximo durante el periodo con mayor cantidad de datos.</p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/bias_adj_1.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/bias_adj_2.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="stock-reclutamiento-2" class="slide level2">
+<h2>Stock-reclutamiento</h2>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/SR-1.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/SR-2.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="reclutamiento" class="slide level2">
+<h2>Reclutamiento</h2>
+<p><br></p>
+<p>El desove ocurre una vez por año (configuración por defecto), pero varios eventos de reclutamiento pueden ser especificado dentro del año (<em>settlements</em>).</p>
+<p><br></p>
+<p>La propoción del reclutamiento anual en cada <em>settlements</em> es estimada como parámetros.</p>
+</section>
+<section id="mortalidad-natural" class="slide level2">
+<h2>Mortalidad natural</h2>
+<p><span class="math inline">\(M\)</span> es en muchos casos asumido constante para todas las edades (1 parámetro).</p>
+<p><br></p>
+<div class="fragment">
+<p>Hay opciones para especificar <span class="math inline">\(M\)</span> específico a la edad, o que varíe en función a la talla:</p>
 <ul>
-<li class="fragment">Plataforma de modelado estadístico de una población estructurado por edad <span class="citation" data-cites="Methot_2013">(<a href="#/referencias" role="doc-biblioref" onclick="">Methot and Wetzel 2013</a>)</span>.</li>
-<li class="fragment">Puede ser utilizado con pocos y con gran cantidad y diversidad de datos.</li>
-<li class="fragment">Utilidad en manejo pesquero.</li>
-<li class="fragment">Programado en AD Model Builder. Ver código fuente <a href="https://github.com/nmfs-ost/ss3-source-code">aquí</a>.</li>
-<li class="fragment">Procesamiento de resultados usando la librería en R <em>r4ss</em>.</li>
-<li class="fragment">Ampliamente utilizado actualmente.</li>
+<li><span class="math inline">\(M\)</span> independiente a la edad</li>
+<li>Lorenzen <span class="citation" data-cites="LorenzenUnknownTitle2022">(<a href="#/referencias" role="doc-biblioref" onclick="">Lorenzen 2022</a>)</span>: toma en cuenta procesos fisiológicos a lo largo del ciclo de vida</li>
+<li><span class="math inline">\(M\)</span> específico a la edad relacionado a talla y madurez <span class="citation" data-cites="MaunderUnknownTitle2023">(<a href="#/referencias" role="doc-biblioref" onclick="">Maunder et al. 2023</a>)</span></li>
 </ul>
 </div>
 </section>
-<section id="stock-synthesis-2" class="slide level2">
-<h2>Stock Synthesis</h2>
+<section id="abundancia-estructura-inicial" class="slide level2">
+<h2>Abundancia: estructura inicial</h2>
+<p><br></p>
+<p>Calculamos la abundancia a la edad (<span class="math inline">\(a&lt;A\)</span>):</p>
+<p><span class="math display">\[N_{0,a}=R_0exp(-aM)\]</span></p>
+<p>Esta ecuación varía para el grupo plus <span class="math inline">\(A\)</span> (ver Technical Description, <span class="citation" data-cites="Methot_2013">Methot and Wetzel (<a href="#/referencias" role="doc-biblioref" onclick="">2013</a>)</span>).</p>
+</section>
+<section id="abundancia-dinámica" class="slide level2">
+<h2>Abundancia: dinámica</h2>
+<p><span class="math display">\[N_{y+1,a} = \begin{cases}
+R_{y+1} &amp;a=0\\
+N_{y,a-1}exp(-Z_{y,a}) &amp;1\leq a\leq A-1\\
+N_{y, A-1}exp(-Z_{y,A-1})+N_{y,A}exp(-Z_{y,A}) &amp;a=A
+\end{cases}\]</span></p>
+<p><br></p>
+<p>Donde:</p>
+<p><span class="math display">\[Z_{y,a} = M+\sum_f (S_{f,a}F_{y,f})\]</span></p>
+</section>
+<section id="selectividad" class="slide level2">
+<h2>Selectividad</h2>
+<p>Se debe especificar selectividad a la edad y a la talla. La parametrización logística como función de talla es:</p>
+<p><span class="math display">\[S_{f,l} = \frac{1}{1+exp(-ln(19)(L'_l - \beta_1)/\beta_2)}\]</span></p>
+<p>Donde <span class="math inline">\(\beta_1\)</span> y <span class="math inline">\(\beta_2\)</span> son parámetros.</p>
+<p><br></p>
+<div class="fragment">
+<p>Una de las parametrizaciones más utilizadas es la doble-normal (ver <code>selectivity_options.R</code>).</p>
+</div>
+</section>
+<section id="selectividad-1" class="slide level2">
+<h2>Selectividad</h2>
 
-<img data-src="images/ss_world.png" class="r-stretch quarto-figure-center"><p class="caption">Stock Synthesis Virtual Lab</p></section>
-<section id="stock-synthesis-3" class="slide level2">
-<h2>Stock Synthesis</h2>
-
-<img data-src="images/ss_world2.png" class="r-stretch quarto-figure-center"><p class="caption">Stock Synthesis Virtual Lab</p></section>
-<section id="stock-synthesis-4" class="slide level2">
-<h2>Stock Synthesis</h2>
-<p>Algunos beneficios de usar SS:</p>
+<img data-src="images/selex.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="captura" class="slide level2">
+<h2>Captura</h2>
+<ol type="1">
+<li>Aproximación de Pope:</li>
+</ol>
+<p>Ignoramos el subíndice de flota por simplicidad:</p>
+<p><span class="math display">\[N_{y+1,a+1} = N_{y,a}exp(-M) - \hat{C}_{y,a}exp(-M/2)\]</span></p>
+<p>Luego, se puede aproximar <span class="math inline">\(F\)</span> mediante:</p>
+<p><span class="math display">\[N_{y+1,a+1}exp(M) = N_{y,a}-N_{y,a}(1-exp(-S_a F_{y}))\]</span></p>
+<p>Ver <span class="citation" data-cites="XiaoUnknownTitle2007">Xiao and Wang (<a href="#/referencias" role="doc-biblioref" onclick="">2007</a>)</span>.</p>
+</section>
+<section id="captura-1" class="slide level2">
+<h2>Captura</h2>
+<p><br></p>
+<ol start="2" type="1">
+<li>Ecuación de captura de Baranov</li>
+</ol>
+<p>Usamos:</p>
+<p><span class="math display">\[\hat{C}_{y,a} = \frac{S_aF_y}{M+S_aF_y}N_{y,a}(1-exp(-M-S_aF_y))\]</span></p>
+<p>Donde <span class="math inline">\(F_y\)</span> son parámetros estimados.</p>
+</section>
+<section id="captura-2" class="slide level2">
+<h2>Captura</h2>
+<ol start="3" type="1">
+<li>Método híbrido: usa la ecuación de Pope y Baranov secuencialmente para estimar <span class="math inline">\(F\)</span>.</li>
+</ol>
 <ul>
-<li>Flexibilidad de modelar la dinámica del stock</li>
-<li>Integra muchas fuentes de datos</li>
-<li>Mejor cuantificación de la incertidumbre</li>
-<li>Puede incorporar modelos simples a complejos</li>
-<li>Comunidad de personas de soporte</li>
-<li>Menor probabilidad de tener <em>bugs</em></li>
-<li>Librerías de soporte (e.g.&nbsp;r4ss, ss3sim)</li>
-<li>Facilidad de compartir y comunicar resultados</li>
+<li>Aplica el método de Pope para obtener una tasa de cosecha en la <em>season</em></li>
+<li>Conviente la tasa de cosecha al equivalente en la ecuación de Baranov <span class="math inline">\(F_{hyb}\)</span></li>
+<li>Ajusta valores <span class="math inline">\(F_{hyb}\)</span> por medio de iteraciones usando el ratio de captura calculada y observada para cada flota</li>
+<li>Proceder con <span class="math inline">\(F_{hyb}\)</span> en adelante.</li>
 </ul>
 </section>
-<section id="stock-synthesis-5" class="slide level2">
-<h2>Stock Synthesis</h2>
+<section id="captura-3" class="slide level2">
+<h2>Captura</h2>
+<p><br></p>
+<ol start="4" type="1">
+<li>Método híbrido: combinación de métodos 2 y 3. Es el método recomendado ya que mejora algunos problemas existentes para el método 3 (e.g., altos valores de <span class="math inline">\(F\)</span>, múltiples flotas).</li>
+</ol>
+</section>
+<section id="ejemplo-de-dinámica-poblacional" class="slide level2">
+<h2>Ejemplo de dinámica poblacional</h2>
+<p><br></p>
+<p>Explorar el archivo Excel <code>population-dynamics.xlsx</code>.</p>
+</section></section>
+<section>
+<section id="archivo-de-entrada-control.ss" class="title-slide slide level1 center">
+<h1>Archivo de entrada: control.ss</h1>
 
-<img data-src="images/ss_workflow.png" class="r-stretch quarto-figure-center"><p class="caption">Stock Synthesis Virtual Lab</p></section></section>
+</section>
+<section id="control.ss" class="slide level2">
+<h2>control.ss</h2>
+<p>Línea de parámetro siempre tiene 14 valores:</p>
+<div style="font-size: 75%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 23%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Columna</strong></th>
+<th style="text-align: center;"><strong>Elemento</strong></th>
+<th style="text-align: center;"><strong>Descripción</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">LO</td>
+<td style="text-align: center;">Valor mínimo que puede tomar el parámetro</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">HI</td>
+<td style="text-align: center;">Valor máximo que puede tomar el parámetro</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">INIT</td>
+<td style="text-align: center;">Valor inicial del parámetro</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">PRIOR</td>
+<td style="text-align: center;">Valor esperado del parámetro</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">PRIOR SD</td>
+<td style="text-align: center;">Desviación estándar para el prior</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">PRIOR TYPE</td>
+<td style="text-align: center;">Tipo de prior</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">PHASE</td>
+<td style="text-align: center;">Fase de estimación</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="control.ss-1" class="slide level2">
+<h2>control.ss</h2>
+<div style="font-size: 75%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 23%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Columna</strong></th>
+<th style="text-align: center;"><strong>Elemento</strong></th>
+<th style="text-align: center;"><strong>Descripción</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">Env var and Link</td>
+<td style="text-align: center;">Enlace a serie de tiempo ambiental</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">Dev link</td>
+<td style="text-align: center;">Uso de vector de desviación en la función de enlace</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">Dev min yr</td>
+<td style="text-align: center;">Año inicial de desviación</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">Dev max yr</td>
+<td style="text-align: center;">Año final de desviación</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">Dev phase</td>
+<td style="text-align: center;">Fase para estimación de elementos en vector</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">Block</td>
+<td style="text-align: center;">Bloque o tendencia a ser aplicado</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">Block function</td>
+<td style="text-align: center;">Forma funcional para el bloque</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="fragment">
+<div style="font-size: 75%;">
+<p>En algunas ocasiones (e.g., mortalidad por pesca), veremos que solo los primeros siete valores son necesarios (<em>línea de parámetro corta</em>).</p>
+</div>
+</div>
+</section>
+<section id="control.ss-2" class="slide level2">
+<h2>control.ss</h2>
+<p><br></p>
+<ul>
+<li><p>Explorar el archivo Excel <code>control-helper.xlsx</code> (<code>Ctl_Basic</code> sheet) (obtenido de Stock Synthesis Virtual Lab).</p></li>
+<li><p>Explorar SS Manual (sección <em>Control File</em>).</p></li>
+</ul>
+</section></section>
 <section>
 <section id="laboratorio" class="title-slide slide level1 center">
 <h1>Laboratorio</h1>
 
 </section>
-<section id="software-requerido" class="slide level2">
-<h2>Software requerido</h2>
+<section id="preparación-de-archivo-control" class="slide level2">
+<h2>Preparación de archivo control</h2>
 <p><br></p>
-<ul>
-<li>Lector de texto plano (e.g., <a href="https://notepad-plus-plus.org/">Notepad++</a>)</li>
-<li>Instalar <a href="https://github.com/r4ss/r4ss">r4ss package</a>:</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"r4ss/r4ss"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ul>
-<li>Explorar <a href="https://vlab.noaa.gov/web/stock-synthesis">SS Virtual Lab</a>
-<ul>
-<li>Descargar ejecutable (<code>ss3_win.exe</code>)</li>
-<li>Descargar manual (<code>SS330_User_Manual.pdf</code>)</li>
-</ul></li>
-<li>Explorar <a href="https://ss3sim.github.io/ss3sim/">ss3sim package</a></li>
-</ul>
+<p>Preparar el archivo control para SS.</p>
+<p><br></p>
+<p>Podemos hacerlo en tres principales formas:</p>
+<ol type="1">
+<li><p>Modificando el archivo <code>control.ss</code> directamente.</p></li>
+<li><p>Utilizando las funciones <code>SS_readctl</code> y <code>SS_writectl</code> de <code>r4ss</code>.</p></li>
+<li><p>Utilizando el <a href="https://github.com/nmfs-ost/ss3-ssi/releases">SS GUI</a> (interfaz gráfica).</p></li>
+</ol>
 </section>
-<section id="proyecto-1" class="slide level2">
-<h2>Proyecto</h2>
+<section id="preparación-de-archivo-control-1" class="slide level2">
+<h2>Preparación de archivo control</h2>
 <p><br></p>
-<ul>
-<li>Explorar datos</li>
-<li>Crear directorio de trabajo</li>
-</ul>
+<p>Ejemplo de cómo utilizar <code>SS_readctl</code> y <code>SS_writectl</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Leer y escribir archivo de control: control.ss</span></span>
+<span id="cb1-2"><a href=""></a>control_file <span class="ot">=</span> <span class="fu">SS_readctl</span>(<span class="at">file =</span> <span class="st">'ss_models/simple/control.ss'</span>)</span>
+<span id="cb1-3"><a href=""></a>control_file<span class="sc">$</span>MG_parms</span>
+<span id="cb1-4"><a href=""></a>control_file<span class="sc">$</span>SR_parms</span>
+<span id="cb1-5"><a href=""></a>control_file<span class="sc">$</span>size_selex_types</span>
+<span id="cb1-6"><a href=""></a><span class="co"># ... explorar </span></span>
+<span id="cb1-7"><a href=""></a><span class="co"># Modificar el R object si es necesario</span></span>
+<span id="cb1-8"><a href=""></a><span class="co"># Escribirlo nuevamente:</span></span>
+<span id="cb1-9"><a href=""></a><span class="fu">SS_writectl</span>(<span class="at">ctllist =</span> control_file, <span class="at">outfile =</span> <span class="st">'ss_models/simple/control.ss'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">
 <h2>Referencias</h2>
@@ -762,53 +919,38 @@
 </div>
 </div>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-Bull2002" class="csl-entry" role="listitem">
-Bull, B., Francis, R., Dunn, A., and Gilbert, D. 2002. CASAL (c++ algorithmic stock assessment laboratory): CASAL user manual v1.02.2002/10/21. NIWA Technical Report.
-</div>
-<div id="ref-DerisoUnknownTitle1985" class="csl-entry" role="listitem">
-Deriso, R.B., II, T.J.Q., and Neal, P.R. 1985. Catch-age analysis with auxiliary information. Canadian Journal of Fisheries and Aquatic Sciences <strong>42</strong>: 815–824. Canadian Science Publishing. doi:<a href="https://doi.org/10.1139/f85-104">10.1139/f85-104</a>.
-</div>
-<div id="ref-fournier1998multifan" class="csl-entry" role="listitem">
-Fournier, D.A., Hampton, J., and Sibert, J.R. 1998. MULTIFAN-CL: A length-based, age-structured model for fisheries stock assessment, with application to south pacific albacore, thunnus alalunga. Canadian Journal of Fisheries and Aquatic Sciences <strong>55</strong>(9): 2105–2116. NRC Research Press Ottawa, Canada.
-</div>
-<div id="ref-Fournier_1982" class="csl-entry" role="listitem">
-Fournier, D., and Archibald, C.P. 1982. A general theory for analyzing catch at age data. Canadian Journal of Fisheries and Aquatic Sciences <strong>39</strong>(8): 1195–1207. Canadian Science Publishing. doi:<a href="https://doi.org/10.1139/f82-157">10.1139/f82-157</a>.
-</div>
-<div id="ref-FournierUnknownTitle1990" class="csl-entry" role="listitem">
-Fournier, D.A., Sibert, J.R., Majkowski, J., and Hampton, J. 1990. MULTIFAN a likelihood-based method for estimating growth parameters and age composition from multiple length frequency data sets illustrated using data for southern bluefin tuna (&lt;i&gt;thunnus maccoyii&lt;/i&gt;). Canadian Journal of Fisheries and Aquatic Sciences <strong>47</strong>: 301–317. Canadian Science Publishing. doi:<a href="https://doi.org/10.1139/f90-032">10.1139/f90-032</a>.
-</div>
-<div id="ref-Fournier_2012" class="csl-entry" role="listitem">
-Fournier, D.A., Skaug, H.J., Ancheta, J., Ianelli, J., Magnusson, A., Maunder, M.N., Nielsen, A., and Sibert, J. 2012. <span>AD</span> model builder: Using automatic differentiation for statistical inference of highly parameterized complex nonlinear models. Optimization Methods and Software <strong>27</strong>(2): 233–249. Informa <span>UK</span> Limited. doi:<a href="https://doi.org/10.1080/10556788.2011.597854">10.1080/10556788.2011.597854</a>.
-</div>
 <div id="ref-Haddon_2011" class="csl-entry" role="listitem">
 Haddon, M. 2011. Modelling and quantitative methods in fisheries. Chapman; Hall/<span>CRC</span>. doi:<a href="https://doi.org/10.1201/9781439894170">10.1201/9781439894170</a>.
 </div>
-<div id="ref-HilbornUnknownTitle1992" class="csl-entry" role="listitem">
-Hilborn, R., and Walters, C.J. 1992. Quantitative fisheries stock assessment. Springer New York, NY. doi:<a href="https://doi.org/10.1007/978-1-4615-3598-0">10.1007/978-1-4615-3598-0</a>.
+<div id="ref-LorenzenUnknownTitle2022" class="csl-entry" role="listitem">
+Lorenzen, K. 2022. Size- and age-dependent natural mortality in fish populations: Biology, models, implications, and a generalized length-inverse mortality paradigm. Fisheries Research <strong>255</strong>: 106454. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2022.106454">10.1016/j.fishres.2022.106454</a>.
 </div>
-<div id="ref-MagnussonUnknownTitle2007" class="csl-entry" role="listitem">
-Magnusson, A., and Hilborn, R. 2007. What makes fisheries data informative? Fish and Fisheries <strong>8</strong>: 337–358. Wiley. doi:<a href="https://doi.org/10.1111/j.1467-2979.2007.00258.x">10.1111/j.1467-2979.2007.00258.x</a>.
+<div id="ref-MaunderUnknownTitle2018" class="csl-entry" role="listitem">
+Maunder, M.N., Deriso, R.B., Schaefer, K.M., Fuller, D.W., Aires-da-Silva, A.M., Minte-Vera, C.V., and Campana, S.E. 2018. The growth cessation model: A growth model for species showing a near cessation in growth with application to bigeye tuna (thunnus obesus). Marine Biology <strong>165</strong>: Not available. Springer Science; Business Media LLC. doi:<a href="https://doi.org/10.1007/s00227-018-3336-9">10.1007/s00227-018-3336-9</a>.
 </div>
-<div id="ref-Methot2005" class="csl-entry" role="listitem">
-Methot, R. 2005. Technical description of the stock synthesis II assessment program. NOAA Fisheries.
+<div id="ref-MaunderUnknownTitle2023" class="csl-entry" role="listitem">
+Maunder, M.N., Hamel, O.S., Lee, H.-H., Piner, K.R., Cope, J.M., Punt, A.E., Ianelli, J.N., Castillo-Jordán, C., Kapur, M.S., and Methot, R.D. 2023. A review of estimation methods for natural mortality and their performance in the context of fishery stock assessment. Fisheries Research <strong>257</strong>: 106489. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2022.106489">10.1016/j.fishres.2022.106489</a>.
+</div>
+<div id="ref-McGarveyUnknownTitle2024" class="csl-entry" role="listitem">
+McGarvey, R., Methot, R.D., Punt, A.E., Matthews, J.M., Taylor, I.G., Feenstra, J.E., and Doering, K. 2024. Performance gains from incorporating dynamic numbers by length-within-age in fishery assessment models. Fisheries Research <strong>276</strong>: 107039. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2024.107039">10.1016/j.fishres.2024.107039</a>.
+</div>
+<div id="ref-MethotUnknownTitle2011" class="csl-entry" role="listitem">
+Methot, R.D., and Taylor, I.G. 2011. Adjusting for bias due to variability of estimated recruitments in fishery assessment models. Canadian Journal of Fisheries and Aquatic Sciences <strong>68</strong>: 1744–1760. Canadian Science Publishing. doi:<a href="https://doi.org/10.1139/f2011-092">10.1139/f2011-092</a>.
 </div>
 <div id="ref-Methot_2013" class="csl-entry" role="listitem">
 Methot, R.D., and Wetzel, C.R. 2013. Stock synthesis: A biological and statistical framework for fish stock assessment and fishery management. Fisheries Research <strong>142</strong>: 86–99. Elsevier <span>BV</span>. doi:<a href="https://doi.org/10.1016/j.fishres.2012.10.012">10.1016/j.fishres.2012.10.012</a>.
 </div>
-<div id="ref-Method1990" class="csl-entry" role="listitem">
-Methot, R., and Low, L. 1990. Synthesis model: An adaptable framework for analysis of diverse stock assessment data. Proceedings of the Symposium on Applications of Stock Assessment Techniques to Gadids.
+<div id="ref-PuntUnknownTitle2019" class="csl-entry" role="listitem">
+Punt, A.E., and Cope, J.M. 2019. Extending integrated stock assessment models to use non-depensatory three-parameter stock-recruitment relationships. Fisheries Research <strong>217</strong>: 46–57. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2017.07.007">10.1016/j.fishres.2017.07.007</a>.
 </div>
-<div id="ref-Nielsen_2014" class="csl-entry" role="listitem">
-Nielsen, A., and Berg, C.W. 2014. Estimation of time-varying selectivity in stock assessments using state-space models. Fisheries Research <strong>158</strong>: 96–101. Elsevier <span>BV</span>. doi:<a href="https://doi.org/10.1016/j.fishres.2014.01.014">10.1016/j.fishres.2014.01.014</a>.
+<div id="ref-RICHARDSUnknownTitle1959" class="csl-entry" role="listitem">
+Richards, F.J. 1959. A flexible growth function for empirical use. Journal of Experimental Botany <strong>10</strong>: 290–301. Oxford University Press (OUP). doi:<a href="https://doi.org/10.1093/jxb/10.2.290">10.1093/jxb/10.2.290</a>.
 </div>
-<div id="ref-Pedersen_2016" class="csl-entry" role="listitem">
-Pedersen, M.W., and Berg, C.W. 2016. A stochastic surplus production model in continuous time. Fish and Fisheries <strong>18</strong>(2): 226–243. Wiley. doi:<a href="https://doi.org/10.1111/faf.12174">10.1111/faf.12174</a>.
+<div id="ref-TaylorUnknownTitle2013" class="csl-entry" role="listitem">
+Taylor, I.G., Gertseva, V., Methot, R.D., and Maunder, M.N. 2013. A stock–recruitment relationship based on pre-recruit survival, illustrated with application to spiny dogfish shark. Fisheries Research <strong>142</strong>: 15–21. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2012.04.018">10.1016/j.fishres.2012.04.018</a>.
 </div>
-<div id="ref-PuntUnknownTitle2024" class="csl-entry" role="listitem">
-Punt, A.E., Thomson, R., Little, L.R., Bessell-Browne, P., Burch, P., and Bravington, M. 2024. Including close-kin mark-recapture data in statistical catch-at-age stock assessments and management strategies. Fisheries Research <strong>276</strong>: 107057. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2024.107057">10.1016/j.fishres.2024.107057</a>.
-</div>
-<div id="ref-Stock_2021" class="csl-entry" role="listitem">
-Stock, B.C., and Miller, T.J. 2021. The woods hole assessment model (<span>WHAM</span>): A general state-space assessment framework that incorporates time- and age-varying processes via random effects and links to environmental covariates. Fisheries Research <strong>240</strong>: 105967. Elsevier <span>BV</span>. doi:<a href="https://doi.org/10.1016/j.fishres.2021.105967">10.1016/j.fishres.2021.105967</a>.
+<div id="ref-XiaoUnknownTitle2007" class="csl-entry" role="listitem">
+Xiao, Y., and Wang, Y.-G. 2007. A revisit to pope’s cohort analysis. Fisheries Research <strong>86</strong>: 153–158. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2007.05.014">10.1016/j.fishres.2007.05.014</a>.
 </div>
 </div>
 </section></section>
@@ -816,19 +958,19 @@ Stock, B.C., and Miller, T.J. 2021. The woods hole assessment model (<span>WHAM<
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="Slides_1_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="Slides_3_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="Slides_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="Slides_1_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="Slides_1_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="Slides_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="Slides_1_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="Slides_3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Slides_3_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Slides_3_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Slides_3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Slides_3_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="Slides_1_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="Slides_1_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="Slides_1_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="Slides_1_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="Slides_3_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Slides_3_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Slides_3_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Slides_3_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

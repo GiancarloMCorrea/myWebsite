@@ -20,10 +20,6 @@ bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b
 
 # Stock Synthesis
 
-## Stock Synthesis
-
-![Stock Synthesis Virtual Lab](images/ss_workflow.png){fig-align="center"}
-
 ## Archivos de entrada
 
 Son cuatro principales:
@@ -122,7 +118,7 @@ Cuando el modelo termine de ejecutarse, veremos que varios archivos de salida se
 
 <br>
 
--   Explorar el archivo Excel `SS_330_starter_and_forecast_helper.xlsx` (`STARTER` sheet) (obtenido de Stock Synthesis Virtual Lab).
+-   Explorar el archivo Excel `starter-forecast-helper.xlsx` (`STARTER` sheet) (obtenido de Stock Synthesis Virtual Lab).
 
 -   Explorar SS Manual (sección *Starter File*).
 
@@ -287,7 +283,7 @@ También podemos incluir:
 
 <br>
 
--   Explorar el archivo Excel `SS_330_data_helper.xlsx` (`Data_typical` sheet) (obtenido de Stock Synthesis Virtual Lab).
+-   Explorar el archivo Excel `data-helper.xlsx` (`Data_typical` sheet) (obtenido de Stock Synthesis Virtual Lab).
 
 -   Explorar SS Manual (sección *Data File*).
 
@@ -297,6 +293,42 @@ También podemos incluir:
 
 <br>
 
-Preparar los datos en formato para SS.
+Preparar los datos en formato para SS. Ayudarse con `data-preparation-template.xlsx`.
+
+<br>
+
+Podemos hacerlo en tres principales formas:
+
+1. Modificando el archivo `data.ss` directamente.
+
+2. Utilizando las funciones `SS_readdat` y `SS_writedat` de `r4ss`.
+
+3. Utilizando el [SS GUI](https://github.com/nmfs-ost/ss3-ssi/releases) (interfaz gráfica).
+
+## Preparación de datos
+
+Ejemplo de cómo utilizar `SS_readdat` y `SS_writedat`. 
+
+```{r eval=FALSE}
+# Leer el achivo de datos:
+data_file = SS_readdat(file = 'ss_models/simple/data.ss')
+# Explorar la lista:
+data_file$fleetinfo
+data_file$catch
+data_file$lencomp
+# Hacer modificaciones si es necesario
+# Volver escribir el archivo de datos:
+SS_writedat(datlist = data_file, outfile = 'ss_models/simple/data.ss')
+```
+
+::: fragment
+
+::: callout-note
+## Recomendación
+
+Es preferible utilizar las funciones `SS_readdat` y `SS_writedat` cuando estemos algo familiarizados con SS. Recomiendo comenzar a aprender SS interactuando directamente con los arhivos  `data.ss` y `control.ss`.
+:::
+
+:::
 
 ## Referencias

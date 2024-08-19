@@ -17,6 +17,10 @@ links:
   icon_pack: fas
   name: Clase 2
   url: /labs/ModAvanI/Slides_2.html
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Clase 3
+  url: /labs/ModAvanI/Slides_3.html
 subtitle: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque en modelos integrados utilizando la plataforma Stock Synthesis.
 summary: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque en modelos integrados utilizando la plataforma Stock Synthesis.
 title: Modelos avanzados en evaluación de recursos pesqueros I
@@ -61,3 +65,12 @@ Obtenidos de SS Virtual Lab:
 
 * [Starter and forecast](/labs/ModAvanI/spreadsheets/starter-forecast-helper.xlsx)
 * [Data](/labs/ModAvanI/spreadsheets/data-helper.xlsx)
+* [Control](/labs/ModAvanI/spreadsheets/control-helper.xlsx)
+
+Plantilla de ayuda para implementar el archivo de datos:
+
+* [Plantilla datos](/labs/ModAvanI/spreadsheets/data-preparation-template.xlsx)
+
+Ejemplo sencillo de modelo de evaluación:
+
+* [Modelo evaluación](/labs/ModAvanI/spreadsheets/population-dynamics.xlsx)

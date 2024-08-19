@@ -431,10 +431,6 @@
 <h1>Stock Synthesis</h1>
 
 </section>
-<section id="stock-synthesis-1" class="slide level2">
-<h2>Stock Synthesis</h2>
-
-<img data-src="images/ss_workflow.png" class="r-stretch quarto-figure-center"><p class="caption">Stock Synthesis Virtual Lab</p></section>
 <section id="archivos-de-entrada" class="slide level2">
 <h2>Archivos de entrada</h2>
 <p>Son cuatro principales:</p>
@@ -541,7 +537,7 @@
 <h2>starter.ss</h2>
 <p><br></p>
 <ul>
-<li><p>Explorar el archivo Excel <code>SS_330_starter_and_forecast_helper.xlsx</code> (<code>STARTER</code> sheet) (obtenido de Stock Synthesis Virtual Lab).</p></li>
+<li><p>Explorar el archivo Excel <code>starter-forecast-helper.xlsx</code> (<code>STARTER</code> sheet) (obtenido de Stock Synthesis Virtual Lab).</p></li>
 <li><p>Explorar SS Manual (sección <em>Starter File</em>).</p></li>
 </ul>
 </section></section>
@@ -799,7 +795,7 @@
 <h2>data.ss</h2>
 <p><br></p>
 <ul>
-<li><p>Explorar el archivo Excel <code>SS_330_data_helper.xlsx</code> (<code>Data_typical</code> sheet) (obtenido de Stock Synthesis Virtual Lab).</p></li>
+<li><p>Explorar el archivo Excel <code>data-helper.xlsx</code> (<code>Data_typical</code> sheet) (obtenido de Stock Synthesis Virtual Lab).</p></li>
 <li><p>Explorar SS Manual (sección <em>Data File</em>).</p></li>
 </ul>
 </section></section>
@@ -811,7 +807,44 @@
 <section id="preparación-de-datos" class="slide level2">
 <h2>Preparación de datos</h2>
 <p><br></p>
-<p>Preparar los datos en formato para SS.</p>
+<p>Preparar los datos en formato para SS. Ayudarse con <code>data-preparation-template.xlsx</code>.</p>
+<p><br></p>
+<p>Podemos hacerlo en tres principales formas:</p>
+<ol type="1">
+<li><p>Modificando el archivo <code>data.ss</code> directamente.</p></li>
+<li><p>Utilizando las funciones <code>SS_readdat</code> y <code>SS_writedat</code> de <code>r4ss</code>.</p></li>
+<li><p>Utilizando el <a href="https://github.com/nmfs-ost/ss3-ssi/releases">SS GUI</a> (interfaz gráfica).</p></li>
+</ol>
+</section>
+<section id="preparación-de-datos-1" class="slide level2">
+<h2>Preparación de datos</h2>
+<p>Ejemplo de cómo utilizar <code>SS_readdat</code> y <code>SS_writedat</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href=""></a><span class="co"># Leer el achivo de datos:</span></span>
+<span id="cb3-2"><a href=""></a>data_file <span class="ot">=</span> <span class="fu">SS_readdat</span>(<span class="at">file =</span> <span class="st">'ss_models/simple/data.ss'</span>)</span>
+<span id="cb3-3"><a href=""></a><span class="co"># Explorar la lista:</span></span>
+<span id="cb3-4"><a href=""></a>data_file<span class="sc">$</span>fleetinfo</span>
+<span id="cb3-5"><a href=""></a>data_file<span class="sc">$</span>catch</span>
+<span id="cb3-6"><a href=""></a>data_file<span class="sc">$</span>lencomp</span>
+<span id="cb3-7"><a href=""></a><span class="co"># Hacer modificaciones si es necesario</span></span>
+<span id="cb3-8"><a href=""></a><span class="co"># Volver escribir el archivo de datos:</span></span>
+<span id="cb3-9"><a href=""></a><span class="fu">SS_writedat</span>(<span class="at">datlist =</span> data_file, <span class="at">outfile =</span> <span class="st">'ss_models/simple/data.ss'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="fragment">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Recomendación</strong></p>
+</div>
+<div class="callout-content">
+<p>Es preferible utilizar las funciones <code>SS_readdat</code> y <code>SS_writedat</code> cuando estemos algo familiarizados con SS. Recomiendo comenzar a aprender SS interactuando directamente con los arhivos <code>data.ss</code> y <code>control.ss</code>.</p>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="referencias" class="slide level2 smaller scrollable">
 <h2>Referencias</h2>
