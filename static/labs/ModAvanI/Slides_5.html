@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="Slides_3_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Slides_3_files/libs/quarto-html/tabby.min.js"></script>
-<script src="Slides_3_files/libs/quarto-html/popper.min.js"></script>
-<script src="Slides_3_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="Slides_3_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Slides_3_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Slides_3_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="Slides_3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="Slides_5_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Slides_5_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Slides_5_files/libs/quarto-html/popper.min.js"></script>
+<script src="Slides_5_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Slides_5_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Slides_5_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Slides_5_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="Slides_5_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.5.55">
 
   <meta name="author" content=" Dr.&nbsp;Giancarlo M. Correa">
@@ -15,8 +15,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="Slides_3_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="Slides_3_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="Slides_5_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Slides_5_files/libs/revealjs/dist/reveal.css">
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -29,33 +29,13 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for citations */
-    div.csl-bib-body { }
-    div.csl-entry {
-      clear: both;
-      margin-bottom: 0em;
-    }
-    .hanging-indent div.csl-entry {
-      margin-left:2em;
-      text-indent:-2em;
-    }
-    div.csl-left-margin {
-      min-width:2em;
-      float:left;
-    }
-    div.csl-right-inline {
-      margin-left:2em;
-      padding-left:1em;
-    }
-    div.csl-indent {
-      margin-left: 2em;
-    }  </style>
-  <link rel="stylesheet" href="Slides_3_files/libs/revealjs/dist/theme/quarto.css">
+  </style>
+  <link rel="stylesheet" href="Slides_5_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="myStyle.css">
-  <link href="Slides_3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="Slides_3_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="Slides_3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="Slides_3_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link href="Slides_5_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Slides_5_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Slides_5_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Slides_5_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
 
   .callout {
@@ -362,223 +342,87 @@
 
 </section>
 <section>
-<section id="modelo-poblacional" class="title-slide slide level1 center">
-<h1>Modelo poblacional</h1>
+<section id="modelo-observacional" class="title-slide slide level1 center">
+<h1>Modelo observacional</h1>
 
 </section>
-<section id="estructura-interna" class="slide level2">
-<h2>Estructura interna</h2>
-<p>Dos principales dimensiones: años y edad.</p>
-
-<img data-src="images/D1_img3.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="Haddon_2011">Haddon (<a href="#/referencias" role="doc-biblioref" onclick="">2011</a>)</span></p></section>
-<section id="crecimiento-estructura-inicial" class="slide level2">
-<h2>Crecimiento: estructura inicial</h2>
-<p>Al nacer, se asigna la talla mínima en la población (<span class="math inline">\(L_{min}\)</span>). Luego, crecen linealmente hasta <span class="math inline">\(A_1\)</span>:</p>
-<p><span class="math display">\[L_{0,a} = L_{min} + ba\]</span></p>
-<p>Donde</p>
-<p><span class="math display">\[b = \frac{L_{A_1}- L_{min}}{A_1}\]</span></p>
-<div style="font-size: 75%;">
-<ul>
-<li><span class="math inline">\(a=\)</span> edad</li>
-<li><span class="math inline">\(A_1=\)</span> edad de referencia (cercana a la edad 0). Se recomienda que sea la edad donde comenzamos a tener buenos datos</li>
-</ul>
-</div>
+<section id="composición-por-tallas-y-edades" class="slide level2">
+<h2>Composición por tallas y edades</h2>
+<p>Para obtener la composición por tallas y edades predicha de índices de abundancia o pesquerías, SS primero calcula la captura a la talla y edad:</p>
+<p><span class="math display">\[C_{y,f,a,l} = S_{f,l}S_{f,a}\varphi_{a,l}N_{y,a}exp(-\theta Z_{y,a})\]</span></p>
 </section>
-<section id="crecimiento-estructura-inicial-1" class="slide level2">
-<h2>Crecimiento: estructura inicial</h2>
-<p>Para <span class="math inline">\(a &gt; A_1\)</span>, los peces crecen según la ecuación de crecimiento seleccionada</p>
-<div class="fragment">
-<p>Por ejemplo, usando la ecuación de von Bertalanffy, longitud media a la edad de la población:</p>
-<p><span class="math display">\[L_{0,a} = L_{\infty} + (L_{A_1} - L_{\infty})(exp(-k(a-A_1)))\]</span></p>
-<div style="font-size: 75%;">
-<ul>
-<li><span class="math inline">\(L_{A_1}=\)</span> longitud media a la edad <span class="math inline">\(A_1\)</span> (<span class="math inline">\(cm\)</span>)</li>
-<li><span class="math inline">\(L_{\infty}=\)</span> longitud asintótica (<span class="math inline">\(cm\)</span>)</li>
-<li><span class="math inline">\(k=\)</span> tasa de crecimiento (<span class="math inline">\(1/year\)</span>)</li>
-</ul>
-</div>
-</div>
+<section id="composición-por-tallas" class="slide level2">
+<h2>Composición por tallas</h2>
+<p>Luego, la composición por talla predicha:</p>
+<p><span class="math display">\[\hat{p}_{1,y,f,l}=\frac{\sum_a C_{y,f,a,l}+x}{\sum_l (\sum_a C_{y,f,a,l}+x)}\]</span></p>
 </section>
-<section id="crecimiento-dinámica" class="slide level2">
-<h2>Crecimiento: dinámica</h2>
-<p><br></p>
-<p>Para <span class="math inline">\(y&gt;0\)</span>, usamos:</p>
-<p><span class="math display">\[L_{y+1,a+1} = L_{y,a} + (L_{y,a}-L_{\infty})(exp(-k) - 1)\]</span></p>
-<p>Para el grupo plus, la ecuación es ligeramente diferente para <em>acumular tallas</em> (ver Technical Description, <span class="citation" data-cites="Methot_2013">Methot and Wetzel (<a href="#/referencias" role="doc-biblioref" onclick="">2013</a>)</span>).</p>
-</section>
-<section id="crecimiento" class="slide level2">
-<h2>Crecimiento</h2>
-<p><br></p>
-<p>Para cualquier fracción <span class="math inline">\(\theta\)</span> del año:</p>
-<p><span class="math display">\[\tilde{L}_{y,a}=L_{y,a} + (L_{y,a}-L_{\infty})(exp(-k\theta)-1)\]</span></p>
-<p><br></p>
-<p>Esto es importante dado que los peces también crecen dentro de un año.</p>
-</section>
-<section id="crecimiento-1" class="slide level2">
-<h2>Crecimiento</h2>
-<p><br></p>
-<p>Otras parametrizaciones estan disponibles:</p>
-<ul>
-<li>Richards <span class="citation" data-cites="RICHARDSUnknownTitle1959">(<a href="#/referencias" role="doc-biblioref" onclick="">Richards 1959</a>)</span></li>
-<li>von Bertalanffy with age-specific K</li>
-<li>Growth cessation <span class="citation" data-cites="MaunderUnknownTitle2018">(<a href="#/referencias" role="doc-biblioref" onclick="">Maunder et al. 2018</a>)</span></li>
-</ul>
-</section>
-<section id="crecimiento-2" class="slide level2">
-<h2>Crecimiento</h2>
-
-<img data-src="images/growth_1.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Talla media a la edad de la población.</p></section>
-<section id="crecimiento-3" class="slide level2">
-<h2>Crecimiento</h2>
-
-<img data-src="images/growth_2.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption">Variabilidad de tallas por edad.</p></section>
-<section id="crecimiento-4" class="slide level2">
-<h2>Crecimiento</h2>
-<p>Variabilidad de tallas por edad:</p>
-<p><span class="math display">\[\sigma_{y,a} = \begin{cases}
-\tilde{L}_{y,a}(CV_1) &amp;\text{a$\leq$ A1}\\
-\tilde{L}_{y,a}(CV_1+\frac{\tilde{L}_{y,a}-L_1}{L_2-L_1}(CV_2 - CV1)) &amp;\text{a&gt;A1}
+<section id="composición-por-edades" class="slide level2">
+<h2>Composición por edades</h2>
+<p>Para la composición de edades, primero tenemos que incluir el efecto de la matriz de error al estimar las edades de los individuos:</p>
+<p><span class="math display">\[\psi_{a}=\begin{cases}
+\Phi(\frac{a_1 - \tilde{a}_a}{\tilde{a}_a})&amp;a=1\\
+\Phi(\frac{a_{a+1} - \tilde{a}_a}{\tilde{a}_a})-\Phi(\frac{a_a - \tilde{a}_a}{\tilde{a}_a})&amp;1&lt;a&lt;A\\
+1-\Phi(\frac{A - \tilde{a}_a}{\tilde{a}_a})&amp;a=A
 \end{cases}\]</span></p>
-<div style="font-size: 75%;">
-<p>Donde tenemos dos parámetros:</p>
-<ul>
-<li><span class="math inline">\(CV_1\)</span> es el coeficiente de variación de longitudes en la edad <span class="math inline">\(A_1\)</span></li>
-<li><span class="math inline">\(CV_2\)</span> es el coeficiente de variación de longitudes en la máxima edad</li>
-</ul>
-</div>
+<p>Donde <span class="math inline">\(\tilde{a}_a\)</span> es la edad esperada <span class="math inline">\(a\)</span> en la mitad del año.</p>
+</section>
+<section id="composición-por-edades-1" class="slide level2">
+<h2>Composición por edades</h2>
+<p>Luego, la composición por edades predicha:</p>
+<p><span class="math display">\[\hat{p}_{2,y,f,a}=\frac{\sum_l C_{y,f,a,l}+x}{\sum_a (\sum_l C_{y,f,a,l}+x)}\]</span></p>
+</section>
+<section id="índice-de-abundancia" class="slide level2">
+<h2>Índice de abundancia</h2>
+<p>Para cada año, el índice predicho en biomasa se calcula:</p>
+<p><span class="math display">\[B_{y,f} = \sum_l w_l \sum_a C_{y,f,a,l}\]</span></p>
 <div class="fragment">
-<p>También podemos calcular <span class="math inline">\(\sigma_{y,a}\)</span> como función de la edad.</p>
+<p>Luego, el índice predicho por el modelo (<span class="math inline">\(\hat{I}_{y,f}\)</span>) es:</p>
+<p><span class="math display">\[\hat{I}_{y,f} = Q_f B_{y,f}\]</span></p>
+<p>Además, existen otras relaciones no lineales posibles en SS.</p>
 </div>
-</section>
-<section id="matriz-de-transición" class="slide level2">
-<h2>Matriz de transición</h2>
-<p>Distribuye la información de cada edad entre las diferentes marcas de clase modeladas.</p>
-<p><span class="math display">\[\varphi_{y,l,a}=\begin{cases}
-\Phi(\frac{L'_{min^\ast} - L_{y,a}}{\sigma_{y,a}})\hspace{3.2cm}l=1\\
-\Phi(\frac{L'_{l+1} - L_{y,a}}{\sigma_{y,a}})-\Phi(\frac{L'_{l} - L_{y,a}}{\sigma_{y,a}})\hspace{1cm}1&lt;l&lt;n_L\\
-1-\Phi(\frac{L'_{max} - L_{y,a}}{\sigma_{y,a}})\hspace{2.5cm}l=n_L
-\end{cases}\]</span></p>
-<p><span class="math inline">\(\Phi\)</span> es la distribución normal estándar acumulada, <span class="math inline">\(L'\)</span> representa las marcas de clase modeladas, <span class="math inline">\(l\)</span> es indicador de marca de clase, <span class="math inline">\(n_L\)</span> es el número de marcas de clase. <span class="math inline">\(L\)</span> también podría ser <span class="math inline">\(\tilde{L}\)</span>.</p>
-</section>
-<section id="matriz-de-transición-1" class="slide level2">
-<h2>Matriz de transición</h2>
+</section></section>
+<section>
+<section id="modelo-estadístico" class="title-slide slide level1 center">
+<h1>Modelo estadístico</h1>
 
-<img data-src="images/phi_mat_tile.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
-<section id="matriz-de-transición-2" class="slide level2">
-<h2>Matriz de transición</h2>
-<p><br></p>
-<div class="columns">
-<div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/growth_3.png" class="quarto-figure quarto-figure-center"></p>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/growth_4.png" class="quarto-figure quarto-figure-center"></p>
-</figure>
-</div>
-</div></div>
 </section>
-<section id="crecimiento-5" class="slide level2">
-<h2>Crecimiento</h2>
-<p><br></p>
-<p>También podemos modelar <em>morphs</em>, que son colecciones de peces de una cohorte con carácterísticas biológicas únicas (e.g., mortalidad, crecimiento). Usado cuando queremos modelar, por ejemplo, diferentes parámetros biológicos en diferentes áreas o <em>seasons</em>.</p>
-<div class="fragment">
-<p>Estos <em>morphs</em> a su vez pueden ser dividos en <em>platoons</em> para permitir supervivencia dependiente de la talla. Ver este artículo: <span class="citation" data-cites="McGarveyUnknownTitle2024">McGarvey et al. (<a href="#/referencias" role="doc-biblioref" onclick="">2024</a>)</span>.</p>
-</div>
+<section id="función-de-verosimilitud-global" class="slide level2">
+<h2>Función de verosimilitud global</h2>
+<p>Formado de la contribución de diferentes subcomponentes de verosimilitud:</p>
+<p><span class="math display">\[L = \sum_i \sum_f \omega_{i,f}L_{i,f} + \omega_R L_R\]</span></p>
+<p>Donde <span class="math inline">\(L\)</span> es la función objetivo conjunta. <span class="math inline">\(i\)</span> representa diferente fuente de datos, <span class="math inline">\(f\)</span> es la flota, y <span class="math inline">\(L_{i,f}\)</span> es la función objetivo de cada fuente de datos. <span class="math inline">\(L_R\)</span> es la función objetivo del componente de reclutamiento. <span class="math inline">\(\omega\)</span> es un factor de peso.</p>
 </section>
-<section id="longitud-peso" class="slide level2">
-<h2>Longitud-peso</h2>
-<p><br></p>
-<p>Convertir de talla (cm) a peso corporal (kg):</p>
-<p><span class="math display">\[w_l = \Omega_1 (L_l')^{\Omega_2}\]</span></p>
-<p>Donde <span class="math inline">\(\Omega_1\)</span> y <span class="math inline">\(\Omega_2\)</span> son parámetros del modelo.</p>
+<section id="capturas" class="slide level2">
+<h2>Capturas</h2>
+<p>La función objetivo para capturas es:</p>
+<p><span class="math display">\[L_{1,f} = \sum_{y}\frac{(ln(C_{y,f})-ln(\hat{C}_{y,f}+x))^2}{2\sigma_{y,f}^2}\]</span></p>
+<p>Donde <span class="math inline">\(\hat{C}_{y,f}\)</span> es la captura observada.</p>
 </section>
-<section id="longitud-peso-1" class="slide level2">
-<h2>Longitud-peso</h2>
-
-<img data-src="images/LW_1.png" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="madurez-sexual" class="slide level2">
-<h2>Madurez sexual</h2>
-<p><br></p>
-<p>Puede ser modelada como una función de talla o edad. Como función de talla:</p>
-<p><span class="math display">\[Mat_l = \frac{1}{1+exp(\Omega_4(L'_l - \Omega_3))}\]</span></p>
-<p>Donde <span class="math inline">\(\Omega_3\)</span> (talla a 50% madurez) y <span class="math inline">\(\Omega_4\)</span> (pendiente) son parámetros del modelo.</p>
+<section id="índice-de-abundancia-1" class="slide level2">
+<h2>Índice de abundancia</h2>
+<p>Para el caso de los índices, la función objetivo es:</p>
+<p><span class="math display">\[L_{1,f} = \sum_y ln(CV_{y,f}\hat{I}_{y,f})+0.5(\frac{ln(I_{y,f}) - ln(\hat{I}_{y,f})}{CV_{y,f}\hat{I}_{y,f}})^2\]</span></p>
+<p>Donde <span class="math inline">\(I_{y,f}\)</span> representa el índice observado. Se asume una distribución lognormal del error, y la correción de sesgo ha sido omitida.</p>
 </section>
-<section id="madurez-sexual-1" class="slide level2">
-<h2>Madurez sexual</h2>
-
-<img data-src="images/maturity.png" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="producción-de-huevos" class="slide level2">
-<h2>Producción de huevos</h2>
-<p><br></p>
-<p>La producción de huevos es modelada como una función de la talla:</p>
-<p><span class="math display">\[Eggs_l = \Omega_5 + w_l \Omega_6\]</span></p>
-<p>Donde <span class="math inline">\(Eggs_l\)</span> representa la producción de huevos por kg de peso de la hembra. Donde <span class="math inline">\(\Omega_5\)</span> y <span class="math inline">\(\Omega_6\)</span> son parámetros del modelo.</p>
+<section id="composición-por-tallas-1" class="slide level2">
+<h2>Composición por tallas</h2>
+<p>Normalmente asumimos una distribución de error multinomial. La función objetivo para este caso es:</p>
+<p><span class="math display">\[L_{3,f} = \sum_y \sum_l n_{1,y,f} p_{1,y,f}ln(\frac{p_{1,y,f,l}}{\hat{p}_{1,y,f,l}})\]</span></p>
+<p>Donde <span class="math inline">\(p_{1,y,f}\)</span> es la composición por tallas observada y <span class="math inline">\(n_1\)</span> representa el tamaño de muestra (<span class="math inline">\(Nsamp\)</span>).</p>
 </section>
-<section id="producción-de-huevos-1" class="slide level2">
-<h2>Producción de huevos</h2>
-<p>Asumiendo <span class="math inline">\(\Omega_5 = 1\)</span> y <span class="math inline">\(\Omega_6=0\)</span>:</p>
-
-<img data-src="images/eggprod.png" class="quarto-figure quarto-figure-center r-stretch"></section>
-<section id="fecunidad" class="slide level2">
-<h2>Fecunidad</h2>
-<p>Es modelada como:</p>
-<p><span class="math display">\[f_{y,a} = \sum_l\varphi_{y,l,a}(Mat_lEggs_lw_l)\]</span> <br></p>
-<div class="fragment">
-<p>Finalmente, la biomasa desovante (SSB) puede ser estimada como:</p>
-<p><span class="math display">\[SSB_y = \sum_a N_{y,a} f_{y,a}\]</span></p>
-</div>
+<section id="composición-por-edades-2" class="slide level2">
+<h2>Composición por edades</h2>
+<p>Normalmente asumimos una distribución de error multinomial. La función objetivo para este caso es:</p>
+<p><span class="math display">\[L_{4,f} = \sum_y \sum_a n_{2,y,f} p_{2,y,f}ln(\frac{p_{2,y,f,l}}{\hat{p}_{2,y,f,l}})\]</span></p>
+<p>Donde <span class="math inline">\(p_{2,y,f}\)</span> es la composición por edades observada y <span class="math inline">\(n_2\)</span> representa el tamaño de muestra (<span class="math inline">\(Nsamp\)</span>).</p>
 </section>
-<section id="stock-reclutamiento" class="slide level2">
-<h2>Stock-reclutamiento</h2>
-<p>Usando la función Berverton-Holt:</p>
-<p><span class="math display">\[R_y = \frac{4hR_0SSB_y}{SSB_0(1-h)+SSB_y(5h-1)}exp(-0.5b_y \sigma_R^2 + \tilde{R}_y)\]</span></p>
-<p>Donde <span class="math inline">\(\tilde{R}_y \sim N(0,\sigma_R^2)\)</span>. <span class="math inline">\(R_0\)</span> es el reclutamiento sin pesca, <span class="math inline">\(SSB_0\)</span> es la biomasa desovante sin pesca, <span class="math inline">\(h\)</span> es el steepness, <span class="math inline">\(b_y\)</span> es el ajuste de sesgo aplicado durante el año <span class="math inline">\(y\)</span>, <span class="math inline">\(\sigma_R\)</span> es la desviación estándar de desviaciones de reclutamiento en el espacio log natural, y <span class="math inline">\(\tilde{R}_y\)</span> es es la desviación de reclutamiento lognormal.</p>
-</section>
-<section id="stock-reclutamiento-1" class="slide level2">
-<h2>Stock-reclutamiento</h2>
-<p>Usando la función Ricker:</p>
-<p><span class="math display">\[R_y = \frac{R_0SSB_y}{SSB_0}exp(h(1-SSB_y/SSB_0))exp(-0.5b_y \sigma_R^2 + \tilde{R}_y)\]</span></p>
-<p><br></p>
-<div class="fragment">
-<p>Existen otras funciones stock-reclutamiento como: Hockey-Stick, Shepherd, Survivorship <span class="citation" data-cites="TaylorUnknownTitle2013">(<a href="#/referencias" role="doc-biblioref" onclick="">Taylor et al. 2013</a>)</span>, versión modificada de Ricker <span class="citation" data-cites="PuntUnknownTitle2019">(<a href="#/referencias" role="doc-biblioref" onclick="">Punt and Cope 2019</a>)</span>.</p>
-</div>
-</section>
-<section id="ajuste-de-sesgo" class="slide level2">
-<h2>Ajuste de sesgo</h2>
-<p>Aplicado para corregir sesgo entre transformaciones en escala natural y log <span class="citation" data-cites="MethotUnknownTitle2011">(<a href="#/referencias" role="doc-biblioref" onclick="">Methot and Taylor 2011</a>)</span>. Normalmente se realiza un ajuste máximo durante el periodo con mayor cantidad de datos.</p>
-<div class="columns">
-<div class="column" style="width:40%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/bias_adj_1.png" class="quarto-figure quarto-figure-center"></p>
-</figure>
-</div>
-</div><div class="column" style="width:50%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/bias_adj_2.png" class="quarto-figure quarto-figure-center"></p>
-</figure>
-</div>
-</div></div>
-</section>
-<section id="stock-reclutamiento-2" class="slide level2">
-<h2>Stock-reclutamiento</h2>
-<p><br></p>
-
-<img data-src="images/SR-1.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="reclutamiento" class="slide level2">
 <h2>Reclutamiento</h2>
 <p><br></p>
-<p>El desove ocurre una vez por año (configuración por defecto), pero varios eventos de reclutamiento pueden ser especificado dentro del año (<em>settlements</em>).</p>
-<p><br></p>
-<p>La propoción del reclutamiento anual en cada <em>settlements</em> es estimada como parámetros.</p>
+<p>La función objetivo es:</p>
+<p><span class="math display">\[L_R = 0.5(\sum_y \frac{\tilde{R}^2_y}{\sigma_R^2}+b_yln(\sigma_R^2))\]</span></p>
 </section>
-<section id="referencias" class="slide level2 smaller scrollable">
+<section id="referencias" class="slide level2">
 <h2>Referencias</h2>
 <div class="quarto-auto-generated-content">
 <p><img src="images/CGlogo1.png" class="slide-logo"></p>
@@ -586,50 +430,24 @@
 
 </div>
 </div>
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-Haddon_2011" class="csl-entry" role="listitem">
-Haddon, M. 2011. Modelling and quantitative methods in fisheries. Chapman; Hall/<span>CRC</span>. doi:<a href="https://doi.org/10.1201/9781439894170">10.1201/9781439894170</a>.
-</div>
-<div id="ref-MaunderUnknownTitle2018" class="csl-entry" role="listitem">
-Maunder, M.N., Deriso, R.B., Schaefer, K.M., Fuller, D.W., Aires-da-Silva, A.M., Minte-Vera, C.V., and Campana, S.E. 2018. The growth cessation model: A growth model for species showing a near cessation in growth with application to bigeye tuna (thunnus obesus). Marine Biology <strong>165</strong>: Not available. Springer Science; Business Media LLC. doi:<a href="https://doi.org/10.1007/s00227-018-3336-9">10.1007/s00227-018-3336-9</a>.
-</div>
-<div id="ref-McGarveyUnknownTitle2024" class="csl-entry" role="listitem">
-McGarvey, R., Methot, R.D., Punt, A.E., Matthews, J.M., Taylor, I.G., Feenstra, J.E., and Doering, K. 2024. Performance gains from incorporating dynamic numbers by length-within-age in fishery assessment models. Fisheries Research <strong>276</strong>: 107039. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2024.107039">10.1016/j.fishres.2024.107039</a>.
-</div>
-<div id="ref-MethotUnknownTitle2011" class="csl-entry" role="listitem">
-Methot, R.D., and Taylor, I.G. 2011. Adjusting for bias due to variability of estimated recruitments in fishery assessment models. Canadian Journal of Fisheries and Aquatic Sciences <strong>68</strong>: 1744–1760. Canadian Science Publishing. doi:<a href="https://doi.org/10.1139/f2011-092">10.1139/f2011-092</a>.
-</div>
-<div id="ref-Methot_2013" class="csl-entry" role="listitem">
-Methot, R.D., and Wetzel, C.R. 2013. Stock synthesis: A biological and statistical framework for fish stock assessment and fishery management. Fisheries Research <strong>142</strong>: 86–99. Elsevier <span>BV</span>. doi:<a href="https://doi.org/10.1016/j.fishres.2012.10.012">10.1016/j.fishres.2012.10.012</a>.
-</div>
-<div id="ref-PuntUnknownTitle2019" class="csl-entry" role="listitem">
-Punt, A.E., and Cope, J.M. 2019. Extending integrated stock assessment models to use non-depensatory three-parameter stock-recruitment relationships. Fisheries Research <strong>217</strong>: 46–57. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2017.07.007">10.1016/j.fishres.2017.07.007</a>.
-</div>
-<div id="ref-RICHARDSUnknownTitle1959" class="csl-entry" role="listitem">
-Richards, F.J. 1959. A flexible growth function for empirical use. Journal of Experimental Botany <strong>10</strong>: 290–301. Oxford University Press (OUP). doi:<a href="https://doi.org/10.1093/jxb/10.2.290">10.1093/jxb/10.2.290</a>.
-</div>
-<div id="ref-TaylorUnknownTitle2013" class="csl-entry" role="listitem">
-Taylor, I.G., Gertseva, V., Methot, R.D., and Maunder, M.N. 2013. A stock–recruitment relationship based on pre-recruit survival, illustrated with application to spiny dogfish shark. Fisheries Research <strong>142</strong>: 15–21. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2012.04.018">10.1016/j.fishres.2012.04.018</a>.
-</div>
-</div>
 </section></section>
     </div>
   </div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="Slides_3_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="Slides_5_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="Slides_3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="Slides_3_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="Slides_3_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="Slides_3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="Slides_3_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="Slides_3_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="Slides_3_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="Slides_3_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="Slides_3_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Slides_5_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>

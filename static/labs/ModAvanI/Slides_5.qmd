@@ -1,0 +1,120 @@
+---
+title: "Modelos avanzados en evaluación de recursos pesqueros"
+author: 
+   <br>Dr. Giancarlo M. Correa
+institute:
+   <br>Cousteau Consultant Group
+format:
+  revealjs:
+    theme: simple
+    logo: images/CGlogo1.png
+    slide-number: 'c/t'
+    css: myStyle.css
+from: markdown+emoji
+csl: canadian-journal-of-fisheries-and-aquatic-sciences.csl
+editor: source
+execute:
+  echo: true
+bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b0/references.bib?x=eyJpZCI6ICJiNjNhYzI0Mi1hNzdjLTQ4MTYtOWMyNy1mY2RmYjMxODc1YjAiLCAidXNlciI6ICI1NDQwIiwgInNpZ25hdHVyZSI6ICIyMTMxYjVhZDk1NGYxNDUzYjk3YjZiNjk3ZDIxZWEwODIwZjA4MTBiZTk3YWIxOTNiMGVkMzI1YzI0YTRjZWNkIn0="
+---
+
+# Modelo observacional
+
+## Composición por tallas y edades
+
+Para obtener la composición por tallas y edades predicha de índices de abundancia o pesquerías, SS primero calcula la captura a la talla y edad:
+
+$$C_{y,f,a,l} = S_{f,l}S_{f,a}\varphi_{a,l}N_{y,a}exp(-\theta Z_{y,a})$$
+
+## Composición por tallas
+
+Luego, la composición por talla predicha:
+
+$$\hat{p}_{1,y,f,l}=\frac{\sum_a C_{y,f,a,l}+x}{\sum_l (\sum_a C_{y,f,a,l}+x)}$$
+
+## Composición por edades
+
+Para la composición de edades, primero tenemos que incluir el efecto de la matriz de error al estimar las edades de los individuos:
+
+$$\psi_{a}=\begin{cases}
+\Phi(\frac{a_1 - \tilde{a}_a}{\tilde{a}_a})&a=1\\
+\Phi(\frac{a_{a+1} - \tilde{a}_a}{\tilde{a}_a})-\Phi(\frac{a_a - \tilde{a}_a}{\tilde{a}_a})&1<a<A\\
+1-\Phi(\frac{A - \tilde{a}_a}{\tilde{a}_a})&a=A
+\end{cases}$$
+
+Donde $\tilde{a}_a$ es la edad esperada $a$ en la mitad del año.
+
+## Composición por edades
+
+Luego, la composición por edades predicha:
+
+$$\hat{p}_{2,y,f,a}=\frac{\sum_l C_{y,f,a,l}+x}{\sum_a (\sum_l C_{y,f,a,l}+x)}$$
+
+## Índice de abundancia
+
+Para cada año, el índice predicho en biomasa se calcula:
+
+$$B_{y,f} = \sum_l w_l \sum_a C_{y,f,a,l}$$
+
+::: fragment
+
+Luego, el índice predicho por el modelo ($\hat{I}_{y,f}$) es:
+
+$$\hat{I}_{y,f} = Q_f B_{y,f}$$
+
+Además, existen otras relaciones no lineales posibles en SS.
+
+:::
+
+# Modelo estadístico
+
+## Función de verosimilitud global
+
+Formado de la contribución de diferentes subcomponentes de verosimilitud:
+
+$$L = \sum_i \sum_f \omega_{i,f}L_{i,f} + \omega_R L_R$$
+
+Donde $L$ es la función objetivo conjunta. $i$ representa diferente fuente de datos, $f$ es la flota, y $L_{i,f}$ es la función objetivo de cada fuente de datos. $L_R$ es la función objetivo del componente de reclutamiento. $\omega$ es un factor de peso.
+
+## Capturas
+
+La función objetivo para capturas es:
+
+$$L_{1,f} = \sum_{y}\frac{(ln(C_{y,f})-ln(\hat{C}_{y,f}+x))^2}{2\sigma_{y,f}^2}$$
+
+Donde $\hat{C}_{y,f}$ es la captura observada.
+
+## Índice de abundancia
+
+Para el caso de los índices, la función objetivo es:
+
+$$L_{1,f} = \sum_y ln(CV_{y,f}\hat{I}_{y,f})+0.5(\frac{ln(I_{y,f}) - ln(\hat{I}_{y,f})}{CV_{y,f}\hat{I}_{y,f}})^2$$
+
+Donde $I_{y,f}$ representa el índice observado. Se asume una distribución lognormal del error, y la correción de sesgo ha sido omitida.
+
+## Composición por tallas
+
+Normalmente asumimos una distribución de error multinomial. La función objetivo para este caso es:
+
+$$L_{3,f} = \sum_y \sum_l n_{1,y,f} p_{1,y,f}ln(\frac{p_{1,y,f,l}}{\hat{p}_{1,y,f,l}})$$
+
+Donde $p_{1,y,f}$ es la composición por tallas observada y $n_1$ representa el tamaño de muestra ($Nsamp$).
+
+## Composición por edades
+
+Normalmente asumimos una distribución de error multinomial. La función objetivo para este caso es:
+
+$$L_{4,f} = \sum_y \sum_a n_{2,y,f} p_{2,y,f}ln(\frac{p_{2,y,f,l}}{\hat{p}_{2,y,f,l}})$$
+
+Donde $p_{2,y,f}$ es la composición por edades observada y $n_2$ representa el tamaño de muestra ($Nsamp$).
+
+## Reclutamiento
+
+<br>
+
+La función objetivo es:
+
+$$L_R = 0.5(\sum_y \frac{\tilde{R}^2_y}{\sigma_R^2}+b_yln(\sigma_R^2))$$
+
+
+## Referencias

@@ -1,0 +1,221 @@
+---
+title: "Modelos avanzados en evaluación de recursos pesqueros"
+author: 
+   <br>Dr. Giancarlo M. Correa
+institute:
+   <br>Cousteau Consultant Group
+format:
+  revealjs:
+    theme: simple
+    logo: images/CGlogo1.png
+    slide-number: 'c/t'
+    css: myStyle.css
+from: markdown+emoji
+csl: canadian-journal-of-fisheries-and-aquatic-sciences.csl
+editor: source
+execute:
+  echo: true
+bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b0/references.bib?x=eyJpZCI6ICJiNjNhYzI0Mi1hNzdjLTQ4MTYtOWMyNy1mY2RmYjMxODc1YjAiLCAidXNlciI6ICI1NDQwIiwgInNpZ25hdHVyZSI6ICIyMTMxYjVhZDk1NGYxNDUzYjk3YjZiNjk3ZDIxZWEwODIwZjA4MTBiZTk3YWIxOTNiMGVkMzI1YzI0YTRjZWNkIn0="
+---
+
+# Modelo poblacional
+
+## Mortalidad natural
+
+$M$ es en muchos casos asumido constante para todas las edades (1 parámetro). 
+
+<br>
+
+::: fragment
+
+Hay opciones para especificar $M$ específico a la edad, o que varíe en función a la talla:
+
+- $M$ independiente a la edad 
+- Lorenzen [@LorenzenUnknownTitle2022]: toma en cuenta procesos fisiológicos a lo largo del ciclo de vida
+- $M$ específico a la edad relacionado a talla y madurez [@MaunderUnknownTitle2023]
+
+:::
+
+## Abundancia: estructura inicial
+
+<br>
+
+Calculamos la abundancia a la edad ($a<A$):
+
+$$N_{0,a}=R_0exp(-aM)$$
+
+Esta ecuación varía para el grupo plus $A$ (ver Technical Description, @Methot_2013).
+
+## Abundancia: dinámica
+
+$$N_{y+1,a} = \begin{cases}
+R_{y+1} &a=0\\
+N_{y,a-1}exp(-Z_{y,a}) &1\leq a\leq A-1\\
+N_{y, A-1}exp(-Z_{y,A-1})+N_{y,A}exp(-Z_{y,A}) &a=A
+\end{cases}$$
+
+<br>
+
+Donde:
+
+$$Z_{y,a} = M+\sum_f (S_{f,a}F_{y,f})$$
+
+## Selectividad
+
+Se debe especificar selectividad a la edad y a la talla. La parametrización logística como función de talla es:
+
+$$S_{f,l} = \frac{1}{1+exp(-ln(19)(L'_l - \beta_1)/\beta_2)}$$
+
+Donde $\beta_1$ y $\beta_2$ son parámetros.
+
+<br>
+
+::: fragment
+
+Una de las parametrizaciones más utilizadas es la doble-normal (ver `selectivity_options.R`).
+
+:::
+
+## Selectividad
+
+![](images/selex.png){fig-align="center"}
+
+
+## Captura
+
+1. Aproximación de Pope:
+
+Ignoramos el subíndice de flota por simplicidad:
+
+$$N_{y+1,a+1} = N_{y,a}exp(-M) - \hat{C}_{y,a}exp(-M/2)$$
+
+Luego, se puede aproximar $F$ mediante:
+
+$$N_{y+1,a+1}exp(M) = N_{y,a}-N_{y,a}(1-exp(-S_a F_{y}))$$
+
+Ver @XiaoUnknownTitle2007.
+
+## Captura
+
+<br>
+
+2. Ecuación de captura de Baranov
+
+Usamos:
+
+$$\hat{C}_{y,a} = \frac{S_aF_y}{M+S_aF_y}N_{y,a}(1-exp(-M-S_aF_y))$$
+
+Donde $F_y$ son parámetros estimados.
+
+## Captura
+
+3. Método híbrido: usa la ecuación de Pope y Baranov secuencialmente para estimar $F$.
+
+- Aplica el método de Pope para obtener una tasa de cosecha en la *season*
+- Conviente la tasa de cosecha al equivalente en la ecuación de Baranov $F_{hyb}$
+- Ajusta valores $F_{hyb}$ por medio de iteraciones usando el ratio de captura calculada y observada para cada flota
+- Proceder con $F_{hyb}$ en adelante.
+
+
+## Captura
+
+<br>
+
+4. Método híbrido: combinación de métodos 2 y 3. Es el método recomendado ya que mejora algunos problemas existentes para el método 3 (e.g., altos valores de $F$, múltiples flotas).
+
+## Ejemplo de dinámica poblacional
+
+<br>
+
+Explorar el archivo Excel `population-dynamics.xlsx`.
+
+# Archivo de entrada: control.ss
+
+## control.ss
+
+Línea de parámetro siempre tiene 14 valores:
+
+::: {style="font-size: 75%;"}
+
+| **Columna** | **Elemento** | **Descripción**         |
+|:------:|:-------:|:--------------------:|
+|   1   |   LO       |   Valor mínimo que puede tomar el parámetro      |
+|   2   |   HI       |   Valor máximo que puede tomar el parámetro      |
+|   3   |   INIT       |   Valor inicial del parámetro      |
+|   4   |   PRIOR       |   Valor esperado del parámetro         |
+|   5   |   PRIOR SD       |   Desviación estándar para el prior         |
+|   6   |   PRIOR TYPE       |   Tipo de prior         |
+|   7   |   PHASE       |   Fase de estimación         |
+
+:::
+
+## control.ss
+
+
+::: {style="font-size: 75%;"}
+
+| **Columna** | **Elemento** | **Descripción**         |
+|:------:|:-------:|:--------------------:|
+|   8   |   Env var and Link      |   Enlace a serie de tiempo ambiental        |
+|   9   |   Dev link      |   Uso de vector de desviación en la función de enlace        |
+|   10   |   Dev min yr      |   Año inicial de desviación        |
+|   11   |   Dev max yr      |   Año final de desviación        |
+|   12   |   Dev phase     |   Fase para estimación de elementos en vector      |
+|   13   |   Block     |   Bloque o tendencia a ser aplicado      |
+|   14   |   Block function     |   Forma funcional para el bloque   |
+
+:::
+
+::: fragment
+
+::: {style="font-size: 75%;"}
+En algunas ocasiones (e.g., mortalidad por pesca), veremos que solo los primeros siete valores son necesarios (*línea de parámetro corta*).
+:::
+
+:::
+
+## control.ss
+
+<br>
+
+-   Explorar el archivo Excel `control-helper.xlsx` (`Ctl_Basic` sheet) (obtenido de Stock Synthesis Virtual Lab).
+
+-   Explorar SS Manual (sección *Control File*).
+
+# Laboratorio
+
+## Preparación de archivo control
+
+<br>
+
+Preparar el archivo control para SS.
+
+<br>
+
+Podemos hacerlo en tres principales formas:
+
+1. Modificando el archivo `control.ss` directamente.
+
+2. Utilizando las funciones `SS_readctl` y `SS_writectl` de `r4ss`.
+
+3. Utilizando el [SS GUI](https://github.com/nmfs-ost/ss3-ssi/releases) (interfaz gráfica).
+
+## Preparación de archivo control
+
+<br>
+
+Ejemplo de cómo utilizar `SS_readctl` y `SS_writectl`. 
+
+```{r eval=FALSE}
+# Leer y escribir archivo de control: control.ss
+control_file = SS_readctl(file = 'ss_models/simple/control.ss')
+control_file$MG_parms
+control_file$SR_parms
+control_file$size_selex_types
+# ... explorar 
+# Modificar el R object si es necesario
+# Escribirlo nuevamente:
+SS_writectl(ctllist = control_file, outfile = 'ss_models/simple/control.ss')
+```
+
+## Referencias

@@ -21,6 +21,10 @@ links:
   icon_pack: fas
   name: Clase 3
   url: /labs/ModAvanI/Slides_3.html
+- icon: file-powerpoint
+  icon_pack: fas
+  name: Clase 4
+  url: /labs/ModAvanI/Slides_4.html
 subtitle: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque en modelos integrados utilizando la plataforma Stock Synthesis.
 summary: Fundamentos de modelos de evaluación de stocks estructurado por edades, con enfoque en modelos integrados utilizando la plataforma Stock Synthesis.
 title: Modelos avanzados en evaluación de recursos pesqueros I
