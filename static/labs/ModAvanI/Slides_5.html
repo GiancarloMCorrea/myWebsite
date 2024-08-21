@@ -29,7 +29,92 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-  </style>
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="Slides_5_files/libs/revealjs/dist/theme/quarto.css">
   <link rel="stylesheet" href="myStyle.css">
   <link href="Slides_5_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -348,13 +433,16 @@
 </section>
 <section id="composición-por-tallas-y-edades" class="slide level2">
 <h2>Composición por tallas y edades</h2>
-<p>Para obtener la composición por tallas y edades predicha de índices de abundancia o pesquerías, SS primero calcula la captura a la talla y edad:</p>
+<p><br></p>
+<p>Para obtener la composición por tallas y edades predicha para cada flota, SS primero calcula la captura a la talla y edad:</p>
 <p><span class="math display">\[C_{y,f,a,l} = S_{f,l}S_{f,a}\varphi_{a,l}N_{y,a}exp(-\theta Z_{y,a})\]</span></p>
 </section>
 <section id="composición-por-tallas" class="slide level2">
 <h2>Composición por tallas</h2>
+<p><br></p>
 <p>Luego, la composición por talla predicha:</p>
 <p><span class="math display">\[\hat{p}_{1,y,f,l}=\frac{\sum_a C_{y,f,a,l}+x}{\sum_l (\sum_a C_{y,f,a,l}+x)}\]</span></p>
+<p>Donde <span class="math inline">\(x\)</span> es una constante pequeña añadida (e.g., 1e-07).</p>
 </section>
 <section id="composición-por-edades" class="slide level2">
 <h2>Composición por edades</h2>
@@ -368,16 +456,18 @@
 </section>
 <section id="composición-por-edades-1" class="slide level2">
 <h2>Composición por edades</h2>
-<p>Luego, la composición por edades predicha:</p>
+<p><br></p>
+<p>Luego, la composición por edades predicha es calculada:</p>
 <p><span class="math display">\[\hat{p}_{2,y,f,a}=\frac{\sum_l C_{y,f,a,l}+x}{\sum_a (\sum_l C_{y,f,a,l}+x)}\]</span></p>
 </section>
 <section id="índice-de-abundancia" class="slide level2">
 <h2>Índice de abundancia</h2>
-<p>Para cada año, el índice predicho en biomasa se calcula:</p>
-<p><span class="math display">\[B_{y,f} = \sum_l w_l \sum_a C_{y,f,a,l}\]</span></p>
+<p><br></p>
+<p>Primero se calcula la biomasa vulnerable para la flota <span class="math inline">\(f\)</span>:</p>
+<p><span class="math display">\[B^{vul}_{y,f} = \sum_l w_l \sum_a C_{y,f,a,l}\]</span></p>
 <div class="fragment">
 <p>Luego, el índice predicho por el modelo (<span class="math inline">\(\hat{I}_{y,f}\)</span>) es:</p>
-<p><span class="math display">\[\hat{I}_{y,f} = Q_f B_{y,f}\]</span></p>
+<p><span class="math display">\[\hat{I}_{y,f} = Q_f B^{vul}_{y,f}\]</span></p>
 <p>Además, existen otras relaciones no lineales posibles en SS.</p>
 </div>
 </section></section>
@@ -394,24 +484,28 @@
 </section>
 <section id="capturas" class="slide level2">
 <h2>Capturas</h2>
+<p><br></p>
 <p>La función objetivo para capturas es:</p>
 <p><span class="math display">\[L_{1,f} = \sum_{y}\frac{(ln(C_{y,f})-ln(\hat{C}_{y,f}+x))^2}{2\sigma_{y,f}^2}\]</span></p>
 <p>Donde <span class="math inline">\(\hat{C}_{y,f}\)</span> es la captura observada.</p>
 </section>
 <section id="índice-de-abundancia-1" class="slide level2">
 <h2>Índice de abundancia</h2>
+<p><br></p>
 <p>Para el caso de los índices, la función objetivo es:</p>
 <p><span class="math display">\[L_{1,f} = \sum_y ln(CV_{y,f}\hat{I}_{y,f})+0.5(\frac{ln(I_{y,f}) - ln(\hat{I}_{y,f})}{CV_{y,f}\hat{I}_{y,f}})^2\]</span></p>
 <p>Donde <span class="math inline">\(I_{y,f}\)</span> representa el índice observado. Se asume una distribución lognormal del error, y la correción de sesgo ha sido omitida.</p>
 </section>
 <section id="composición-por-tallas-1" class="slide level2">
 <h2>Composición por tallas</h2>
+<p><br></p>
 <p>Normalmente asumimos una distribución de error multinomial. La función objetivo para este caso es:</p>
 <p><span class="math display">\[L_{3,f} = \sum_y \sum_l n_{1,y,f} p_{1,y,f}ln(\frac{p_{1,y,f,l}}{\hat{p}_{1,y,f,l}})\]</span></p>
 <p>Donde <span class="math inline">\(p_{1,y,f}\)</span> es la composición por tallas observada y <span class="math inline">\(n_1\)</span> representa el tamaño de muestra (<span class="math inline">\(Nsamp\)</span>).</p>
 </section>
 <section id="composición-por-edades-2" class="slide level2">
 <h2>Composición por edades</h2>
+<p><br></p>
 <p>Normalmente asumimos una distribución de error multinomial. La función objetivo para este caso es:</p>
 <p><span class="math display">\[L_{4,f} = \sum_y \sum_a n_{2,y,f} p_{2,y,f}ln(\frac{p_{2,y,f,l}}{\hat{p}_{2,y,f,l}})\]</span></p>
 <p>Donde <span class="math inline">\(p_{2,y,f}\)</span> es la composición por edades observada y <span class="math inline">\(n_2\)</span> representa el tamaño de muestra (<span class="math inline">\(Nsamp\)</span>).</p>
@@ -422,12 +516,209 @@
 <p>La función objetivo es:</p>
 <p><span class="math display">\[L_R = 0.5(\sum_y \frac{\tilde{R}^2_y}{\sigma_R^2}+b_yln(\sigma_R^2))\]</span></p>
 </section>
-<section id="referencias" class="slide level2">
+<section id="estimación-de-parámetros" class="slide level2">
+<h2>Estimación de parámetros</h2>
+<p>Objetivo: reducir al mínimo posible la discrepancia entre los valores predichos del modelo y los datos.</p>
+
+<img data-src="images/D6_img3.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="Subbey_2018">Subbey (<a href="#/referencias" role="doc-biblioref" onclick="">2018</a>)</span></p></section>
+<section id="estimación-de-parámetros-1" class="slide level2">
+<h2>Estimación de parámetros</h2>
+<p>Algoritmo de diferenciación automática (AD): basados en métodos de gradiente descendente. Generalmente son rápidos, estables y exactos.</p>
+
+<img data-src="images/D6_img4.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="Subbey_2018">Subbey (<a href="#/referencias" role="doc-biblioref" onclick="">2018</a>)</span></p></section>
+<section id="estimación-de-parámetros-2" class="slide level2">
+<h2>Estimación de parámetros</h2>
+<p>Superficie puede llegar a ser muy compleja en modelos con muchos parámetros.</p>
+
+<img data-src="images/D6_img7.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="Subbey_2018">Subbey (<a href="#/referencias" role="doc-biblioref" onclick="">2018</a>)</span></p></section>
+<section id="algoritmo-ad" class="slide level2">
+<h2>Algoritmo AD</h2>
+<p>Deficiencia 1: La superficie no es única, depende del tipo de error asumido.</p>
+
+<img data-src="images/D6_img5.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="Subbey_2018">Subbey (<a href="#/referencias" role="doc-biblioref" onclick="">2018</a>)</span></p></section>
+<section id="algoritmo-ad-1" class="slide level2">
+<h2>Algoritmo AD</h2>
+<p>Deficiencia 2: Punto de partida (INIT) puede tener una gran influencia.</p>
+
+<img data-src="images/D6_img6.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="Subbey_2018">Subbey (<a href="#/referencias" role="doc-biblioref" onclick="">2018</a>)</span></p></section>
+<section id="algoritmo-ad-2" class="slide level2">
+<h2>Algoritmo AD</h2>
+<div style="font-size: 75%;">
+<p>Deficiencia 3: Criterio de convergencia (especificado en <code>starter.ss</code>) no garantiza mínimo global.</p>
+<div class="fragment">
+<p>Deficiencia 4: Falla en convergencia puede ser debido a parámetros del algoritmo.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/D6_img8.png"></p>
+<figcaption><span class="citation" data-cites="Subbey_2018">Subbey (<a href="#/referencias" role="doc-biblioref" onclick="">2018</a>)</span></figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="model-sculpting" class="slide level2">
+<h2>Model sculpting</h2>
+<p><br></p>
+<p>Se centra en espeficiar límites a los parámetros (LO y HI) y fases de estimación (PHASE), con el objetivo que los parámetros no tomen valores irreales.</p>
+</section>
+<section id="fases-de-estimación" class="slide level2">
+<h2>Fases de estimación</h2>
+<div style="font-size: 75%;">
+<p>Ejemplo:</p>
+<ul>
+<li>Fase 1: el algoritmo optimiza la función objetivo (<span class="math inline">\(L\)</span>) estimando los parámetros en fase 1 (mantiene fijos los demás).</li>
+<li>Fase 2: el algoritmo optimiza la función objetivo (<span class="math inline">\(L\)</span>) estimando los parámetros en fase 1 y 2 (mantiene fijos los demás).</li>
+<li>Fase 3: el algoritmo optimiza la función objetivo (<span class="math inline">\(L\)</span>) estimando los parámetros en fase 1, 2, y 3 (mantiene fijos los demás).</li>
+</ul>
+</div>
+<div class="fragment">
+<p><span class="citation" data-cites="PuntUnknownTitle2013">Punt et al. (<a href="#/referencias" role="doc-biblioref" onclick="">2013</a>)</span> recomienda estimar parámetros que escalan la biomasa (e.g.&nbsp;<span class="math inline">\(R_0\)</span>) en primeras fases y selectividad en últimas fases.</p>
+</div>
+</section></section>
+<section>
+<section id="análisis-de-resultados" class="title-slide slide level1 center">
+<h1>Análisis de resultados</h1>
+
+</section>
+<section id="report.sso" class="slide level2">
+<h2>Report.sso</h2>
+<p>Los principales resultados estarán en <code>Report.sso</code> y podemos analizarlo directamente.</p>
+<p><br></p>
+<div class="fragment">
+<p>Una opción más eficiente es utilizando las funciones de <em>r4ss</em>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href=""></a><span class="co"># Leer archivo Report.sso en R:</span></span>
+<span id="cb1-2"><a href=""></a>my_model <span class="ot">=</span> <span class="fu">SS_output</span>(<span class="at">dir =</span> <span class="st">'ss_models/simple'</span>)</span>
+<span id="cb1-3"><a href=""></a>my_model<span class="sc">$</span>maximum_gradient_component <span class="co"># criterio de convergencia</span></span>
+<span id="cb1-4"><a href=""></a>my_model<span class="sc">$</span>parameters <span class="co"># parametros estimados</span></span>
+<span id="cb1-5"><a href=""></a>my_model<span class="sc">$</span>breakpoints_for_bias_adjustment_ramp <span class="co"># biad adj recomendado por SS</span></span>
+<span id="cb1-6"><a href=""></a>my_model<span class="sc">$</span>recruit <span class="co"># valores asociados con reclutamiento</span></span>
+<span id="cb1-7"><a href=""></a>my_model<span class="sc">$</span>timeseries <span class="co"># series de tiempo de biomasa, SSB, captura, etc</span></span>
+<span id="cb1-8"><a href=""></a>my_model<span class="sc">$</span>natage <span class="co"># abundancia a la edad</span></span>
+<span id="cb1-9"><a href=""></a>my_model<span class="sc">$</span>catage <span class="co"># abundancia a la edad</span></span>
+<span id="cb1-10"><a href=""></a><span class="co"># ... explorar</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="figuras" class="slide level2">
+<h2>Figuras</h2>
+<p><br></p>
+<p><em>r4ss</em> es recomendable para realizar figuras de salidas de modelos:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href=""></a><span class="co"># Figuras:</span></span>
+<span id="cb2-2"><a href=""></a><span class="fu">SSplotBiology</span>(my_model) <span class="co"># figuras de biologia</span></span>
+<span id="cb2-3"><a href=""></a><span class="fu">SSplotSelex</span>(my_model) <span class="co"># figuras de selectividad</span></span>
+<span id="cb2-4"><a href=""></a><span class="fu">SSplotData</span>(my_model) <span class="co"># datos de entrada</span></span>
+<span id="cb2-5"><a href=""></a><span class="fu">SSplotComps</span>(my_model) <span class="co"># composicion por tallas y edad</span></span>
+<span id="cb2-6"><a href=""></a><span class="co"># ... explorar</span></span>
+<span id="cb2-7"><a href=""></a></span>
+<span id="cb2-8"><a href=""></a><span class="co"># Produce todas las figuras y las muestra en HTML:</span></span>
+<span id="cb2-9"><a href=""></a><span class="fu">SS_plots</span>(my_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="diagnostico" class="slide level2">
+<h2>Diagnostico</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/diagnostics.png" style="width:80.0%"></p>
+<figcaption><span class="citation" data-cites="CarvalhoUnknownTitle2021">Carvalho et al. (<a href="#/referencias" role="doc-biblioref" onclick="">2021</a>)</span></figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:40%;">
+<div style="font-size: 85%;">
+<p>Objetivo: verificar si el modelo se comporta adecuadamente y evaluar misspecification <span class="citation" data-cites="CarvalhoUnknownTitle2021">(<a href="#/referencias" role="doc-biblioref" onclick="">Carvalho et al. 2021</a>)</span>.</p>
+<p><br></p>
+<p>Existe un conjuto de diagnosticos desarrollados para modelos integrados. Para SS, examinar la librería en R <a href="https://github.com/jabbamodel/ss3diags">ss3diags</a>.</p>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="introducción-al-manejo-pesquero" class="title-slide slide level1 center">
+<h1>Introducción al manejo pesquero</h1>
+
+</section>
+<section id="estado-del-stock" class="slide level2">
+<h2>Estado del stock</h2>
+<p>Los puntos de referencia más utilizados son los asociados a <span class="math inline">\(MSY\)</span> (e.g., <span class="math inline">\(SSB_{MSY}\)</span>) y estado sin pesca (e.g., <span class="math inline">\(SSB_0\)</span>). Explorar las primeras líneas de <code>forecast.ss</code> para especificar la estimación de estos puntos de referencia.</p>
+<p><br></p>
+<p>Depletion es comunmente explorado para saber qué tanto la biomasa ha disminuido con respecto a un valor de referencia. Por ejemplo: <span class="math inline">\(SSB_y/SSB_0\)</span>.</p>
+</section>
+<section id="estado-del-stock-1" class="slide level2">
+<h2>Estado del stock</h2>
+
+<img data-src="images/management.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="kobe-plot" class="slide level2">
+<h2>Kobe plot</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/kobe_1.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/kobe_2.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="proyecciones" class="slide level2">
+<h2>Proyecciones</h2>
+
+<img data-src="images/management_2.png" class="r-stretch quarto-figure-center"><p class="caption">ICCAT</p></section>
+<section id="proyecciones-1" class="slide level2">
+<h2>Proyecciones</h2>
+<p><br></p>
+<p>Existen dos principales formar de realizar proyecciones en SS, las cuales se controlan desde <code>forecast.ss</code>:</p>
+<ul>
+<li>Introducir valores de captura o F por flota para un periodo de proyección</li>
+<li>Usar una regla de cosecha</li>
+</ul>
+</section>
+<section id="regla-de-cosecha" class="slide level2">
+<h2>Regla de cosecha</h2>
+
+<img data-src="images/management_3.png" class="r-stretch quarto-figure-center"><p class="caption">Pew Charitable Trusts</p></section>
+<section id="evaluación-de-estrategia-de-manejo" class="slide level2">
+<h2>Evaluación de estrategia de manejo</h2>
+<p>Simula todo el proceso de manejo, y evalúa impactos de estrategias de manejo <span class="citation" data-cites="PuntUnknownTitle2014">(<a href="#/referencias" role="doc-biblioref" onclick="">Punt et al. 2014</a>)</span>.</p>
+
+<img data-src="images/management_4.png" class="r-stretch quarto-figure-center"><p class="caption"><span class="citation" data-cites="BunnefeldUnknownTitle2011">Bunnefeld et al. (<a href="#/referencias" role="doc-biblioref" onclick="">2011</a>)</span></p></section>
+<section id="evaluación-de-estrategia-de-manejo-1" class="slide level2">
+<h2>Evaluación de estrategia de manejo</h2>
+<p><br></p>
+<p>SS puede ser usado dentro de un proceso de evaluación de estrategia de manejo. Explorar la librería en R <a href="https://nmfs-fish-tools.github.io/SSMSE/">SSMSE</a> <span class="citation" data-cites="SSMSEkey">(<a href="#/referencias" role="doc-biblioref" onclick="">Doering and Vaughan 2024</a>)</span>.</p>
+</section>
+<section id="referencias" class="slide level2 smaller scrollable">
 <h2>Referencias</h2>
 <div class="quarto-auto-generated-content">
 <p><img src="images/CGlogo1.png" class="slide-logo"></p>
 <div class="footer footer-default">
 
+</div>
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-BunnefeldUnknownTitle2011" class="csl-entry" role="listitem">
+Bunnefeld, N., Hoshino, E., and Milner-Gulland, E.J. 2011. Management strategy evaluation: A powerful tool for conservation? Trends in Ecology &amp;amp; Evolution <strong>26</strong>: 441–447. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.tree.2011.05.003">10.1016/j.tree.2011.05.003</a>.
+</div>
+<div id="ref-CarvalhoUnknownTitle2021" class="csl-entry" role="listitem">
+Carvalho, F., Winker, H., Courtney, D., Kapur, M., Kell, L., Cardinale, M., Schirripa, M., Kitakado, T., Yemane, D., Piner, K.R., Maunder, M.N., Taylor, I., Wetzel, C.R., Doering, K., Johnson, K.F., and Methot, R.D. 2021. A cookbook for using model diagnostics in integrated stock assessments. Fisheries Research <strong>240</strong>: 105959. Elsevier BV. doi:<a href="https://doi.org/10.1016/j.fishres.2021.105959">10.1016/j.fishres.2021.105959</a>.
+</div>
+<div id="ref-SSMSEkey" class="csl-entry" role="listitem">
+Doering, K., and Vaughan, N. 2024. SSMSE: Management strategy evaluation (MSE) using stock synthesis (SS). Available from <a href="https://github.com/nmfs-fish-tools/SSMSE">https://github.com/nmfs-fish-tools/SSMSE</a>.
+</div>
+<div id="ref-PuntUnknownTitle2014" class="csl-entry" role="listitem">
+Punt, A.E., Butterworth, D.S., Moor, C.L. de, Oliveira, J.A.A.D., and Haddon, M. 2014. Management strategy evaluation: Best practices. Fish and Fisheries <strong>17</strong>: 303–334. Wiley. doi:<a href="https://doi.org/10.1111/faf.12104">10.1111/faf.12104</a>.
+</div>
+<div id="ref-PuntUnknownTitle2013" class="csl-entry" role="listitem">
+Punt, A.E., Huang, T., and Maunder, M.N. 2013. Review of integrated size-structured models for stock assessment of hard-to-age crustacean and mollusc species. ICES Journal of Marine Science <strong>70</strong>: 16–33. Oxford University Press (OUP). doi:<a href="https://doi.org/10.1093/icesjms/fss185">10.1093/icesjms/fss185</a>.
+</div>
+<div id="ref-Subbey_2018" class="csl-entry" role="listitem">
+Subbey, S. 2018. Parameter estimation in stock assessment modelling: Caveats with gradient-based algorithms. <span>ICES</span> Journal of Marine Science <strong>75</strong>(5): 1553–1559. Oxford University Press (<span>OUP</span>). doi:<a href="https://doi.org/10.1093/icesjms/fsy044">10.1093/icesjms/fsy044</a>.
 </div>
 </div>
 </section></section>
@@ -641,6 +932,82 @@
         ]
       });
     </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

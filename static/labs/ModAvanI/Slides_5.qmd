@@ -22,15 +22,21 @@ bibliography: "https://api.citedrive.com/bib/b63ac242-a77c-4816-9c27-fcdfb31875b
 
 ## Composición por tallas y edades
 
-Para obtener la composición por tallas y edades predicha de índices de abundancia o pesquerías, SS primero calcula la captura a la talla y edad:
+<br>
+
+Para obtener la composición por tallas y edades predicha para cada flota, SS primero calcula la captura a la talla y edad:
 
 $$C_{y,f,a,l} = S_{f,l}S_{f,a}\varphi_{a,l}N_{y,a}exp(-\theta Z_{y,a})$$
 
 ## Composición por tallas
 
+<br>
+
 Luego, la composición por talla predicha:
 
 $$\hat{p}_{1,y,f,l}=\frac{\sum_a C_{y,f,a,l}+x}{\sum_l (\sum_a C_{y,f,a,l}+x)}$$
+
+Donde $x$ es una constante pequeña añadida (e.g., 1e-07).
 
 ## Composición por edades
 
@@ -46,21 +52,25 @@ Donde $\tilde{a}_a$ es la edad esperada $a$ en la mitad del año.
 
 ## Composición por edades
 
-Luego, la composición por edades predicha:
+<br>
+
+Luego, la composición por edades predicha es calculada:
 
 $$\hat{p}_{2,y,f,a}=\frac{\sum_l C_{y,f,a,l}+x}{\sum_a (\sum_l C_{y,f,a,l}+x)}$$
 
 ## Índice de abundancia
 
-Para cada año, el índice predicho en biomasa se calcula:
+<br>
 
-$$B_{y,f} = \sum_l w_l \sum_a C_{y,f,a,l}$$
+Primero se calcula la biomasa vulnerable para la flota $f$:
+
+$$B^{vul}_{y,f} = \sum_l w_l \sum_a C_{y,f,a,l}$$
 
 ::: fragment
 
 Luego, el índice predicho por el modelo ($\hat{I}_{y,f}$) es:
 
-$$\hat{I}_{y,f} = Q_f B_{y,f}$$
+$$\hat{I}_{y,f} = Q_f B^{vul}_{y,f}$$
 
 Además, existen otras relaciones no lineales posibles en SS.
 
@@ -78,6 +88,8 @@ Donde $L$ es la función objetivo conjunta. $i$ representa diferente fuente de d
 
 ## Capturas
 
+<br>
+
 La función objetivo para capturas es:
 
 $$L_{1,f} = \sum_{y}\frac{(ln(C_{y,f})-ln(\hat{C}_{y,f}+x))^2}{2\sigma_{y,f}^2}$$
@@ -85,6 +97,8 @@ $$L_{1,f} = \sum_{y}\frac{(ln(C_{y,f})-ln(\hat{C}_{y,f}+x))^2}{2\sigma_{y,f}^2}$
 Donde $\hat{C}_{y,f}$ es la captura observada.
 
 ## Índice de abundancia
+
+<br>
 
 Para el caso de los índices, la función objetivo es:
 
@@ -94,6 +108,8 @@ Donde $I_{y,f}$ representa el índice observado. Se asume una distribución logn
 
 ## Composición por tallas
 
+<br>
+
 Normalmente asumimos una distribución de error multinomial. La función objetivo para este caso es:
 
 $$L_{3,f} = \sum_y \sum_l n_{1,y,f} p_{1,y,f}ln(\frac{p_{1,y,f,l}}{\hat{p}_{1,y,f,l}})$$
@@ -101,6 +117,8 @@ $$L_{3,f} = \sum_y \sum_l n_{1,y,f} p_{1,y,f}ln(\frac{p_{1,y,f,l}}{\hat{p}_{1,y,
 Donde $p_{1,y,f}$ es la composición por tallas observada y $n_1$ representa el tamaño de muestra ($Nsamp$).
 
 ## Composición por edades
+
+<br>
 
 Normalmente asumimos una distribución de error multinomial. La función objetivo para este caso es:
 
@@ -116,5 +134,201 @@ La función objetivo es:
 
 $$L_R = 0.5(\sum_y \frac{\tilde{R}^2_y}{\sigma_R^2}+b_yln(\sigma_R^2))$$
 
+## Estimación de parámetros
+
+Objetivo: reducir al mínimo posible la discrepancia entre los valores predichos del modelo y los datos.
+
+![@Subbey_2018](images/D6_img3.png){fig-align="center"}
+
+## Estimación de parámetros
+
+Algoritmo de diferenciación automática (AD): basados en métodos de gradiente descendente. Generalmente son rápidos, estables y exactos.
+
+![@Subbey_2018](images/D6_img4.png){fig-align="center"}
+
+## Estimación de parámetros
+
+Superficie puede llegar a ser muy compleja en modelos con muchos parámetros.
+
+![@Subbey_2018](images/D6_img7.png){fig-align="center"}
+
+
+## Algoritmo AD
+
+Deficiencia 1: La superficie no es única, depende del tipo de error asumido.
+
+![@Subbey_2018](images/D6_img5.png){fig-align="center"}
+
+## Algoritmo AD
+
+Deficiencia 2: Punto de partida (INIT) puede tener una gran influencia.
+
+![@Subbey_2018](images/D6_img6.png){fig-align="center"}
+
+## Algoritmo AD
+
+::: {style="font-size: 75%;"}
+
+Deficiencia 3: Criterio de convergencia (especificado en `starter.ss`) no garantiza mínimo global.
+
+::: fragment
+
+Deficiencia 4: Falla en convergencia puede ser debido a parámetros del algoritmo.
+
+![@Subbey_2018](images/D6_img8.png){fig-align="center"}
+
+:::
+
+:::
+
+## Model sculpting
+
+<br>
+
+Se centra en espeficiar límites a los parámetros (LO y HI) y fases de estimación (PHASE), con el objetivo que los parámetros no tomen valores irreales. 
+
+## Fases de estimación
+
+::: {style="font-size: 75%;"}
+
+Ejemplo:
+
+- Fase 1: el algoritmo optimiza la función objetivo ($L$) estimando los parámetros en fase 1 (mantiene fijos los demás).
+- Fase 2: el algoritmo optimiza la función objetivo ($L$) estimando los parámetros en fase 1 y 2 (mantiene fijos los demás).
+- Fase 3: el algoritmo optimiza la función objetivo ($L$) estimando los parámetros en fase 1, 2, y 3 (mantiene fijos los demás).
+
+:::
+
+::: fragment
+
+@PuntUnknownTitle2013 recomienda estimar parámetros que escalan la biomasa (e.g. $R_0$) en primeras fases y selectividad en últimas fases. 
+
+:::
+
+# Análisis de resultados
+
+## Report.sso
+
+Los principales resultados estarán en `Report.sso` y podemos analizarlo directamente.
+
+<br>
+
+::: fragment
+
+Una opción más eficiente es utilizando las funciones de *r4ss*:
+
+```{r eval=FALSE}
+# Leer archivo Report.sso en R:
+my_model = SS_output(dir = 'ss_models/simple')
+my_model$maximum_gradient_component # criterio de convergencia
+my_model$parameters # parametros estimados
+my_model$breakpoints_for_bias_adjustment_ramp # biad adj recomendado por SS
+my_model$recruit # valores asociados con reclutamiento
+my_model$timeseries # series de tiempo de biomasa, SSB, captura, etc
+my_model$natage # abundancia a la edad
+my_model$catage # abundancia a la edad
+# ... explorar
+```
+
+:::
+
+## Figuras
+
+<br>
+
+*r4ss* es recomendable para realizar figuras de salidas de modelos:
+
+```{r eval=FALSE}
+# Figuras:
+SSplotBiology(my_model) # figuras de biologia
+SSplotSelex(my_model) # figuras de selectividad
+SSplotData(my_model) # datos de entrada
+SSplotComps(my_model) # composicion por tallas y edad
+# ... explorar
+
+# Produce todas las figuras y las muestra en HTML:
+SS_plots(my_model)
+```
+
+## Diagnostico
+
+:::: {.columns}
+
+::: {.column width="60%"}
+![@CarvalhoUnknownTitle2021](images/diagnostics.png){fig-align="center" width=80%}
+:::
+
+::: {.column width="40%"}
+
+::: {style="font-size: 85%;"}
+Objetivo: verificar si el modelo se comporta adecuadamente y evaluar misspecification [@CarvalhoUnknownTitle2021].
+
+<br>
+
+Existe un conjuto de diagnosticos desarrollados para modelos integrados. Para SS, examinar la librería en R [ss3diags](https://github.com/jabbamodel/ss3diags).
+:::
+
+:::
+
+::::
+
+# Introducción al manejo pesquero
+
+## Estado del stock
+
+Los puntos de referencia más utilizados son los asociados a $MSY$ (e.g., $SSB_{MSY}$) y estado sin pesca (e.g., $SSB_0$). Explorar las primeras líneas de `forecast.ss` para especificar la estimación de estos puntos de referencia.
+
+<br>
+
+Depletion es comunmente explorado para saber qué tanto la biomasa ha disminuido con respecto a un valor de referencia. Por ejemplo: $SSB_y/SSB_0$.
+
+## Estado del stock
+
+![](images/management.png){fig-align="center"}
+
+## Kobe plot
+
+:::: {.columns}
+
+::: {.column width="50%"}
+![](images/kobe_1.png){fig-align="center"}
+:::
+
+::: {.column width="40%"}
+
+![](images/kobe_2.png){fig-align="center"}
+
+:::
+
+::::
+
+## Proyecciones
+
+![ICCAT](images/management_2.png){fig-align="center"}
+
+## Proyecciones
+
+<br>
+
+Existen dos principales formar de realizar proyecciones en SS, las cuales se controlan desde `forecast.ss`:
+
+- Introducir valores de captura o F por flota para un periodo de proyección
+- Usar una regla de cosecha
+
+## Regla de cosecha
+
+![Pew Charitable Trusts](images/management_3.png){fig-align="center"}
+
+## Evaluación de estrategia de manejo
+
+Simula todo el proceso de manejo, y evalúa impactos de estrategias de manejo [@PuntUnknownTitle2014].
+
+![@BunnefeldUnknownTitle2011](images/management_4.png){fig-align="center"}
+
+## Evaluación de estrategia de manejo
+
+<br>
+
+SS puede ser usado dentro de un proceso de evaluación de estrategia de manejo. Explorar la librería en R [SSMSE](https://nmfs-fish-tools.github.io/SSMSE/) [@SSMSEkey].
 
 ## Referencias
