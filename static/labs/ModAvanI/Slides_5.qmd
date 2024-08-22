@@ -102,7 +102,7 @@ Donde $\hat{C}_{y,f}$ es la captura observada.
 
 Para el caso de los índices, la función objetivo es:
 
-$$L_{1,f} = \sum_y ln(CV_{y,f}\hat{I}_{y,f})+0.5(\frac{ln(I_{y,f}) - ln(\hat{I}_{y,f})}{CV_{y,f}\hat{I}_{y,f}})^2$$
+$$L_{2,f} = \sum_y ln(CV_{y,f}\hat{I}_{y,f})+0.5(\frac{ln(I_{y,f}) - ln(\hat{I}_{y,f})}{CV_{y,f}\hat{I}_{y,f}})^2$$
 
 Donde $I_{y,f}$ representa el índice observado. Se asume una distribución lognormal del error, y la correción de sesgo ha sido omitida.
 
